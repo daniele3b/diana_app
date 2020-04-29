@@ -37,19 +37,40 @@ export default {
   name: 'PasswordForgotten',
     data (){
       return {
-            CF:'',
-            Email:'',
+            CF:null,
+            Email:null,
+            readyCF:false,
+            readyEmail:false,
             ready:false
       };
   },
   watch:{
 
     CF: function () {
-      if(this.CF.length==16)
+      if(this.CF.length!=16)
+        this.readyCF=false
+      else
+        this.readyCF=true
+    },
+    Email: function(){
+      if(!this.Email)
+        this.readyEmail=false
+      else
+        this.readyEmail=true
+    },
+    readyCF:function() {
+        if(this.readyCF==true && this.readyEmail==true)
         this.ready=true
       else
         this.ready=false
     },
+    readyEmail:function() {
+        if(this.readyCF==true && this.readyEmail==true)
+        this.ready=true
+      else
+        this.ready=false
+    }
+    
 
   },
   components: {
