@@ -19,7 +19,7 @@
                     <label for="inputCF">CODICE FISCALE</label> 
                     <input type="text" id="inputCF" class="form-control" placeholder="Codice fiscale" v-model="CF" required>
               </div>
-              <button class="btn btn-lg btn-success btn-block text-uppercase"  id="sub" type="submit">RECUPERA</button>
+              <button v-if="ready ==true" class="btn btn-lg btn-success btn-block text-uppercase"   id="sub" type="submit">RECUPERA</button>
               <hr>
               
 
@@ -38,8 +38,19 @@ export default {
     data (){
       return {
             CF:'',
-            Email:''
+            Email:'',
+            ready:false
       };
+  },
+  watch:{
+
+    CF: function () {
+      if(this.CF.length==16)
+        this.ready=true
+      else
+        this.ready=false
+    },
+
   },
   components: {
     
