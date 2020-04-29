@@ -5,11 +5,11 @@
         <div class="card card-signin my-5">
           <div class="card-body">
           <hr class="my-4">
-            <h5 class="card-title text-center"><b>Sign In </b></h5>
+            <h5 class="card-title text-center"><b>Accedi</b></h5>
             <form class="form-signin">
               <div class="form-label-group">
-                <input type="email" id="inputEmail" class="form-control" placeholder="Email address or phone" required autofocus>
-                <label for="inputEmail">Email address</label>
+                <input type="text" id="inputEmailOrPhone" class="form-control" placeholder="Indirizzo email o telefono" required autofocus>
+                <label for="inputEmail">Indirizzo email o telefono</label>
               </div>
 
               <div class="form-label-group">
@@ -19,12 +19,12 @@
 
               <div class="custom-control custom-checkbox mb-3">
                 <input type="checkbox" class="custom-control-input" id="customCheck1">
-                <label class="custom-control-label" for="customCheck1">Remember password</label>
+                <label class="custom-control-label" for="customCheck1">Mantieni l'accesso</label>
               </div>
-              <button @click="setLogged(true)" class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Sign in</button>
+              <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Accedi</button>
               <hr class="my-4">
               
-              <router-link to="/pw_forgotten">Create a new account</router-link>
+              <router-link to="/pw_forgotten">Registrati</router-link>
               
             </form>
           </div>
@@ -46,13 +46,18 @@ export default {
 
       }
     },
-    computed : {
-      ...mapMutations({
-          'setLogged' : 'setLogged',
-      }),
-    },
     methods : {
-        
+      ...mapMutations([
+        'setLogged'
+      ]),
+      
+      /* email: Joi.string().min(5).max(255).required().email(),
+        password: Joi.string().min(5).max(1024).required()*/
+
+      chechEmail(){
+          if(!isNaN(parseInt(document.getElementById('inputEmailOrPhone ').value))) return false
+          return true 
+      }
     },
 }
 </script>
