@@ -6,7 +6,7 @@
           <div class="card-body">
           <hr>
             <h6 class="card-title text-center"><b>RECUPERA LA TUA PASSWORD</b></h6>
-            <p class="text-justify" style="size:6;" > Inserendo l'indirizzo email con il quale si è registrato  ed il suo codice fiscale, riceverà via email la password temporanea per effettuare l'accesso</p>
+            <p class="text-left" style="size:6;" > Inserendo l'indirizzo email con il quale si è registrato  ed il suo codice fiscale, riceverà via email la password temporanea per effettuare l'accesso</p>
         <hr>
             <form class="form-signin">
               <div class="form-label-group">
@@ -21,7 +21,7 @@
               </div>
               <button v-if="ready ==true" class="btn btn-lg btn-success btn-block text-uppercase"   id="sub" type="submit">RECUPERA</button>
               <hr>
-              
+              <router-link to="/">Torna alla schermata di Login</router-link>
 
             </form>
           </div>
