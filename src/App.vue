@@ -9,7 +9,7 @@
   <a class="navbar-brand" href="#"><img src="./assets/logo.svg"> DIANA</a>
 
   <!-- Collapse button -->
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent15"
+  <button v-if="isLogged == true" class="navbar-toggler border border-dark " type="button" data-toggle="collapse" data-target="#navbarSupportedContent15"
     aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
   <!-- Collapsible content -->
@@ -18,13 +18,10 @@
     <!-- Links -->
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <router-link  to="/" class="nav-link" href="#">Home </router-link>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
+        <router-link  to="/about" class="nav-link" href="#">About </router-link>
       </li>
     </ul>
     <!-- Links -->
@@ -46,6 +43,30 @@
     <!-- footer-->
   </div>
 </template>
+
+
+<script>
+import {mapGetters} from 'vuex'
+
+
+export default {
+  name : 'app',
+  components : {
+  },
+  data () {
+    return {
+      logged : false
+    }
+  },
+  computed : {
+    ...mapGetters({
+        'isLogged' : 'getLogged',
+    }),
+  }
+}
+
+
+</script>
 
 <style lang="scss">
 #app {
