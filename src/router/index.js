@@ -24,7 +24,12 @@ Vue.use(VueRouter)
     path: '/pw_forgotten',
     name: 'PasswordForgotten',
     component: PasswordForgotten
-  }
+  },
+  /*{
+    path: '/registration',
+    name: 'Registration',
+    component: Registration
+  }*/
 ]
 
 const router = new VueRouter({

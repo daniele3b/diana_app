@@ -21,11 +21,11 @@
                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                 <label class="custom-control-label" for="customCheck1">Remember password</label>
               </div>
-              <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Sign in</button>
+              <button @click="setLogged(true)" class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Sign in</button>
               <hr class="my-4">
               
+              <router-link to="/pw_forgotten">Create a new account</router-link>
               
-
             </form>
           </div>
         </div>
@@ -36,15 +36,23 @@
 
 
 <script>
+
+import {mapMutations} from 'vuex'
+
 export default {
     name: 'Login',
     data (){
-        return {}
+      return {
+
+      }
     },
-    computed : {},
+    computed : {
+      ...mapMutations({
+          'setLogged' : 'setLogged',
+      }),
+    },
     methods : {
-        ...mapMutations([]),
-        ...mapActions('',[]),
+        
     },
 }
 </script>
