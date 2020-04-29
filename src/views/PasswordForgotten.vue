@@ -6,7 +6,7 @@
           <div class="card-body">
           <hr>
             <h6 class="card-title text-center"><b>RECUPERA LA TUA PASSWORD</b></h6>
-            <p class="text-justify" style="size:6;" > Inserendo l'indirizzo email con il quale si è registrato  ed il suo codice fiscale, riceverà via email la password temporanea per effettuare l'accesso</p>
+            <p class="text-left" style="size:6;" > Inserendo l'indirizzo email con il quale si è registrato  ed il suo codice fiscale, riceverà via email la password temporanea per effettuare l'accesso</p>
         <hr>
             <form class="form-signin">
               <div class="form-label-group">
@@ -19,9 +19,9 @@
                     <label for="inputCF">CODICE FISCALE</label> 
                     <input type="text" id="inputCF" class="form-control" placeholder="Codice fiscale" v-model="CF" required>
               </div>
-              <button v-if="ready ==true" class="btn btn-lg btn-success btn-block text-uppercase"   id="sub" type="submit">RECUPERA</button>
+              <button v-if="ready ==true" @click="postPost"   class="btn btn-lg btn-success btn-block text-uppercase"   id="sub" type="submit">RECUPERA</button>
               <hr>
-              
+              <router-link to="/">Torna alla schermata di Login</router-link>
 
             </form>
           </div>
@@ -32,29 +32,70 @@
 </template>
 
 <script>
+import axios from 'axios';
 // @ is an alias to /src
 export default {
   name: 'PasswordForgotten',
     data (){
       return {
-            CF:'',
-            Email:'',
-            ready:false
+            CF:null,
+            Email:null,
+            readyCF:false,
+            readyEmail:false,
+            ready:false,
+            postBody: '',
+            errors: []
       };
   },
   watch:{
 
     CF: function () {
-      if(this.CF.length==16)
+      if(this.CF.length!=16)
+        this.readyCF=false
+      else{
+        this.readyCF=true
+      }
+    },
+    Email: function(){
+      if(!this.Email)
+        this.readyEmail=false
+      else
+        this.readyEmail=true
+    },
+    readyCF:function() {
+        if(this.readyCF==true && this.readyEmail==true)
         this.ready=true
       else
         this.ready=false
     },
+    readyEmail:function() {
+        if(this.readyCF==true && this.readyEmail==true)
+        this.ready=true
+      else
+        this.ready=false
+    }
+    
 
   },
-  components: {
-    
-  }
+   methods: {
+ postPost() {
+
+    this.postBody={
+      'email':this.Email,
+      'CF':this.CF
+    }
+
+    axios.post('localhost:8081/registration/citizen/pw_forgotten', {
+      body: this.postBody
+    })
+    .then(response => {console.log(response)})
+    .catch(e => {
+      this.errors.push(e)
+      console.log(e)
+    })
+
+ }
+}
 }
 
 
