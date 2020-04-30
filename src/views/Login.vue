@@ -21,7 +21,7 @@
                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                 <label class="custom-control-label" for="customCheck1">Mantieni l'accesso</label>
               </div>
-              <button v-if="readyEmail || readyPhone" class="btn btn-lg btn-success btn-block text-uppercase">Accedi</button>
+              <button v-if="readyEmail || readyPhone" @click="accedi()" class="btn btn-lg btn-success btn-block text-uppercase">Accedi</button>
               <hr class="my-4">
               
               <router-link to="/pw_forgotten">Registrati</router-link>
@@ -170,29 +170,29 @@ export default {
     
       async accedi() {
         // Controllo per vedere se /email o /phone
-        if(this.emailOk && !this.phoneOk){
-          const result = await axios.post('localhost:8081/auth/email', {
+        if(this.readyEmail){
+          const result = await axios.post('http://localhost:8081/auth/email', {
             body : {
-              email : this.email,
+              email : this.emailOrPhone,
               password : this.password
             }
           })
           if(!result) console.log('Errore....')
-          console.log(result)
+          else console.log(result)
         }
 
-        else if(!this.emailOk && this.phoneOk){
-          const result = await axios.post('localhost:8081/auth/phone', {
+        else if(this.readyPhone){
+          const result = await axios.post('http://localhost:8081/auth/phone', {
             body : {
-              phone : this.phone,
+              phone : this.emailOrPhone,
               password : this.password
             }
           })
           if(!result) console.log('Errore....')
-          console.log(result)
+          else console.log(result)
         }
 
-        // Settare a true la variabile logged nello store
+        this.setLogged(true)
 
       }
     },
