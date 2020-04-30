@@ -21,9 +21,7 @@
                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                 <label class="custom-control-label" for="customCheck1">Mantieni l'accesso</label>
               </div>
-              readyEMail : {{readyEmail}} readyPhone : {{readyPhone}}
-              {{emailOrPhone}} {{password}}
-              <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Accedi</button>
+              <button v-if="readyEmail || readyPhone" @click="accedi()" class="btn btn-lg btn-success btn-block text-uppercase">Accedi</button>
               <hr class="my-4">
               
               <router-link to="/registration">Registrati</router-link>
@@ -46,8 +44,6 @@ export default {
     name: 'Login',
     data (){
       return {
-        email : "",
-        phone : "",
         password : "",
         emailOrPhone : "",
         readyEmail : false,
@@ -59,49 +55,86 @@ export default {
     },
 
     watch : {
-      email : function(){
-        let i
-        const dim = this.email.length
-        let counter = 0
-        if(this.email[0] == '@' || this.email[dim - 1] == '@') this.emailOk = false
-        for(i=0;i<dim;i++){
-          if(this.email[i] == '@' && counter == 0){
-            counter++
-          }
-        }
-        if(counter > 1) this.emailOk = false
-        this.emailOk = true
-      },
-
-      phone : function(){
-        if(this.phone.length != 10){
-          this.phoneOk = false
-        }
-        this.phoneOk = true
-      },
 
       password : function(){
         const len = this.password.length 
         if(len < 5 || len > 1024) {
           this.passwordOk = false
         }
+        else
         this.passwordOk = true
       },
 
       emailOk : function(){
         if(this.emailOk && this.passwordOk && !this.phoneOk){
           this.readyEmail = true
-          this.emailOrPhone = this.email
         }
-        this.readyEmail = false
+        else{
+          this.readyEmail = false
+        }
       },
 
       phoneOk : function(){
         if(!this.emailOk && this.passwordOk && this.phoneOk){
           this.readyPhone = true
-          this.emailOrPhone = this.phone
-        } 
-        this.readyPhone = false
+        }
+        else{
+          this.readyPhone = false
+        }
+      },
+
+      passwordOk : function(){
+        if(!this.emailOk && this.passwordOk && this.phoneOk){
+          this.readyPhone = true
+        }
+        else if(this.emailOk && this.passwordOk && !this.phoneOk){
+          this.readyEmail = true
+        }
+        else{
+          this.readyEmail = false
+          this.readyPhone = false
+        }
+      },
+
+      emailOrPhone : function(){
+        const tmp = this.emailOrPhone
+        const len = tmp.length
+
+        if(tmp[0] == '@' || tmp[len-1] == '@' || tmp[0] == '.' || tmp[len-1] == '.'){
+          this.emailOk = false
+          this.phoneOk = false  
+        }
+
+        else if(!this.validaEmail()){
+          this.emailOk = false
+          this.phoneOk = false
+        }
+
+        else if(this.cercaElem('@') > 1){
+          this.emailOk = false
+          this.phoneOk = false
+        }
+        else if(this.cercaElem('@') == 1 && this.cercaElem('.') == 0){
+          this.emailOk = false
+          this.phoneOk = false
+        }
+
+        else if(this.cercaElem('@') == 1 && this.cercaElem('.') > 0){
+          this.emailOk = true
+          this.phoneOk = false
+        }
+
+        else if(this.cercaElem('@') == 0){
+          if(this.emailOrPhone.length == 10 && !isNaN(parseInt(this.emailOrPhone))){
+            this.emailOk = false
+            this.phoneOk = true
+          }
+          else{
+            this.emailOk = false
+            this.phoneOk = false
+          }
+        }
+        
       }
     },
 
@@ -109,32 +142,57 @@ export default {
       ...mapMutations([
         'setLogged'
       ]),
+
+      cercaElem(elem){
+        let i
+        const emailOrPhone = this.emailOrPhone
+        const dim = emailOrPhone.length
+        let counter = 0
+        for(i=0;i<dim;i++){
+          if(emailOrPhone[i] == elem) counter++
+        }
+        return counter
+      },
+
+      validaEmail(){
+        const emailOrPhone = this.emailOrPhone
+        const dim = emailOrPhone.length
+        let i
+        for(i=0;i<dim;i++){
+          if(i == 0 || i == dim - 1) continue
+          else{
+            if((emailOrPhone[i]=='@' && emailOrPhone[i+1]=='.') || (emailOrPhone[i]=='.' && emailOrPhone[i+1]=='@'))
+              return false
+          }
+        }
+        return true
+      },
     
       async accedi() {
         // Controllo per vedere se /email o /phone
-        if(this.emailOk && !this.phoneOk){
-          const result = await axios.post('localhost:8081/auth/email', {
+        if(this.readyEmail){
+          const result = await axios.post('http://localhost:8081/auth/email', {
             body : {
-              email : this.email,
+              email : this.emailOrPhone,
               password : this.password
             }
           })
           if(!result) console.log('Errore....')
-          console.log(result)
+          else console.log(result)
         }
 
-        else if(!this.emailOk && this.phoneOk){
-          const result = await axios.post('localhost:8081/auth/phone', {
+        else if(this.readyPhone){
+          const result = await axios.post('http://localhost:8081/auth/phone', {
             body : {
-              phone : this.phone,
+              phone : this.emailOrPhone,
               password : this.password
             }
           })
           if(!result) console.log('Errore....')
-          console.log(result)
+          else console.log(result)
         }
 
-        // Settare a true la variabile logged nello store
+        this.setLogged(true)
 
       }
     },

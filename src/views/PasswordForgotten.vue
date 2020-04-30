@@ -21,6 +21,11 @@
               </div>
               <button v-if="ready ==true"  @click="postPost" class="btn btn-lg btn-success btn-block text-uppercase" type="button"  id="sub" >RECUPERA</button>
               <hr>
+
+
+              <div v-if="errorePost!=null" :class="coloreAlert " role="alert">
+                  {{text}}
+            </div>
               <router-link to="/">Torna alla schermata di Login</router-link>
 
             </form>
@@ -46,7 +51,10 @@ export default {
             readyEmail:false,
             ready:false,
             postBody:null,
-            errors: []
+            errors: [],
+            errorePost:null,
+            coloreAlert:'',
+            text:''
       };
   },
   watch:{
@@ -92,8 +100,14 @@ this.postBody={
   data: this.postBody
 }).then((response) => {
   console.log(response);
+  this.errorePost=false
+ this. coloreAlert="alert alert-success"
+ this.text="Email inviata correttamente!"
 }, (error) => {
   console.log(error);
+  this.errorePost=true
+   this.coloreAlert="alert alert-danger"
+    this.text="Errore! Controllare i campi inseriti"
 });  
  
 }

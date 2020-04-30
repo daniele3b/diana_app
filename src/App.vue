@@ -6,35 +6,37 @@
   <nav class="navbar navbar-light navbar-1 black bg-success">
 
   <!-- Navbar brand -->
-  <a class="navbar-brand" href="#"><img src="./assets/logo.svg"> DIANA</a>
+  <a class="navbar-brand" href="#"  ><img src="./assets/logo.svg" height="50px" > DIANA</a>
 
   <!-- Collapse button -->
   <button v-if="isLogged == true" class="navbar-toggler border border-dark " type="button" data-toggle="collapse" data-target="#navbarSupportedContent15"
     aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
   <!-- Collapsible content -->
-  <div class="collapse navbar-collapse" id="navbarSupportedContent15">
+  <div class="collapse navbar-collapse " id="navbarSupportedContent15">
 
     <!-- Links -->
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <router-link  to="/" class="nav-link" href="#">Home </router-link>
+    
+    <ul class="navbar-nav mr-auto bg-success border border-dark pl-3 pr-3" style="position:relative; z-index: 1;float:right;">
+      
+      <li class="nav-item " >
+        <router-link  to="/" class="nav-link " href="#">Home </router-link>
       </li>
       <li class="nav-item">
         <router-link  to="/about" class="nav-link" href="#">About </router-link>
       </li>
     </ul>
+  
     <!-- Links -->
 
   </div>
   <!-- Collapsible content -->
 
 </nav>
-<!--/.Navbar-->
-    <!-- -->
+
 
     <!-- PARTE CHE DEVE VARIARE-->
-    <div class="container-fluid ">
+    <div class="container-fluid  ">
     <router-view/>
     </div>
 
@@ -89,6 +91,12 @@ export default {
     }
   }
 }
+
+.navbar{
+  height: 70px;
+}
+
+
 </style>
 
 <!-- -->
