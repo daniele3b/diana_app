@@ -6,7 +6,7 @@
   <nav class="navbar navbar-light navbar-1 black bg-success">
 
   <!-- Navbar brand -->
-  <a class="navbar-brand" href="#"><img src="./assets/logo.svg"> DIANA</a>
+  <a class="navbar-brand" href="#"  ><img src="./assets/logo.svg" height="50px" > DIANA</a>
 
   <!-- Collapse button -->
   <button v-if="isLogged == true" class="navbar-toggler border border-dark " type="button" data-toggle="collapse" data-target="#navbarSupportedContent15"
@@ -34,7 +34,7 @@
     <!-- -->
 
     <!-- PARTE CHE DEVE VARIARE-->
-    <div class="container-fluid ">
+    <div class="container-fluid pt-1 ">
     <router-view/>
     </div>
 
@@ -89,6 +89,11 @@ export default {
     }
   }
 }
+
+.navbar{
+  height: 70px;
+}
+
 </style>
 
 <!-- -->
