@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import PasswordForgotten from '../views/PasswordForgotten.vue'
+import Registration from '../views/Registration.vue'
 
 
 Vue.use(VueRouter)
@@ -25,11 +26,11 @@ Vue.use(VueRouter)
     name: 'PasswordForgotten',
     component: PasswordForgotten
   },
-  /*{
+  {
     path: '/registration',
     name: 'Registration',
     component: Registration
-  }*/
+  }
 ]
 
 const router = new VueRouter({
