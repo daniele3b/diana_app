@@ -6,8 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     logged: false,
-    token : "TOKEN",
-    type : "TYPE"
+    token : "",
+    type : ""
   },
   getters: {
     getLogged: state => {
