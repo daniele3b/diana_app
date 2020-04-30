@@ -25,7 +25,7 @@
               <button v-if="readyEmail || readyPhone" @click="accedi()" type="button" class="btn btn-lg btn-success btn-block text-uppercase">Accedi</button>
               <hr class="my-4">
               
-              <router-link to="/pw_forgotten">Registrati</router-link>
+              <router-link to="/registration">Registrati</router-link>
               
             </form>
           </div>
