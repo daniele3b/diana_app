@@ -21,7 +21,8 @@
                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                 <label class="custom-control-label" for="customCheck1">Mantieni l'accesso</label>
               </div>
-              <button v-if="readyEmail || readyPhone" @click="accedi()" class="btn btn-lg btn-success btn-block text-uppercase">Accedi</button>
+              
+              <button v-if="readyEmail || readyPhone" @click="accedi()" type="button" class="btn btn-lg btn-success btn-block text-uppercase">Accedi</button>
               <hr class="my-4">
               
               <router-link to="/pw_forgotten">Registrati</router-link>
@@ -53,7 +54,6 @@ export default {
         phoneOk : false
       }
     },
-
     watch : {
 
       password : function(){
@@ -138,9 +138,16 @@ export default {
       }
     },
 
+    computed : {
+
+    },
+
     methods : {
+      
       ...mapMutations([
-        'setLogged'
+        'setLogged',
+        'setToken',
+        'setType'
       ]),
 
       cercaElem(elem){
@@ -170,30 +177,33 @@ export default {
     
       async accedi() {
         // Controllo per vedere se /email o /phone
+        let response 
+        
         if(this.readyEmail){
-          const result = await axios.post('http://localhost:8081/auth/email', {
-            body : {
-              email : this.emailOrPhone,
-              password : this.password
+          response = await axios({
+            method: 'post',
+            url: 'http://localhost:8081/auth/email',
+            data: {
+              email: this.emailOrPhone,
+              password: this.password
             }
           })
-          if(!result) console.log('Errore....')
-          else console.log(result)
         }
 
         else if(this.readyPhone){
-          const result = await axios.post('http://localhost:8081/auth/phone', {
-            body : {
-              phone : this.emailOrPhone,
-              password : this.password
+          response = await axios({
+            method: 'post',
+            url: 'http://localhost:8081/auth/phone',
+            data: {
+              phone: this.emailOrPhone,
+              password: this.password
             }
           })
-          if(!result) console.log('Errore....')
-          else console.log(result)
         }
-
-        this.setLogged(true)
-
+        
+        this.$store.commit('setToken', response.data.token)
+        this.$store.commit('setType', response.data.type)
+        this.$store.commit('setLogged', true)
       }
     },
 }
