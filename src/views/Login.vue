@@ -26,7 +26,7 @@
               <router-link to="/pw_forgotten">Hai dimenticato la password?</router-link>
               <br>
               <router-link to="/registration">Registrati</router-link>
-
+              
               <div v-if="errorAuth != null" :class="colore" role="alert">
                   {{text}}
               </div>
@@ -56,7 +56,7 @@ export default {
         emailOk : false,
         passwordOk : false,
         phoneOk : false,
-        errorAuth : false,
+        errorAuth : null,
         text : "",
         colore : ""
       }
@@ -199,12 +199,13 @@ export default {
               password: this.password
             }
           }).then((response) => {
-            this.errorAuth = false
+            this.errorAuth = 'OK'
             this.text = "Accesso a Diana effettato con successo!"
             this.colore = "alert alert-success"
             this.$store.commit('setToken', response.data.token)
             this.$store.commit('setType', response.data.type)
-            this.$store.commit('setLogged', true)  
+            this.$store.commit('setLogged', true)
+            this.$router.push('/about')
           })
             .catch((error) => {
               console.log(error)
@@ -223,12 +224,14 @@ export default {
               password: this.password
             }
           }).then((response) => {
-            this.errorAuth = false
+            this.errorAuth = 'OK'
             this.text = "Accesso a Diana effettato con successo!"
             this.colore = "alert alert-success"
             this.$store.commit('setToken', response.data.token)
             this.$store.commit('setType', response.data.type)
             this.$store.commit('setLogged', true)
+
+            this.$router.push('/about')
           })
             .catch((error) => {
               console.log(error)
