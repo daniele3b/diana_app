@@ -8,18 +8,18 @@
             <h6 class="card-title text-center"><b>RECUPERA LA TUA PASSWORD</b></h6>
             <p class="text-left" style="size:6;" > Inserendo l'indirizzo email con il quale si è registrato  ed il suo codice fiscale, riceverà via email la password temporanea per effettuare l'accesso</p>
         <hr>
-            <form class="form-signin">
+            <form class="form-signin" >
               <div class="form-label-group">
                   <label for="inputEmail" >EMAIL</label>
-                <input type="email" id="inputEmail" class="form-control" placeholder="Email"  v-model="Email" required autofocus>
+                <input type="text" id="inputEmail" class="form-control" placeholder="Email"   name="email" v-model="Email" required autofocus>
                
               </div>
 
               <div class="form-label-group">
                     <label for="inputCF">CODICE FISCALE</label> 
-                    <input type="text" id="inputCF" class="form-control" placeholder="Codice fiscale" v-model="CF" required>
+                    <input type="text" id="inputCF" class="form-control" placeholder="Codice fiscale" name="CF" v-model="CF" required>
               </div>
-              <button v-if="ready ==true" @click="postPost"   class="btn btn-lg btn-success btn-block text-uppercase"   id="sub" type="submit">RECUPERA</button>
+              <button v-if="ready ==true"  @click="postPost" class="btn btn-lg btn-success btn-block text-uppercase" type="button"  id="sub" >RECUPERA</button>
               <hr>
               <router-link to="/">Torna alla schermata di Login</router-link>
 
@@ -32,7 +32,9 @@
 </template>
 
 <script>
-import axios from 'axios';
+
+//import $ from 'jquery'
+import axios from 'axios'
 // @ is an alias to /src
 export default {
   name: 'PasswordForgotten',
@@ -43,7 +45,7 @@ export default {
             readyCF:false,
             readyEmail:false,
             ready:false,
-            postBody: '',
+            postBody:null,
             errors: []
       };
   },
@@ -78,25 +80,30 @@ export default {
 
   },
    methods: {
- postPost() {
-
-    this.postBody={
-      'email':this.Email,
-      'CF':this.CF
-    }
-
-    axios.post('localhost:8081/registration/citizen/pw_forgotten', {
-      body: this.postBody
-    })
-    .then(response => {console.log(response)})
-    .catch(e => {
-      this.errors.push(e)
-      console.log(e)
-    })
-
- }
+ 
+   postPost() {
+this.postBody={
+  email:this.Email,
+  CF:this.CF
 }
+ axios({
+  method: 'post',
+  url: 'http://localhost:8081/registration/citizen/pw_forgotten',
+  data: this.postBody
+}).then((response) => {
+  console.log(response);
+}, (error) => {
+  console.log(error);
+});  
+ 
 }
+
+ 
+}
+
+
+}
+
 
 
 
