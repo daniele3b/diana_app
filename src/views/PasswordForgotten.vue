@@ -89,7 +89,7 @@ export default {
    postPost() {
 this.postBody={
   email:this.Email,
-  CF:this.CF
+  CF:this.CF.toUpperCase()
 }
  axios({
   method: 'post',
