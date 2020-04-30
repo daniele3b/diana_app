@@ -61,8 +61,17 @@ export default {
         colore : ""
       }
     },
-    watch : {
 
+    created(){
+      if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
+        localStorage.getItem('password') != undefined && localStorage.getItem('token') != undefined &&
+        localStorage.getItem('type') != undefined){
+        
+        this.$router.push('/about')
+      }
+    },
+
+    watch : {
       password : function(){
         const len = this.password.length 
         if(len < 5 || len > 1024) {
@@ -187,8 +196,8 @@ export default {
       },
     
       async accedi() {
-        // Controllo per vedere l'endpoint -> /auth/email o /auth/phone
         
+        // Controllo per vedere l'endpoint -> /auth/email o /auth/phone
         if(this.readyEmail){
 
           axios({
@@ -199,6 +208,13 @@ export default {
               password: this.password
             }
           }).then((response) => {
+            if(document.getElementById('customCheck1').checked){
+              localStorage.email = this.emailOrPhone,
+              localStorage.password = this.password,
+              localStorage.token = response.data.token,
+              localStorage.type = response.data.type
+            }
+
             this.errorAuth = 'OK'
             this.text = "Accesso a Diana effettato con successo!"
             this.colore = "alert alert-success"
@@ -224,6 +240,13 @@ export default {
               password: this.password
             }
           }).then((response) => {
+            if(document.getElementById('customCheck1').checked){
+              localStorage.phone = this.emailOrPhone,
+              localStorage.password = this.password,
+              localStorage.token = response.data.token,
+              localStorage.type = response.data.type
+            }
+            
             this.errorAuth = 'OK'
             this.text = "Accesso a Diana effettato con successo!"
             this.colore = "alert alert-success"
