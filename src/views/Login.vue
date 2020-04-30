@@ -4,16 +4,14 @@
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card card-signin my-5">
           <div class="card-body">
-          <hr class="my-4">
             <h5 class="card-title text-center"><b>Accedi</b></h5>
+            <hr class="my-4">
             <form class="form-signin">
               <div class="form-label-group">
-                <label for="inputEmail">Indirizzo email o telefono</label>
                 <input type="text" id="inputEmailOrPhone" class="form-control" v-model="emailOrPhone" placeholder="Inserici l'indirizzo email o il telefono" required autofocus>
               </div>
 
               <div class="form-label-group">
-                <label for="inputPassword">Password</label>
                 <input type="password" id="inputPassword" class="form-control" v-model="password" placeholder="Inserisci la password" required>
               </div>
 
@@ -28,6 +26,10 @@
               <router-link to="/pw_forgotten">Hai dimenticato la password?</router-link>
               <br>
               <router-link to="/registration">Registrati</router-link>
+
+              <div v-if="errorAuth != null" :class="colore" role="alert">
+                  {{text}}
+              </div>
               
             </form>
           </div>
@@ -41,7 +43,7 @@
 <script>
 
 import axios from 'axios'
-import {mapMutations} from 'vuex'
+import {mapMutations, mapGetters} from 'vuex'
 
 export default {
     name: 'Login',
@@ -53,7 +55,10 @@ export default {
         readyPhone : false,
         emailOk : false,
         passwordOk : false,
-        phoneOk : false
+        phoneOk : false,
+        errorAuth : false,
+        text : "",
+        colore : ""
       }
     },
     watch : {
@@ -141,7 +146,11 @@ export default {
     },
 
     computed : {
-
+      ...mapGetters([
+        'getToken',
+        'getType',
+        'getLogged'
+      ])
     },
 
     methods : {
@@ -178,34 +187,57 @@ export default {
       },
     
       async accedi() {
-        // Controllo per vedere se /email o /phone
-        let response 
+        // Controllo per vedere l'endpoint -> /auth/email o /auth/phone
         
         if(this.readyEmail){
-          response = await axios({
+
+          axios({
             method: 'post',
             url: 'http://localhost:8081/auth/email',
             data: {
               email: this.emailOrPhone,
               password: this.password
             }
+          }).then((response) => {
+            this.errorAuth = false
+            this.text = "Accesso a Diana effettato con successo!"
+            this.colore = "alert alert-success"
+            this.$store.commit('setToken', response.data.token)
+            this.$store.commit('setType', response.data.type)
+            this.$store.commit('setLogged', true)  
           })
+            .catch((error) => {
+              console.log(error)
+              this.errorAuth = true
+              this.colore = "alert alert-danger"
+              this.text = "Email o password errati!"
+            })
         }
 
         else if(this.readyPhone){
-          response = await axios({
+          axios({
             method: 'post',
             url: 'http://localhost:8081/auth/phone',
             data: {
               phone: this.emailOrPhone,
               password: this.password
             }
+          }).then((response) => {
+            this.errorAuth = false
+            this.text = "Accesso a Diana effettato con successo!"
+            this.colore = "alert alert-success"
+            this.$store.commit('setToken', response.data.token)
+            this.$store.commit('setType', response.data.type)
+            this.$store.commit('setLogged', true)
           })
+            .catch((error) => {
+              console.log(error)
+              this.colore = "alert alert-danger"
+              this.errorAuth = true
+              this.text = "Telefono o password errati!"
+            })
         }
-        
-        this.$store.commit('setToken', response.data.token)
-        this.$store.commit('setType', response.data.type)
-        this.$store.commit('setLogged', true)
+
       }
     },
 }
