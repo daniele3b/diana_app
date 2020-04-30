@@ -4,22 +4,19 @@
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card card-signin my-5">
           <div class="card-body">
-          <hr>
             <h6 class="card-title text-center"><b>RECUPERA LA TUA PASSWORD</b></h6>
+          
+            
             <p class="text-left" style="size:6;" > Inserendo l'indirizzo email con il quale si è registrato  ed il suo codice fiscale, riceverà via email la password temporanea per effettuare l'accesso</p>
         <hr>
-            <form class="form-signin" >
+            <form class="form-signin pt-3 pb-3" >
               <div class="form-label-group">
-                  <label for="inputEmail" >EMAIL</label>
                 <input type="text" id="inputEmail" class="form-control" placeholder="Email"   name="email" v-model="Email" required autofocus>
-               
               </div>
-
               <div class="form-label-group">
-                    <label for="inputCF">CODICE FISCALE</label> 
                     <input type="text" id="inputCF" class="form-control" placeholder="Codice fiscale" name="CF" v-model="CF" required>
               </div>
-              <button v-if="ready ==true"  @click="postPost" class="btn btn-lg btn-success btn-block text-uppercase" type="button"  id="sub" >RECUPERA</button>
+              <button v-if="ready ==true"  @click="postPost" class="btn btn-lg btn-success btn-block text-uppercase mt-1" type="button"  id="sub" >RECUPERA</button>
               <hr>
 
 
@@ -92,7 +89,7 @@ export default {
    postPost() {
 this.postBody={
   email:this.Email,
-  CF:this.CF
+  CF:this.CF.toUpperCase()
 }
  axios({
   method: 'post',
