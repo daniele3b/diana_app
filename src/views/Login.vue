@@ -67,7 +67,8 @@ export default {
         localStorage.getItem('password') != undefined && localStorage.getItem('token') != undefined &&
         localStorage.getItem('type') != undefined){
         
-        this.$router.push('/about')
+        this.$store.commit('setLogged', true)
+        this.$router.push('/about') // /dashboard
       }
     },
 
