@@ -6,7 +6,7 @@
           <div class="card-body">
             <h5 class="card-title text-center"><b>Accedi</b></h5>
             <hr class="my-4">
-            <form class="form-signin">
+            <form class="form-signin" @keyup.enter="accedi()">
               <div class="form-label-group">
                 <input type="text" id="inputEmailOrPhone" class="form-control" v-model="emailOrPhone" placeholder="Inserici l'indirizzo email o il telefono" required autofocus>
               </div>
@@ -209,7 +209,7 @@ export default {
               localStorage.token = response.data.token,
               localStorage.type = response.data.type
 
-            this.errorAuth = 'OK'
+            this.errorAuth = 'NO ERROR'
             this.text = "Accesso a Diana effettato con successo!"
             this.colore = "alert alert-success"
             this.$store.commit('setToken', response.data.token)
@@ -239,7 +239,7 @@ export default {
               localStorage.token = response.data.token,
               localStorage.type = response.data.type
             
-            this.errorAuth = 'OK'
+            this.errorAuth = 'NO ERROR'
             this.text = "Accesso a Diana effettato con successo!"
             this.colore = "alert alert-success"
             this.$store.commit('setToken', response.data.token)
