@@ -2,13 +2,13 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card card-signin my-5">
+        <div class="card card-signin my-5 border-success mb-3">
           <div class="card-body">
             <h6 class="card-title text-center"><b>RECUPERA LA TUA PASSWORD</b></h6>
           
             
             <p class="text-left" style="size:6;" > Inserendo l'indirizzo email con il quale si è registrato  ed il suo codice fiscale, riceverà via email la password temporanea per effettuare l'accesso</p>
-        <hr>
+        <hr class="my-4">
             <form class="form-signin pt-3 pb-3"   >
               <div class="form-label-group">
                 <input type="text" id="inputEmail" class="form-control" placeholder="Email"   name="email" v-model="Email" required autofocus>
@@ -17,7 +17,7 @@
                     <input type="text" id="inputCF" class="form-control" placeholder="Codice fiscale" name="CF" v-model="CF" required>
               </div>
               <button v-if="ready ==true"  @click="postPost" class="btn btn-lg btn-success btn-block text-uppercase mt-1" type="button"  id="sub" >RECUPERA</button>
-              <hr>
+              <hr class="my-4">
 
 
               <div v-if="errorePost!=null" :class="coloreAlert " role="alert">
@@ -128,7 +128,7 @@ this.postBody={
 <style scoped>
 
 .card-signin {
-  border: 0;
+  border: 1;
   border-radius: 1rem;
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
 }
@@ -163,6 +163,11 @@ this.postBody={
 .form-label-group input {
   height: auto;
   border-radius: 2rem;
+}
+
+.my-4 {
+  border : 1;
+  border-color : grey;
 }
 
 

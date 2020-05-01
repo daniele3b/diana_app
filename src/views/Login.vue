@@ -2,7 +2,7 @@
     <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card card-signin my-5">
+        <div class="card card-signin my-5 border-success mb-3">
           <div class="card-body">
             <h5 class="card-title text-center"><b>Accedi</b></h5>
             <hr class="my-4">
@@ -15,16 +15,16 @@
                 <input type="password" id="inputPassword" class="form-control" v-model="password" placeholder="Inserisci la password" required>
               </div>
 
-              <button v-if="readyEmail || readyPhone" @click="accedi()" type="button" class="btn btn-lg btn-success btn-block text-uppercase">Accedi</button>
-              <hr class="my-4">
-              
               <router-link to="/pw_forgotten">Hai dimenticato la password?</router-link>
-              <br>
-              <router-link to="/registration">Registrati</router-link>
-              
+
+              <button v-if="readyEmail || readyPhone" @click="accedi()" type="button" class="btn btn-lg btn-success btn-block text-uppercase mt-3">Accedi</button>
+              <hr class="my-4">
+
               <div v-if="errorAuth != null" :class="colore" role="alert">
                   {{text}}
               </div>
+              
+              <router-link to="/registration">Registrati</router-link>
               
             </form>
           </div>
@@ -269,7 +269,7 @@ export default {
 <style scoped>
 
 .card-signin {
-  border: 0;
+  border: 1;
   border-radius: 1rem;
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
 }
@@ -304,6 +304,12 @@ export default {
 .form-label-group input {
   height: auto;
   border-radius: 2rem;
+  border: 1;
+}
+
+.my-4 {
+  border : 1;
+  border-color : grey;
 }
 
 
