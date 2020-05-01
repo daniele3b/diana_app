@@ -10,7 +10,7 @@
 
   <!-- Collapse button -->
   <button v-if="isLogged == true" class="navbar-toggler border border-dark " type="button" data-toggle="collapse" data-target="#navbarSupportedContent15"
-    aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation" id="hamburger" @click="setClicked" :style="coloreMenu" ><span class="navbar-toggler-icon"></span></button>
 
   <!-- Collapsible content -->
   <div v-if="isLogged == true" class="collapse navbar-collapse " id="navbarSupportedContent15">
@@ -72,7 +72,9 @@ export default {
 
   data () {
     return {
-      logged : false
+      logged : false,
+      menuclicked:false,
+      coloreMenu:''
     }
   },
   computed : {
@@ -90,6 +92,17 @@ export default {
         this.$store.commit('setLogged', true)
       }
       else this.$store.commit('setLogged', false)
+    },
+    setClicked(){
+      if(this.menuclicked==false){
+       this.menuclicked=true
+       this.coloreMenu="background-color: #238521;"
+      }
+      else  {
+        this.menuclicked=false
+        this.coloreMenu=""
+      }
+
     }
   }
 }
@@ -134,6 +147,10 @@ export default {
   opacity: 0
 }
 
+#hamburger:hover{
+background-color: #238521;
+
+}
 </style>
 
 <!-- -->
