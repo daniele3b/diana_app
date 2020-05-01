@@ -63,10 +63,13 @@
               
 
               <div class="form-label-group">
-                  <h6 class="card-subtitle mb-2 text-muted text-left">Genere:</h6>
                   <div class="form-inline">
-                    <input type="radio" value='M' v-model=sex name='sex' id="genereM" class="form-control"> <pre> </pre> M <pre> </pre>
-                    <input type="radio" value='F' v-model=sex name='sex' id="genereF" class="form-control"> <pre> </pre> F
+                    <h6 class="card-subtitle mb-2 text-muted text-left">Genere:</h6> <pre>  </pre>
+                    <select :class="sexClass" name="giorno" id="inputGiorno" v-model=sex required > 
+                    <option disabled value="" >---</option>
+                    <option value="M">Uomo</option>
+                    <option value="F">Donna</option>
+                </select>
                   </div>
                 
               </div>
@@ -95,15 +98,18 @@ export default {
     name:'Registration',
     data() {
         return {
+            //i campiOk riguardano l'inserimento
+            //i campiVer riguardano la correttezza dell'inserimento
             flaginseriti: false,
             name: '',
             nameOk: false,
-            nameClass: 'form-control',
+            nameClass: 'form-control-mario',
             surname:'',
             surnameOk:false,
-            surnameClass: 'form-control',
+            surnameClass: 'form-control-mario',
             sex:'',
             sexOk:false,
+            sexClass: 'select-control-mario',
             day:'',
             dayOk:false,
             dayClass: 'select-control-mario',
@@ -115,16 +121,16 @@ export default {
             yearClass: 'select-control-mario',
             birthplace:'',
             birthplaceOk:false,
-            birthplaceClass: 'form-control',
+            birthplaceClass: 'form-control-mario',
             email:'',
             emailOk:false,
-            emailClass: 'form-control',
+            emailClass: 'form-control-mario',
             password:'',
             passwordOk:false,
-            passwordClass: 'form-control',
+            passwordClass: 'form-control-mario',
             phone: '',
             phoneOk:false,
-            phoneClass: 'form-control',
+            phoneClass: 'form-control-mario',
             allerta: false
         }
     },
@@ -204,6 +210,10 @@ export default {
         yearOk: function(){
           if(this.yearOk==true) this.yearClass = 'select-control-mario'
           else this.yearClass = "select-control-mario-errore"
+        },
+        sexOk: function(){
+          if(this.sexOk==true) this.sexClass = 'select-control-mario'
+          else this.sexClass = "select-control-mario-errore"
         }
 
 
@@ -257,8 +267,13 @@ export default {
               this.allerta = true
               this.yearClass = 'select-control-mario-errore'
           }
+          if(!this.sexOk){
+              tuttoInserito = false
+              this.allerta = true
+              this.sexClass = 'select-control-mario-errore'
+          }
           
-          if(tuttoInserito == true){
+          if(tuttoInserito == true){ alert("sto inserendo")
             this.allerta = false
             axios({
             method: 'post',
@@ -303,6 +318,15 @@ export default {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+.form-control-mario:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: green;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+
 .form-control-mario-errore{
   display: block;
   width: 100%;
@@ -311,20 +335,27 @@ export default {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  background-clip: padding-box;
-  border: 1px solid;
-  border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   color: #721c24;
   background-color: #f8d7da;
-  border-color: #f5c6cb;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control-mario-errore:focus {
+  color: #495057;
+  background-color: #f8d7da;
+  border-color: green;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .select-control-mario{
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid green;
   border-radius: 0.25rem;
 }
 
