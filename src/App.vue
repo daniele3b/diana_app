@@ -58,7 +58,7 @@
 
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters} from 'vuex'
 
 
 export default {
@@ -80,6 +80,7 @@ export default {
   computed : {
     ...mapGetters({
         'isLogged' : 'getLogged',
+        'isClicked': 'getMenu'
     }),
   },
 
@@ -94,13 +95,15 @@ export default {
       else this.$store.commit('setLogged', false)
     },
     setClicked(){
-      if(this.menuclicked==false){
-       this.menuclicked=true
+      if(this.isClicked==false){
+       this.$store.commit('setMenu',true)
        this.coloreMenu="background-color: #238521;"
+       console.log(this.isClicked)
       }
       else  {
-        this.menuclicked=false
+        this.$store.commit('setMenu',false)
         this.coloreMenu=""
+         console.log(this.isClicked)
       }
 
     }

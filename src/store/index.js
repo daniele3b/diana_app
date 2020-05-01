@@ -7,13 +7,16 @@ export default new Vuex.Store({
   state: {
     logged: false,
     token : "",
-    type : ""
+    type : "",
+    menuclicked:false,
   },
   getters: {
     getLogged: state => {
       return state.logged
     },
-
+    getMenu: state => {
+      return state.menuclicked
+    },
     getToken : state => {
       return state.token
     },
@@ -33,6 +36,9 @@ export default new Vuex.Store({
 
     setType: (state, type)=> {
       state.type = type
+    },
+    setMenu: (state, menu)=> {
+      state.menuclicked = menu
     }
   },
   actions: {
