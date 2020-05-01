@@ -44,6 +44,7 @@ Vue.use(VueRouter)
   {
     path: '/logout',
     name: 'Logout',
+    beforeEnter : protect,
     component: Logout
   }
 ]
