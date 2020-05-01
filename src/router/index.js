@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import PasswordForgotten from '../views/PasswordForgotten.vue'
 import Registration from '../views/Registration.vue'
+import Logout from '../components/Logout.vue'
 
 
 Vue.use(VueRouter)
@@ -30,6 +31,11 @@ Vue.use(VueRouter)
     path: '/registration',
     name: 'Registration',
     component: Registration
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout
   }
 ]
 
