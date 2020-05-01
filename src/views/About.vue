@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <button @click="removeCredentials()" type="button" class="btn btn-sm btn-success btn-block text-uppercase">Logout</button>
+    <button @click="logout()" type="button" class="btn btn-sm btn-success btn-block text-uppercase">Logout</button>
   </div>
 </template>
 
@@ -13,9 +13,13 @@ export default {
   computed : {
 
   },
+  
+  beforeCreate(){
+  
+  },
 
   methods : {
-    removeCredentials(){
+    logout(){
       this.$store.commit('setLogged', false)
       this.$store.commit('setToken', '')
       this.$store.commit('setType', '')

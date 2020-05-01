@@ -55,6 +55,11 @@ export default {
   name : 'app',
   components : {
   },
+
+  created(){
+    this.checkAccess()
+  },
+
   data () {
     return {
       logged : false
@@ -64,6 +69,18 @@ export default {
     ...mapGetters({
         'isLogged' : 'getLogged',
     }),
+  },
+
+  methods : {
+    checkAccess(){
+      if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
+        localStorage.getItem('password') != undefined && localStorage.getItem('token') != undefined &&
+        localStorage.getItem('type') != undefined){
+        
+        this.$store.commit('setLogged', true)
+      }
+      else this.$store.commit('setLogged', false)
+    }
   }
 }
 

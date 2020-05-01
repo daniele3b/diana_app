@@ -15,11 +15,6 @@
                 <input type="password" id="inputPassword" class="form-control" v-model="password" placeholder="Inserisci la password" required>
               </div>
 
-              <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                <label class="custom-control-label" for="customCheck1">Mantieni l'accesso</label>
-              </div>
-
               <button v-if="readyEmail || readyPhone" @click="accedi()" type="button" class="btn btn-lg btn-success btn-block text-uppercase">Accedi</button>
               <hr class="my-4">
               
@@ -209,12 +204,10 @@ export default {
               password: this.password
             }
           }).then((response) => {
-            if(document.getElementById('customCheck1').checked){
               localStorage.email = this.emailOrPhone,
               localStorage.password = this.password,
               localStorage.token = response.data.token,
               localStorage.type = response.data.type
-            }
 
             this.errorAuth = 'OK'
             this.text = "Accesso a Diana effettato con successo!"
@@ -241,12 +234,10 @@ export default {
               password: this.password
             }
           }).then((response) => {
-            if(document.getElementById('customCheck1').checked){
               localStorage.phone = this.emailOrPhone,
               localStorage.password = this.password,
               localStorage.token = response.data.token,
               localStorage.type = response.data.type
-            }
             
             this.errorAuth = 'OK'
             this.text = "Accesso a Diana effettato con successo!"
