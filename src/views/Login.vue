@@ -126,6 +126,7 @@ export default {
           this.emailOk = false
           this.phoneOk = false
         }
+        
         else if(this.cercaElem('@') == 1 && this.cercaElem('.') == 0){
           this.emailOk = false
           this.phoneOk = false
@@ -190,6 +191,13 @@ export default {
         }
         return true
       },
+
+      memorizzaCredenziali(response){
+        localStorage.email = this.emailOrPhone,
+        localStorage.password = this.password,
+        localStorage.token = response.data.token,
+        localStorage.type = response.data.type
+      },
     
       async accedi() {
         
@@ -204,10 +212,8 @@ export default {
               password: this.password
             }
           }).then((response) => {
-              localStorage.email = this.emailOrPhone,
-              localStorage.password = this.password,
-              localStorage.token = response.data.token,
-              localStorage.type = response.data.type
+            
+            this.memorizzaCredenziali(response)
 
             this.errorAuth = 'NO ERROR'
             this.text = "Accesso a Diana effettato con successo!"
@@ -234,10 +240,8 @@ export default {
               password: this.password
             }
           }).then((response) => {
-              localStorage.phone = this.emailOrPhone,
-              localStorage.password = this.password,
-              localStorage.token = response.data.token,
-              localStorage.type = response.data.type
+              
+            this.memorizzaCredenziali(response)
             
             this.errorAuth = 'NO ERROR'
             this.text = "Accesso a Diana effettato con successo!"
