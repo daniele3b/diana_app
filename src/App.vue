@@ -13,7 +13,7 @@
     aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
   <!-- Collapsible content -->
-  <div class="collapse navbar-collapse " id="navbarSupportedContent15">
+  <div v-if="isLogged == true" class="collapse navbar-collapse " id="navbarSupportedContent15">
 
     <!-- Links -->
     
@@ -24,6 +24,9 @@
       </li>
       <li class="nav-item">
         <router-link  to="/about" class="nav-link" href="#">About </router-link>
+      </li>
+       <li class="nav-item">
+        <router-link  to="/logout" class="nav-link" href="#">Logout </router-link>
       </li>
     </ul>
   
