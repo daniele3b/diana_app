@@ -28,6 +28,7 @@
        <li class="nav-item">
         <router-link  to="/logout" class="nav-link" href="#">Logout </router-link>
       </li>
+
     </ul>
   
     <!-- Links -->
@@ -40,7 +41,13 @@
 
     <!-- PARTE CHE DEVE VARIARE-->
     <div class="container-fluid  ">
+       <transition
+        name="fade"
+        mode="out-in"
+      >
+         
     <router-view/>
+    </transition>
     </div>
 
     <!-- --->
@@ -115,7 +122,17 @@ export default {
 .navbar{
   height: 70px;
 }
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.1s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
 
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
 
 </style>
 
