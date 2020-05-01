@@ -4,6 +4,14 @@ import Login from '../views/Login.vue'
 import PasswordForgotten from '../views/PasswordForgotten.vue'
 import Registration from '../views/Registration.vue'
 
+const protect = (to, from, next) => {
+  if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
+      localStorage.getItem('password') != undefined && localStorage.getItem('token') != undefined &&
+      localStorage.getItem('type') != undefined){
+    next()
+  }
+  else next({ name : "Login"})
+}
 
 Vue.use(VueRouter)
 
@@ -16,6 +24,7 @@ Vue.use(VueRouter)
   {
     path: '/about',
     name: 'About',
+    beforeEnter : protect,
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
