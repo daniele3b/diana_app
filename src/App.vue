@@ -10,7 +10,7 @@
 
   <!-- Collapse button -->
   <button v-if="isLogged == true" class="navbar-toggler border border-dark " type="button" data-toggle="collapse" data-target="#navbarSupportedContent15"
-    aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation" id="hamburger" @click="setClicked" :style="coloreMenu" ><span class="navbar-toggler-icon"></span></button>
+    aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation" id="hamburger" @click="setClicked" :style="stateMenu" ><span class="navbar-toggler-icon"></span></button>
 
   <!-- Collapsible content -->
   <div v-if="isLogged == true" class="collapse navbar-collapse " id="navbarSupportedContent15">
@@ -69,19 +69,23 @@ export default {
   created(){
     this.checkAccess()
   },
-
+mounted(){
+  this.$store.commit('setStatoMenu',"")
+    this.$store.commit('setMenu',false)
+    
+},
   data () {
     return {
       logged : false,
-      menuclicked:false,
-      coloreMenu:''
     }
   },
   computed : {
     ...mapGetters({
         'isLogged' : 'getLogged',
-        'isClicked': 'getMenu'
-    }),
+        'isClicked': 'getMenu',
+        'stateMenu': 'getStatoMenu'
+    })
+   
   },
 
   methods : {
@@ -96,14 +100,12 @@ export default {
     },
     setClicked(){
       if(this.isClicked==false){
-       this.$store.commit('setMenu',true)
-       this.coloreMenu="background-color: #238521;"
-       console.log(this.isClicked)
+        this.$store.commit('setMenu',true)
+        this.$store.commit('setStatoMenu',"background-color: #238521;")
       }
       else  {
         this.$store.commit('setMenu',false)
-        this.coloreMenu=""
-         console.log(this.isClicked)
+        this.$store.commit('setStatoMenu',"")
       }
 
     }

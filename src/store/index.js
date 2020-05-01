@@ -9,10 +9,14 @@ export default new Vuex.Store({
     token : "",
     type : "",
     menuclicked:false,
+    statomenu:""
   },
   getters: {
     getLogged: state => {
       return state.logged
+    },
+    getStatoMenu: state => {
+      return state.statomenu
     },
     getMenu: state => {
       return state.menuclicked
@@ -39,6 +43,9 @@ export default new Vuex.Store({
     },
     setMenu: (state, menu)=> {
       state.menuclicked = menu
+    },
+    setStatoMenu: (state, menu)=> {
+      state.statomenu= menu
     }
   },
   actions: {

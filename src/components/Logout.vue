@@ -15,6 +15,9 @@ export default {
       localStorage.removeItem('phone')
       localStorage.removeItem('password')
       localStorage.removeItem('type')
+        this.$store.commit('setStatoMenu',"")
+    this.$store.commit('setMenu',false)
+    
 
       this.$router.push('/')
 
