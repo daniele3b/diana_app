@@ -84,8 +84,10 @@
                 Non hai inserito tutto!
               </div>
               
-              <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="submit">Entra in Diana!</button>
               <hr class="my-4">
+
+              <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="submit">Entra in Diana!</button>
+              
               
 
             </form>
