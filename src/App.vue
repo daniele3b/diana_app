@@ -10,7 +10,7 @@
 
   <!-- Collapse button -->
   <button v-if="isLogged == true" class="navbar-toggler border border-dark " type="button" data-toggle="collapse" data-target="#navbarSupportedContent15"
-    aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation" id="hamburger" @click="setClicked" :style="coloreMenu" ><span class="navbar-toggler-icon"></span></button>
 
   <!-- Collapsible content -->
   <div v-if="isLogged == true" class="collapse navbar-collapse " id="navbarSupportedContent15">
@@ -58,7 +58,7 @@
 
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters} from 'vuex'
 
 
 export default {
@@ -72,12 +72,15 @@ export default {
 
   data () {
     return {
-      logged : false
+      logged : false,
+      menuclicked:false,
+      coloreMenu:''
     }
   },
   computed : {
     ...mapGetters({
         'isLogged' : 'getLogged',
+        'isClicked': 'getMenu'
     }),
   },
 
@@ -90,6 +93,19 @@ export default {
         this.$store.commit('setLogged', true)
       }
       else this.$store.commit('setLogged', false)
+    },
+    setClicked(){
+      if(this.isClicked==false){
+       this.$store.commit('setMenu',true)
+       this.coloreMenu="background-color: #238521;"
+       console.log(this.isClicked)
+      }
+      else  {
+        this.$store.commit('setMenu',false)
+        this.coloreMenu=""
+         console.log(this.isClicked)
+      }
+
     }
   }
 }
@@ -134,6 +150,10 @@ export default {
   opacity: 0
 }
 
+#hamburger:hover{
+background-color: #238521;
+
+}
 </style>
 
 <!-- -->
