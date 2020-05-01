@@ -57,7 +57,7 @@ export default {
       }
     },
 
-    created(){
+    beforeCreate(){
       if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
         localStorage.getItem('password') != undefined && localStorage.getItem('token') != undefined &&
         localStorage.getItem('type') != undefined){
