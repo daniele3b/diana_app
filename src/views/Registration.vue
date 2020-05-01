@@ -7,7 +7,7 @@
           <div class="card-body">
            <h5 class="card-title text-center"><b>Registrazione </b></h5>
             <hr class="my-4">
-            <form class="form-signin">
+            <form class="form-signin" onsubmit="return checkForm();">
 
             <h6 class="card-subtitle mb-2 text-muted text-left">Credenziali:</h6>
 
@@ -15,9 +15,11 @@
                 <div class="row">
                     <div class="col">
                         <input type="text" v-model=name  id="inputName" :class="nameClass" placeholder="Nome" autofocus required>
+                        <label v-if="nameVer==false" for="inputName" class="badge badge-danger">No numero</label>
                     </div>
                     <div class="col ">
                         <input type="text" v-model=surname id="inputSurname" :class="surnameClass" placeholder="Cognome" required>
+                        <label v-if="surnameVer==false" for="inputSurname" class="badge badge-danger">No numero</label>
                     </div>
                 </div>
               </div>
@@ -26,15 +28,18 @@
                 <div class="row">
                     <div class="col">
                         <input type="email" v-model=email id="inputEmail" :class="emailClass" placeholder="E-mail" required>
+                        <label v-if="emailVer==false" for="inputEmail" class="badge badge-danger">Email non valida</label>
                     </div>
                     <div class="col">
                         <input type="text" v-model=phone id="inputPhone" :class="phoneClass" placeholder="Telefono" required>
+                        <label v-if="phoneVer==false" for="inputSurname" class="badge badge-danger">Numero non valido</label>
                     </div>
                 </div>
               </div>
 
               <div class="form-label-group">
                   <input type="password" v-model=password :class="passwordClass" placeholder="Password" required>
+                  <label v-if="passwordVer==false" class="badge badge-danger">Deve contenere almeno 5 caratteri</label>
               </div>
 
               <div class="form-label-group"><br>
@@ -57,7 +62,8 @@
                 </div>
             </div>
                 <div class="form-label-group">
-                <input size="12" type="text" v-model="birthplace" id="inputLuogo" :class="birthplaceClass" placeholder="Comune di nascita" required>
+                <input  size="12" type="text" v-model="birthplace" id="inputLuogo" :class="birthplaceClass" placeholder="Comune di nascita" required>
+                 <label v-if="birthplaceVer==false" for="inputBirthplace" class="badge badge-danger">Non trovato</label>
             </div>
 
               
@@ -101,47 +107,68 @@ export default {
             //i campiOk riguardano l'inserimento
             //i campiVer riguardano la correttezza dell'inserimento
             flaginseriti: false,
+
             name: '',
             nameOk: false,
             nameClass: 'form-control-mario',
+            nameVer: true,
+
             surname:'',
             surnameOk:false,
             surnameClass: 'form-control-mario',
+            surnameVer: true,
+
             sex:'',
             sexOk:false,
             sexClass: 'select-control-mario',
+
             day:'',
             dayOk:false,
             dayClass: 'select-control-mario',
+
             month:'',
             monthOk:false,
             monthClass: 'select-control-mario',
+
             year:'',
             yearOk:false,
             yearClass: 'select-control-mario',
+
             birthplace:'',
             birthplaceOk:false,
             birthplaceClass: 'form-control-mario',
+            birthplaceVer: true,
+
             email:'',
             emailOk:false,
             emailClass: 'form-control-mario',
+            emailVer: true,
+
             password:'',
             passwordOk:false,
             passwordClass: 'form-control-mario',
+            passwordVer: true,
+
             phone: '',
             phoneOk:false,
             phoneClass: 'form-control-mario',
+            phoneVer: true,
+
             allerta: false
         }
     },
     watch: {
         name: function(){
           if(this.name=='') this.nameOk = false
-          else this.nameOk = true
+          else this.nameOk = true 
+          if(isNaN(this.name) || this.name=='')  { this.nameVer = true; this.nameClass = "form-control-mario-ver";}
+          else { this.nameVer = false; this.nameClass = "form-control-mario-errore";}
         },
         surname: function(){
           if(this.surname=='') this.surnameOk = false
           else this.surnameOk = true
+          if(isNaN(this.surname) || this.surname=='')  { this.surnameVer = true; this.surnameClass = "form-control-mario-ver";}
+          else{ this.surnameVer = false; this.surnameClass = "form-control-mario-errore";}
         },
         sex: function(){
           if(this.sex=='') this.sexOk = false
@@ -162,18 +189,39 @@ export default {
         birthplace: function(){
           if(this.birthplace=='') this.birthplaceOk = false
           else this.birthplaceOk = true
+          var trovato = false
+          var json = require('../../comuni.json');
+          var i=0
+          for(i=0; i<json.length; i++){
+            if(json[i].nome==this.birthplace)
+              trovato=true
+          }
+          if(trovato==true && this.birthplaceOk==true) { this.birthplaceVer = true; this.birthplaceClass = "form-control-mario-ver";}
+          else { this.birthplaceVer = false; this.birthplaceClass = "form-control-mario-errore";}
         },
         email: function(){
           if(this.email=='') this.emailOk = false
           else this.emailOk = true
+          var corretta = false
+          
+          var reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+          if (reg.test(this.email)) corretta = true
+          
+
+          if(corretta==true)  { this.emailVer = true; this.emailClass = "form-control-mario-ver";}
+          else{ this.emailVer = false; this.emailClass = "form-control-mario-errore";}
         },
         password: function(){
           if(this.password=='') this.passwordOk = false
           else this.passwordOk = true
+          if(this.password.length>=5)  { this.passwordVer = true; this.passwordClass = "form-control-mario-ver";}
+          else{ this.passwordVer = false; this.passwordClass = "form-control-mario-errore";}
         },
         phone: function(){
           if(this.phone=='') this.phoneOk = false
           else this.phoneOk = true
+          if(!isNaN(this.phone) && this.phone.length==10)  { this.phoneVer = true; this.phoneClass = "form-control-mario-ver";}
+          else{ this.phoneVer = false; this.phoneClass = "form-control-mario-errore";}
         },
         nameOk: function(){
           if(this.nameOk==true) this.nameClass = 'form-control-mario'
@@ -200,19 +248,19 @@ export default {
           else this.phoneClass = "form-control-mario-errore"
         },
         dayOk: function(){
-          if(this.dayOk==true) this.dayClass = 'select-control-mario'
+          if(this.dayOk==true) this.dayClass = 'select-control-mario-ver'
           else this.dayClass = "select-control-mario-errore"
         },
         monthOk: function(){
-          if(this.monthOk==true) this.monthClass = 'select-control-mario'
+          if(this.monthOk==true) this.monthClass = 'select-control-mario-ver'
           else this.monthClass = "select-control-mario-errore"
         },
         yearOk: function(){
-          if(this.yearOk==true) this.yearClass = 'select-control-mario'
+          if(this.yearOk==true) this.yearClass = 'select-control-mario-ver'
           else this.yearClass = "select-control-mario-errore"
         },
         sexOk: function(){
-          if(this.sexOk==true) this.sexClass = 'select-control-mario'
+          if(this.sexOk==true) this.sexClass = 'select-control-mario-ver'
           else this.sexClass = "select-control-mario-errore"
         }
 
@@ -220,34 +268,41 @@ export default {
     }
     ,
     methods : {
+        checkForm(){
+          if(this.nameVer==true && this.surnameVer==true && this.phoneVer==true && this.emailVer==true && 
+          this.birthplaceVer==true && this.passwordVer==true && this.dayOk==true && this.monthOk==true && 
+          this.yearOk==true && this.sexOk==true) return true;
+          else return false
+        }
+        ,
         regPost() { 
           var tuttoInserito = true;
-          if(!this.nameOk){
+          if(!this.nameOk || this.nameVer==false){
               tuttoInserito = false
               this.allerta = true
               this.nameClass = 'form-control-mario-errore'
           }
-          if(!this.surnameOk){
+          if(!this.surnameOk || this.surnameVer==false){
               tuttoInserito = false
               this.allerta = true
               this.surnameClass = 'form-control-mario-errore'
           }
-          if(!this.birthplaceOk){
+          if(!this.birthplaceOk || this.birthplaceVer==false){
               tuttoInserito = false
               this.allerta = true
               this.birthplaceClass = 'form-control-mario-errore'
           }
-          if(!this.emailOk){
+          if(!this.emailOk || this.emailVer==false){
               tuttoInserito = false
               this.allerta = true
               this.emailClass = 'form-control-mario-errore'
           }
-          if(!this.phoneOk){
+          if(!this.phoneOk || this.phone==false){
               tuttoInserito = false
               this.allerta = true
               this.phoneClass = 'form-control-mario-errore'
           }
-          if(!this.passwordOk){
+          if(!this.passwordOk || this.passwordVer==false){
               tuttoInserito = false
               this.allerta = true
               this.passwordClass = 'form-control-mario-errore'
@@ -272,8 +327,8 @@ export default {
               this.allerta = true
               this.sexClass = 'select-control-mario-errore'
           }
-          
-          if(tuttoInserito == true){ alert("sto inserendo")
+        
+          if(tuttoInserito == true){ alert("Controlli superati")
             this.allerta = false
             axios({
             method: 'post',
@@ -288,11 +343,12 @@ export default {
                 password: this.password,
                 phone: this.phone
             }
-            }).then((response) => {
-                alert(response+"\nRegistrazione avvenuta con successo!");
+            }).then(() => {
+                alert("\nRegistrazione avvenuta con successo!");
+                window.location.replace('Login.vue');
                 
             }, (error) => {
-                alert(error+"\ndevo ancora implementare i controlli")
+                alert("Errore richiesta:\n"+error)
             });  
           }
         }
@@ -326,6 +382,30 @@ export default {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
+.form-control-mario-ver {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #cef5d8;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control-mario-ver:focus {
+  color: #495057;
+  background-color: #cef5d8;
+  border-color: green;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
 
 .form-control-mario-errore{
   display: block;
@@ -354,6 +434,14 @@ export default {
 .select-control-mario{
   color: #495057;
   background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid green;
+  border-radius: 0.25rem;
+}
+
+.select-control-mario-ver{
+  color: #495057;
+  background-color: #cef5d8;
   background-clip: padding-box;
   border: 1px solid green;
   border-radius: 0.25rem;
