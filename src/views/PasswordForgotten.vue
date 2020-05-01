@@ -9,7 +9,7 @@
             
             <p class="text-left" style="size:6;" > Inserendo l'indirizzo email con il quale si è registrato  ed il suo codice fiscale, riceverà via email la password temporanea per effettuare l'accesso</p>
         <hr>
-            <form class="form-signin pt-3 pb-3" >
+            <form class="form-signin pt-3 pb-3"  @keyup.enter="postPost" >
               <div class="form-label-group">
                 <input type="text" id="inputEmail" class="form-control" placeholder="Email"   name="email" v-model="Email" required autofocus>
               </div>
