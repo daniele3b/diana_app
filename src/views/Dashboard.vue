@@ -11,8 +11,6 @@
     <div class="row">
         <Report></Report>
     </div>
-    
- 
   </div>
 </template>
 
