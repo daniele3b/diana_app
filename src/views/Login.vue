@@ -70,7 +70,7 @@ export default {
     watch : {
       password : function(){
         const len = this.password.length 
-        if(len < 5 || len > 1024) {
+        if(len < 8 || len > 1024) {
           this.passwordOk = false
         }
         else
