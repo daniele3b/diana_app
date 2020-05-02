@@ -369,8 +369,8 @@ export default {
               this.allerta = true
               this.sexClass = 'select-control-mario-errore'
           }
-        
-          if(tuttoInserito == true){ alert("Controlli superati")
+          //CON TELEFONO
+          if(tuttoInserito == true && this.phone!=''){ alert("Controlli superati con telefono")
             this.allerta = false
             axios({
             method: 'post',
@@ -392,6 +392,31 @@ export default {
             }, (error) => {
                 alert("Errore richiesta:\n"+error)
             });  
+          }
+          
+          //SENZA TELEFONO
+          else if(tuttoInserito == true){alert("Controlli superati senza telefono")
+            this.allerta = false
+            axios({
+            method: 'post',
+            url: 'http://localhost:8081/registration/citizen',
+            data: {
+                name: this.name,
+                surname: this.surname,
+                sex: this.sex,
+                birthdate: this.year+'-'+this.month+'-'+this.day,
+                birthplace: this.birthplace,
+                email: this.email,
+                password: this.password
+            }
+            }).then(() => {
+                alert("\nRegistrazione avvenuta con successo!");
+                window.location.replace('Login.vue');
+                
+            }, (error) => {
+                alert("Errore richiesta:\n"+error)
+            }); 
+
           }
         }
     }
