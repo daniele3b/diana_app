@@ -94,7 +94,7 @@
 
               <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="submit">Entra in Diana!</button>
               <h6 class="card-subtitle mb-2 mt-2 text-muted">oppure</h6>
-              <a href="http://localhost:8081/sign-in/google" target="_blank"><img src="../../google.png" alt=""></a>
+              <a href="http://localhost:8081/sign-in/google" target="_blank"><img src="../../images/google.png" alt=""></a>
               <br>
               
               <hr class="my-4">
