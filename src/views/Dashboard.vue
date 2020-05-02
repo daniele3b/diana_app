@@ -1,15 +1,19 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid mt-5">
     <div class="row">
-        <div class="col">
+        <div class="col-4">
             <Meteo> </Meteo>
         </div>
-        <div class="col">
+        <div class="col-1">
+          </div>
+        <div class="col-7">
             <Map></Map>>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="position:absolute; top:60%;">
+      <div class="col">
         <Report></Report>
+      </div>
     </div>
   </div>
 </template>
