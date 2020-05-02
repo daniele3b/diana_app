@@ -3,7 +3,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card card-signin my-5">
+        <div class="card card-signin my-5  border-success">
           <div class="card-body">
            <h5 class="card-title text-center"><b>Registrazione </b></h5>
             <hr class="my-4">
@@ -459,7 +459,7 @@ export default {
 }
 
 .card-signin {
-  border: 0;
+  
   border-radius: 1rem;
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
 }
