@@ -6,9 +6,7 @@
         <div class="card card-signin my-5  border-success">
           <div class="card-body">
            <h5 class="card-title text-center"><b>Registrazione </b></h5>
-           <hr class="my-4">
-              <a href="http://localhost:8081/sign-in/google" target="_blank"><img src="../../google.png" alt=""></a>
-            
+           
             <hr class="my-4">
             <form class="form-signin" onsubmit="return checkForm();">
 
@@ -95,9 +93,13 @@
               <hr class="my-4">
 
               <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="submit">Entra in Diana!</button>
+              <br><h6 class="card-subtitle mb-2 text-muted">oppure</h6>
+              <a href="http://localhost:8081/sign-in/google" target="_blank"><img src="../../google.png" alt=""></a>
               <br>
-              <router-link to="/" >Torna alla pagina di login</router-link>
+              
               <hr class="my-4">
+              <router-link to="/" >Torna alla pagina di login</router-link>
+              
 
             </form>
           </div>
