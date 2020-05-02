@@ -63,7 +63,7 @@ export default {
         localStorage.getItem('type') != undefined){
         
         this.$store.commit('setLogged', true)
-        this.$router.push('/about') // /dashboard
+        this.$router.push('/dashboard') // /dashboard
       }
     },
 
@@ -221,7 +221,8 @@ export default {
             this.$store.commit('setToken', response.data.token)
             this.$store.commit('setType', response.data.type)
             this.$store.commit('setLogged', true)
-            this.$router.push('/about')
+            
+            this.$router.push('/dashboard')
           })
             .catch((error) => {
               console.log(error)
@@ -250,7 +251,7 @@ export default {
             this.$store.commit('setType', response.data.type)
             this.$store.commit('setLogged', true)
 
-            this.$router.push('/about')
+            this.$router.push('/dashboard')
           })
             .catch((error) => {
               console.log(error)
