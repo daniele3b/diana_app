@@ -63,7 +63,7 @@ export default {
         localStorage.getItem('type') != undefined){
         
         this.$store.commit('setLogged', true)
-        this.$router.push('/about') // /dashboard
+        this.$router.push('/dashboard') // /dashboard
       }
     },
 
