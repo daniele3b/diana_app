@@ -6,6 +6,9 @@
         <div class="card card-signin my-5  border-success">
           <div class="card-body">
            <h5 class="card-title text-center"><b>Registrazione </b></h5>
+           <hr class="my-4">
+              <a href="http://localhost:8081/sign-in/google" target="_blank"><img src="../../google.png" alt=""></a>
+            
             <hr class="my-4">
             <form class="form-signin" onsubmit="return checkForm();">
 
@@ -31,7 +34,7 @@
                         <label v-if="emailVer==false" for="inputEmail" class="badge badge-danger">Email non valida</label>
                     </div>
                     <div class="col">
-                        <input type="text" v-model=phone id="inputPhone" :class="phoneClass" placeholder="Telefono" required>
+                        <input type="text" v-model=phone id="inputPhone" :class="phoneClass" placeholder="Telefono*">
                         <label v-if="phoneVer==false" for="inputSurname" class="badge badge-danger">Numero non valido</label>
                     </div>
                 </div>
@@ -39,7 +42,12 @@
 
               <div class="form-label-group">
                   <input type="password" v-model=password :class="passwordClass" placeholder="Password" required>
-                  <label v-if="passwordVer==false" class="badge badge-danger">Deve contenere almeno 5 caratteri</label>
+                  <label v-if="passwordVer==false" class="badge badge-danger">Deve contenere almeno 8 caratteri,una <br>lettera maiuscola, una minuscola ed un numero</label>
+              </div>
+
+              <div class="form-label-group">
+                  <input type="password" v-model=password2 :class="password2Class" placeholder="Ripeti Password" required>
+                  <label v-if="password2Ver==false" class="badge badge-danger">Le due password non coincidono</label>
               </div>
 
               <div class="form-label-group"><br>
@@ -76,19 +84,20 @@
                     <option value="M">Uomo</option>
                     <option value="F">Donna</option>
                 </select>
-                  </div>
+              </div>
                 
               </div>
 
               <div v-if="allerta" class="alert alert-danger" role="alert">
                 Non hai inserito tutto!
               </div>
-              
+              <h6 class="card-subtitle mb-2 text-muted text-left">*campo facoltativo </h6>
               <hr class="my-4">
 
               <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="submit">Entra in Diana!</button>
-              
-              
+              <br>
+              <router-link to="/" >Torna alla pagina di login</router-link>
+              <hr class="my-4">
 
             </form>
           </div>
@@ -150,6 +159,11 @@ export default {
             passwordOk:false,
             passwordClass: 'form-control-mario',
             passwordVer: true,
+
+            password2:'',
+            password2Ok:false,
+            password2Class: 'form-control-mario',
+            password2Ver: true,
 
             phone: '',
             phoneOk:false,
@@ -216,13 +230,36 @@ export default {
         password: function(){
           if(this.password=='') this.passwordOk = false
           else this.passwordOk = true
-          if(this.password.length>=5)  { this.passwordVer = true; this.passwordClass = "form-control-mario-ver";}
+          var numero = false;
+          var lMaiusc = false;
+          var lMinusc = false;
+          var i = 0
+          for(i=0;i<this.password.length;i++){
+            var character = this.password.charAt(i);
+            if (!isNaN(character * 1)){
+                numero=true
+            }else{
+              if (character == character.toUpperCase()) {
+                lMaiusc = true
+              }
+              if (character == character.toLowerCase()){
+                lMinusc = true
+              }
+            }
+          }
+          if(this.password.length>=8 && numero==true && lMaiusc==true && lMinusc==true)  
+                { this.passwordVer = true; this.passwordClass = "form-control-mario-ver";}
           else{ this.passwordVer = false; this.passwordClass = "form-control-mario-errore";}
         },
+        password2: function(){
+          if(this.password2=='') this.password2Ok = false
+          else this.password2Ok = true
+          if(this.password2 == this.password) { this.password2Ver = true; this.password2Class = "form-control-mario-ver";}
+          else{ this.password2Ver = false; this.password2Class = "form-control-mario-errore";}
+        },
         phone: function(){
-          if(this.phone=='') this.phoneOk = false
-          else this.phoneOk = true
-          if(!isNaN(this.phone) && this.phone.length==10)  { this.phoneVer = true; this.phoneClass = "form-control-mario-ver";}
+          if(!isNaN(this.phone) && this.phone.length==10 && this.phone!='')  { this.phoneVer = true; this.phoneClass = "form-control-mario-ver";}
+          else if(this.phone==''){this.phoneVer=true;this.phoneClass = "form-control-mario";}
           else{ this.phoneVer = false; this.phoneClass = "form-control-mario-errore";}
         },
         nameOk: function(){
@@ -244,10 +281,6 @@ export default {
         passwordOk: function(){
           if(this.passwordOk==true) this.passwordClass = 'form-control-mario'
           else this.passwordClass = "form-control-mario-errore"
-        },
-        phoneOk: function(){
-          if(this.phoneOk==true) this.phoneClass = 'form-control-mario'
-          else this.phoneClass = "form-control-mario-errore"
         },
         dayOk: function(){
           if(this.dayOk==true) this.dayClass = 'select-control-mario-ver'
@@ -271,9 +304,9 @@ export default {
     ,
     methods : {
         checkForm(){
-          if(this.nameVer==true && this.surnameVer==true && this.phoneVer==true && this.emailVer==true && 
+          if(this.nameVer==true && this.surnameVer==true && (this.phoneVer==true || this.phone=='') && this.emailVer==true && 
           this.birthplaceVer==true && this.passwordVer==true && this.dayOk==true && this.monthOk==true && 
-          this.yearOk==true && this.sexOk==true) return true;
+          this.yearOk==true && this.sexOk==true && this.password2Ver==true) return true;
           else return false
         }
         ,
@@ -299,7 +332,7 @@ export default {
               this.allerta = true
               this.emailClass = 'form-control-mario-errore'
           }
-          if(!this.phoneOk || this.phone==false){
+          if(this.phone!='' && this.phoneVer==false){
               tuttoInserito = false
               this.allerta = true
               this.phoneClass = 'form-control-mario-errore'
@@ -308,6 +341,11 @@ export default {
               tuttoInserito = false
               this.allerta = true
               this.passwordClass = 'form-control-mario-errore'
+          }
+          if(!this.password2Ok || this.password2Ver==false){
+              tuttoInserito = false
+              this.allerta = true
+              this.password2Class = 'form-control-mario-errore'
           }
           if(!this.dayOk){
               tuttoInserito = false
