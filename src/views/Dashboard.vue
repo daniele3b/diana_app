@@ -16,9 +16,9 @@
 
 <script>
 // @ is an alias to /src
-import Meteo from '@/components/Meteo.vue'
-import Map from '@/components/Map.vue'
-import Report from '@/components/Report.vue'
+import Meteo from '../components/Meteo.vue'
+import Map from '../components/Map.vue'
+import Report from '../components/Report.vue'
 
 export default {
   name: 'Dashboard',
