@@ -82,7 +82,9 @@ export default {
 table tbody tr td {
   font-size: 12px;
   margin: 0;
+  
 }
+
 table{
 
   padding-bottom: 0;
