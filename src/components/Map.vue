@@ -1,5 +1,5 @@
 <template>
-  <div class="card" style="height:770px;">
+  <div class="card" style="height:657px;width:470px">
     <div class="card-body">
       <div class="container">
         <div class="row" style=height:385px;>
@@ -11,7 +11,7 @@
           >
           <GmapMarker
             :key = sensor.lat
-            v-for="sensor in info" 
+            v-for="sensor in sensors" 
             :position="google && new google.maps.LatLng(sensor.lat, sensor.lng)"
             :clickable="true"
             :draggable="true"
@@ -24,7 +24,7 @@
         <hr>
 
         <div class="row" style=height:385px;>
-          {{info}}
+          
         </div>
       </div>
     </div>
@@ -77,7 +77,7 @@ export default {
                 lng : response.data[i].long,
               })
 
-              if(!this.trovato(this.sensors, response.data[i])){
+              if(!this.sensors.includes(response.data[i])){
                 this.sensors.push({
                   lat : response.data[i].lat,
                   lng : response.data[i].long
