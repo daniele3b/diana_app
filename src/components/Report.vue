@@ -165,7 +165,11 @@ export default {
         del: function(event)
         {
           console.log(event.target.id)
-
+          var r = confirm("Sei sicuro di voler eliminare la segnalazione?");
+          if (r == true) {
+    
+    
+ 
            axios({
             method: 'delete',
             url: 'http://localhost:8081/report/'+event.target.id,
@@ -184,6 +188,10 @@ export default {
             .catch((error) => {
             alert("Delete"+error)
           })
+          }else
+          {
+            console.log('Era uno scherzo !')
+          }
         },
 
         updateData: function (){
