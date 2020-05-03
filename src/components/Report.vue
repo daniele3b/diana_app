@@ -75,18 +75,19 @@
               CF: {{this.CF}}
               </div>
               <div class="form-label-group mb-3">
-              LUOGO: {{this.address}}
+              CATEGORIA: {{this.category}}
+              </div>
+               <div class="form-label-group mb-3">
+              STATO: {{this.status}}
               </div>
               <div class="form-label-group mb-3">
-              STATO: {{this.status}}
+              LUOGO: {{this.address}}
               </div>
               
                <div class="form-label-group mb-3">
               DATA: {{this.date}}
               </div>
-              <div class="form-label-group mb-3">
-              CATEGORIA: {{this.category}}
-              </div>
+              
               <div class="form-label-group mb-3">
               DESCRIZIONE: {{this.description}}
               </div>
