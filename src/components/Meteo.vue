@@ -5,18 +5,18 @@
       <div class="card" onload="getReport();" >
         <!-- TABBED PANE BAR-->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item"><a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true" >Tempo Reale</a></li>
-          <li class="nav-item"><a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">7 giorni</a></li>
+          <li class="nav-item"><a class="nav-link" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="false" >Tempo Reale</a></li>
+          <li class="nav-item"><a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="true">7 giorni</a></li>
          
         </ul>
         <!-- TABBED PANE CONTENT-->
         <div class="tab-content" id="myTabContent" >
-          <div  id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+          <div  id="tab1" class="tab-pane fade active" role="tabpanel active" aria-labelledby="tab1-tab">
             
             <div class="container" >
 
               <div class="row row-eq-height" >
-                <div class="col-sm-6 col-8">
+                <div class="col-sm-6 col-6" style="padding-left:20px">
                   <div id="uno">
                     <!-- GIORNO -->
                     <img v-if="stato=='Clear' && notte==false" style="height:100%; width:100%;" src="../../images/sun.png" alt="">
@@ -28,25 +28,25 @@
                     <img v-if="stato=='Rain' && notte==true" style="height:100%; width:100%;" src="../../images/moonrain.png" alt="">
                   </div>
                 </div>
-                <div class="col-sm-6 col-6" style="padding:0;">
+                <div class="col-sm-6 col-6" style="padding-left:0;">
                   <div id="due">
-                    <h2>{{t_att}}°C</h2>
+                    {{t_att}}°C
                   </div>
                   <div id="tre">
-                   {{descrizione}}
-                  </div>
-                  <div id="tre">
-                    Umidità: {{humidity}}%
+                    {{descrizione}}
                   </div>
                   <div id="tre">
                     Vento: {{wind}} km/h
+                  </div>
+                  <div id="tre">
+                    Umidità: {{humidity}}%
                   </div>
                  </div>
             </div>
           </div>
             
           </div>
-          <div class="tab-pane p-4 fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+          <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
               Contenuto 2
           </div>
           
@@ -94,11 +94,15 @@ export default {
 
             var idx = response.data.descrizione.indexOf(',')
             this.stato = this.descrizione.substr(0,idx)
+          
 
             var now = new Date()
             var hour = now.getHours()
             if(hour>=20 || hour <=6) this.notte=true
             else this.notte = false
+            
+            var desc = response.data.descrizione.substr(idx+2) 
+            this.descrizione = desc.charAt(0).toUpperCase() + desc.slice(1)
 
           })
             .catch((error) => {
@@ -122,7 +126,7 @@ export default {
 #due{
   /*background-color: greenyellow;*/
   font-family: "Times New Roman", Times, serif;
-  font-size: 22px;
+  font-size: 34px;
 }
 
 #tre{
@@ -132,7 +136,8 @@ export default {
 }
 
 #tab1{
-  padding-top:10px;
+  padding-top:8px;
+  
 }
 
 .container {
@@ -154,7 +159,7 @@ export default {
   width: 200px;
   height: 100px;
   padding-top: 0;
-  background-color: red;
+  /*background-color: red;*/
 }
 
 .temperatura{
