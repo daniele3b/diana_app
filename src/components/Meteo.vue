@@ -218,7 +218,7 @@ export default {
           humidity: '',
           wind: '',
 
-          FCarray: '',
+          FCarray: ['','','','','','',''],
           oggi:'',
           giorni:['Dom','Lun','Mar','Mer','Gio','Ven','Sab','Dom','Lun','Mar','Mer','Gio','Ven','Sab','Dom']
         }
