@@ -11,8 +11,9 @@
           <th>Data</th>
           <th>Stato</th>
           <th>Dett.</th>
-          <th>Delete</th>
           <th>Edit</th>
+          <th>Delete</th>
+        
         </thead>
       
       <tbody >
@@ -21,9 +22,11 @@
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
                 <td>{{rep.status}}</td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button :id="rep._id" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep._id" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep._id" class="btn btn-success btn-xs" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep.id_number" class="btn btn-success btn-xs" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-primary btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
+               
+                
             </tr>
       </tbody>
     </table>
@@ -86,8 +89,33 @@ export default {
 
           })
             .catch((error) => {
-            alert("ewwew"+error)
+            alert("GET report"+error)
           })
+      },
+      methods: {
+
+        del: function(event)
+        {
+          console.log(event.target.id)
+
+           axios({
+            method: 'delete',
+            url: 'http://localhost:8081/report/'+event.target.id,
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          }).then((response) => { 
+
+            console.log('Eliminato con successo'+response)
+            let ind=this.reports.indexOf(event.target.if);
+            this.reports.splice(ind+1,1)
+            
+
+          })
+            .catch((error) => {
+            alert("Deleete"+error)
+          })
+        }
       }
 
 }
