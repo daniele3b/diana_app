@@ -1,10 +1,10 @@
 <template>
- <div class="card  mt-1" >
+ <div class="card  mt-1" onload="getData();" >
   <div class="card-header">Segnalazioni</div>
   <div class="card-body">
     <div class="col-md-12">
     <div class="table-responsive">
-    <table id="mytable" class="table table-striped">
+    <table id="mytable" class="table table-striped" >
         <thead>
           <th>CF</th>
           <th>Categoria</th>
@@ -15,42 +15,16 @@
           <th>Edit</th>
         </thead>
       <tbody>
-            <tr>
-                <td>BFLDNL98T02H501H</td>
-                <td>Rifiuti</td>
-                <td>3/5/2020</td>
-                <td>PRESA IN CARICO</td>
+            <tr v-for="rep in this.reports" :key="rep._id">
+                <td>{{rep.CF}}</td>
+                <td>{{rep.category}}</td>
+                <td>{{rep.date}}</td>
+                <td>{{rep.status}}</td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button class="btn btn-success btn-xs" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
             </tr>
-            <tr>
-                <td>BFLDNL98T02H501H</td>
-                <td>Rifiuti</td>
-                <td>3/5/2020</td>
-                <td>PRESA IN CARICO</td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button class="btn btn-success btn-xs" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-            </tr>
-            <tr>
-                <td>BFLDNL98T02H501H</td>
-                <td>Rifiuti</td>
-                <td>3/5/2020</td>
-                <td>PRESA IN CARICO</td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button class="btn btn-success btn-xs" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-            </tr>
-            <tr>
-                <td>BFLDNL98T02H501H</td>
-                <td>Rifiuti</td>
-                <td>3/5/2020</td>
-                <td>PRESA IN CARICO</td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button class="btn btn-success btn-xs" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-            </tr>
+            
       </tbody>
     </table>
     </div>
@@ -64,8 +38,40 @@
 
 
 <script>
+import axios from 'axios'
 export default {
-    name:'Report'
+  
+    name:'Report',
+    data(){
+      return{
+      reports:[]
+      }
+    } , 
+mounted:
+  function getData(){
+      axios({
+            method: 'get',
+            url: 'http://localhost:8081/report',
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          }).then((response) => { 
+        let i=0
+        for(i=0;i<response.data.length;i++)
+        {
+          this.reports[i]=response.data[i]
+        }
+         console.log(this.reports)
+          })
+            .catch((error) => {
+              console.log('Errore nella post'+error)
+          })
+  }
+
+    
+  
+
+    
 
 }
 </script>
