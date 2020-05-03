@@ -3,8 +3,8 @@
   <div class="card-header">Segnalazioni</div>
   <div class="card-body">
     <div class="col-md-12">
-    <div class="table-responsive">
-    <table id="mytable" class="table table-striped" >
+    <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="mytable" class="table table-striped "  >
         <thead>
           <th>CF</th>
           <th>Categoria</th>
@@ -14,7 +14,8 @@
           <th>Delete</th>
           <th>Edit</th>
         </thead>
-      <tbody>
+      
+      <tbody >
             <tr v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
@@ -99,6 +100,16 @@ export default {
 
 <style scoped>
 
+.my-custom-scrollbar {
+height:320px;
+width:650px;
+overflow: auto;
+overflow-x: hidden; 
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+
 .card{
   padding:0;
 }
@@ -110,12 +121,16 @@ table tbody tr td {
 }
 
 table{
-
   padding-bottom: 0;
 }
 table thead {
   padding:0;
   font-size: 15px;
+  position: sticky; top: 0;
+  overflow-y: auto; 
+  background-color: grey;
+  border:  1 grey;
+  
 }
 
 .card-signin {
