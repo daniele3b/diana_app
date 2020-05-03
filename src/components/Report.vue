@@ -29,9 +29,7 @@
     </table>
     </div>
   </div>
-     <button type="button" class="btn btn-success mr-1" id="indietro"> INDIETRO </button>
-    <button type="button" class="btn btn-success mr-1" id="aggiungi"> + </button>
-    <button type="button" class="btn btn-success" id="avanti"> AVANTI </button>
+    <button type="button" class="btn btn-success mt-1 " id="aggiungi"> Aggiungi </button>
   </div>
 </div>
 </template>
