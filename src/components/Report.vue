@@ -151,6 +151,8 @@ export default {
              this.reports[i].category=this.reports[i].category.toUpperCase()
            }
 
+           console.log(this.reports)
+
           })
             .catch((error) => {
               if(error.status==404)
@@ -164,11 +166,17 @@ export default {
 
         del: function(event)
         {
-          console.log(event.target.id)
+         // console.log(event.target.id)
           var r = confirm("Sei sicuro di voler eliminare la segnalazione?");
           if (r == true) {
     
+         // console.log(event.target.id)
+          var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
+
     
+            //console.log(ind)
+             this.reports.splice(ind,1)
+            
  
            axios({
             method: 'delete',
@@ -177,11 +185,11 @@ export default {
               "x-diana-auth-token": localStorage.token
             }
           }).then((response) => { 
-            let ind=this.reports.indexOf(event.target.if);
-            if(ind==-1)
-            this.reports.splice(0,1)
-            else
-            this.reports.splice(ind,1)
+
+           
+           
+           
+            
             console.log(response)
 
           })
