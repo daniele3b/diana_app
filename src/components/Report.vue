@@ -1,7 +1,7 @@
 <template>
  <div class="card  mt-1"  onload="getReport();" >
   <div class="card-header">Segnalazioni</div>
-  <div class="card-body">
+  <div v-if="adding==false" class="card-body">
     <div class="col-md-12">
     <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
     <table id="mytable" class="table  "  >
@@ -32,9 +32,40 @@
     </table>
     </div>
   </div>
-    <button type="button" class="btn btn-success mt-1 " id="aggiungi"> Aggiungi </button>
+    <button type="button" class="btn btn-success mt-1 " id="aggiungi" @click="add"> Aggiungi </button>
   </div>
+  <div v-else class="card-body" style="width:500px;height:400px;" >
+  
+            <h5 class="card-title text-center"><b>AGGIUNGI SEGNALAZIONE</b></h5>
+               <hr class="my-4">
+            <form class="form-signin">
+              <div class="form-label-group mb-4">
+                <input type="text" id="address" class="form-control" v-model="address" placeholder="Inserici il luogo della segnalazione"  required autofocus>
+              </div>
+
+              <div class="form-label-group">
+                <select type="option" id="categoria" class="form-control" v-model="category" required>
+                  <option disabled value="" >---</option>
+                  <option value="rifiuti">rifiuti</option>
+                  <option value="incendio">incendio</option>
+                  <option value="urbanistica">urbanistica</option>
+                  <option value="idrogeologia">idrogeologia</option>
+                  <option value="altro">altro</option></select>
+              </div>
+
+
+                <div class="form-label-group mt-4">
+                <textarea id="categoria" class="form-control" v-model="description"  rows="3" cols="50" placeholder="Descrizione dell'evento (max 150 cartteri)" required/>
+            
+              </div>
+
+            <hr class="my-4">
+              <button  type="button" class="btn btn-lg btn-success btn-block text-uppercase mt-3" @click="addElement">Invia</button>    
+            </form>   
+           </div>
+  
 </div>
+
 </template>
 
 
@@ -46,7 +77,11 @@ export default {
     name:'Report',
     data() {
         return {
-         reports:[]
+         reports:[],
+         adding:false,
+         address:'',
+         category:'',
+         description:'',
         }
     },
 
@@ -91,7 +126,7 @@ export default {
             alert("GET report"+error)
           })
 
-          setInterval(this.updateData, 600000);
+        //  setInterval(this.updateData, 60000);
       },
       methods: {
 
@@ -108,7 +143,7 @@ export default {
           }).then((response) => { 
             let ind=this.reports.indexOf(event.target.if);
             this.reports.splice(ind+1,1)
-            
+            console.log(response)
 
           })
             .catch((error) => {
@@ -158,7 +193,47 @@ export default {
             .catch((error) => {
             alert("GET report"+error)
           })
+          
 
+        },
+
+         add: function(event)
+        {
+          console.log(event.target.id)
+          this.adding=true
+          
+        },
+
+
+          addElement: function()
+        {
+
+          if(this.description!=''&& this.category!='' &&this.address!=''){
+          axios({
+            method: 'post',
+            url: 'http://localhost:8081/report/',
+             headers: {
+              "x-diana-auth-token": localStorage.token
+            },
+            data: {
+                address: this.address,
+                category: this.category,
+                description:this.description
+            }
+            }).then((response) => {
+                console.log(response)
+                
+            }, (error) => {
+                alert("Errore richiesta:\n"+error.message)
+            }); 
+            this.adding=false
+          }else
+          {
+            alert('Non puoi inserire valori vuoti!')
+
+          }
+          
+          
         }
       }
 
@@ -214,16 +289,13 @@ table thead {
 
 .card-signin .card-title {
   font-weight: 300;
-  font-size: 1.5rem;
+  
 }
 
 .card-signin .card-body {
   padding: 0;
 }
 
-.form-signin {
-  width: 100%;
-}
 
 .form-signin .btn {
   font-size: 80%;
@@ -240,7 +312,6 @@ table thead {
 }
 
 .form-label-group input {
-  height: auto;
   border-radius: 2rem;
 }
 
