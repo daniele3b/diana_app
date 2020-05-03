@@ -73,6 +73,15 @@ export default {
            for(i=0;i<response.data.length;i++)
            {
              this.reports.push(response.data[i])
+            
+           }
+
+           for(i=0;i<this.reports.length;i++)
+           {
+             var res = this.reports[i].date.split("T");
+             this.reports[i].date=res[0]
+             this.reports[i].status=this.reports[i].status.toUpperCase()
+             this.reports[i].category=this.reports[i].category.toUpperCase()
            }
             console.log(this.reports)
 
