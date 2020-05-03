@@ -19,6 +19,8 @@
 
 
 <script>
+import GoogleMapsApiLoader from 'google-maps-api-loader'
+
 export default {
   props: {
     mapConfig: Object,
