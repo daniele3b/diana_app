@@ -2,7 +2,7 @@
  <div class="card  mt-1"  onload="getReport();" >
   <div class="card-header">Segnalazioni</div>
   <!-- schermata di visualizzazione-->
-  <div v-if="adding==false&&zoomed==false" class="card-body">
+  <div v-if="adding==false&&zoomed==false&&editing==false" class="card-body">
     <div class="col-md-12">
     <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
     <table id="mytable" class="table  "  >
@@ -24,7 +24,7 @@
                 <td>{{rep.date}}</td>
                 <td>{{rep.status}}</td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep.id_number" class="btn btn-success btn-xs" @click="zoom" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-primary btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-primary btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" @click="edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
                
                 
@@ -37,7 +37,7 @@
   </div>
 
   <!-- schermata di add --->
-  <div v-else-if="adding==true &&zoomed==false" class="card-body" style="width:500px;height:400px;" >
+  <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width:500px;height:400px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>AGGIUNGI SEGNALAZIONE</b></h5>
                <hr class="my-4">
             <form class="form-signin">
@@ -80,6 +80,7 @@
                <div class="form-label-group mb-3">
               STATO: {{this.status}}
               </div>
+              
               <div class="form-label-group mb-3">
               LUOGO: {{this.address}}
               </div>
@@ -93,6 +94,45 @@
               </div>
 
             <hr class="my-4">
+            </form>   
+           </div>
+
+<!-- schermata edit-->
+           <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width:500px;height:400px;" >
+            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>EDITING STATO</b></h5>
+            <hr class="my-4">
+            <form class="form-signin">
+              <div class="form-label-group mb-3">
+              CF: {{this.CF}}
+              </div>
+              <div class="form-label-group mb-3">
+              CATEGORIA: {{this.category}}
+              </div>
+               <div class="form-label-group mb-3">
+              STATO: {{this.status}}
+              </div>
+              <div class="form-label-group">
+                <select type="option" id="categoria" class="form-control" v-model="status"  required>
+                  <option disabled value="" >{{this.status}}</option>
+                  <option value="in attesa">in attesa</option>
+                  <option value="presa in carico">presa in carico</option>
+                  <option value="risolto">risolto</option>
+                </select>
+              </div>
+              <div class="form-label-group mb-3">
+              LUOGO: {{this.address}}
+              </div>
+              
+               <div class="form-label-group mb-3">
+              DATA: {{this.date}}
+              </div>
+              
+              <div class="form-label-group mb-3">
+              DESCRIZIONE: {{this.description}}
+              </div>
+
+            <hr class="my-4">
+              <center>  <button  v-if="this.status!=''" type="button" style="width:100px"  class="btn btn-lg btn-success btn-block text-uppercase" @click="editConfermato">Modifica</button>    </center>
             </form>   
            </div>
   
@@ -121,7 +161,9 @@ export default {
          zoomed:false,
          CF:'',
          date:'',
-         status:''
+         status:'',
+         editing:false,
+         obj2edit:{}
          
         }
     },
@@ -217,6 +259,37 @@ export default {
           this.CF=obj.CF
           this.status=obj.status
           console.log('zoom'+event.target.id)
+        },
+        edit: function(event)
+        {
+          this.editing=true;
+          var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
+
+          this.obj2edit=this.reports[ind]
+
+          this.address=this.obj2edit.address
+          this.date=this.obj2edit.date
+          this.category=this.obj2edit.category
+          this.description=this.obj2edit.description
+          this.CF=this.obj2edit.CF
+          this.status=this.obj2edit.status
+
+        },
+        editConfermato: function(){
+        this.obj2edit.addres=this.address
+        this.obj2edit.date=this.date
+        this.obj2edit.category=this.category
+        this.obj2edit.description=this.description
+        this.obj2edit.CF=this.CF
+       
+
+        var ind = this.reports.findIndex(i =>  i==this.obj2edit);
+
+        this.reports[ind].status=this.status.toUpperCase()
+
+      /* MANCA PUT AL SERVER */
+        this.editing=false
+
         },
 
         del: function(event)
@@ -322,6 +395,7 @@ export default {
           this.status=''
           this.adding=false
           this.zoomed=false
+          this.editing=false
           
         },
 
