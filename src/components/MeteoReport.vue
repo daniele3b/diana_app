@@ -1,7 +1,9 @@
 <template>
  <div>
     <div class="row">
+     
             <Meteo></Meteo>
+        
     </div>
     <div class="row">
             <Report></Report>
@@ -20,7 +22,8 @@ export default {
   name: 'MeteoReport',
   components: {
     Meteo,
-    Report
+    Report,
+
   }
 }
 </script>
