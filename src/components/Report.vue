@@ -72,13 +72,23 @@
                <hr class="my-4">
             <form class="form-signin">
               <div class="form-label-group mb-3">
+              CF: {{this.CF}}
+              </div>
+              <div class="form-label-group mb-3">
               LUOGO: {{this.address}}
+              </div>
+              <div class="form-label-group mb-3">
+              STATO: {{this.status}}
+              </div>
+              
+               <div class="form-label-group mb-3">
+              DATA: {{this.date}}
               </div>
               <div class="form-label-group mb-3">
               CATEGORIA: {{this.category}}
               </div>
               <div class="form-label-group mb-3">
-              DESCRIZIONE: {{this.category}}
+              DESCRIZIONE: {{this.description}}
               </div>
 
             <hr class="my-4">
@@ -108,6 +118,9 @@ export default {
          categorycheck:false,
          descriptioncheck:false,
          zoomed:false,
+         CF:'',
+         date:'',
+         status:''
          
         }
     },
@@ -195,6 +208,13 @@ export default {
 
           let obj=this.reports[ind]
           console.log(obj)
+
+          this.address=obj.address
+          this.date=obj.date
+          this.category=obj.category
+          this.description=obj.description
+          this.CF=obj.CF
+          this.status=obj.status
           console.log('zoom'+event.target.id)
         },
 
@@ -288,12 +308,17 @@ export default {
           this.adding=true
           
         },
-           back: function(event)
+
+        back: function(event)
         {
           console.log(event.target.id)
              this.address=''
             this.category='---'
             this.description=''
+             this.date=''
+          this.description=''
+          this.CF=''
+          this.status=''
           this.adding=false
           this.zoomed=false
           
