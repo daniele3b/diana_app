@@ -1,8 +1,8 @@
 <template>
-  <div class="card" style="height:657px;width:470px">
+  <div class="card" style="height:770px;width:470px">
     <div class="card-body">
       <div class="container">
-        <div class="row" style=height:328.5px;>
+        <div class="row" style=height:385px;>
           <GmapMap
             :center="{lat:41.9109, lng:12.6818}"
             :zoom="9"
@@ -14,7 +14,7 @@
             v-for="sensor in sensors" 
             :position="google && new google.maps.LatLng(sensor.lat, sensor.lng)"
             :clickable="true"
-            :draggable="false"
+            :draggable="true"
           />
           
            
@@ -23,8 +23,7 @@
 
         <hr>
 
-        <div class="row" style=height:328.5px;>
-          
+        <div class="row" style=height:385px;>
         </div>
       </div>
     </div>
