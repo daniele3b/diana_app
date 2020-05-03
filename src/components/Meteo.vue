@@ -225,7 +225,7 @@ export default {
     },
     
     mounted: 
-      function getReport(){ 
+      async function getReport(){ 
           axios({
             method: 'get',
             url: 'http://localhost:8081/weather/report/last',
