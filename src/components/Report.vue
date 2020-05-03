@@ -50,6 +50,18 @@
                 <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button class="btn btn-success btn-xs" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
             </tr>
       </tbody>
+
+      <tr>
+        <td>
+      <button type="button" class="btn btn-success" id="indietro"> INDIETRO </button>
+      </td>
+      <td>
+       <button type="button" class="btn btn-success" id="aggiugni"> + </button>
+      </td>
+      <td>
+       <button type="button" class="btn btn-success" id="avanti"> AVANTI </button>
+       </td>
+       </tr>
     </table>
     </div>
   </div>
@@ -70,7 +82,13 @@ export default {
 
 <style scoped>
 
+table tbody tr td {
+  font-size: 12px;
+  margin: 0;
+}
+
 .card-signin {
+  font-size: 8;
   border: 1;
   border-radius: 1rem;
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
