@@ -46,8 +46,151 @@
           </div>
             
           </div>
+
+          <!-- Secondo Tabbed-->
           <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
-              Contenuto 2
+              
+            <div style="padding-top:5px;">
+              <table>
+                  <!-- Prima riga giorno -->
+                  <tr>
+                    <td class="colonna-mario-prima">
+                      Lun
+                    </td>
+                    <td class="colonna-mario">
+                      Mar
+                    </td>
+                    <td class="colonna-mario">
+                      Mer
+                    </td>
+                    <td class="colonna-mario">
+                      Gio
+                    </td>
+                    <td class="colonna-mario">
+                      Ven
+                    </td>
+                    <td class="colonna-mario">
+                      Sab
+                    </td>
+                    <td class="colonna-mario">
+                      Dom
+                    </td>
+                  </tr>
+                  <!-- Seconda riga meteo -->
+                  <tr>
+                    <td class="colonna-mario-prima">
+                      <img v-if="FCarray[0].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[0].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[0].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                    <td class="colonna-mario">
+                      <img v-if="FCarray[1].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[1].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[1].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                    <td class="colonna-mario">
+                      <img v-if="FCarray[2].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[2].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[2].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                    <td class="colonna-mario">
+                      <img v-if="FCarray[3].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[3].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[3].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                    <td class="colonna-mario">
+                      <img v-if="FCarray[4].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[4].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[4].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                    <td class="colonna-mario">
+                      <img v-if="FCarray[5].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[5].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[5].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                    <td class="colonna-mario">
+                      <img v-if="FCarray[6].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[6].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[6].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                  </tr>
+                  <!-- Terza riga Max --><tr>
+                    <td class="colonna-mario-prima" style="color:red;">
+                      {{ FCarray[0].t_max}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:red;">
+                      {{ FCarray[1].t_max}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:red;">
+                      {{ FCarray[2].t_max}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:red;">
+                      {{ FCarray[3].t_max}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:red;">
+                      {{ FCarray[4].t_max}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:red;">
+                      {{ FCarray[5].t_max}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:red;">
+                      {{ FCarray[6].t_max}}°C
+                    </td>
+                  </tr>
+                  <!-- Quarta riga min --><tr>
+                    
+                    <td class="colonna-mario-prima" style="color:blue;">
+                      {{ FCarray[0].t_min}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:blue;">
+                      {{ FCarray[1].t_min}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:blue;">
+                      {{ FCarray[2].t_min}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:blue;">
+                      {{ FCarray[3].t_min}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:blue;">
+                      {{ FCarray[4].t_min}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:blue;">
+                      {{ FCarray[5].t_min}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:blue;">
+                      {{ FCarray[6].t_min}}°C
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="colonna-mario-prima">
+                      {{ FCarray[0].wind}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{ FCarray[1].wind}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{ FCarray[2].wind}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{ FCarray[3].wind}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{ FCarray[4].wind}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{ FCarray[5].wind}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{ FCarray[6].wind}}
+                    </td>
+
+                  </tr>
+
+              </table>
+            </div>
+
+
           </div>
           
         </div>
@@ -73,10 +216,12 @@ export default {
           data: '',
           t_att: '',
           humidity: '',
-          wind: ''
+          wind: '',
+
+          FCarray: ''
         }
     },
-
+    
     mounted: 
       function getReport(){ 
           axios({
@@ -106,9 +251,26 @@ export default {
 
           })
             .catch((error) => {
-            alert("ewwew"+error)
+            alert("Mario error "+error)
+          })
+      
+
+         
+          axios({
+            method: 'get',
+            url: 'http://localhost:8081/weather/report/7daysforecast',
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          }).then((response) => { 
+            this.FCarray = response.data.array
+
+          })
+            .catch((error) => {
+            alert("Mario error "+error)
           })
       }
+    
 
 }
 </script>
@@ -135,9 +297,28 @@ export default {
   font-size: 20px;
 }
 
+#secondo{
+  width: 360px;
+  height: 200px;
+}
+
 #tab1{
   padding-top:8px;
   
+}
+
+.colonna-mario{
+  border-left: 1px solid grey ;
+  font-size: 17px;
+  padding-left: 7px;
+  padding-right: 7px;
+  font-family: "Times New Roman", Times, serif;
+}
+.colonna-mario-prima{
+  font-size: 17px;
+  padding-left: 7px;
+  padding-right: 7px;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .container {
