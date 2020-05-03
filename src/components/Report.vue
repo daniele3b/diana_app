@@ -4,7 +4,7 @@
   <div class="card-body">
     <div class="col-md-12">
     <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
-    <table id="mytable" class="table table-striped "  >
+    <table id="mytable" class="table  "  >
         <thead>
           <th>CF</th>
           <th>Categoria</th>
