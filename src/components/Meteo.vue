@@ -18,13 +18,19 @@
               <div class="row row-eq-height">
                 <div class="col-sm-6 col-8">
                   <div id="uno">
-                    <img v-if="stato=='Clouds'" style="height:100%; width:100%;" src="../../images/clous.png" alt="">
-                    <img v-if="stato=='Clear'" style="height:100%; width:100%;" src="../../images/sun+.png" alt="">
+                    <img v-if="stato=='Clouds'" style="height:100%; width:100%;" src="../../images/cloud.png" alt="">
+                    <img v-if="stato=='Clear'" style="height:100%; width:100%;" src="../../images/moon.png" alt="">
                   </div>
                 </div>
-                <div class="col-sm-4 col-4">
+                <div class="col-sm-6 col-6">
                   <div id="due">
                     <h2>{{t_att}}°C</h2>
+                  </div>
+                  <div id="tre">
+                    Descrizione:{{descrizione}}
+                  </div>
+                  <div id="tre">
+                    Ora:{{data}}
                   </div>
                   <div id="tre">
                     Umidità:{{humidity}}
@@ -99,7 +105,7 @@ export default {
 <style scoped>
 
 #uno{
-  background-color: green;
+  /*background-color: green;*/
   height: 150px;
   width: 150px;
 }
