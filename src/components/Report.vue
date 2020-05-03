@@ -128,7 +128,7 @@ table thead {
   font-size: 15px;
   position: sticky; top: 0;
   overflow-y: auto; 
-  background-color: grey;
+  background-color:#f5f5f5;
   border:  1 grey;
   
 }
