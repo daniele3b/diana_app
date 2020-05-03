@@ -1,31 +1,29 @@
 <template>
-  <div class="card" style="height:770px;width:470px">
+  <div class="card">
     <div class="card-body">
-      <div class="container">
-        <div class="row" style=height:385px;>
-          <GmapMap
-            :center="{lat:41.9109, lng:12.6818}"
-            :zoom="9"
-            map-type-id="terrain"
-            style="width: 500px; height: 300px"
-          >
-          <GmapMarker
-            :key = sensor.lat
-            v-for="sensor in sensors" 
-            :position="google && new google.maps.LatLng(sensor.lat, sensor.lng)"
-            :clickable="true"
-            :draggable="true"
-          />
+          <div class = "card-img-top ml-3">
+            <GmapMap
+              :center="{lat:41.9109, lng:12.6818}"
+              :zoom="9"
+              map-type-id="terrain"
+              style="width: 400px; height: 300px"
+            >
+
+              <GmapMarker
+                :key = sensor.lat
+                  v-for="sensor in sensors" 
+                  :position="google && new google.maps.LatLng(sensor.lat, sensor.lng)"
+                  :clickable="true"
+                  :animation= google.maps.Animation.DROP
+              />
           
            
           </GmapMap>
-        </div>
+          </div>
 
         <hr>
 
-        <div class="row" style=height:385px;>
-        </div>
-      </div>
+        <div class="row">ALTRA RIGA</div>
     </div>
   </div>
 </template>
@@ -44,9 +42,9 @@ export default {
 
   data () {
     return {
-      center : {lat : 0.0, lng : 0.0},
       info : [],
-      sensors : []
+      sensors : [],
+      clicked : false
     }
   },
 
@@ -56,7 +54,6 @@ export default {
 
   mounted:
     function getDataFromSensors(){
-      console.log("MOUNTED -> DIM="+this.sensors.length)
       axios({
             method: 'get',
             url: 'http://localhost:8081/chemical_agents',
@@ -88,22 +85,16 @@ export default {
           .catch((error) => {
               console.log(error)
           })
-          console.log(this.info)
-          console.log(this.sensors)
+          
       },
     
     methods : {
-      trovato(arr, sensor){
-        let dim = arr.length
-        let i
-        for(i=0;i<dim;i++){
-          if(arr[i].lat == sensor[i].lat && arr[i].lng == sensor[i].long) return true
-        }
-        return false
+      click(){
+        console.log('CLICKED ON MARKER!')
       }
     }
     
-    }
+  }
 
 </script>
 
