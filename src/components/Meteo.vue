@@ -55,25 +55,25 @@
                   <!-- Prima riga giorno -->
                   <tr>
                     <td class="colonna-mario-prima">
-                      Lun
+                      {{this.giorni[this.oggi+1]}}
                     </td>
                     <td class="colonna-mario">
-                      Mar
+                      {{this.giorni[this.oggi+2]}}
                     </td>
                     <td class="colonna-mario">
-                      Mer
+                      {{this.giorni[this.oggi+3]}}
                     </td>
                     <td class="colonna-mario">
-                      Gio
+                      {{this.giorni[this.oggi+4]}}
                     </td>
                     <td class="colonna-mario">
-                      Ven
+                      {{this.giorni[this.oggi+5]}}
                     </td>
                     <td class="colonna-mario">
-                      Sab
+                      {{this.giorni[this.oggi+6]}}
                     </td>
                     <td class="colonna-mario">
-                      Dom
+                      {{this.giorni[this.oggi+7]}}
                     </td>
                   </tr>
                   <!-- Seconda riga meteo -->
@@ -218,7 +218,9 @@ export default {
           humidity: '',
           wind: '',
 
-          FCarray: ''
+          FCarray: '',
+          oggi:'',
+          giorni:['Dom','Lun','Mar','Mer','Gio','Ven','Sab','Dom','Lun','Mar','Mer','Gio','Ven','Sab','Dom']
         }
     },
     
@@ -264,6 +266,8 @@ export default {
             }
           }).then((response) => { 
             this.FCarray = response.data.array
+            var oggi = new Date()
+            this.giorno = oggi.getDay()
 
           })
             .catch((error) => {
