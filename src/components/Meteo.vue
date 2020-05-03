@@ -1,42 +1,45 @@
 <template>
  <div class="container">
-  <div class="row">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="card" onload="getReport();">
+  <div class="row" >
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4" >
+      <div class="card" onload="getReport();" >
         <!-- TABBED PANE BAR-->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item"><a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Tempo Reale</a></li>
+          <li class="nav-item"><a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true" >Tempo Reale</a></li>
           <li class="nav-item"><a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">7 giorni</a></li>
          
         </ul>
         <!-- TABBED PANE CONTENT-->
-        <div class="tab-content" id="myTabContent">
-          <div class="tab-pane p-4 fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab" >
+        <div class="tab-content" id="myTabContent" >
+          <div  id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
             
-            <div class="container">
+            <div class="container" >
 
-              <div class="row row-eq-height">
+              <div class="row row-eq-height" >
                 <div class="col-sm-6 col-8">
                   <div id="uno">
-                    <img v-if="stato=='Clouds'" style="height:100%; width:100%;" src="../../images/cloud.png" alt="">
-                    <img v-if="stato=='Clear'" style="height:100%; width:100%;" src="../../images/moon.png" alt="">
+                    <!-- GIORNO -->
+                    <img v-if="stato=='Clear' && notte==false" style="height:100%; width:100%;" src="../../images/sun.png" alt="">
+                    <img v-if="stato=='Clouds' && notte==false" style="height:100%; width:100%;" src="../../images/cloud.png" alt="">
+                    <img v-if="stato=='Rain' && notte==false" style="height:100%; width:100%;" src="../../images/rain.png" alt="">
+                    <!-- NOTTE -->
+                    <img v-if="stato=='Clear' && notte==true" style="height:100%; width:100%;" src="../../images/moon.png" alt="">
+                    <img v-if="stato=='Clouds' && notte==true" style="height:100%; width:100%;" src="../../images/mooncloud.png" alt="">
+                    <img v-if="stato=='Rain' && notte==true" style="height:100%; width:100%;" src="../../images/moonrain.png" alt="">
                   </div>
                 </div>
-                <div class="col-sm-6 col-6">
+                <div class="col-sm-6 col-6" style="padding:0;">
                   <div id="due">
                     <h2>{{t_att}}°C</h2>
                   </div>
                   <div id="tre">
-                    Descrizione:{{descrizione}}
+                   {{descrizione}}
                   </div>
                   <div id="tre">
-                    Ora:{{data}}
+                    Umidità: {{humidity}}%
                   </div>
                   <div id="tre">
-                    Umidità:{{humidity}}
-                  </div>
-                  <div id="tre">
-                    Wind:{{wind}}
+                    Vento: {{wind}} km/h
                   </div>
                  </div>
             </div>
@@ -64,6 +67,7 @@ export default {
     name:'Meteo',
     data() {
         return {
+          notte: '',
           stato: '',
           descrizione: '',
           data: '',
@@ -91,6 +95,11 @@ export default {
             var idx = response.data.descrizione.indexOf(',')
             this.stato = this.descrizione.substr(0,idx)
 
+            var now = new Date()
+            var hour = now.getHours()
+            if(hour>=20 || hour <=6) this.notte=true
+            else this.notte = false
+
           })
             .catch((error) => {
             alert("ewwew"+error)
@@ -106,33 +115,39 @@ export default {
 
 #uno{
   /*background-color: green;*/
-  height: 150px;
-  width: 150px;
+  height: 140px;
+  width: 140px;
 }
 
 #due{
-  background-color: greenyellow;
+  /*background-color: greenyellow;*/
+  font-family: "Times New Roman", Times, serif;
+  font-size: 22px;
 }
 
 #tre{
-  background-color: red;
+  /*background-color: red;*/
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+}
+
+#tab1{
+  padding-top:10px;
 }
 
 .container {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
 }
 
 .card {
   border: 1;
   border-radius: 1rem;
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
-  width: 400px;
-  height: 230px;
+  width: 360px;
+  height: 200px;
   background-image: url('../../images/immmeteo.jpg');
+  
+  
 }
 
 .iconaMeteo {
@@ -152,7 +167,7 @@ export default {
 }
 
 .card-signin .card-body {
-  padding: 2rem;
+  padding: 2rem; 
 }
 
 .form-signin {
