@@ -123,7 +123,9 @@ export default {
 
           })
             .catch((error) => {
-            alert("GET report"+error)
+              if(error.status==404)
+              console.log('NO data')
+           
           })
 
         //  setInterval(this.updateData, 60000);
@@ -142,7 +144,10 @@ export default {
             }
           }).then((response) => { 
             let ind=this.reports.indexOf(event.target.if);
-            this.reports.splice(ind+1,1)
+            if(ind==-1)
+            this.reports.splice(0,1)
+            else
+            this.reports.splice(ind,1)
             console.log(response)
 
           })
@@ -221,11 +226,21 @@ export default {
                 description:this.description
             }
             }).then((response) => {
-                console.log(response)
+              response.data.category=response.data.category.toUpperCase()
+              response.data.status=response.data.status.toUpperCase()
+                var res = response.data.date.split("T");
+                  response.data.date=res[0]
+           
+              this.reports.push(response.data)
+                
                 
             }, (error) => {
                 alert("Errore richiesta:\n"+error.message)
             }); 
+
+            this.address=''
+            this.category='---'
+            this.description=''
             this.adding=false
           }else
           {
