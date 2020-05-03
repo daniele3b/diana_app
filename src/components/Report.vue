@@ -22,7 +22,7 @@
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
                 <td>{{rep.status}}</td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep.id_number" class="btn btn-success btn-xs" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep.id_number" class="btn btn-success btn-xs" @click="zoom" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                  <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-primary btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
                
@@ -72,6 +72,7 @@
 
 import axios from 'axios'
 
+
 export default {
     name:'Report',
     data() {
@@ -83,7 +84,8 @@ export default {
          description:'',
          addresscheck:false,
          categorycheck:false,
-         descriptioncheck:false
+         descriptioncheck:false,
+         zoomed:false
         }
     },
     watch:{
@@ -163,6 +165,11 @@ export default {
         //  setInterval(this.updateData, 60000);
       },
       methods: {
+        zoom: function(event)
+        {
+          this.zoomed=true;
+          console.log('zoom'+event.target.id)
+        },
 
         del: function(event)
         {
