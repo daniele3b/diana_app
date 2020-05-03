@@ -1,18 +1,20 @@
 <template>
- <div class="card   mt-1" >
+ <div class="card  mt-1" >
   <div class="card-header">Segnalazioni</div>
   <div class="card-body">
     <div class="col-md-12">
     <div class="table-responsive">
-    <table id="mytable" class="table table-bordred table-striped">
+    <table id="mytable" class="table table-striped">
         <thead>
           <th>CF</th>
           <th>Categoria</th>
           <th>Data</th>
           <th>Stato</th>
+          <th>Dett.</th>
+          <th>Delete</th>
+          <th>Edit</th>
         </thead>
       <tbody>
-    
             <tr>
                 <td>BFLDNL98T02H501H</td>
                 <td>Rifiuti</td>
@@ -50,21 +52,12 @@
                 <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button class="btn btn-success btn-xs" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
             </tr>
       </tbody>
-
-      <tr>
-        <td>
-      <button type="button" class="btn btn-success" id="indietro"> INDIETRO </button>
-      </td>
-      <td>
-       <button type="button" class="btn btn-success" id="aggiugni"> + </button>
-      </td>
-      <td>
-       <button type="button" class="btn btn-success" id="avanti"> AVANTI </button>
-       </td>
-       </tr>
     </table>
     </div>
   </div>
+     <button type="button" class="btn btn-success mr-1" id="indietro"> INDIETRO </button>
+    <button type="button" class="btn btn-success mr-1" id="aggiungi"> + </button>
+    <button type="button" class="btn btn-success" id="avanti"> AVANTI </button>
   </div>
 </div>
 </template>
@@ -82,9 +75,21 @@ export default {
 
 <style scoped>
 
+.card{
+  padding:0;
+}
+
 table tbody tr td {
   font-size: 12px;
   margin: 0;
+}
+table{
+
+  padding-bottom: 0;
+}
+table thead {
+  padding:0;
+  font-size: 15px;
 }
 
 .card-signin {
@@ -100,7 +105,7 @@ table tbody tr td {
 }
 
 .card-signin .card-body {
-  padding: 2rem;
+  padding: 0;
 }
 
 .form-signin {
@@ -112,13 +117,13 @@ table tbody tr td {
   border-radius: 5rem;
   letter-spacing: .1rem;
   font-weight: bold;
-  padding: 1rem;
+  padding: 0;
   transition: all 0.2s;
 }
 
 .form-label-group {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 
 .form-label-group input {
@@ -135,6 +140,8 @@ table tbody tr td {
   font-size: 8;
 }
 
+.table-responsive{
+  padding-bottom: 0;
 
-
+}
 </style>
