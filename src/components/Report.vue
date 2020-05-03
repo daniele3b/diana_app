@@ -85,12 +85,13 @@ export default {
              this.reports[i].status=this.reports[i].status.toUpperCase()
              this.reports[i].category=this.reports[i].category.toUpperCase()
            }
-            console.log(this.reports)
 
           })
             .catch((error) => {
             alert("GET report"+error)
           })
+
+          setInterval(this.updateData, 600000);
       },
       methods: {
 
@@ -105,20 +106,65 @@ export default {
               "x-diana-auth-token": localStorage.token
             }
           }).then((response) => { 
-
-            console.log('Eliminato con successo'+response)
             let ind=this.reports.indexOf(event.target.if);
             this.reports.splice(ind+1,1)
             
 
           })
             .catch((error) => {
-            alert("Deleete"+error)
+            alert("Delete"+error)
           })
+        },
+
+        updateData: function (){
+
+          this.reports=[]
+           let data=new Date()
+
+        let month=data.getMonth()+1
+        let day=data.getDate()
+        let year=data.getFullYear()
+        
+        if(month<10)
+          month='0'+month
+        if(day<10)
+          day='0'+day
+
+          axios({
+            method: 'get',
+            url: 'http://localhost:8081/report/filter/date/'+year+'-'+month+'-'+day,
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          }).then((response) => { 
+
+           let i=0
+           for(i=0;i<response.data.length;i++)
+           {
+             this.reports.push(response.data[i])
+            
+           }
+
+           for(i=0;i<this.reports.length;i++)
+           {
+             var res = this.reports[i].date.split("T");
+             this.reports[i].date=res[0]
+             this.reports[i].status=this.reports[i].status.toUpperCase()
+             this.reports[i].category=this.reports[i].category.toUpperCase()
+           }
+            console.log(this.reports)
+
+          })
+            .catch((error) => {
+            alert("GET report"+error)
+          })
+
         }
       }
 
 }
+
+
 </script>
 
 
