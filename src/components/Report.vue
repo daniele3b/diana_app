@@ -1,7 +1,8 @@
 <template>
  <div class="card  mt-1"  onload="getReport();" >
   <div class="card-header">Segnalazioni</div>
-  <div v-if="adding==false" class="card-body">
+  <!-- schermata di visualizzazione-->
+  <div v-if="adding==false&&zoomed==false" class="card-body">
     <div class="col-md-12">
     <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
     <table id="mytable" class="table  "  >
@@ -34,7 +35,9 @@
   </div>
     <button type="button" class="btn btn-success mt-1 " id="aggiungi" @click="add"> Aggiungi </button>
   </div>
-  <div v-else class="card-body" style="width:500px;height:400px;" >
+
+  <!-- schermata di add --->
+  <div v-else-if="adding==true &&zoomed==false" class="card-body" style="width:500px;height:400px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>AGGIUNGI SEGNALAZIONE</b></h5>
                <hr class="my-4">
             <form class="form-signin">
@@ -62,6 +65,25 @@
             <center>  <button  v-if="this.addresscheck&&this.descriptioncheck&&this.categorycheck" type="button" style="width:100px"  class="btn btn-lg btn-success btn-block text-uppercase mt-3" @click="addElement">Invia</button>    </center>
             </form>   
            </div>
+
+      <!-- schermata di zoom-->
+           <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:500px;height:400px;" >
+            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>DETTAGLIO SEGNALAZIONE</b></h5>
+               <hr class="my-4">
+            <form class="form-signin">
+              <div class="form-label-group mb-3">
+              LUOGO: {{this.address}}
+              </div>
+              <div class="form-label-group mb-3">
+              CATEGORIA: {{this.category}}
+              </div>
+              <div class="form-label-group mb-3">
+              DESCRIZIONE: {{this.category}}
+              </div>
+
+            <hr class="my-4">
+            </form>   
+           </div>
   
 </div>
 
@@ -85,7 +107,8 @@ export default {
          addresscheck:false,
          categorycheck:false,
          descriptioncheck:false,
-         zoomed:false
+         zoomed:false,
+         
         }
     },
     watch:{
@@ -168,6 +191,10 @@ export default {
         zoom: function(event)
         {
           this.zoomed=true;
+          var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
+
+          let obj=this.reports[ind]
+          console.log(obj)
           console.log('zoom'+event.target.id)
         },
 
@@ -268,6 +295,7 @@ export default {
             this.category='---'
             this.description=''
           this.adding=false
+          this.zoomed=false
           
         },
 
