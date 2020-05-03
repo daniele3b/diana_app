@@ -35,11 +35,10 @@
     <button type="button" class="btn btn-success mt-1 " id="aggiungi" @click="add"> Aggiungi </button>
   </div>
   <div v-else class="card-body" style="width:500px;height:400px;" >
-  
-            <h5 class="card-title text-center"><b>AGGIUNGI SEGNALAZIONE</b></h5>
+            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>AGGIUNGI SEGNALAZIONE</b></h5>
                <hr class="my-4">
             <form class="form-signin">
-              <div class="form-label-group mb-4">
+              <div class="form-label-group mb-3">
                 <input type="text" id="address" class="form-control" v-model="address" placeholder="Inserici il luogo della segnalazione"  required autofocus>
               </div>
 
@@ -60,7 +59,7 @@
               </div>
 
             <hr class="my-4">
-              <button  type="button" class="btn btn-lg btn-success btn-block text-uppercase mt-3" @click="addElement">Invia</button>    
+            <center>  <button  v-if="this.addresscheck&&this.descriptioncheck&&this.categorycheck" type="button" style="width:100px"  class="btn btn-lg btn-success btn-block text-uppercase mt-3" @click="addElement">Invia</button>    </center>
             </form>   
            </div>
   
@@ -82,9 +81,40 @@ export default {
          address:'',
          category:'',
          description:'',
+         addresscheck:false,
+         categorycheck:false,
+         descriptioncheck:false
         }
     },
-
+    watch:{
+      address: function(){
+        if(this.address!='')
+        {
+          this.addresscheck=true
+        }else
+        {
+          this.addresscheck=false
+        }
+      },
+      category: function(){
+        if(this.category!='')
+        {
+          this.categorycheck=true
+        }else
+        {
+          this.categorycheck=false
+        }
+      },
+       description: function(){
+        if(this.description!='')
+        {
+          this.descriptioncheck=true
+        }else
+        {
+          this.descriptioncheck=false
+        }
+      }
+    },
     mounted: 
       function getReport(){ 
         let data=new Date()
@@ -206,6 +236,15 @@ export default {
         {
           console.log(event.target.id)
           this.adding=true
+          
+        },
+           back: function(event)
+        {
+          console.log(event.target.id)
+             this.address=''
+            this.category='---'
+            this.description=''
+          this.adding=false
           
         },
 
