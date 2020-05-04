@@ -3,10 +3,64 @@
   <div class="row" >
     <div class="col-12 col-sm-8 col-md-6 col-lg-4" >
       <div class="card" onload="getReport();" >
+        <h5 style="padding-top:10px;">Raggi UV</h5>
+        <hr style="margin:0;">
+        Oggi <br>
+        {{valore}} alle {{data}}
+
+        <table>
+          <tr>
+            <td class="colonna-mario-prima" style="color:red;">
+                {{this.giorni[this.oggi+1]}}
+            </td>
+            <td class="colonna-mario" style="color:red;">
+                {{this.giorni[this.oggi+2]}}
+            </td>
+            <td class="colonna-mario" style="color:red;">
+                {{this.giorni[this.oggi+3]}}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="colonna-mario-prima" style="color:blue;">
+                {{forecast[0]}}
+            </td>
+            <td class="colonna-mario" style="color:blue;">
+                {{forecast[1]}}
+            </td>
+            <td class="colonna-mario" style="color:blue;">
+                {{forecast[2]}}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="colonna-mario" style="color:red;">
+                {{this.giorni[this.oggi+4]}}
+            </td>
+            <td class="colonna-mario" style="color:red;">
+                {{this.giorni[this.oggi+5]}}
+            </td>
+            <td class="colonna-mario" style="color:red;">
+                {{this.giorni[this.oggi+6]}}
+            </td>
+          </tr>
+                    
+          <tr>
+            <td class="colonna-mario" style="color:blue;">
+                {{forecast[3]}}
+            </td>
+            <td class="colonna-mario" style="color:blue;">
+                {{forecast[4]}}
+            </td>
+            <td class="colonna-mario" style="color:blue;">
+                {{forecast[5]}}
+            </td>
+          </tr>
+
+        </table>
         
 
-
-      </div>
+      </div> 
     </div>
   </div>
 </div>
@@ -14,9 +68,54 @@
 
 <script>
 
+import axios from 'axios'
 
 export default {
-    name:'UV'
+    name:'UV',
+    data() {
+        return {
+          valore: '',
+          data:'',
+          forecast:['','','','','','',''],
+          oggi:'',
+          giorni:['Dom','Lun','Mar','Mer','Gio','Ven','Sab','Dom','Lun','Mar','Mer','Gio','Ven','Sab','Dom']
+        }
+    },
+    mounted: 
+      async function getReport(){ 
+          axios({
+            method: 'get',
+            url: 'http://localhost:8081/weather/uv/real_time',
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          }).then((response) => { 
+            this.valore = response.data.value
+            var idx = response.data.date_iso.indexOf('T')
+
+            this.data = response.data.date_iso.substr(idx+1,5)
+          })
+          .catch((error) => {
+            alert("UV error "+error)
+          })
+
+          axios({
+            method: 'get',
+            url: 'http://localhost:8081/weather/uv/forecast',
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          }).then((response) => { 
+            var i
+            for(i=0;i<7;i++) this.forecast[i] = response.data[i].value  
+            var data = new Date()
+            this.oggi = data.getDay()
+          })
+          .catch((error) => {
+            alert("UV error "+error)
+          })
+      }
+      
 }
 </script>
 
