@@ -8,22 +8,24 @@
               map-type-id="terrain"
               style="width: 400px; height: 300px"
             >
-
               <GmapMarker
-                :key = sensor.lat
-                  v-for="sensor in sensors" 
-                  :position="google && new google.maps.LatLng(sensor.lat, sensor.lng)"
-                  :clickable="true"
-                  :animation= google.maps.Animation.DROP
+                :key = index
+                v-for="(sensor, index) in sensors"
+                :id = "sensor.lat+';'+sensor.lng"
+                :position="google && new google.maps.LatLng(sensor.lat, sensor.lng)"
+                :clickable="true"
+                :animation= google.maps.Animation.DROP
+                @click="showInfoDetails"
               />
+          
           
            
           </GmapMap>
           </div>
-
+            {{clicked}}  
         <hr>
 
-        <div class="row">ALTRA RIGA</div>
+        <div class="row">ALTRA RIGA  {{text}}</div>
     </div>
   </div>
 </template>
@@ -35,6 +37,8 @@ import axios from 'axios'
 import {gmapApi} from 'vue2-google-maps'
 
 export default {
+  name : "Map",
+
   computed: {
     google: gmapApi
   },
@@ -44,13 +48,12 @@ export default {
     return {
       info : [],
       sensors : [],
-      clicked : false
+      clicked : false,
+      text : ""
     }
   },
 
-  beforeCreate(){
-
-  },
+  beforeCreate(){},
 
   mounted:
     function getDataFromSensors(){
@@ -64,14 +67,14 @@ export default {
           .then((response) => {
             let i=0
             const dim = response.data.length
-            for(i=0;i<dim;i++){
-              this.info.push({
+            for(i=0;i<dim;i++){ 
+              const toPush = {
                 value : response.data[i].value,
                 sensor : response.data[i].sensor,
-                uid : response.data[i].uid,
-                lat : response.data[i].lat,
-                lng : response.data[i].long,
-              })
+                uid : response.data[i].uid
+              }
+
+              if(!this.info.includes(toPush)) this.info.push(toPush)
 
               if(!this.sensors.includes(response.data[i])){
                 this.sensors.push({
@@ -89,7 +92,9 @@ export default {
       },
     
     methods : {
-      click(){
+      showInfoDetails : function(event)
+      {
+        this.text=event
         console.log('CLICKED ON MARKER!')
       }
     }
