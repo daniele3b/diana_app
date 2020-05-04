@@ -37,7 +37,7 @@
   </div>
 
   <!-- schermata di add --->
-  <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width:500px;height:400px;" >
+  <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width:720px;height:400px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>AGGIUNGI SEGNALAZIONE</b></h5>
                <hr class="my-4">
             <form class="form-signin">
@@ -67,7 +67,7 @@
            </div>
 
       <!-- schermata di zoom-->
-           <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:500px;height:400px;" >
+           <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:720px;height:400px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>DETTAGLIO SEGNALAZIONE</b></h5>
                <hr class="my-4">
             <form class="form-signin">
@@ -98,42 +98,57 @@
            </div>
 
 <!-- schermata edit-->
-           <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width:500px;height:400px;" >
+           <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width:720px;height:400px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>EDITING STATO</b></h5>
             <hr class="my-4">
-            <form class="form-signin">
-              <div class="form-label-group mb-3">
-              CF: {{this.CF}}
+            <div class="row text-left">
+              <div class="col">
+                CF: {{this.CF}}
+                <div class="row ">
+                  <div class="col">
+                CATEGORIA: {{this.category}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                   LUOGO: {{this.address}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                   DATA: {{this.date}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                   DESCRIZIONE: {{this.description}}
+                  </div>
+                </div>
               </div>
-              <div class="form-label-group mb-3">
-              CATEGORIA: {{this.category}}
-              </div>
-               <div class="form-label-group mb-3">
-              STATO: {{this.status}}
-              </div>
-              <div class="form-label-group">
-                <select type="option" id="categoria" class="form-control" v-model="status"  required>
+           
+              <div class="col">
+                <div class="row">
+                 STATO: {{this.status}}
+                  <select type="option" id="categoria" class="form-control" v-model="status"  required>
                   <option disabled value="" >{{this.status}}</option>
                   <option value="in attesa">in attesa</option>
                   <option value="presa in carico">presa in carico</option>
                   <option value="risolto">risolto</option>
                 </select>
+                </div>
+                <div class="row">
+                  <button  v-if="this.status!=''" type="button"   class="btn btn-lg btn-success mt-1" @click="editConfermato">Salva</button>   
+                </div>
               </div>
-              <div class="form-label-group mb-3">
-              LUOGO: {{this.address}}
-              </div>
-              
-               <div class="form-label-group mb-3">
-              DATA: {{this.date}}
               </div>
               
-              <div class="form-label-group mb-3">
-              DESCRIZIONE: {{this.description}}
-              </div>
+                  
+             
+              
 
-            <hr class="my-4">
-              <center>  <button  v-if="this.status!=''" type="button" style="width:100px"  class="btn btn-lg btn-success btn-block text-uppercase" @click="editConfermato">Modifica</button>    </center>
-            </form>   
+         
+ 
+             
            </div>
   
 </div>
