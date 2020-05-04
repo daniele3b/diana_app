@@ -218,7 +218,23 @@ export default {
           humidity: '',
           wind: '',
 
-          FCarray: ['','','','','','',''],
+          FCarray: [
+            {
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            }
+          ],
           oggi:'',
           giorni:['Dom','Lun','Mar','Mer','Gio','Ven','Sab','Dom','Lun','Mar','Mer','Gio','Ven','Sab','Dom']
         }
