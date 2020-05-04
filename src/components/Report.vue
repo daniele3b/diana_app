@@ -570,6 +570,9 @@ display: block;
 
 .card{
   padding:0;
+  border:1;
+  border-radius: 1rem;
+
 }
 
 table tbody tr td {
