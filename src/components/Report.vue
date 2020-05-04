@@ -570,7 +570,7 @@ display: block;
 
 .card{
   padding:0;
-  border-radius: 2;
+  border-radius: 10px;
 
 }
 
