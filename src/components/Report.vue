@@ -24,8 +24,8 @@
                 <td>{{rep.date}}</td>
                 <td>{{rep.status}}</td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep.id_number" class="btn btn-success btn-xs" @click="zoom" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-primary btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" @click="edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
+                 <td><p data-placement="top" data-toggle="tooltip"  title="Edit"><button :id="rep.id_number" class="btn btn-primary btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" @click="edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
             </tr>
       </tbody>
     </table>
@@ -52,7 +52,7 @@
                 <td>{{rep.date}}</td>
                 <td>{{rep.status}}</td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep.id_number" class="btn btn-success btn-xs" @click="zoom" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
+                <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
             </tr>
       </tbody>
     </table>
