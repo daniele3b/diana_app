@@ -8,7 +8,6 @@
               map-type-id="terrain"
               style="width: 400px; height: 300px"
             >
-
               <GmapMarker
                 :key = index
                 v-for="(sensor, index) in sensors"
@@ -16,8 +15,9 @@
                 :position="google && new google.maps.LatLng(sensor.lat, sensor.lng)"
                 :clickable="true"
                 :animation= google.maps.Animation.DROP
-                @click="showInfoDetails; clicked=true"
+                @click="showInfoDetails"
               />
+          
           
            
           </GmapMap>
@@ -92,10 +92,11 @@ export default {
       },
     
     methods : {
-      showInfoDetails : function(event){
+      showInfoDetails : function(event)
+      {
+        this.text=event
         console.log('CLICKED ON MARKER!')
-        this.text = event.target.id
-      },
+      }
     }
     
   }
