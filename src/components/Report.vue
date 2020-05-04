@@ -121,7 +121,7 @@
                 </div>
                 <div class="row">
                   <div class="col">
-                   DESCRIZIONE: {{this.description}}
+                   DESCRIZIONE:<br> {{this.description}}
                   </div>
                 </div>
               </div>
@@ -129,7 +129,7 @@
               <div class="col">
                 <div class="row">
                  STATO: {{this.status}}
-                  <select type="option" id="categoria" class="form-control" v-model="status"  required>
+                  <select type="option" id="categoria" class="form-control" v-model="status" required>
                   <option disabled value="" >{{this.status}}</option>
                   <option value="in attesa">in attesa</option>
                   <option value="presa in carico">presa in carico</option>
@@ -137,7 +137,7 @@
                 </select>
                 </div>
                 <div class="row">
-                  <button  v-if="this.status!=''" type="button"   class="btn btn-lg btn-success mt-1" @click="editConfermato">Salva</button>   
+                  <button  v-if="this.status!=''" type="button"   class="btn btn-xs btn-success mt-1" @click="editConfermato">Salva</button>   
                 </div>
               </div>
               </div>
