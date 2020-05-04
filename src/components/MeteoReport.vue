@@ -1,8 +1,12 @@
 <template>
  <div>
     <div class="row">
-     
+     <div class="col">
             <Meteo></Meteo>
+      </div>
+      <div class="col">
+        <UV>  </UV>
+        </div>
         
     </div>
     <div class="row">
@@ -17,12 +21,14 @@
 import Meteo from './Meteo.vue'
 
 import Report from './Report.vue'
+import UV from './UV.vue'
 
 export default {
   name: 'MeteoReport',
   components: {
     Meteo,
     Report,
+    UV
 
   }
 }
