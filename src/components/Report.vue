@@ -3,7 +3,7 @@
   <div class="card-header">Segnalazioni</div>
   <!-- schermata di visualizzazione-->
   <div v-if="adding==false&&zoomed==false&&editing==false" class="card-body">
-    <div class="col-md-12">
+    <div v-if="this.citt==false" class="col-md-12" >
     <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
     <table id="mytable" class="table  "  >
         <thead>
@@ -26,15 +26,42 @@
                 <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep.id_number" class="btn btn-success btn-xs" @click="zoom" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                  <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-primary btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" @click="edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
-               
-                
             </tr>
       </tbody>
     </table>
     </div>
   </div>
+
+ <div v-else class="col-md-12" >
+    <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="mytable" class="table  "  >
+        <thead>
+          <th>CF</th>
+          <th>Categoria</th>
+          <th>Data</th>
+          <th>Stato</th>
+          <th>Dett.</th>
+          <th>Delete</th>
+        
+        </thead>
+      
+      <tbody >
+            <tr v-for="rep in reports" :key="rep._id">
+                <td>{{rep.CF}}</td>
+                <td>{{rep.category}}</td>
+                <td>{{rep.date}}</td>
+                <td>{{rep.status}}</td>
+                <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep.id_number" class="btn btn-success btn-xs" @click="zoom" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
+            </tr>
+      </tbody>
+    </table>
+    </div>
+    </div>
+
     <button type="button" class="btn btn-success mt-1 " id="aggiungi" @click="add"> Aggiungi </button>
   </div>
+ 
 
   <!-- schermata di add --->
   <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width:720px;height:400px;" >
@@ -187,7 +214,8 @@ export default {
          date:'',
          status:'',
          editing:false,
-         obj2edit:{}
+         obj2edit:{},
+         citt:false
          
         }
     },
@@ -222,6 +250,11 @@ export default {
     },
     mounted: 
       function getReport(){ 
+
+        if(localStorage.getItem('type')=='cittadino')
+          this.citt=true
+
+        if(this.citt==false){
         let data=new Date()
 
         let month=data.getMonth()+1
@@ -263,7 +296,40 @@ export default {
               if(error.status==404)
               console.log('NO data')
            
+          })}else
+          {
+              axios({
+            method: 'get',
+            url: 'http://localhost:8081/report/',
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          }).then((response) => { 
+
+           let i=0
+           for(i=0;i<response.data.length;i++)
+           {
+             this.reports.push(response.data[i])
+            
+           }
+
+           for(i=0;i<this.reports.length;i++)
+           {
+             var res = this.reports[i].date.split("T");
+             this.reports[i].date=res[0]
+             this.reports[i].status=this.reports[i].status.toUpperCase()
+             this.reports[i].category=this.reports[i].category.toUpperCase()
+           }
+
+           console.log(this.reports)
+
           })
+            .catch((error) => {
+              if(error.status==404)
+              console.log('NO data')
+
+          })
+          }
 
         //  setInterval(this.updateData, 60000);
       },
