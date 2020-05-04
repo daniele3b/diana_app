@@ -57,7 +57,7 @@
 
 
                 <div class="form-label-group mt-4">
-                <textarea id="categoria" class="form-control" v-model="description"  rows="3" cols="50" placeholder="Descrizione dell'evento (max 150 cartteri)" required/>
+                <textarea id="categoria" class="form-control" v-model="description"  maxlength="200" rows="3" cols="50" placeholder="Descrizione dell'evento (max 150 cartteri)" required/>
             
               </div>
 
