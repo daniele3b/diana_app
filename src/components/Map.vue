@@ -11,20 +11,21 @@
 
               <GmapMarker
                 :key = index
-                v-for="(sensor, index) in sensors" 
+                v-for="(sensor, index) in sensors"
+                :id = "sensor.lat+';'+sensor.lng"
                 :position="google && new google.maps.LatLng(sensor.lat, sensor.lng)"
                 :clickable="true"
                 :animation= google.maps.Animation.DROP
-                @click="showInfoDetails(); clicked=true"
+                @click="showInfoDetails; clicked=true"
               />
           
            
           </GmapMap>
           </div>
-            {{clicked}}
+            {{clicked}}  
         <hr>
 
-        <div class="row">ALTRA RIGA</div>
+        <div class="row">ALTRA RIGA  {{text}}</div>
     </div>
   </div>
 </template>
@@ -48,12 +49,11 @@ export default {
       info : [],
       sensors : [],
       clicked : false,
+      text : ""
     }
   },
 
-  beforeCreate(){
-    this.forceRerender()
-  },
+  beforeCreate(){},
 
   mounted:
     function getDataFromSensors(){
@@ -92,8 +92,9 @@ export default {
       },
     
     methods : {
-      showInfoDetails(){
+      showInfoDetails : function(event){
         console.log('CLICKED ON MARKER!')
+        this.text = event.target.id
       },
     }
     
