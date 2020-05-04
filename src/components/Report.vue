@@ -68,9 +68,9 @@
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>AGGIUNGI SEGNALAZIONE</b></h5>
                <hr class="my-4">
             <form class="form-signin">
-              <div class="form-label-group mb-3">
-                <input type="text" id="address" class="form-control" v-model="address" placeholder="Inserici il luogo della segnalazione"  required autofocus>
-              </div>
+              
+                <input type="text" id="address" class="form-control mb-4" v-model="address" placeholder="Inserici il luogo della segnalazione"  required autofocus>
+             
 
               <div class="form-label-group">
                 <select type="option" id="categoria" class="form-control" v-model="category" required>
