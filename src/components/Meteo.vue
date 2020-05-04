@@ -5,19 +5,19 @@
       <div class="card" onload="getReport();" >
         <!-- TABBED PANE BAR-->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item"><a class="nav-link" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="false" >Tempo Reale</a></li>
+          <li class="nav-item active"><a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="false" >Tempo Reale</a></li>
           <li class="nav-item"><a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="true">7 giorni</a></li>
          
         </ul>
         <!-- TABBED PANE CONTENT-->
         <div class="tab-content" id="myTabContent" >
-          <div  id="tab1" class="tab-pane fade active" role="tabpanel active" aria-labelledby="tab1-tab">
+          <div  id="tab1" class="tab-pane active" role="tabpanel" aria-labelledby="tab1-tab">
             
             <div class="container" >
 
               <div class="row row-eq-height" >
-                <div class="col-sm-6 col-6" style="padding-left:20px">
-                  <div id="uno">
+                <div class="col-sm-6 col-6 " style="padding-left:20px">
+                  <div id="uno" >
                     <!-- GIORNO -->
                     <img v-if="stato=='Clear' && notte==false" style="height:100%; width:100%;" src="../../images/sun.png" alt="">
                     <img v-if="stato=='Clouds' && notte==false" style="height:100%; width:100%;" src="../../images/cloud.png" alt="">
@@ -218,7 +218,23 @@ export default {
           humidity: '',
           wind: '',
 
-          FCarray: ['','','','','','',''],
+          FCarray: [
+            {
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            },{
+              descrizione:'',t_max:'',t_min:'',wind:''
+            }
+          ],
           oggi:'',
           giorni:['Dom','Lun','Mar','Mer','Gio','Ven','Sab','Dom','Lun','Mar','Mer','Gio','Ven','Sab','Dom']
         }
@@ -267,7 +283,7 @@ export default {
           }).then((response) => { 
             this.FCarray = response.data.array
             var oggi = new Date()
-            this.giorno = oggi.getDay()
+            this.oggi = oggi.getDay()
 
           })
             .catch((error) => {
