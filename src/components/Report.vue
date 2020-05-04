@@ -74,27 +74,27 @@
           <div class="row text-left">
               <div class="col">
                 CF: {{this.CF}}
-                <div class="row">
+                <div class="row mt-1">
                   <div class="col">
                    STATO: {{this.status}}
                   </div>
                 </div>
-                <div class="row ">
+                <div class="row  mt-1">
                   <div class="col">
                 CATEGORIA: {{this.category}}
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-1">
                   <div class="col">
                    LUOGO: {{this.address}}
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-1">
                   <div class="col">
                    DATA: {{this.date}}
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-1">
                   <div class="col">
                    DESCRIZIONE:<br> {{this.description}}
                   </div>
