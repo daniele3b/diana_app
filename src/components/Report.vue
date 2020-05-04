@@ -74,7 +74,7 @@
 
               <div class="form-label-group">
                 <select type="option" id="categoria" class="form-control" v-model="category" required>
-                  <option disabled value="" >---</option>
+                   <option value="" disabled selected>CATEGORIA</option>
                   <option value="rifiuti">rifiuti</option>
                   <option value="incendio">incendio</option>
                   <option value="urbanistica">urbanistica</option>
