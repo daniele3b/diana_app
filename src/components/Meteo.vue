@@ -50,7 +50,7 @@
           <!-- Secondo Tabbed-->
           <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
               
-            <div style="padding-top:5px;">
+            <div class ="col" style="padding-top:5px;">
               <table>
                   <!-- Prima riga giorno -->
                   <tr>

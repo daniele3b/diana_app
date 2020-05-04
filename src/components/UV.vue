@@ -11,49 +11,49 @@
 
         <table>
           <tr>
-            <td class="colonna-mario" style="color:red;">
+            <td class="col" style="color:red;">
                 {{this.giorni[this.oggi+1]}}
             </td>
-            <td class="colonna-mario" style="color:red;">
+            <td class="col" style="color:red;">
                 {{this.giorni[this.oggi+2]}}
             </td>
-            <td class="colonna-mario" style="color:red;">
+            <td class="col" style="color:red;">
                 {{this.giorni[this.oggi+3]}}
             </td>
           </tr>
 
           <tr>
-            <td class="colonna-mario" style="color:blue;">
+            <td class="col" style="color:blue;">
                 {{forecast[0]}}
             </td>
-            <td class="colonna-mario" style="color:blue;">
+            <td class="col" style="color:blue;">
                 {{forecast[1]}}
             </td>
-            <td class="colonna-mario" style="color:blue;">
+            <td class="col" style="color:blue;">
                 {{forecast[2]}}
             </td>
           </tr>
 
           <tr>
-            <td class="colonna-mario" style="color:red;">
+            <td class="col" style="color:red;">
                 {{this.giorni[this.oggi+4]}}
             </td>
-            <td class="colonna-mario" style="color:red;">
+            <td class="col" style="color:red;">
                 {{this.giorni[this.oggi+5]}}
             </td>
-            <td class="colonna-mario" style="color:red;">
+            <td class="col" style="color:red;">
                 {{this.giorni[this.oggi+6]}}
             </td>
           </tr>
                     
           <tr>
-            <td class="colonna-mario" style="color:blue;">
+            <td class="col" style="color:blue;">
                 {{forecast[3]}}
             </td>
-            <td class="colonna-mario" style="color:blue;">
+            <td class="col" style="color:blue;">
                 {{forecast[4]}}
             </td>
-            <td class="colonna-mario" style="color:blue;">
+            <td class="col" style="color:blue;">
                 {{forecast[5]}}
             </td>
           </tr>
@@ -143,14 +143,14 @@ export default {
   margin: 0;
   color: blue;
 }
-
+/*
 .colonna-mario{
-  /*border-left: 1px solid grey ;*/
+  border-left: 1px solid grey ;
   padding-left: 7px;
   padding-right: 7px;
   font-size: 17px;
   font-family: "Times New Roman", Times, serif;
-}
+}*/
 
 
 
