@@ -2,6 +2,8 @@
   <div class="card">
     <div class="card-body">
           <div class = "card-img-top ml-3">
+            <!--  MAPPA  -->
+
             <GmapMap
               :center="{lat:41.9109, lng:12.6818}"
               :zoom="9"
@@ -22,10 +24,60 @@
            
           </GmapMap>
           </div>
-            {{clicked}}  
-        <hr>
 
-        <div class="row">ALTRA RIGA  {{text}}</div>
+        <!--  INFO SENSORE  -->
+        {{avgs}}
+        <div v-if="markerClicked" class="row">
+
+          <table class="table">
+              
+            <thead>
+              <tr>
+                <th scope="col">Sensore</th>
+                <th scope="col">UID</th>
+                <th scope="col">Latitudine</th>
+                <th scope="col">Longitudine</th>
+              </tr>
+            </thead>
+              
+            <tbody>
+              <tr>
+                <td> {{clickedSensor.sensor}} </td>
+                  <td> {{clickedSensor.uid}} </td>
+                  <td> {{clickedSensor.lat}} </td>
+                  <td> {{clickedSensor.lng}} </td>
+              </tr>
+            </tbody>
+            
+          </table>
+            
+        <div class="row">
+          <div class="table-responsive">
+            <table class="table">
+              
+              <thead>
+                <tr>
+                  <th scope="col">Tipo</th>
+                  <th scope="col">Valore</th>
+                  <th scope="col">Media</th>
+                  <th scope="col">Criticità</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+                <tr v-for="chemical_agent in currentSensorsInfo" :key="chemical_agent.types">
+                  <td>{{chemical_agent.types}}</td>
+                    <td>{{chemical_agent.value}}</td>
+                    <td>{{chemical_agent.avg}}</td>
+                    <td>0</td>
+                  </tr>
+              </tbody>
+            </table>
+  
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </template>
@@ -48,12 +100,15 @@ export default {
     return {
       info : [],
       sensors : [],
-      clicked : false,
-      text : ""
+      markerClicked : false,
+      iWantToSeeInfo : false,
+      infoMostrate : false,
+      text : null,
+      currentSensorsInfo : [],
+      clickedSensor : {},
+      avgs : []
     }
   },
-
-  beforeCreate(){},
 
   mounted:
     function getDataFromSensors(){
@@ -70,20 +125,20 @@ export default {
             for(i=0;i<dim;i++){ 
               const toPush = {
                 value : response.data[i].value,
-                sensor : response.data[i].sensor,
-                uid : response.data[i].uid
+                type : response.data[i].types
               }
 
               if(!this.info.includes(toPush)) this.info.push(toPush)
 
               if(!this.sensors.includes(response.data[i])){
                 this.sensors.push({
+                  sensor : response.data[i].sensor,
+                  uid : response.data[i].uid,
                   lat : response.data[i].lat,
                   lng : response.data[i].long
                 })
               }
             }
-
           })
           .catch((error) => {
               console.log(error)
@@ -92,11 +147,83 @@ export default {
       },
     
     methods : {
-      showInfoDetails : function(event)
-      {
-        this.text=event
-        console.log('CLICKED ON MARKER!')
-      }
+      showInfoDetails : function(event){
+        if(this.infoMostrate) return
+        this.markerClicked = true
+        
+        this.text = JSON.stringify(event.latLng)
+        const lat = JSON.parse(this.text).lat
+        const lng = JSON.parse(this.text).lng
+        
+        const sensors = this.sensors
+        const dim = sensors.length
+        let i
+        let sensoreCliccato 
+        
+        for(i=0;i<dim;i++){
+          if(sensors[i].lat == lat && sensors[i].lng == lng){
+            sensoreCliccato = sensors[i]
+            this.clickedSensor = sensoreCliccato
+            break
+          }
+        }
+
+        axios({
+          method: 'get',
+          url: 'http://localhost:8081/chemical_agents/current/'+sensoreCliccato.uid,
+          headers: {
+            "x-diana-auth-token": localStorage.token
+          }
+        })
+        .then((response) => {
+          const data = response.data
+          const dim = data.length
+          let i
+          for(i=0;i<dim;i++){
+            this.currentSensorsInfo.push({
+              value : data[i].value,
+              types : data[i].types,
+              sensor : data[i].sensor,
+              lat : data[i].lat,
+              long : data[i].long,
+              avg : 0.0
+            })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+        
+        axios({
+          method: 'get',
+          url: 'http://localhost:8081/chemical_agents/filter/avg/'+sensoreCliccato.uid,
+          headers: {
+            "x-diana-auth-token": localStorage.token
+          }
+        })
+        .then((response) => {
+          let avgs = response.data
+          const dim = avgs.length
+          let i
+          for(i=0;i<dim;i++){
+            const size = this.currentSensorsInfo.length
+            let j
+            for(j=0;j<size;j++){
+              if(avgs[i].avg !== null && this.currentSensorsInfo[j].types == avgs[i].types){
+                this.currentSensorsInfo[j].avg = avgs[i].avg
+              }
+            }
+          }
+
+          this.avgs = avgs
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      },
+
+
     }
     
   }
