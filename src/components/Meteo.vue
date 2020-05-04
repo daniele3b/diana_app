@@ -50,7 +50,7 @@
           <!-- Secondo Tabbed-->
           <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
               
-            <div style="padding-top:5px;">
+            <div class ="col" style="padding-top:5px;">
               <table>
                   <!-- Prima riga giorno -->
                   <tr>
@@ -351,7 +351,7 @@ export default {
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
   width: 360px;
   height: 200px;
-  background-image: url('../../images/immmeteo.jpg');
+ /* background-image: url('../../images/immmeteo.jpg');*/
   
   
 }
