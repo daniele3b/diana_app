@@ -281,13 +281,29 @@ export default {
         this.obj2edit.category=this.category
         this.obj2edit.description=this.description
         this.obj2edit.CF=this.CF
+
+
+         axios({
+            method: 'put',
+            url: 'http://localhost:8081/report/'+this.obj2edit.id_number,
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            },
+             data: {
+               status:this.status
+            }
+          }).then((response) => {
+           console.log(response)
+
+          })
+            .catch((error) => {
+              console.log(error)
+          })
        
 
         var ind = this.reports.findIndex(i =>  i==this.obj2edit);
 
         this.reports[ind].status=this.status.toUpperCase()
-
-      /* MANCA PUT AL SERVER */
         this.editing=false
 
         },
