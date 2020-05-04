@@ -3,14 +3,15 @@
   <div class="row" >
     <div class="col-12 col-sm-8 col-md-6 col-lg-4" >
       <div class="card" onload="getReport();" >
-        <h5 style="padding-top:10px;">Raggi UV</h5>
+        <h5 id='scrittaUV'>Raggi UV</h5>
         <hr style="margin:0;">
-        Oggi <br>
-        {{valore}} alle {{data}}
+        
+        <h5 id="scrittaOre" >Oggi ore {{data}}:</h5>
+        <h5 id="scrittaValore">{{valore}}</h5>
 
         <table>
           <tr>
-            <td class="colonna-mario-prima" style="color:red;">
+            <td class="colonna-mario" style="color:red;">
                 {{this.giorni[this.oggi+1]}}
             </td>
             <td class="colonna-mario" style="color:red;">
@@ -22,7 +23,7 @@
           </tr>
 
           <tr>
-            <td class="colonna-mario-prima" style="color:blue;">
+            <td class="colonna-mario" style="color:blue;">
                 {{forecast[0]}}
             </td>
             <td class="colonna-mario" style="color:blue;">
@@ -122,6 +123,36 @@ export default {
 
 
 <style scoped>
+#scrittaUV{
+  padding-top:10px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+#scrittaOre{
+  font-size: 17px;
+  font-family: "Times New Roman", Times, serif;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  color: red;
+}
+
+#scrittaValore{
+  font-size: 17px;
+  font-family: "Times New Roman", Times, serif;
+  padding-top: 0;
+  margin: 0;
+  color: blue;
+}
+
+.colonna-mario{
+  /*border-left: 1px solid grey ;*/
+  padding-left: 7px;
+  padding-right: 7px;
+  font-size: 17px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+
 
 
 .container {
