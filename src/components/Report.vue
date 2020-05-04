@@ -70,32 +70,41 @@
            <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:720px;height:400px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>DETTAGLIO SEGNALAZIONE</b></h5>
                <hr class="my-4">
-            <form class="form-signin">
-              <div class="form-label-group mb-3">
-              CF: {{this.CF}}
+            
+          <div class="row text-left">
+              <div class="col">
+                CF: {{this.CF}}
+                <div class="row">
+                  <div class="col">
+                   STATO: {{this.status}}
+                  </div>
+                </div>
+                <div class="row ">
+                  <div class="col">
+                CATEGORIA: {{this.category}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                   LUOGO: {{this.address}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                   DATA: {{this.date}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                   DESCRIZIONE:<br> {{this.description}}
+                  </div>
+                </div>
+                 
               </div>
-              <div class="form-label-group mb-3">
-              CATEGORIA: {{this.category}}
-              </div>
-               <div class="form-label-group mb-3">
-              STATO: {{this.status}}
-              </div>
-              
-              <div class="form-label-group mb-3">
-              LUOGO: {{this.address}}
-              </div>
-              
-               <div class="form-label-group mb-3">
-              DATA: {{this.date}}
-              </div>
-              
-              <div class="form-label-group mb-3">
-              DESCRIZIONE: {{this.description}}
-              </div>
-
-            <hr class="my-4">
-            </form>   
-           </div>
+           
+            
+          </div>
+          </div>
 
 <!-- schermata edit-->
            <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width:720px;height:400px;" >
