@@ -455,6 +455,8 @@ export default {
         },
         removeFilter: function()
         {
+            this.CF2filter=''
+            this.status2filter=''
             this.reports=this.app
             this.app=[]
             this.filteractive=false
