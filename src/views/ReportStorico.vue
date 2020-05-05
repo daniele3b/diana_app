@@ -435,17 +435,17 @@ export default {
          for(i=0;i<this.app.length;i++){
              if(this.CF2filter!=''&& this.status2filter=='')
                 {
-                    if(this.app[i].CF==this.CF2filter)
+                    if(this.app[i].CF==(this.CF2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }
                 if(this.CF2filter!=''&& this.status2filter!='')
                 {
-                    if(this.app[i].CF==this.CF2filter&& this.app[i].status==this.status2filter.toUpperCase())
+                    if(this.app[i].CF==(this.CF2filter.toUpperCase())&& this.app[i].status==(this.status2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }
                 if(this.CF2filter==''&& this.status2filter!='')
                 {
-                     if(this.app[i].status==this.status2filter.toUpperCase())
+                     if(this.app[i].status==(this.status2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }
          }
