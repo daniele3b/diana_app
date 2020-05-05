@@ -101,8 +101,6 @@ export default {
       info : [],
       sensors : [],
       markerClicked : false,
-      iWantToSeeInfo : false,
-      infoMostrate : false,
       text : null,
       currentSensorsInfo : [],
       clickedSensor : {},
@@ -147,7 +145,7 @@ export default {
       },
     
     methods : {
-      showInfoDetails : function(event){
+      showInfoDetails : async function(event){
         this.markerClicked = true
         this.currentSensorsInfo = []
 
@@ -160,8 +158,6 @@ export default {
         let i
         let sensoreCliccato 
 
-
-
         //C'E' UNA FUNZIONE FATTA APPOSTANON ITERARE A CASO (FILTER) oppure findIndex
         for(i=0;i<dim;i++){
           if(sensors[i].lat == lat && sensors[i].lng == lng){
@@ -171,62 +167,77 @@ export default {
           }
         }
 
-        axios({
-          method: 'get',
-          url: 'http://localhost:8081/chemical_agents/current/'+sensoreCliccato.uid,
-          headers: {
-            "x-diana-auth-token": localStorage.token
-          }
-        })
-        .then((response) => {
-          const data = response.data
-          const dim = data.length
-          let i
-          for(i=0;i<dim;i++){
-            this.currentSensorsInfo.push({
-              value : data[i].value,
-              types : data[i].types,
-              sensor : data[i].sensor,
-              lat : data[i].lat,
-              long : data[i].long,
-              avg : 0.0
-            })
-          }
+        const sensorsInfo = await this.receiveData(sensoreCliccato)
+        
+        if(sensorsInfo.length == 0){
+          console.log("Errore nella ricezione dal server")
+          return
+        }
 
+        this.currentSensorsInfo = sensorsInfo
+      },
+
+      receiveData(sensoreCliccato){
+        let sensorsInfo = []
+
+        return new Promise(function(resolve, reject){
           axios({
             method: 'get',
-            url: 'http://localhost:8081/chemical_agents/filter/avg/'+sensoreCliccato.uid,
+            url: 'http://localhost:8081/chemical_agents/current/'+sensoreCliccato.uid,
             headers: {
               "x-diana-auth-token": localStorage.token
             }
           })
           .then((response) => {
-            let avgs = response.data
-            const dim = avgs.length
+            const data = response.data
+            const dim = data.length
             let i
             for(i=0;i<dim;i++){
-              const size = this.currentSensorsInfo.length
-              let j
-              for(j=0;j<size;j++){
-                if(avgs[i].avg !== null && this.currentSensorsInfo[j].types == avgs[i].types){
-                  this.currentSensorsInfo[j].avg = avgs[i].avg
-              }
+              sensorsInfo.push({
+                value : data[i].value,
+                types : data[i].types,
+                sensor : data[i].sensor,
+                lat : data[i].lat,
+                long : data[i].long,
+                avg : 0.0
+              })
             }
-          }
 
-            this.avgs = avgs
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+            axios({
+              method: 'get',
+              url: 'http://localhost:8081/chemical_agents/filter/avg/'+sensoreCliccato.uid,
+              headers: {
+                "x-diana-auth-token": localStorage.token
+              }
+            })
+            .then((response) => {
+              let avgs = response.data
+              const dim = avgs.length
+              let i
+              for(i=0;i<dim;i++){
+                const size = sensorsInfo.length
+                let j
+                for(j=0;j<size;j++){
+                  if(avgs[i].avg !== null && sensorsInfo[j].types == avgs[i].types){
+                    sensorsInfo[j].avg = avgs[i].avg
+                  }
+                } 
+              }
+
+              resolve(sensorsInfo)
+            })
+            .catch((error) => {
+              reject(error)
+            })
           
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    }
+          })
+          .catch((error) => {
+            reject(error)
+          })
+        })
+      }
       
-  },
+    },
 
 }
 
