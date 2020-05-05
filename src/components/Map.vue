@@ -1,9 +1,13 @@
 <template>
   <div class="card">
+    
+   <img src="../assets/aereoNero.png" style="width:30px; margin-left:auto; margin-right:auto">
+    
     <div class="card-body">
       <div class = "card-img-top">
         <!--  MAPPA  -->
-
+          
+          
           <center>
             
             <GmapMap
@@ -27,9 +31,6 @@
             </GmapMap>
           
           </center>
-
-          <br> 
-          <button type="button" class="btn btn-success">Visualizza traffico aereo</button>
 
       </div>
 
