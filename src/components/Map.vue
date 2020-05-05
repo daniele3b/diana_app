@@ -32,7 +32,7 @@
 
         <!--  INFO SENSORE  -->
         
-        <div v-if="markerClicked" class="row" id="infoSensori">
+        <div v-if="markerClicked" class="row mt-4" id="infoSensori">
 
         
 
