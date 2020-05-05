@@ -27,7 +27,10 @@
             </GmapMap>
           
           </center>
-          
+
+          <br> 
+          <button type="button" class="btn btn-success">Visualizza traffico aereo</button>
+
       </div>
 
         <!--  INFO SENSORE  -->
