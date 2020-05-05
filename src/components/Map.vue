@@ -26,7 +26,7 @@
           </div>
 
         <!--  INFO SENSORE  -->
-        {{avgs}}
+
         <div v-if="markerClicked" class="row">
 
           <table class="table">
@@ -148,9 +148,9 @@ export default {
     
     methods : {
       showInfoDetails : function(event){
-        if(this.infoMostrate) return
         this.markerClicked = true
-        
+        this.currentSensorsInfo = []
+
         this.text = JSON.stringify(event.latLng)
         const lat = JSON.parse(this.text).lat
         const lng = JSON.parse(this.text).lng
@@ -176,53 +176,53 @@ export default {
           }
         })
         .then((response) => {
-          const data = response.data
-          const dim = data.length
-          let i
-          for(i=0;i<dim;i++){
-            this.currentSensorsInfo.push({
-              value : data[i].value,
-              types : data[i].types,
-              sensor : data[i].sensor,
-              lat : data[i].lat,
-              long : data[i].long,
-              avg : 0.0
-            })
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+            const data = response.data
+            const dim = data.length
+            let i
+            for(i=0;i<dim;i++){
+              this.currentSensorsInfo.push({
+                value : data[i].value,
+                types : data[i].types,
+                sensor : data[i].sensor,
+                lat : data[i].lat,
+                long : data[i].long,
+                avg : 0.0
+              })
+            }
 
-        
-        axios({
-          method: 'get',
-          url: 'http://localhost:8081/chemical_agents/filter/avg/'+sensoreCliccato.uid,
-          headers: {
-            "x-diana-auth-token": localStorage.token
-          }
-        })
-        .then((response) => {
-          let avgs = response.data
-          const dim = avgs.length
-          let i
-          for(i=0;i<dim;i++){
-            const size = this.currentSensorsInfo.length
-            let j
-            for(j=0;j<size;j++){
-              if(avgs[i].avg !== null && this.currentSensorsInfo[j].types == avgs[i].types){
-                this.currentSensorsInfo[j].avg = avgs[i].avg
+            axios({
+              method: 'get',
+              url: 'http://localhost:8081/chemical_agents/filter/avg/'+sensoreCliccato.uid,
+              headers: {
+                "x-diana-auth-token": localStorage.token
+              }
+            })
+            .then((response) => {
+              let avgs = response.data
+              const dim = avgs.length
+              let i
+              for(i=0;i<dim;i++){
+                const size = this.currentSensorsInfo.length
+                let j
+                for(j=0;j<size;j++){
+                  if(avgs[i].avg !== null && this.currentSensorsInfo[j].types == avgs[i].types){
+                    this.currentSensorsInfo[j].avg = avgs[i].avg
+                }
               }
             }
-          }
 
-          this.avgs = avgs
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+            this.avgs = avgs
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+          
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+
       },
-
 
     }
     
