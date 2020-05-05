@@ -58,10 +58,9 @@
             
           </table>
 
-         
+         </div>
         
-        
-        <div class="row ml-4">
+       <center>
           <div class="table-responsive" id="mytable">
  
             
@@ -89,11 +88,10 @@
             
   
           </div>
-        </div>
-
+          </center>
       </div>
     </div>
-  </div>
+
 </template>
 
 
