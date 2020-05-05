@@ -1,6 +1,6 @@
 <template>
  <div class="card  mt-1"  onload="getReport();" >
-  <div class="card-header">Segnalazioni <router-link to="/dashboard"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link> <a href="#" @click="filtering"><img src="../assets/filter.png" style="float:right;" height="22px;" ></a></div>
+  <div class="card-header">Segnalazioni <router-link to="/dashboard"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link> <a v-if="filteractive==false" href="#" @click="filtering"><img src="../assets/filter.png" style="float:right;" height="22px;" ></a><a v-if="filteractive==true" href="#" @click="removeFilter"><img src="../assets/nofilter.png" style="float:right;" height="22px;" ></a></div>
   <!-- schermata di visualizzazione-->
   <div v-if="adding==false&&zoomed==false&&editing==false&&filter==false" class="card-body">
     <div class="col-md-12" >
@@ -130,9 +130,17 @@
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" ></a><b>APPLICA FILTRI</b></h5>
             <div class="row">
                 <div class="col">
-                   <input type="text" id="address" class="form-control mb-4" minlength="16" maxlength="16" v-model="CF2filter" placeholder="Inserici il CF"  required autofocus>
+                 CF:  <input type="text" id="address" class="form-control mb-4" minlength="16" maxlength="16" v-model="CF2filter" placeholder=" CF"  required autofocus>
                 </div>
            
+            </div>
+            <div class="row">
+                  <select type="option" id="categoria" class="form-control" v-model="status2filter" required>
+                  <option disabled value="" >--</option>
+                  <option value="in attesa">in attesa</option>
+                  <option value="presa in carico">presa in carico</option>
+                  <option value="risolto">risolto</option>
+                </select>
             </div>
                 <div class="row">
                     <div class="col">
@@ -182,6 +190,9 @@ export default {
          status:'',
          editing:false,
          obj2edit:{},
+         app:[],
+         status2filter:'',
+         filteractive:false,
          filter:false
          
         }
@@ -416,8 +427,37 @@ export default {
         },
          filterConfermato: function()
         {
+        
+        this.app=this.reports
+        this.reports=[]
+         let i=0;
+         console.log(this.status2filter)
+         for(i=0;i<this.app.length;i++){
+             if(this.CF2filter!=''&& this.status2filter=='')
+                {
+                    if(this.app[i].CF==this.CF2filter)
+                        this.reports.push(this.app[i])
+                }
+                if(this.CF2filter!=''&& this.status2filter!='')
+                {
+                    if(this.app[i].CF==this.CF2filter&& this.app[i].status==this.status2filter.toUpperCase())
+                        this.reports.push(this.app[i])
+                }
+                if(this.CF2filter==''&& this.status2filter!='')
+                {
+                     if(this.app[i].status==this.status2filter.toUpperCase())
+                        this.reports.push(this.app[i])
+                }
+         }
           this.filter=false
+          this.filteractive=true
           
+        },
+        removeFilter: function()
+        {
+            this.reports=this.app
+            this.app=[]
+            this.filteractive=false
         },
 
         back: function(event)
