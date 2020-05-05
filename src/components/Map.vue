@@ -159,7 +159,10 @@ export default {
         const dim = sensors.length
         let i
         let sensoreCliccato 
-        
+
+
+
+        //C'E' UNA FUNZIONE FATTA APPOSTANON ITERARE A CASO (FILTER) oppure findIndex
         for(i=0;i<dim;i++){
           if(sensors[i].lat == lat && sensors[i].lng == lng){
             sensoreCliccato = sensors[i]
@@ -167,6 +170,8 @@ export default {
             break
           }
         }
+
+        
 
         axios({
           method: 'get',
@@ -221,12 +226,15 @@ export default {
           .catch((error) => {
             console.log(error)
           })
+          this.avgs = avgs
 
+          /* per impedire l'aumentare delle dimensioni ad ogni evento dopo aver visualizzato devi resettare l'array a []*/
+          //this.currentSensorsInfo=[]
+        }
+        
       },
 
-    }
-    
-  }
+}
 
 </script>
 
