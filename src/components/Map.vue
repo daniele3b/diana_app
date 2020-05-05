@@ -20,6 +20,7 @@
                 :position="google && new google.maps.LatLng(sensor.lat, sensor.lng)"
                 :clickable="true"
                 :animation= google.maps.Animation.DROP
+                :icon="{ url: require('../assets/markerSensore.png')}"
                 @click="showInfoDetails"
               />
            
