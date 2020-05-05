@@ -5,6 +5,7 @@ import PasswordForgotten from '../views/PasswordForgotten.vue'
 import Registration from '../views/Registration.vue'
 import Logout from '../components/Logout.vue'
 import Dashboard from '../views/Dashboard.vue'
+import ReportStorico from '../views/ReportStorico.vue'
 
 const protect = (to, from, next) => {
   if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
@@ -50,9 +51,15 @@ Vue.use(VueRouter)
   },
   {
     path: '/dashboard',
-    name: 'Dashboarda',
+    name: 'Dashboard',
     beforeEnter : protect,
     component: Dashboard
+  },
+  {
+    path:'/report_storico',
+    name:'ReportStorico',
+    beforeEnter:protect,
+    component: ReportStorico
   }
 ]
 
