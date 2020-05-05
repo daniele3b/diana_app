@@ -33,53 +33,60 @@
         
         <div v-if="markerClicked" class="row" id="infoSensori">
 
-          <table class="table">
+        
+
+          <table class="table" id="tabella-info-sensori">
               
-            <thead>
-              <tr>
-                <th scope="col">Sensore</th>
-                <th scope="col">UID</th>
-                <th scope="col">Latitudine</th>
-                <th scope="col">Longitudine</th>
+            <thead class="thead-light" id="header-1">
+              <tr class = "headerSensorInfo">
+                <th class="header" scope="col">Sensore</th>
+                <th class="header" scope="col">UID</th>
+                <th class="header" scope="col">Latitudine</th>
+                <th class="header" scope="col">Longitudine</th>
               </tr>
             </thead>
               
-            <tbody>
+            <tbody class = "bodySensorInfo">
               <tr>
-                <td> {{clickedSensor.sensor}} </td>
-                <td> {{clickedSensor.uid}} </td>
-                <td> {{clickedSensor.lat}} </td>
-                <td> {{clickedSensor.lng}} </td>
+                <td class="data"> {{clickedSensor.sensor}} </td>
+                <td class="data"> {{clickedSensor.uid}} </td>
+                <td class="data"> {{clickedSensor.lat}} </td>
+                <td class="data"> {{clickedSensor.lng}} </td>
               </tr>
               
             </tbody>
             
           </table>
+
+         
         
         
         <div class="row ml-4">
-          <div class="table-responsive">
-            <table class="table">
+          <div class="table-responsive" id="mytable">
+ 
+            
+            <table class="table table-borderless" >
               
-              <thead>
-                <tr>
-                  <th scope="col">Tipo</th>
-                  <th scope="col">Valore</th>
-                  <th scope="col">Media</th>
-                  <th scope="col">Criticità</th>
+              <thead class="thead-light" id="header-2">
+                <tr class = "headerChemicalAgentInfo">
+                  <th class="header" scope="col">Tipo</th>
+                  <th class="header" scope="col">Valore</th>
+                  <th class="header" scope="col">Media</th>
+                  <th class="header" scope="col">Criticità</th>
                 </tr>
               </thead>
               
               <tbody>
-                <tr v-for="chemical_agent in currentSensorsInfo" :key="chemical_agent.types">
-                  <td>{{chemical_agent.types}}</td>
-                    <td>{{chemical_agent.value}}</td>
-                    <td>{{chemical_agent.avg}}</td>
-                    <td v-if="chemical_agent.sogliaSuperata"><img src="../../images/pallinoRosso.jpg" style="height=28px; width:28px"></td>
-                    <td v-else><img src="../../images/pallinoVerde.jpg" style="height=20px; width:20px"></td>
+                <tr  class = "bodyChemicalAgentInfo" v-for="chemical_agent in currentSensorsInfo" :key="chemical_agent.types">
+                  <td class="data">{{chemical_agent.types}}</td>
+                    <td class="data">{{chemical_agent.value}}</td>
+                    <td class="data">{{chemical_agent.avg}}</td>
+                    <td class="data" v-if="chemical_agent.sogliaSuperata"><img src="../../images/rosso.jpg" style="height=15px; width:15px"></td>
+                    <td class="data" v-else><img src="../../images/verde.jpg" style="height=15px; width:15px"></td>
                   </tr>
               </tbody>
             </table>
+            
   
           </div>
         </div>
@@ -185,7 +192,7 @@ export default {
 
         const size = sensorsInfo.length
         for(i=0;i<size;i++){
-          if(sensorsInfo[i].value >= 101){
+          if(sensorsInfo[i].value >= 1){
             sensorsInfo[i].sogliaSuperata = true
           } 
           else{
@@ -265,7 +272,41 @@ export default {
 
 
 <style scoped>
-#infoSensori{
-  transition: 0.2s;
+
+.bodyChemicalAgentInfo{
+  font-size: 13px;
 }
+
+.headerChemicalAgentInfo{
+  font-size: 15px;
+}
+
+.headerSensorInfo{
+  font-size: 15px;
+}
+
+.bodySensorInfo{
+  font-size: 13px;
+}
+
+#mytable{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 410px;
+  height: 160px;
+}
+
+.data{
+  border-color: green;
+}
+
+.header{
+  border-color: green;
+}
+
+.card{
+  border-color: green;
+  background-color: rgba(86, 248, 86, 0.2);
+}
+
 </style>
