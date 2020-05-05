@@ -142,6 +142,16 @@
                   <option value="risolto">risolto</option>
                 </select>
             </div>
+            <div class="row">
+              <div class="col">
+                 Data inizio:
+                <input type="date" name="mydatetime" v-model="data_inizio">
+              </div>
+              <div class="col">
+                Data inizio:
+                <input type="date" name="mydatetime" v-model="data_fine">
+              </div>
+              </div>
                 <div class="row">
                     <div class="col">
                   <button   type="button"   class="btn btn-xs btn-success mt-1" @click="filterConfermato">Applica</button>   
@@ -193,8 +203,9 @@ export default {
          app:[],
          status2filter:'',
          filteractive:false,
-         filter:false
-         
+         filter:false,
+         data_inizio:'',
+         data_fine:''
         }
     },
     watch:{
@@ -428,29 +439,112 @@ export default {
          filterConfermato: function()
         {
         
+        if(this.CF2filter!=''||this.status2filter!=''||this.data_inizio!=''||this.data_fine!=''){
         this.app=this.reports
         this.reports=[]
          let i=0;
-         console.log(this.status2filter)
+
+         console.log(this.data_inizio)
+        
          for(i=0;i<this.app.length;i++){
-             if(this.CF2filter!=''&& this.status2filter=='')
+           //Se ho solo cf
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine=='')
                 {
                     if(this.app[i].CF==(this.CF2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }
-                if(this.CF2filter!=''&& this.status2filter!='')
+            //se ho cf e stato
+            if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine=='')
                 {
                     if(this.app[i].CF==(this.CF2filter.toUpperCase())&& this.app[i].status==(this.status2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }
-                if(this.CF2filter==''&& this.status2filter!='')
+            //se ho solo stato
+            if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine=='')
                 {
                      if(this.app[i].status==(this.status2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }
+              //se ho solo data inizio e fine
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine!='')
+                {
+                
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio)
+                     {
+                        
+                        this.reports.push(this.app[i])
+                     }
+                }
+              //se ho CF e data inizio e fine
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].CF==(this.CF2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }  
+
+
+                  //se ho CF e data inizio 
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine=='')
+                {
+                     if(this.app[i].date>=this.data_inizio&&this.app[i].CF==(this.CF2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }  
+            //se ho CF e data fine
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].CF==(this.CF2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }  
+
+                
+                //se ho stato e data inizio e fine
+             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                } 
+
+                   //se ho stato e data inizio 
+             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine=='')
+                {
+                     if(this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                } 
+
+
+                  //se ho stato e data fine
+             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].status==(this.status2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                } 
+              //se ho tutto
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+                //se ho solo data inizio
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine=='')
+                {
+                     if(this.app[i].date>=this.data_inizio)
+                        this.reports.push(this.app[i])
+                }
+                //se ho solo data fine
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine!='')
+                {
+      
+                     if(this.app[i].date<=this.data_fine)
+                        this.reports.push(this.app[i])
+                }
+               
+
          }
           this.filter=false
           this.filteractive=true
+        }else{
+          this.filter=false
+        }
           
         },
         removeFilter: function()
@@ -458,6 +552,8 @@ export default {
             this.CF2filter=''
             this.status2filter=''
             this.reports=this.app
+            this.data_inizio=''
+            this.data_fine=''
             this.app=[]
             this.filteractive=false
         },
@@ -472,6 +568,8 @@ export default {
           this.description=''
           this.CF=''
           this.status=''
+          this.data_inizio=''
+          this.data_fine=''
           this.adding=false
           this.zoomed=false
           this.editing=false
