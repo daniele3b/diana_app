@@ -148,7 +148,7 @@
                 <input type="date" name="mydatetime" v-model="data_inizio">
               </div>
               <div class="col">
-                Data inizio:
+                Data fine:
                 <input type="date" name="mydatetime" v-model="data_fine">
               </div>
               </div>
