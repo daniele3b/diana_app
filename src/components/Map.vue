@@ -64,7 +64,7 @@
           <div class="table-responsive" id="mytable">
  
             
-            <table class="table table-borderless" >
+            <table class="table" >
               
               <thead class="thead-light" id="header-2">
                 <tr class = "headerChemicalAgentInfo">
@@ -80,8 +80,8 @@
                   <td class="data">{{chemical_agent.types}}</td>
                     <td class="data">{{chemical_agent.value}}</td>
                     <td class="data">{{chemical_agent.avg}}</td>
-                    <td class="data" v-if="chemical_agent.sogliaSuperata"><img src="../../images/rosso.jpg" style="height=15px; width:15px"></td>
-                    <td class="data" v-else><img src="../../images/verde.jpg" style="height=15px; width:15px"></td>
+                    <td class="data" v-if="chemical_agent.sogliaSuperata"><img src="../assets/rosso.jpg" style="height=15px; width:15px"></td>
+                    <td class="data" v-else><img src="../assets/verde.jpg" style="height=15px; width:15px"></td>
                   </tr>
               </tbody>
             </table>
@@ -190,7 +190,7 @@ export default {
 
         const size = sensorsInfo.length
         for(i=0;i<size;i++){
-          if(sensorsInfo[i].value >= 1){
+          if(sensorsInfo[i].value >= 101){
             sensorsInfo[i].sogliaSuperata = true
           } 
           else{
@@ -294,17 +294,8 @@ export default {
   height: 160px;
 }
 
-.data{
-  border-color: green;
-}
-
-.header{
-  border-color: green;
-}
-
 .card{
   border-color: green;
-  background-color: rgba(86, 248, 86, 0.2);
 }
 
 </style>
