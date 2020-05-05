@@ -11,13 +11,13 @@
 
         <table>
           <tr>
-            <td class="col" style="color:red;">
+            <td class="col" >
                 {{this.giorni[this.oggi+1]}}
             </td>
-            <td class="col" style="color:red;">
+            <td class="col" >
                 {{this.giorni[this.oggi+2]}}
             </td>
-            <td class="col" style="color:red;">
+            <td class="col" >
                 {{this.giorni[this.oggi+3]}}
             </td>
           </tr>
@@ -35,13 +35,13 @@
           </tr>
 
           <tr>
-            <td class="col" style="color:red;">
+            <td class="col" >
                 {{this.giorni[this.oggi+4]}}
             </td>
-            <td class="col" style="color:red;">
+            <td class="col" >
                 {{this.giorni[this.oggi+5]}}
             </td>
-            <td class="col" style="color:red;">
+            <td class="col" >
                 {{this.giorni[this.oggi+6]}}
             </td>
           </tr>
@@ -133,7 +133,7 @@ export default {
   font-family: "Times New Roman", Times, serif;
   padding-bottom: 0;
   margin-bottom: 0;
-  color: red;
+
 }
 
 #scrittaValore{
