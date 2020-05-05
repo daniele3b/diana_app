@@ -16,6 +16,16 @@ const protect = (to, from, next) => {
   else next({ name : "Login"})
 }
 
+
+const protectSup = (to, from, next) => {
+  if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
+      localStorage.getItem('password') != undefined && localStorage.getItem('token') != undefined &&
+      localStorage.getItem('type') != undefined&&localStorage.getItem('type')!='cittadino'){
+    next()
+  }
+  else next({ name : "Login"})
+}
+
 Vue.use(VueRouter)
 
   const routes = [
@@ -58,7 +68,7 @@ Vue.use(VueRouter)
   {
     path:'/report_storico',
     name:'ReportStorico',
-    beforeEnter:protect,
+    beforeEnter:protectSup,
     component: ReportStorico
   }
 ]
