@@ -1,10 +1,10 @@
 <template>
   <div class="card">
     <div class="card-body">
-          <div class = "card-img-top">
-            <!--  MAPPA  -->
+      <div class = "card-img-top">
+        <!--  MAPPA  -->
 
-            <center>
+          <center>
             
             <GmapMap
               class = "mappa"
@@ -23,11 +23,11 @@
                 @click="showInfoDetails"
               />
            
-          </GmapMap>
+            </GmapMap>
           
           </center>
           
-          </div>
+      </div>
 
         <!--  INFO SENSORE  -->
         
@@ -58,9 +58,9 @@
             
           </table>
 
-         </div>
+        </div>
         
-       <center>
+        <center>
 
           <div v-if="markerClicked" class="table-responsive" id="mytable">
  
@@ -89,9 +89,9 @@
             
   
           </div>
-          </center>
-      </div>
+        </center>
     </div>
+  </div>
 
 </template>
 
