@@ -351,6 +351,7 @@ export default {
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
   width: 360px;
   height: 200px;
+  border-color: green;
  /* background-image: url('../../images/immmeteo.jpg');*/
   
   

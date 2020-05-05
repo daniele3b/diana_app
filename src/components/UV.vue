@@ -174,6 +174,9 @@ export default {
 .temperatura{
   text-align: right;
 }
+.card{
+  border-color: green;
+}
 
 .card-signin .card-title {
   font-weight: 300;
@@ -190,6 +193,7 @@ export default {
 
 .form-signin .btn {
   font-size: 80%;
+  border-color: green;
   border-radius: 5rem;
   letter-spacing: .1rem;
   font-weight: bold;
@@ -205,6 +209,7 @@ export default {
 .form-label-group input {
   height: auto;
   border-radius: 2rem;
+  border-color: green;
 }
 
 .my-4 {
