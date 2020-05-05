@@ -61,7 +61,8 @@
          </div>
         
        <center>
-          <div class="table-responsive" id="mytable">
+
+          <div v-if="markerClicked" class="table-responsive" id="mytable">
  
             
             <table class="table" >
