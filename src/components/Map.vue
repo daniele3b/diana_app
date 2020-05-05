@@ -1,14 +1,17 @@
 <template>
   <div class="card">
     <div class="card-body">
-          <div class = "card-img-top ml-3">
+          <div class = "card-img-top">
             <!--  MAPPA  -->
 
+            <center>
+            
             <GmapMap
+              class = "mappa"
               :center="{lat:41.9109, lng:12.6818}"
               :zoom="9"
               map-type-id="terrain"
-              style="width: 400px; height: 300px"
+              style="width: 420px; height: 320px"
             >
               <GmapMarker
                 :key = index
@@ -19,15 +22,16 @@
                 :animation= google.maps.Animation.DROP
                 @click="showInfoDetails"
               />
-          
-          
            
           </GmapMap>
+          
+          </center>
+          
           </div>
 
         <!--  INFO SENSORE  -->
-
-        <div v-if="markerClicked" class="row">
+        
+        <div v-if="markerClicked" class="row" id="infoSensori">
 
           <table class="table">
               
@@ -43,14 +47,16 @@
             <tbody>
               <tr>
                 <td> {{clickedSensor.sensor}} </td>
-                  <td> {{clickedSensor.uid}} </td>
-                  <td> {{clickedSensor.lat}} </td>
-                  <td> {{clickedSensor.lng}} </td>
+                <td> {{clickedSensor.uid}} </td>
+                <td> {{clickedSensor.lat}} </td>
+                <td> {{clickedSensor.lng}} </td>
               </tr>
+              
             </tbody>
             
           </table>
-            
+        
+        
         <div class="row ml-4">
           <div class="table-responsive">
             <table class="table">
@@ -69,7 +75,8 @@
                   <td>{{chemical_agent.types}}</td>
                     <td>{{chemical_agent.value}}</td>
                     <td>{{chemical_agent.avg}}</td>
-                    <td>0</td>
+                    <td v-if="chemical_agent.sogliaSuperata"><img src="../../images/pallinoRosso.jpg" style="height=28px; width:28px"></td>
+                    <td v-else><img src="../../images/pallinoVerde.jpg" style="height=20px; width:20px"></td>
                   </tr>
               </tbody>
             </table>
@@ -104,7 +111,9 @@ export default {
       text : null,
       currentSensorsInfo : [],
       clickedSensor : {},
-      avgs : []
+      avgs : [],
+      linkImg : "",
+      immagineSogliaImpostata : false
     }
   },
 
@@ -172,6 +181,16 @@ export default {
         if(sensorsInfo.length == 0){
           console.log("Errore nella ricezione dal server")
           return
+        }
+
+        const size = sensorsInfo.length
+        for(i=0;i<size;i++){
+          if(sensorsInfo[i].value >= 101){
+            sensorsInfo[i].sogliaSuperata = true
+          } 
+          else{
+            sensorsInfo[i].sogliaSuperata = false
+          }
         }
 
         this.currentSensorsInfo = sensorsInfo
@@ -246,5 +265,7 @@ export default {
 
 
 <style scoped>
-
+#infoSensori{
+  transition: 0.2s;
+}
 </style>
