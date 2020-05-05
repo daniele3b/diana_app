@@ -243,7 +243,7 @@ export default {
                 let j
                 for(j=0;j<size;j++){
                   if(avgs[i].avg !== null && sensorsInfo[j].types == avgs[i].types){
-                    sensorsInfo[j].avg = avgs[i].avg
+                    sensorsInfo[j].avg = avgs[i].avg.toFixed(2)
                   }
                 } 
               }
@@ -273,18 +273,22 @@ export default {
 
 .bodyChemicalAgentInfo{
   font-size: 13px;
+  text-align: center;
 }
 
 .headerChemicalAgentInfo{
   font-size: 15px;
+  text-align: center;
 }
 
 .headerSensorInfo{
   font-size: 15px;
+  text-align: center;
 }
 
 .bodySensorInfo{
   font-size: 13px;
+  text-align: center;
 }
 
 #mytable{
