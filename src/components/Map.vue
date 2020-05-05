@@ -192,7 +192,7 @@ export default {
 
         const size = sensorsInfo.length
         for(i=0;i<size;i++){
-          if(sensorsInfo[i].value >= 101){
+          if(sensorsInfo[i].value > sensorsInfo[i].avg){
             sensorsInfo[i].sogliaSuperata = true
           } 
           else{
