@@ -1,6 +1,6 @@
 <template>
  <div class="card  mt-1"  onload="getReport();" >
-  <div class="card-header">Segnalazioni</div>
+  <div class="card-header">Segnalazioni <router-link to="/report_storico"><img src="../assets/back.png" style="float:right;" height="20px;"></router-link></div>
   <!-- schermata di visualizzazione-->
   <div v-if="adding==false&&zoomed==false&&editing==false" class="card-body">
     <div v-if="this.citt==false" class="col-md-12" >

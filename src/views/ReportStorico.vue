@@ -1,6 +1,6 @@
 <template>
  <div class="card  mt-1"  onload="getReport();" >
-  <div class="card-header">Segnalazioni</div>
+  <div class="card-header">Segnalazioni </div>
   <!-- schermata di visualizzazione-->
   <div v-if="adding==false&&zoomed==false&&editing==false" class="card-body">
     <div class="col-md-12" >
