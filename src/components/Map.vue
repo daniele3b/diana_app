@@ -171,8 +171,6 @@ export default {
           }
         }
 
-        
-
         axios({
           method: 'get',
           url: 'http://localhost:8081/chemical_agents/current/'+sensoreCliccato.uid,
@@ -181,58 +179,54 @@ export default {
           }
         })
         .then((response) => {
-            const data = response.data
-            const dim = data.length
+          const data = response.data
+          const dim = data.length
+          let i
+          for(i=0;i<dim;i++){
+            this.currentSensorsInfo.push({
+              value : data[i].value,
+              types : data[i].types,
+              sensor : data[i].sensor,
+              lat : data[i].lat,
+              long : data[i].long,
+              avg : 0.0
+            })
+          }
+
+          axios({
+            method: 'get',
+            url: 'http://localhost:8081/chemical_agents/filter/avg/'+sensoreCliccato.uid,
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          })
+          .then((response) => {
+            let avgs = response.data
+            const dim = avgs.length
             let i
             for(i=0;i<dim;i++){
-              this.currentSensorsInfo.push({
-                value : data[i].value,
-                types : data[i].types,
-                sensor : data[i].sensor,
-                lat : data[i].lat,
-                long : data[i].long,
-                avg : 0.0
-              })
-            }
-
-            axios({
-              method: 'get',
-              url: 'http://localhost:8081/chemical_agents/filter/avg/'+sensoreCliccato.uid,
-              headers: {
-                "x-diana-auth-token": localStorage.token
-              }
-            })
-            .then((response) => {
-              let avgs = response.data
-              const dim = avgs.length
-              let i
-              for(i=0;i<dim;i++){
-                const size = this.currentSensorsInfo.length
-                let j
-                for(j=0;j<size;j++){
-                  if(avgs[i].avg !== null && this.currentSensorsInfo[j].types == avgs[i].types){
-                    this.currentSensorsInfo[j].avg = avgs[i].avg
-                }
+              const size = this.currentSensorsInfo.length
+              let j
+              for(j=0;j<size;j++){
+                if(avgs[i].avg !== null && this.currentSensorsInfo[j].types == avgs[i].types){
+                  this.currentSensorsInfo[j].avg = avgs[i].avg
               }
             }
+          }
 
             this.avgs = avgs
-            })
-            .catch((error) => {
-              console.log(error)
-            })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
           
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-          this.avgs = avgs
-
-          /* per impedire l'aumentare delle dimensioni ad ogni evento dopo aver visualizzato devi resettare l'array a []*/
-          //this.currentSensorsInfo=[]
-        }
-        
-      },
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+      
+  },
 
 }
 
