@@ -1,6 +1,6 @@
 <template>
  <div class="card  mt-1"  onload="getReport();" >
-  <div class="card-header">Segnalazioni </div>
+  <div class="card-header">Segnalazioni <router-link to="/dashboard"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link></div>
   <!-- schermata di visualizzazione-->
   <div v-if="adding==false&&zoomed==false&&editing==false" class="card-body">
     <div class="col-md-12" >
@@ -32,39 +32,10 @@
     </div>
   </div>
 
-    <button type="button" class="btn btn-success mt-1 " id="aggiungi" @click="add"> Aggiungi </button>
+
   </div>
  
 
-  <!-- schermata di add --->
-  <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width:100%;height:520px;" >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>AGGIUNGI SEGNALAZIONE</b></h5>
-               <hr class="my-4">
-            <form class="form-signin">
-              
-                <input type="text" id="address" class="form-control mb-4" v-model="address" placeholder="Inserici il luogo della segnalazione"  required autofocus>
-             
-
-              <div class="form-label-group">
-                <select type="option" id="categoria" class="form-control" v-model="category" required>
-                   <option value="" disabled selected>CATEGORIA</option>
-                  <option value="rifiuti">rifiuti</option>
-                  <option value="incendio">incendio</option>
-                  <option value="urbanistica">urbanistica</option>
-                  <option value="idrogeologia">idrogeologia</option>
-                  <option value="altro">altro</option></select>
-              </div>
-
-
-                <div class="form-label-group mt-4">
-                <textarea id="categoria" class="form-control" v-model="description"  maxlength="200" rows="3" cols="50" placeholder="Descrizione dell'evento (max 150 cartteri)" required/>
-            
-              </div>
-
-            <hr class="my-4">
-            <center>  <button  v-if="this.addresscheck&&this.descriptioncheck&&this.categorycheck" type="button" style="width:100px"  class="btn btn-lg btn-success btn-block text-uppercase mt-3" @click="addElement">Invia</button>    </center>
-            </form>   
-           </div>
 
       <!-- schermata di zoom-->
            <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:100%;height:520px;" >
