@@ -111,38 +111,38 @@ export default {
   mounted:
     function getDataFromSensors(){
       axios({
-            method: 'get',
-            url: 'http://localhost:8081/chemical_agents',
-            headers: {
-              "x-diana-auth-token": localStorage.token
-            }
-          })
-          .then((response) => {
-            let i=0
-            const dim = response.data.length
-            for(i=0;i<dim;i++){ 
-              const toPush = {
-                value : response.data[i].value,
-                type : response.data[i].types
-              }
+        method: 'get',
+        url: 'http://localhost:8081/chemical_agents',
+        headers: {
+          "x-diana-auth-token": localStorage.token
+        }
+      })
+      .then((response) => {
+        let i=0
+        const dim = response.data.length
+        for(i=0;i<dim;i++){ 
+          const toPush = {
+            value : response.data[i].value,
+            type : response.data[i].types
+          }
 
-              if(!this.info.includes(toPush)) this.info.push(toPush)
+          if(!this.info.includes(toPush)) this.info.push(toPush)
 
-              if(!this.sensors.includes(response.data[i])){
-                this.sensors.push({
-                  sensor : response.data[i].sensor,
-                  uid : response.data[i].uid,
-                  lat : response.data[i].lat,
-                  lng : response.data[i].long
-                })
-              }
-            }
-          })
-          .catch((error) => {
-              console.log(error)
-          })
+          if(!this.sensors.includes(response.data[i])){
+            this.sensors.push({
+              sensor : response.data[i].sensor,
+              uid : response.data[i].uid,
+              lat : response.data[i].lat,
+              lng : response.data[i].long
+            })
+          }
+        }
+      })
+      .catch((error) => {
+          console.log(error)
+      })
           
-      },
+    },
     
     methods : {
       showInfoDetails : async function(event){
