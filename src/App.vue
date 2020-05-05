@@ -6,10 +6,10 @@
   <nav class="navbar navbar-light navbar-1 black bg-success">
 
   <!-- Navbar brand -->
-  <a class="navbar-brand" href="#"  ><img src="./assets/logo.svg" height="50px" > DIANA</a>
+  <a class="navbar-brand ml-5" href="#"  ><img src="./assets/logo.png" height="45px" > </a>
 
   <!-- Collapse button -->
-  <button v-if="isLogged == true" class="navbar-toggler border border-dark " type="button" data-toggle="collapse" data-target="#navbarSupportedContent15"
+  <button v-if="isLogged == true" class="navbar-toggler border border-dark mr-5 " type="button" data-toggle="collapse" data-target="#navbarSupportedContent15"
     aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation" id="hamburger" @click="setClicked" :style="stateMenu" ><span class="navbar-toggler-icon"></span></button>
 
   <!-- Collapsible content -->

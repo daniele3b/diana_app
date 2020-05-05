@@ -1,8 +1,8 @@
 <template>
  <div class="card  mt-1"  onload="getReport();" >
-  <div class="card-header">Segnalazioni <router-link to="/dashboard"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link> <img src="../assets/filter.png" style="float:right;" height="22px;"></div>
+  <div class="card-header">Segnalazioni <router-link to="/dashboard"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link> <a href="#" @click="filtering"><img src="../assets/filter.png" style="float:right;" height="22px;" ></a></div>
   <!-- schermata di visualizzazione-->
-  <div v-if="adding==false&&zoomed==false&&editing==false" class="card-body">
+  <div v-if="adding==false&&zoomed==false&&editing==false&&filter==false" class="card-body">
     <div class="col-md-12" >
     <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
     <table id="mytable" class="table  "  >
@@ -38,7 +38,7 @@
 
 
       <!-- schermata di zoom-->
-           <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:100%;height:520px;" >
+           <div v-else-if="adding==false &&zoomed==true&&filter==false" class="card-body" style="width:100%;height:520px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>DETTAGLIO SEGNALAZIONE</b></h5>
                <hr class="my-4">
             
@@ -79,7 +79,7 @@
 
 <!-- schermata edit-->
 
-           <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width:100%;height:520px;" >
+           <div v-else-if="adding==false &&zoomed==false&&editing==true&&filter==false" class="card-body" style="width:100%;height:520px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>EDITING STATO</b></h5>
             <hr class="my-4">
             <div class="row text-left">
@@ -122,15 +122,38 @@
                 </div>
               </div>
               </div>
+              </div>
               
+              <!-- schermata filter-->
+
+           <div v-else-if="adding==false &&zoomed==false&&editing==false&&filter==true" class="card-body" style="width:100%;height:520px;" >
+            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>APPLICA FILTRI</b></h5>
+            <div class="row">
+                <div class="col">
+                    CF:  <input type="text"  v-model="CF2filter"/>
+                </div>
+           
+                    
+      
+            </div>
+                <div class="row">
+                    <div class="col">
+                  <button   type="button"   class="btn btn-xs btn-success mt-1" @click="filterConfermato">Applica</button>   
+                  </div>
+                </div>
+             
+              </div>
+              
+              
+                  
                   
              
               
 
-         
+      
  
              
-           </div>
+          
  
 </div>
 
@@ -155,11 +178,13 @@ export default {
          categorycheck:false,
          descriptioncheck:false,
          zoomed:false,
+         CF2filter:'',
          CF:'',
          date:'',
          status:'',
          editing:false,
          obj2edit:{},
+         filter:false
          
         }
     },
@@ -232,6 +257,11 @@ export default {
         //  setInterval(this.updateData, 60000);
       },
       methods: {
+        filtering: function()
+        {
+          this.filter=true;
+          console.log('filter actived')
+        },
         zoom: function(event)
         {
           this.zoomed=true;
@@ -400,6 +430,7 @@ export default {
           this.adding=false
           this.zoomed=false
           this.editing=false
+          this.filter=false
           
         },
 
