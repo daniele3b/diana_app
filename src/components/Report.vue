@@ -23,7 +23,7 @@
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
                 <td>{{rep.status}}</td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep.id_number" class="btn btn-success btn-xs" @click="zoom" data-title="Detail" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep.id_number" class="btn btn-success btn-xs" @click="zoom" data-title="Detail" data-toggle="modal" data-target="#delete" style="height:10px;width:20px;"><span class="glyphicon glyphicon-trash"></span></button></p></td>
                  <td><p data-placement="top" data-toggle="tooltip"  title="Edit"><button :id="rep.id_number" class="btn btn-primary btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" @click="edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
             </tr>
@@ -65,7 +65,7 @@
 
   <!-- schermata di add --->
   <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width:720px;height:400px;" >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>AGGIUNGI SEGNALAZIONE</b></h5>
+            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>AGGIUNGI SEGNALAZIONE</b></h5>
                <hr class="my-4">
             <form class="form-signin">
               
@@ -95,7 +95,7 @@
 
       <!-- schermata di zoom-->
            <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:720px;height:400px;" >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>DETTAGLIO SEGNALAZIONE</b></h5>
+            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>DETTAGLIO SEGNALAZIONE</b></h5>
                <hr class="my-4">
             
           <div class="row text-left">
@@ -135,7 +135,7 @@
 
 <!-- schermata edit-->
            <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width:720px;height:400px;" >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.jpg" style="float:left;" height="20px;" @click="back" /></a><b>EDITING STATO</b></h5>
+            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>EDITING STATO</b></h5>
             <hr class="my-4">
             <div class="row text-left">
               <div class="col">
