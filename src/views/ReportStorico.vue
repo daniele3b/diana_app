@@ -129,34 +129,34 @@
            <div v-else-if="adding==false &&zoomed==false&&editing==false&&filter==true" class="card-body" style="width:100%;height:520px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" ></a><b>APPLICA FILTRI</b></h5>
             <div class="row">
-                <div class="col">
-                 CF:  <input type="text" id="address" class="form-control mb-4" minlength="16" maxlength="16" v-model="CF2filter" placeholder=" CF"  required autofocus>
+                <div class="col-4">
+              <input type="text" id="address" class="form-control mb-4" minlength="16" maxlength="16" v-model="CF2filter" placeholder=" CF"  required autofocus>
                 </div>
-           
-            </div>
-            <div class="row">
-                  <select type="option" id="categoria" class="form-control" v-model="status2filter" required>
-                  <option disabled value="" >--</option>
+                <div class="col-4">
+                 <select type="option" id="categoria" class="form-control" v-model="status2filter" required>
+                  <option disabled value="" >CATEGORIA</option>
                   <option value="in attesa">in attesa</option>
                   <option value="presa in carico">presa in carico</option>
                   <option value="risolto">risolto</option>
                 </select>
-            </div>
-            <div class="row">
-              <div class="col">
-                 Data inizio:
-                <input type="date" name="mydatetime" v-model="data_inizio">
-              </div>
-              <div class="col">
-                Data fine:
-                <input type="date" name="mydatetime" v-model="data_fine">
-              </div>
-              </div>
-                <div class="row">
-                    <div class="col">
-                  <button   type="button"   class="btn btn-xs btn-success mt-1" @click="filterConfermato">Applica</button>   
-                  </div>
+                   <div class="row mt-2">
+                <div class="col">
+                  Data inizio: <input type="date" name="mydatetime" v-model="data_inizio">
                 </div>
+                <div class="col">
+                    Data fine: <input type="date" name="mydatetime" v-model="data_fine">
+                 </div>
+                </div>
+                </div>
+                 <div class="col-1">
+                  <button   type="button"   class="btn btn-xs btn-success mt-1" @click="filterConfermato">Applica</button>   
+           </div>
+             
+           
+            </div>
+                
+                   
+               
              
               </div>
               
