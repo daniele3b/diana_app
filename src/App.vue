@@ -28,6 +28,9 @@
       <li class="nav-item">
         <router-link  to="/about" class="nav-link" href="#">About </router-link>
       </li>
+        <li class="nav-item">
+        <router-link  to="/cambio_pw" class="nav-link" href="#">Cambia password </router-link>
+      </li>
        <li class="nav-item">
         <router-link  to="/logout" class="nav-link" href="#">Logout </router-link>
       </li>

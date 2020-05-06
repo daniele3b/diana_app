@@ -7,6 +7,7 @@ import Logout from '../components/Logout.vue'
 import Dashboard from '../views/Dashboard.vue'
 import ReportStorico from '../views/ReportStorico.vue'
 import Avanzato from '../views/Avanzato.vue'
+import CambioPw from '../views/CambioPw.vue'
 
 const protect = (to, from, next) => {
   if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
@@ -77,6 +78,12 @@ Vue.use(VueRouter)
     name:'Avanzato',
     beforeEnter:protectSup,
     component: Avanzato
+  },
+  {
+    path:'/cambio_pw',
+    name:'CambioPw',
+    beforeEnter:protect,
+    component:CambioPw
   }
 ]
 
