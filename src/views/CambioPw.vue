@@ -34,6 +34,8 @@
                 <label v-if="passwordVer==false" class="badge badge-danger">Deve contenere almeno 8 caratteri,una <br>lettera maiuscola, una minuscola ed un numero</label>
                  <label v-if="password3Ver==false" class="badge badge-danger">Deve contenere almeno 8 caratteri,una <br>lettera maiuscola, una minuscola ed un numero</label>
                <label v-if="password2Ver==false" class="badge badge-danger">Le due password non coincidono</label>
+               <label v-if="finito==false" class="badge badge-danger">Errore nella richiesta</label>
+               <label v-if="finito==true" class="badge badge-success">Cambio della password avvenuto con successo</label>
           </div>
         </div>
       </div>
@@ -59,6 +61,7 @@ export default {
             p:false,
             p2:false,
             p3:false,
+            finito:null,
             passwordClass: 'form-control-mario',
             password2Class: 'form-control-mario',
             password3Class: 'form-control-mario',
@@ -138,11 +141,11 @@ watch:{
             old_pw:this.password3
             }
             }).then(() => {
-                alert("Cambio pw eseguito");
+                this.finito=true
                 
                 
-            }, (error) => {
-                alert("Errore richiesta:\n"+error)
+            }, () => {
+                this.finito=false
             });  
 
         }else{
@@ -158,11 +161,10 @@ watch:{
             old_pw:this.password3
             }
             }).then(() => {
-                alert("Cambio pw eseguito");
+                    this.finito=true
                 
-                
-            }, (error) => {
-                alert("Errore richiesta:\n"+error)
+            }, () => {
+                this.finito=false
             });  
 
         }
