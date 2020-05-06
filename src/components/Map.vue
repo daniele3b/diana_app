@@ -4,7 +4,7 @@
    
     
     <div class="card-body">
-     <a href="#"> <img src="../assets/aereoNero.png" style="width:30px; margin-left:auto; margin-right:auto;float:right;"></a>
+     <a href="#"> <img src="../assets/aereoNero.png" style="width:30px; float:right;"></a>
       <div class = "card-img-top">
         <!--  MAPPA  -->
           
