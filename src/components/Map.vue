@@ -1,9 +1,10 @@
 <template>
   <div class="card">
     
-   <img src="../assets/aereoNero.png" style="width:30px; margin-left:auto; margin-right:auto">
+   
     
     <div class="card-body">
+     <a href="#"> <img src="../assets/aereoNero.png" style="width:30px; margin-left:auto; margin-right:auto;float:right;"></a>
       <div class = "card-img-top">
         <!--  MAPPA  -->
           
