@@ -4,10 +4,10 @@
    
     
     <div class="card-body">
-     <a href="#"> <img src="../assets/aereoNero.png" style="width:30px; float:right;"></a>
+    
       <div class = "card-img-top">
         <!--  MAPPA  -->
-          
+           <a href="#"> <img src="../assets/aereoNero.png" style="width:30px; float:right;"></a>
           
           <center>
             
