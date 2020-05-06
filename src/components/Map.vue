@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-        <span> <a href="#"> <img src="../assets/aereoNero.png"  class="mt-1 mr-1" style="width:30px; float:right;"></a></span>
+        <span> <img src="../assets/aereoNero.png"  class="pointer mt-1 mr-1" style="width:30px; float:right;"></span>
    
     
     <div class="card-body">
@@ -308,5 +308,6 @@ export default {
 .card{
   border-color: green;
 }
+.pointer         { cursor: pointer; }
 
 </style>
