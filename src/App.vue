@@ -20,7 +20,10 @@
     <ul class="navbar-nav mr-auto bg-success border border-dark pl-3 pr-3" style="position:relative; z-index: 1;float:right;">
       
       <li class="nav-item " >
-        <router-link  to="/" class="nav-link " href="#">Home </router-link>
+        <router-link  to="/" class="nav-link " href="#">Dashboard </router-link>
+      </li>
+       <li v-if="getTipo!='cittadino'" class="nav-item">
+        <router-link  to="/avanzato" class="nav-link" href="#">Avanzato</router-link>
       </li>
       <li class="nav-item">
         <router-link  to="/about" class="nav-link" href="#">About </router-link>
@@ -63,6 +66,9 @@ import { mapGetters} from 'vuex'
 
 export default {
   name : 'app',
+
+       
+  
   components : {
   },
 
@@ -70,6 +76,8 @@ export default {
     this.checkAccess()
   },
 mounted(){
+
+ 
   this.$store.commit('setStatoMenu',"")
     this.$store.commit('setMenu',false)
     
@@ -77,14 +85,17 @@ mounted(){
   data () {
     return {
       logged : false,
+     
     }
   },
   computed : {
     ...mapGetters({
         'isLogged' : 'getLogged',
         'isClicked': 'getMenu',
-        'stateMenu': 'getStatoMenu'
+        'stateMenu': 'getStatoMenu',
+        'getTipo':'getType'
     })
+    
    
   },
 

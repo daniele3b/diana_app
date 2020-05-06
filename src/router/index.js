@@ -6,6 +6,7 @@ import Registration from '../views/Registration.vue'
 import Logout from '../components/Logout.vue'
 import Dashboard from '../views/Dashboard.vue'
 import ReportStorico from '../views/ReportStorico.vue'
+import Avanzato from '../views/Avanzato.vue'
 
 const protect = (to, from, next) => {
   if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
@@ -70,6 +71,12 @@ Vue.use(VueRouter)
     name:'ReportStorico',
     beforeEnter:protectSup,
     component: ReportStorico
+  },
+  {
+    path:'/avanzato',
+    name:'Avanzato',
+    beforeEnter:protectSup,
+    component: Avanzato
   }
 ]
 
