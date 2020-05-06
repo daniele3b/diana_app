@@ -139,7 +139,7 @@ export default {
       immagineSogliaImpostata : false,
       planeVisible : false,
       planes : [],
-      imgClass : ''
+      imgClass : 'imgNonEvidenziata mt-1 mr-1'
     }
   },
 
