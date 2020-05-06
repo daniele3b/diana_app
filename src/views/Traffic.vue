@@ -130,7 +130,7 @@ export default {
     return {
       indirizzoZona : "",
       placeholderIndirizzoZona : "Inserisci la zona",
-      raggio : 1,
+      raggio : undefined,
       indirizzoTrue : false,
       zonaTrue : true,
       velocitaAttuale : 0,
@@ -169,6 +169,11 @@ export default {
             return false
       }
 
+      return true
+    },
+
+    raggioValido(){
+      if(isNaN(this.raggio) || this.raggio <= 0) return false
       return true
     },
 
@@ -227,7 +232,11 @@ export default {
       // SE L'OPERATORE INSERISCE UN INDIRIZZO E UN CERTO RAGGIO GLI VERRANNO MOSTRATI I SENSORI
       // ALL'INTERNO DI TALE RAGGIO A PARTIRE DA QUELL'INDIRIZZO
       else if(!this.zonaTrue && this.indirizzoTrue){
-
+        if(!this.raggioValido()){
+            alert('Raggio non valido')
+            return
+        }
+        
         this.sensoriNelRaggio = []
         this.sensorePiuVicino = []
         this.showNearestSensor = false
