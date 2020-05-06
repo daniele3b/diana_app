@@ -9,6 +9,7 @@ import ReportStorico from '../views/ReportStorico.vue'
 import Avanzato from '../views/Avanzato.vue'
 import CambioPw from '../views/CambioPw.vue'
 import Traffic from '../views/Traffic.vue'
+import NewOperatore from '../views/NewOperatore.vue'
 
 const protect = (to, from, next) => {
   if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
@@ -91,6 +92,12 @@ Vue.use(VueRouter)
     name:'Traffic',
     beforeEnter:protectSup,
     component:Traffic
+  },
+  {
+    path:'/newoperatore',
+    name:'NewOperatore',
+    beforeEnter:protectSup,
+    component:NewOperatore
   }
 ]
 
