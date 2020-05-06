@@ -43,7 +43,7 @@
 
 <script>
 
-//import axios from 'axios'
+import axios from 'axios'
 
 export default {
     name:'Registration',
@@ -125,12 +125,52 @@ watch:{
     methods : {
         cambia:function()
         {
+            if(localStorage.getItem('type')=='cittadino'){
+               
+            axios({
+            method: 'post',
+            url: 'http://localhost:8081/registration/citizen/change_pw',
+             headers: {
+              "x-diana-auth-token": localStorage.token
+            },
+            data: {
+            new_pw:this.password,
+            old_pw:this.password3
+            }
+            }).then(() => {
+                alert("Cambio pw eseguito");
+                
+                
+            }, (error) => {
+                alert("Errore richiesta:\n"+error)
+            });  
+
+        }else{
+         
+            axios({
+            method: 'post',
+            url: 'http://localhost:8081/registration/operator/change_pw',
+             headers: {
+              "x-diana-auth-token": localStorage.token
+            },
+            data: {
+            new_pw:this.password,
+            old_pw:this.password3
+            }
+            }).then(() => {
+                alert("Cambio pw eseguito");
+                
+                
+            }, (error) => {
+                alert("Errore richiesta:\n"+error)
+            });  
 
         }
      
    
           
         }
+    }
 }
 
 </script>
