@@ -9,7 +9,23 @@
            
             <hr class="my-4">
             <form class="form-signin" >
+                 <div class="form-label-group">
+                  <input type="password" v-model="oldpw" :class="passwordClass" placeholder="Password attuale" required>
+                  
+              </div>
+
+              <div class="form-label-group">
+                  <input type="password" v-model="password" :class="passwordClass" placeholder="Nuova password" required>
+                  <label v-if="passwordVer==false" class="badge badge-danger">Deve contenere almeno 8 caratteri,una <br>lettera maiuscola, una minuscola ed un numero</label>
+              
+              </div>
+
+              <div class="form-label-group">
+               <input type="password" v-model="password2" :class="password2Class" placeholder="Conferma nuova password" required>
+   
+              </div>
     </form>
+               <label v-if="password2Ver==false" class="badge badge-danger">Le due password non coincidono</label>
           </div>
         </div>
       </div>
@@ -26,8 +42,8 @@ export default {
     data() {
         return {
             oldpw:'',
-            newpw:'',
-            cnfnewpw:''
+            password:'',
+            password2:''
         }
     },
 watch:{
