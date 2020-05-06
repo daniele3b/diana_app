@@ -25,9 +25,6 @@
        <li v-if="getTipo!='cittadino'" class="nav-item">
         <router-link  to="/avanzato" class="nav-link" href="#">Avanzato</router-link>
       </li>
-      <li class="nav-item">
-        <router-link  to="/about" class="nav-link" href="#">About </router-link>
-      </li>
         <li class="nav-item">
         <router-link  to="/cambio_pw" class="nav-link" href="#">Cambia password </router-link>
       </li>

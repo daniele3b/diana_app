@@ -19,13 +19,14 @@
         </div>
     </div>
      <div class="row mt-3">
-        <div class="col-4 d-none d-sm-block">
-          <router-link to="/report_storico">
+        <div v-if="getTipo!='operatore'" class="col-4 d-none d-sm-block">
+          <router-link to="/newoperatore">
          <button   id="im4"></button> 
           </router-link>
         </div>
-        <div class="col d-block d-sm-none">
-          <router-link to="/report_storico">
+        <!-- Non so questo sotto a che serve -M -->
+        <div v-if="getTipo!='operatore'"  class="col d-block d-sm-none">
+          <router-link to="/newoperatore">
          <button   id="im4"></button> 
           </router-link>
         </div>
@@ -38,10 +39,16 @@
 <script>
 // @ is an alias to /src
 
+import { mapGetters} from 'vuex'
+
 
 export default {
   name: 'Avanzato',
-
+computed:{
+...mapGetters({
+        'getTipo':'getType'
+    })
+}
 }
 </script>
 
