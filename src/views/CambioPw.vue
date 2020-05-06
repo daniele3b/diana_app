@@ -6,25 +6,33 @@
         <div class="card card-signin my-5  border-success">
           <div class="card-body">
            <h5 class="card-title text-center"><b>Cambio Password</b></h5>
-           
+           <p class="text-left">
+           La password deve essere lunga almeno 8 caratteri, e deve contenere almeno una lettera maiuscola, una minuscola ed un numero
+           <p>
             <hr class="my-4">
             <form class="form-signin" >
                  <div class="form-label-group">
-                  <input type="password" v-model="oldpw" :class="passwordClass" placeholder="Password attuale" required>
+                  <input type="password" v-model="password3"   :class="password3Class" placeholder="Password attuale" required>
+                  
                   
               </div>
 
               <div class="form-label-group">
                   <input type="password" v-model="password" :class="passwordClass" placeholder="Nuova password" required>
-                  <label v-if="passwordVer==false" class="badge badge-danger">Deve contenere almeno 8 caratteri,una <br>lettera maiuscola, una minuscola ed un numero</label>
+                
+        
               
               </div>
 
               <div class="form-label-group">
-               <input type="password" v-model="password2" :class="password2Class" placeholder="Conferma nuova password" required>
+               <input type="password" v-model="password2" :class="password2Class" placeholder="Conferma password" required>
    
               </div>
-    </form>
+            </form>
+            <hr class="my-4">            
+              <button v-if="this.p&&this.p2&&this.p3" @click="cambia" class="btn btn-lg btn-success btn-block text-uppercase" >Cambia</button>
+                <label v-if="passwordVer==false" class="badge badge-danger">Deve contenere almeno 8 caratteri,una <br>lettera maiuscola, una minuscola ed un numero</label>
+                 <label v-if="password3Ver==false" class="badge badge-danger">Deve contenere almeno 8 caratteri,una <br>lettera maiuscola, una minuscola ed un numero</label>
                <label v-if="password2Ver==false" class="badge badge-danger">Le due password non coincidono</label>
           </div>
         </div>
@@ -43,13 +51,22 @@ export default {
         return {
             oldpw:'',
             password:'',
-            password2:''
+            password2:'',
+            password3:'',
+            password3Ver:true,
+            passwordVer:true,
+            password2Ver:true,
+            p:false,
+            p2:false,
+            p3:false,
+            passwordClass: 'form-control-mario',
+            password2Class: 'form-control-mario',
+            password3Class: 'form-control-mario',
         }
     },
 watch:{
         password: function(){
-          if(this.password=='') this.passwordOk = false
-          else this.passwordOk = true
+          if(this.password=='')this.ok=false
           var numero = false;
           var lMaiusc = false;
           var lMinusc = false;
@@ -68,21 +85,48 @@ watch:{
             }
           }
           if(this.password.length>=8 && numero==true && lMaiusc==true && lMinusc==true)  
-                { this.passwordVer = true; this.passwordClass = "form-control-mario-ver";}
-          else{ this.passwordVer = false; this.passwordClass = "form-control-mario-errore";}
+                { this.passwordVer = true; this.passwordClass = "form-control-mario-ver";this.p=true}
+          else{ this.passwordVer = false; this.passwordClass = "form-control-mario-errore";this.p=false}
+        },
+        password3: function(){
+        if(this.password3=='')this.ok=false
+          var numero = false;
+          var lMaiusc = false;
+          var lMinusc = false;
+          var i = 0
+          for(i=0;i<this.password3.length;i++){
+            var character = this.password3.charAt(i);
+            if (!isNaN(character * 1)){
+                numero=true
+            }else{
+              if (character == character.toUpperCase()) {
+                lMaiusc = true
+              }
+              if (character == character.toLowerCase()){
+                lMinusc = true
+              }
+            }
+          }
+          if(this.password3.length>=8 && numero==true && lMaiusc==true && lMinusc==true)  
+                { this.password3Ver = true; this.password3Class = "form-control-mario-ver";this.p3=true}
+          else{ this.password3Ver = false; this.password3Class = "form-control-mario-errore";this.p3=false}
         },
         password2: function(){
-          if(this.password2=='') this.password2Ok = false
-          else this.password2Ok = true
-          if(this.password2 == this.password) { this.password2Ver = true; this.password2Class = "form-control-mario-ver";}
-          else{ this.password2Ver = false; this.password2Class = "form-control-mario-errore";}
+             if(this.password2=='')this.ok=false
+          if(this.password2 == this.password) { this.password2Ver = true; this.password2Class = "form-control-mario-ver";this.p2=true}
+          else{ this.password2Ver = false; this.password2Class = "form-control-mario-errore";this.p2=false}
         }
+      
         
 
 
     }
     ,
     methods : {
+        cambia:function()
+        {
+
+        }
      
    
           
