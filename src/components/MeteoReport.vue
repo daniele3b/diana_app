@@ -4,12 +4,12 @@
      <div class="col">
             <Meteo></Meteo>
       </div>
-      <div class="col">
+      <div class="col d-none d-sm-block">
         <UV>  </UV>
         </div>
         
     </div>
-    <div class="row">
+    <div class="row mb-1">
             <Report></Report>
     
   </div>
