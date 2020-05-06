@@ -1,11 +1,14 @@
 
 <template>
   <div class="container">
-    <div class="row">
+    <div class="row ">
+        
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      
         <div class="card card-signin my-5  border-success">
           <div class="card-body">
-           <h5 class="card-title text-center"><b>Cambio Password</b></h5>
+            <router-link to="/dashboard"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link>
+           <h5 class="card-title text-center">Cambio Password </h5>
            <p class="text-left">
            La password deve essere lunga almeno 8 caratteri, e deve contenere almeno una lettera maiuscola, una minuscola ed un numero
            <p>
@@ -34,11 +37,14 @@
                 <label v-if="passwordVer==false" class="badge badge-danger">Deve contenere almeno 8 caratteri,una <br>lettera maiuscola, una minuscola ed un numero</label>
                  <label v-if="password3Ver==false" class="badge badge-danger">Deve contenere almeno 8 caratteri,una <br>lettera maiuscola, una minuscola ed un numero</label>
                <label v-if="password2Ver==false" class="badge badge-danger">Le due password non coincidono</label>
-               <label v-if="finito==false" class="badge badge-danger">Errore nella richiesta</label>
-               <label v-if="finito==true" class="badge badge-success">Cambio della password avvenuto con successo</label>
+               
           </div>
+          <label v-if="finito==false" class="alert alert-danger">Errore nella richiesta</label>
+               <label v-if="finito==true" class="alert alert-success">Cambio della password avvenuto con successo</label>
         </div>
+          
       </div>
+    
     </div>
   </div>
 </template>
