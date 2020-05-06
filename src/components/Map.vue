@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-         <a href="#"> <img src="../assets/aereoNero.png"  class="mt-1 mr-1" style="width:30px; float:right;"></a>
+        <span> <a href="#"> <img src="../assets/aereoNero.png"  class="mt-1 mr-1" style="width:30px; float:right;"></a></span>
    
     
     <div class="card-body">
