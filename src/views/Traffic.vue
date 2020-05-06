@@ -225,7 +225,7 @@ export default {
       }
 
       // SE L'OPERATORE INSERISCE UN INDIRIZZO E UN CERTO RAGGIO GLI VERRANNO MOSTRATI I SENSORI
-      // ALL'INTERNO DI TALE RAGGIO
+      // ALL'INTERNO DI TALE RAGGIO A PARTIRE DA QUELL'INDIRIZZO
       else if(!this.zonaTrue && this.indirizzoTrue){
 
         this.sensoriNelRaggio = []
