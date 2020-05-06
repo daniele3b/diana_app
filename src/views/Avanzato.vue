@@ -19,12 +19,12 @@
         </div>
     </div>
      <div class="row mt-3">
-        <div class="col-4 d-none d-sm-block">
+        <div v-if="getTipo=='admin'" class="col-4 d-none d-sm-block">
           <router-link to="/report_storico">
          <button   id="im4"></button> 
           </router-link>
         </div>
-        <div class="col d-block d-sm-none">
+        <div v-if="getTipo=='admin'"  class="col d-block d-sm-none">
           <router-link to="/report_storico">
          <button   id="im4"></button> 
           </router-link>
@@ -38,10 +38,16 @@
 <script>
 // @ is an alias to /src
 
+import { mapGetters} from 'vuex'
+
 
 export default {
   name: 'Avanzato',
-
+computed:{
+...mapGetters({
+        'getTipo':'getType'
+    })
+}
 }
 </script>
 
