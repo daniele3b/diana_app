@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-        <span> <img @click="planeVisible = !planeVisible" src="../assets/aereoNero.png"  class="pointer mt-1 mr-1" style="width:30px; float:right;"></span>
+    <span v-if="userType!='cittadino'"> <img @click="planeClicked" src="../assets/aereoNero.png"  :class="imgClass" style="width:30px; float:right;"></span>
    
     
     <div class="card-body">
@@ -127,6 +127,7 @@ export default {
 
   data () {
     return {
+      userType : '',
       info : [],
       sensors : [],
       markerClicked : false,
@@ -137,8 +138,13 @@ export default {
       linkImg : "",
       immagineSogliaImpostata : false,
       planeVisible : false,
-      planes : []
+      planes : [],
+      imgClass : ''
     }
+  },
+
+  created(){
+    this.userType = localStorage.type
   },
 
   mounted:
@@ -303,6 +309,12 @@ export default {
             reject(error)
           })
         })
+      },
+
+      planeClicked(){
+        if(this.planeVisible) this.imgClass='imgNonEvidenziata mt-1 mr-1'; 
+        else this.imgClass='imgEvidenziata mt-1 mr-1'; 
+        this.planeVisible = !this.planeVisible
       }
       
     },
@@ -345,6 +357,14 @@ export default {
 .card{
   border-color: green;
 }
-.pointer         { cursor: pointer; }
+
+.imgNonEvidenziata{ 
+  cursor: pointer; 
+}
+
+.imgEvidenziata{ 
+  cursor: pointer;
+  background-color :  rgba(7, 182, 7, 0.938)
+}
 
 </style>
