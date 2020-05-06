@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-        <span> <img src="../assets/aereoNero.png"  class="pointer mt-1 mr-1" style="width:30px; float:right;"></span>
+        <span> <img @click="planeVisible = !planeVisible" src="../assets/aereoNero.png"  class="pointer mt-1 mr-1" style="width:30px; float:right;"></span>
    
     
     <div class="card-body">
@@ -27,6 +27,16 @@
                 :animation= google.maps.Animation.DROP
                 :icon="{ url: require('../assets/markerSensore.png')}"
                 @click="showInfoDetails"
+              />
+
+              <GmapMarker
+                :key = index
+                v-for="(plane, index) in planes"
+                :id = "plane.lat+';'+plane.lng"
+                :position="google && new google.maps.LatLng(plane.lat, plane.lng)"
+                :clickable="false"
+                :icon="{ url: require('../assets/aereoVerde.png')}"
+                :visible = "planeVisible"
               />
            
             </GmapMap>
@@ -125,12 +135,15 @@ export default {
       clickedSensor : {},
       avgs : [],
       linkImg : "",
-      immagineSogliaImpostata : false
+      immagineSogliaImpostata : false,
+      planeVisible : false,
+      planes : []
     }
   },
 
   mounted:
     function getDataFromSensors(){
+      // PRENDO I DATI DEGLI AGENTI CHIMICI DA TUTTI I SENSORI E MI SALVO I SENSORI IN UN ARRAY A PARTE
       axios({
         method: 'get',
         url: 'http://localhost:8081/chemical_agents',
@@ -161,6 +174,30 @@ export default {
       })
       .catch((error) => {
           console.log(error)
+      })
+
+      // PRENDO I DATI SUL TRAFFICO AEREO IN TEMPO REALE
+
+      axios({
+        method: 'get',
+        url: 'http://localhost:8081/air_traffic',
+        headers: {
+          "x-diana-auth-token": localStorage.token
+        }
+      })
+      .then((response) => {
+        const dim = response.data.length
+        let i
+        for(i=0;i<dim;i++){
+          this.planes.push({
+            icao : response.data[i].icao,
+            lat : response.data[i].lat,
+            lng : response.data[i].lon
+          })
+        }
+      })
+      .catch((error) => {
+        console.log(error)
       })
           
     },
