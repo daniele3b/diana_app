@@ -2,7 +2,7 @@
   <div class="container mt-3">
     <div class="row mt-3">
         <div class="col">
-             <router-link to="/report_storico">
+             <router-link to="/traffic">
          <button   id="im1"></button> 
           </router-link>
         </div>
