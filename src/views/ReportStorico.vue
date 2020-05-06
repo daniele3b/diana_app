@@ -134,7 +134,7 @@
                 </div>
                 <div class="col-4">
                  <select type="option" id="categoria" class="form-control" v-model="status2filter" required>
-                  <option disabled value="" >CATEGORIA</option>
+                  <option disabled value="" >STATO</option>
                   <option value="in attesa">in attesa</option>
                   <option value="presa in carico">presa in carico</option>
                   <option value="risolto">risolto</option>
