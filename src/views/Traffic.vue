@@ -36,7 +36,7 @@
 
         <div class="col">
         
-            <table v-if="inviato && tempoViaggioCorrente > 0" class="table mt-3">
+            <table v-if="inviato && !loading" class="table mt-3">
                 <thead class="thead-light" id="head">
                     <tr>
                         <th scope="col">Velocità attuale</th>
@@ -54,6 +54,9 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div class="mt-4"><b v-if="loading">Caricamento in corso...</b></div>
+
         </div>
     </div>
        
@@ -136,7 +139,8 @@ export default {
       sensorePiuVicino : [],
       sensoriNelRaggio : [],
       showNearestSensor : false,
-      showSensorsWithinRadius : false
+      showSensorsWithinRadius : false,
+      loading : false
     }
   },
 
@@ -199,6 +203,7 @@ export default {
       }
 
       this.inviato = true
+      this.loading = true
 
       // L'OPERATORE AVRA' INFORMAZIONI SUL TRAFFICO IN TEMPO REALE DELL'INDIRIZZO O DELLA ZONA INSERITA
 
@@ -214,6 +219,7 @@ export default {
         this.velocitaFlussoLibero = response.data[0].freeFlowSpeed
         this.confidenza = response.data[0].confidence.toFixed(2)
         this.tempoViaggioCorrente = response.data[0].currentTravelTime
+        this.loading = false
       })
       .catch((error) => {
         console.log(error)
