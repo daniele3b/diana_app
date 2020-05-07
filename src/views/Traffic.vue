@@ -7,26 +7,29 @@
                 <router-link to="/avanzato"><img src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;"></router-link>
             </div>
             
-            <div class="row">
+            <div v-if="!loading && inviato" class="row">
                 <label class="switch">
                     <input type="checkbox">
                     <span @click="indirizzoTrue=!indirizzoTrue; zonaTrue=!zonaTrue" class="slider round"></span>
                 </label>
+            </div>
+            <div v-if="!loading && inviato" class="row" style="margin-left:1px">
+              <b>{{inserimento}}</b>
             </div>
 
         </div>
 
         <div class="col">
             
-            <div class = "row mt-3">
+            <div v-if="!loading && inviato" class = "row mt-3">
                 <input type="text" class="inserimento" v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:250px">
             </div>
             
-            <div v-if="!indirizzoTrue && zonaTrue" class="row mt-2">
+            <div v-if="(!indirizzoTrue && zonaTrue) && (!loading && inviato)" class="row mt-2">
                 <input type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:250px">
             </div>
             
-            <div class="row">
+            <div v-if="!loading && inviato" class="row">
                 <img @click="invia()" src="../assets/cerca.png" class="search mt-1" style="width:30px; heigth:30px; margin-left:110px">
             </div>
             
@@ -55,17 +58,42 @@
                 </tbody>
             </table>
 
-            <div class="mt-4"><b v-if="loading">Caricamento in corso...</b></div>
+            <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
 
         </div>
     </div>
        
-      
-    
-        <!--  MAPPA CON IL MARKER INDICANTE L'INDIRIZZO SPECIFICATO  -->
+        <!--  CONTROLLI DI VARIO TIPO PER LA VISUALIZZAZIONE DEI CAMPI DI INSERIMENTO, DELLA LENTE E DELLO SWITCH  -->
         
+        <div v-if="(!loading && !inviato) || loading" style="margin-top:180px">
+            <input type="text" class="inserimento" v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:350px; height:35px">
+        </div>
+
+        <div v-if="(!indirizzoTrue && zonaTrue) && ((!loading && !inviato) || loading)" class="mt-2">
+            <input type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:350px; height:35px">
+        </div>
+
+        <div v-if="(!loading && !inviato) || loading">
+            <img @click="invia()" src="../assets/cerca.png" class="search mt-1" style="width:30px; heigth:30px;">
+        </div>
+
+        <div v-if="(!loading && !inviato)">
+            <label class="switch">
+                <input type="checkbox">
+                    <span @click="indirizzoTrue=!indirizzoTrue; zonaTrue=!zonaTrue" class="slider round"></span>
+            </label>
+        </div>
+
+        <div v-if="!loading && !inviato" style="margin-left:1px">
+            <b>{{inserimento}}</b>
+        </div>
+        
+        <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
+
+        <!--  MAPPA CON IL MARKER INDICANTE L'INDIRIZZO SPECIFICATO  -->
+
         <center>
-        <GmapMap v-if="showNearestSensor"
+        <GmapMap v-if="!loading && showNearestSensor"
             class = "mappa"
             :center="{lat:41.9109, lng:12.6818}"
             :zoom="9"
@@ -89,12 +117,12 @@
               E COME RAGGIO IL RAGGIO SPECIFICATO  -->
 
         <center>
-        <GmapMap v-if="showSensorsWithinRadius"
+        <GmapMap v-if="!loading && showSensorsWithinRadius"
             class = "mappa"
             :center="{lat:41.9109, lng:12.6818}"
             :zoom="9"
             map-type-id="terrain"
-            style="width: 620px; height: 320px"
+            style="width: 460px; height: 320px"
         >
 
         <GmapMarker
@@ -141,19 +169,32 @@ export default {
       sensoriNelRaggio : [],
       showNearestSensor : false,
       showSensorsWithinRadius : false,
-      loading : false
+      loading : false,
+      inserimento : "Clicca per inserire una zona e un raggio"
     }
   },
 
   watch : {
     indirizzoTrue : function(){
-      if(this.indirizzoTrue && !this.zonaTrue) this.placeholderIndirizzoZona = "Inserisci l' indirizzo"
-      else if(!this.indirizzoTrue && this.zonaTrue) this.placeholderIndirizzoZona = "Inserisci la zona"
+      if(this.indirizzoTrue && !this.zonaTrue){
+        this.inserimento = "Clicca per inserire una zona e un raggio"
+        this.placeholderIndirizzoZona = "Inserisci l' indirizzo"
+      } 
+      else if(!this.indirizzoTrue && this.zonaTrue){
+        this.inserimento = "Clicca per inserire un indirizzo"
+        this.placeholderIndirizzoZona = "Inserisci la zona"
+      } 
     },
 
     zonaTrue : function(){
-      if(this.indirizzoTrue && !this.zonaTrue) this.placeholderIndirizzoZona = "Inserisci l' indirizzo"
-      else if(!this.indirizzoTrue && this.zonaTrue) this.placeholderIndirizzoZona = "Inserisci la zona"
+      if(this.indirizzoTrue && !this.zonaTrue){
+        this.inserimento = "Clicca per inserire una zona e un raggio"
+        this.placeholderIndirizzoZona = "Inserisci l' indirizzo"
+      } 
+      else if(!this.indirizzoTrue && this.zonaTrue){
+        this.inserimento = "Clicca per inserire un indirizzo"
+        this.placeholderIndirizzoZona = "Inserisci la zona"
+      } 
     }
   },
   
