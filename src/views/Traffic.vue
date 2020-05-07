@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-       
-
       <div class="row">
         <div class="col">
             <div class="row mt-3">
@@ -67,7 +65,7 @@
      
           <!--  MAPPA CON IL MARKER INDICANTE L'INDIRIZZO SPECIFICATO  -->
 
-        <div class="row" style="margin-top:30px; margin-right:200px">
+        <div class="row" >
           
           <center>
           <div class="col">
