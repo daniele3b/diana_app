@@ -92,7 +92,7 @@
               <h6 class="card-subtitle mb-2 text-muted text-left">*campo facoltativo </h6>
               <hr class="my-4">
 
-              <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="submit">Entra in Diana!</button>
+              <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="button">Entra in Diana!</button>
               <h6 class="card-subtitle mb-2 mt-2 text-muted">oppure</h6>
               <a href="http://localhost:8081/sign-in/google" target="_blank"><img src="../../images/google.png" alt=""></a>
               <br>
