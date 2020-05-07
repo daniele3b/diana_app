@@ -203,6 +203,8 @@ export default {
         }
       }
 
+      this.coordinateIndirizzoZona = []
+
       this.inviato = true
       this.loading = true
 
@@ -230,11 +232,12 @@ export default {
         console.log(error)
       })
 
-      // SE L'OPERATORE INSERISCE UN INDIRIZZO GLI VERRA' MOSTRATO IL SENSORE PIU' VICINO A QUELL'INDIRIZZO
+      // SE L'OPERATORE INSERISCE UN INDIRIZZO GLI VERRANNO MOSTRATE LE INFO E I DATI 
+      // DEL SENSORE PIU' VICINO A QUELL'INDIRIZZO
+      
       if(!this.zonaTrue && this.indirizzoTrue){
         this.sensoriNelRaggio = []
         this.sensorePiuVicino = []
-        this.coordinateIndirizzoZona = []
         this.showNearestSensor = true
         this.showSensorsWithinRadius = false
 
