@@ -128,10 +128,29 @@
 
            <div v-else-if="adding==false &&zoomed==false&&editing==false&&filter==true" class="card-body" style="width:100%;height:520px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" ></a><b>APPLICA FILTRI</b></h5>
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-4">
-              <input type="text" id="address" class="form-control mb-4" minlength="16" maxlength="16" v-model="CF2filter" placeholder=" CF"  required autofocus>
+              <input type="text" id="address" class="form-control " minlength="16" maxlength="16" v-model="CF2filter" placeholder=" CF"  required autofocus>
+          
+            
+                  </div>
+                  
                 </div>
+                 <div class="row mt-3">
+                <div class="col-4">
+                  <select type="option" id="categoria" class="form-control" v-model="cat2filter" required>
+                  <option disabled value="" >CATEGORIA</option>
+                  <option value="incendio">incendio</option>
+                  <option value="rifiuti">rifiuti</option>
+                  <option value="urbanistica">urbanistica</option>
+                  <option value="idrogeologia"> idrogeologia</option>
+                  <option value="altro">altro</option>
+                 
+                </select>
+                </div>
+                
+                </div>
+                <div class="row mt-3">
                 <div class="col-4">
                  <select type="option" id="categoria" class="form-control" v-model="status2filter" required>
                   <option disabled value="" >STATO</option>
@@ -139,7 +158,7 @@
                   <option value="presa in carico">presa in carico</option>
                   <option value="risolto">risolto</option>
                 </select>
-                   <div class="row mt-2">
+                  <div class="row mt-3">
                 <div class="col">
                   Data inizio: <input type="date" name="mydatetime" v-model="data_inizio">
                 </div>
@@ -148,17 +167,21 @@
                  </div>
                 </div>
                 </div>
-                 <div class="col-1">
-                  <button   type="button"   class="btn btn-xs btn-success mt-1" @click="filterConfermato">Applica</button>   
-           </div>
-             
+                </div>
+        
+                       <button   type="button"   class="btn btn-xs btn-success  p-2" @click="filterConfermato">Applica</button> 
+                  
+                
+                
+               
+         
            
             </div>
                 
                    
                
              
-              </div>
+          
               
               
                   
@@ -202,6 +225,7 @@ export default {
          obj2edit:{},
          app:[],
          status2filter:'',
+         cat2filter:'',
          filteractive:false,
          filter:false,
          data_inizio:'',
@@ -448,25 +472,25 @@ export default {
         
          for(i=0;i<this.app.length;i++){
            //Se ho solo cf
-             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine=='')
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine==''&&this.cat2filter=='')
                 {
                     if(this.app[i].CF==(this.CF2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }
             //se ho cf e stato
-            if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine=='')
+            if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine==''&&this.cat2filter=='')
                 {
                     if(this.app[i].CF==(this.CF2filter.toUpperCase())&& this.app[i].status==(this.status2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }
             //se ho solo stato
-            if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine=='')
+            if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine==''&&this.cat2filter=='')
                 {
                      if(this.app[i].status==(this.status2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }
               //se ho solo data inizio e fine
-             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine!='')
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter=='')
                 {
                 
                      if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio)
@@ -476,7 +500,7 @@ export default {
                      }
                 }
               //se ho CF e data inizio e fine
-             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine!='')
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter=='')
                 {
                      if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].CF==(this.CF2filter.toUpperCase()))
                         this.reports.push(this.app[i])
@@ -484,13 +508,13 @@ export default {
 
 
                   //se ho CF e data inizio 
-             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine=='')
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine==''&&this.cat2filter=='')
                 {
                      if(this.app[i].date>=this.data_inizio&&this.app[i].CF==(this.CF2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }  
             //se ho CF e data fine
-             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine!='')
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine!=''&&this.cat2filter=='')
                 {
                      if(this.app[i].date<=this.data_fine&&this.app[i].CF==(this.CF2filter.toUpperCase()))
                         this.reports.push(this.app[i])
@@ -498,14 +522,14 @@ export default {
 
                 
                 //se ho stato e data inizio e fine
-             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!='')
+             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter=='')
                 {
                      if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 } 
 
                    //se ho stato e data inizio 
-             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine=='')
+             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine==''&&this.cat2filter=='')
                 {
                      if(this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase()))
                         this.reports.push(this.app[i])
@@ -513,25 +537,25 @@ export default {
 
 
                   //se ho stato e data fine
-             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine!='')
+             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine!=''&&this.cat2filter=='')
                 {
                      if(this.app[i].date<=this.data_fine&&this.app[i].status==(this.status2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 } 
               //se ho tutto
-             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!='')
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter=='')
                 {
                      if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }
                 //se ho solo data inizio
-             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine=='')
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine==''&&this.cat2filter=='')
                 {
                      if(this.app[i].date>=this.data_inizio)
                         this.reports.push(this.app[i])
                 }
                 //se ho solo data fine
-             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine!='')
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine!=''&&this.cat2filter=='')
                 {
       
                      if(this.app[i].date<=this.data_fine)
