@@ -35,7 +35,7 @@
 
       </div>
 
-
+          
         <!--  CONTROLLI DI VARIO TIPO PER LA VISUALIZZAZIONE DEI CAMPI DI INSERIMENTO, DELLA LENTE E DELLO SWITCH  -->
         
         <div v-if="(!loading && !inviato) || loading" style="margin-top:180px margin-left:20px">
@@ -56,16 +56,15 @@
                 <input type="checkbox">
                     <span @click="indirizzoTrue=!indirizzoTrue; zonaTrue=!zonaTrue" class="slider round"></span>
             </label>
-            <b style="margin-left:5px">    Zona</b>
+            <b style="margin-left:5px">Zona</b>
         </div>
         
         <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
 
-
      
           <!--  MAPPA CON IL MARKER INDICANTE L'INDIRIZZO SPECIFICATO  -->
 
-        <div class="row" >
+        <div class="row mt-3">
           
           <center>
           <div class="col">
