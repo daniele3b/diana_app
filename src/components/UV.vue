@@ -1,5 +1,5 @@
 <template>
- <div class="container">
+ 
   <div class="row" >
     <div class="col-12 col-sm-8 col-md-6 col-lg-4" >
       <div class="card" onload="getReport();" >
@@ -64,7 +64,7 @@
       </div> 
     </div>
   </div>
-</div>
+
 </template>
 
 <script>

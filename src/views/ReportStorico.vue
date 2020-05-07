@@ -1,6 +1,6 @@
 <template>
  <div class="card  mt-1"  onload="getReport();" >
-  <div class="card-header">Storico segnalazioni <router-link to="/dashboard"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link> <a v-if="filteractive==false" href="#" @click="filtering"><img src="../assets/filter.png" style="float:right;" height="22px;" ></a><a v-if="filteractive==true" href="#" @click="removeFilter"><img src="../assets/nofilter.png" style="float:right;" height="22px;" ></a></div>
+  <div class="card-header">Storico segnalazioni <router-link to="/dashboard"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link><img  v-if="filteractive==false&&filter==false"   @click="filtering" src="../assets/filter.png" style="float:right;  cursor: pointer;" height="22px;" > <img   v-if="filteractive==true"  @click="removeFilter" src="../assets/nofilter.png" style="float:right;cursor:pointer;" height="22px;" ></div>
   <!-- schermata di visualizzazione-->
   <div v-if="adding==false&&zoomed==false&&editing==false&&filter==false" class="card-body">
     <div class="col-md-12" >
@@ -143,7 +143,7 @@
                   <option value="incendio">incendio</option>
                   <option value="rifiuti">rifiuti</option>
                   <option value="urbanistica">urbanistica</option>
-                  <option value="idrogeologia"> idrogeologia</option>
+                  <option value="idrogeologia">idrogeologia</option>
                   <option value="altro">altro</option>
                  
                 </select>
@@ -463,7 +463,7 @@ export default {
          filterConfermato: function()
         {
         
-        if(this.CF2filter!=''||this.status2filter!=''||this.data_inizio!=''||this.data_fine!=''){
+        if(this.CF2filter!=''||this.status2filter!=''||this.data_inizio!=''||this.data_fine!=''||this.cat2filter!=''){
         this.app=this.reports
         this.reports=[]
          let i=0;
@@ -542,7 +542,7 @@ export default {
                      if(this.app[i].date<=this.data_fine&&this.app[i].status==(this.status2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 } 
-              //se ho tutto
+              //se ho cf stato inizio e fine
              if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter=='')
                 {
                      if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase()))
@@ -561,9 +561,104 @@ export default {
                      if(this.app[i].date<=this.data_fine)
                         this.reports.push(this.app[i])
                 }
-               
+
+                //se ho tutto
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+              //se cf stato iniz cat 
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+              //se ho cf stato cat fin
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+              //se ho cf ct fin iniz
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+              //se ho status ini fin cat
+                   if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+              //se ho cf stato cat
+                   if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+              //se ho cf stato inizio fine
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter=='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+                  //se ho cf stato fine
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine!=''&&this.cat2filter=='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+                //se ho solo cat
+        
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+                  //se ho cat e stato
+             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+                  //se ho cf e cat
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+                  //se ho inizio e cat
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date>=this.data_inizio&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+                //se ho fine e cat
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+                //se cat ini e fine
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
 
          }
+         console.log(this.reports)
           this.filter=false
           this.filteractive=true
         }else{
@@ -578,8 +673,10 @@ export default {
             this.reports=this.app
             this.data_inizio=''
             this.data_fine=''
+            this.cat2filter=''
             this.app=[]
             this.filteractive=false
+
         },
 
         back: function(event)
@@ -594,6 +691,7 @@ export default {
           this.status=''
           this.data_inizio=''
           this.data_fine=''
+          this.cat2filter=''
           this.adding=false
           this.zoomed=false
           this.editing=false
