@@ -92,7 +92,7 @@
               <label v-if="corretto==true" class="alert alert-success">Inserimento operatore avvenuto con successo!</label>
               <hr class="my-4">
 
-              <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="submit">Inserisci Operatore</button>
+              <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="button">Inserisci Operatore</button>
               
               
               
