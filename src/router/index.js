@@ -20,14 +20,7 @@ const protect = (to, from, next) => {
   else next({ name : "Login"})
 }
 
-const skipLog = (to, from, next) => {
-  if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
-      localStorage.getItem('password') != undefined && localStorage.getItem('token') != undefined &&
-      localStorage.getItem('type') != undefined){
-    next({name:"Dashboard"})
-  }
-  else next()
-}
+
 
 
 
@@ -46,7 +39,6 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Login',
-    beforeEnter:skipLog,
     component: Login
   },
   {
