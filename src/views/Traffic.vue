@@ -46,7 +46,7 @@
             <input type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:350px; height:35px">
         </div>
 
-        <div v-if="(!loading && !inviato) || loading">
+        <div v-if="(!loading && !inviato)">
             <img @click="invia()" src="../assets/cerca.png" class="search mt-1" style="width:30px; heigth:30px;">
         </div>
 
@@ -58,8 +58,6 @@
             </label>
             <b style="margin-left:5px">Zona</b>
         </div>
-        
-        <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
 
      
           <!--  MAPPA CON IL MARKER INDICANTE L'INDIRIZZO SPECIFICATO  -->
@@ -67,6 +65,8 @@
         <div class="row mt-3">
           
           <center>
+
+            <div v-if="loading && showNearestSensor" class="col mt-4"><b>Caricamento in corso...</b></div>
           <div class="col">
             
         <GmapMap v-if="!loading && showNearestSensor"
@@ -91,6 +91,7 @@
           </center>
           
           <center>
+            <div v-if="loading && showSensorsWithinRadius" class="col mt-4"><b>Caricamento in corso...</b></div>
           <div class="col">
             <!--  MAPPA CON I SENSORI ALL'INTERNO DEL CERCHIO CHE HA COME CENTRO LA ZONA SPECIFICATA  
               E COME RAGGIO IL RAGGIO SPECIFICATO  -->
@@ -125,6 +126,7 @@
         <div class="col">
         
             <center>
+              <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
             <table v-if="inviato && !loading" class="table">
                 <thead class="thead-light" id="head">
                     <tr>
@@ -144,8 +146,6 @@
                 </tbody>
             </table>
             </center>
-
-            <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
 
         </div>
 
