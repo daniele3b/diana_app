@@ -8,16 +8,10 @@
             </div>
             
             <div class="row">
-                <div class="btn-toolbar mt-3 ml-3" role="toolbar">
-                    <div class="btn-group mr-2" role="group">
-                        <button @click="indirizzoTrue=true; zonaTrue=false" type="button" class="btn btn-success">Indirizzo</button> 
-                    </div>
-                
-                    <div class="btn-group mr-2" role="group">
-                        <button @click="indirizzoTrue=false; zonaTrue=true" type="button" class="btn btn-success" style="width:90px">Zona</button>
-                    </div>
-  
-                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span @click="indirizzoTrue=!indirizzoTrue; zonaTrue=!zonaTrue" class="slider round"></span>
+                </label>
             </div>
 
         </div>
@@ -28,7 +22,7 @@
                 <input type="text" class="inserimento" v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:250px">
             </div>
             
-            <div v-if="indirizzoTrue && !zonaTrue" class="row mt-2">
+            <div v-if="!indirizzoTrue && zonaTrue" class="row mt-2">
                 <input type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:250px">
             </div>
             
@@ -62,9 +56,10 @@
             </table>
         </div>
     </div>
-
+       
+      
     
-        <!--  MAPPA CON IL SENSORE PIU' VICINO ALLA ZONA SPECIFICATA  -->
+        <!--  MAPPA CON IL SENSORE PIU' VICINO ALL'INDIRIZZO SPECIFICATO  -->
         
         <center>
         <GmapMap v-if="showNearestSensor"
@@ -87,7 +82,7 @@
         </GmapMap>
         </center>
 
-        <!--  MAPPA CON I SENSORI ALL'INTERNO DEL CERCHIO CHE HA COME CENTRO L'INDIRIZZO SPECIFICATO  
+        <!--  MAPPA CON I SENSORI ALL'INTERNO DEL CERCHIO CHE HA COME CENTRO LA ZONA SPECIFICATA  
               E COME RAGGIO IL RAGGIO SPECIFICATO  -->
 
         <center>
@@ -129,10 +124,10 @@ export default {
   data(){
     return {
       indirizzoZona : "",
-      placeholderIndirizzoZona : "Inserisci la zona",
+      placeholderIndirizzoZona : "Inserisci l' indirizzo",
       raggio : undefined,
-      indirizzoTrue : false,
-      zonaTrue : true,
+      indirizzoTrue : true,
+      zonaTrue : false,
       velocitaAttuale : 0,
       velocitaFlussoLibero : 0,
       confidenza : 0,
@@ -177,11 +172,30 @@ export default {
       return true
     },
 
+    controllaSwitch(){
+      if(this.indirizzoTrue && !this.zonaTrue){
+        this.indirizzoTrue = false
+        this.zonaTrue = true
+      }
+
+      else if(!this.indirizzoTrue && this.zonaTrue){
+        this.indirizzoTrue = true
+        this.zonaTrue = false
+      }
+    },
+
     invia(){
       if(!this.indirizzoZonaValidi()){
-          if(this.indirizzoTrue && !this.zonaTrue) alert('Indirizzo inserito non valido')
+          if(this.indirizzoTrue) alert('Indirizzo inserito non valido')
           else if(!this.indirizzoTrue && this.zonaTrue) alert('Zona inserita non valida')
           return
+      }
+
+      else if(this.zonaTrue && !this.indirizzoTrue){
+        if(!this.raggioValido()){
+            alert('Raggio non valido')
+            return
+        }
       }
 
       this.inviato = true
@@ -205,8 +219,8 @@ export default {
         console.log(error)
       })
 
-      // SE L'OPERATORE INSERISCE UNA ZONA GLI VERRA' MOSTRATO IL SENSORE PIU' VICINO A QUELLA ZONA
-      if(this.zonaTrue && !this.indirizzoTrue){
+      // SE L'OPERATORE INSERISCE UN INDIRIZZO GLI VERRA' MOSTRATO IL SENSORE PIU' VICINO A QUELL'INDIRIZZO
+      if(!this.zonaTrue && this.indirizzoTrue){
         this.sensoriNelRaggio = []
         this.sensorePiuVicino = []
         this.showNearestSensor = true
@@ -229,9 +243,9 @@ export default {
         })
       }
 
-      // SE L'OPERATORE INSERISCE UN INDIRIZZO E UN CERTO RAGGIO GLI VERRANNO MOSTRATI I SENSORI
-      // ALL'INTERNO DI TALE RAGGIO A PARTIRE DA QUELL'INDIRIZZO
-      else if(!this.zonaTrue && this.indirizzoTrue){
+      // SE L'OPERATORE INSERISCE UNA ZONA E UN CERTO RAGGIO GLI VERRANNO MOSTRATI I SENSORI
+      // ALL'INTERNO DI TALE RAGGIO A PARTIRE DA QUELLA ZONA
+      else if(this.zonaTrue && !this.indirizzoTrue){
         if(!this.raggioValido()){
             alert('Raggio non valido')
             return
@@ -286,6 +300,58 @@ export default {
 
 #body{
     font-size: 15px;
+}
+
+.switch {
+  position: relative;
+  display:inline-block;
+  width: 60px;
+  margin-top: 10px;
+  margin-left: 10px;
+  height: 30px;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(151, 148, 148);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 23px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: rgb(204, 248, 7);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: rgb(32, 196, 32);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 20px;
 }
 
 </style>
