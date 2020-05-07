@@ -4,6 +4,7 @@
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card card-signin my-5  border-success">
           <div class="card-body">
+            <router-link to="/avanzato"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link>
            <h5 class="card-title text-center"><b>Registrazione nuovo operatore </b></h5>
            
             <hr class="my-4">
@@ -88,6 +89,7 @@
               <div v-if="allerta" class="alert alert-danger" role="alert">
                 Non hai inserito tutto!
               </div>
+              <label v-if="corretto==true" class="alert alert-success">Inserimento operatore avvenuto con successo!</label>
               <hr class="my-4">
 
               <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="submit">Inserisci Operatore</button>
@@ -168,7 +170,8 @@ export default {
             phoneClass: 'form-control-mario',
             phoneVer: true,
 
-            allerta: false
+            allerta: false,
+            corretto: false
         }
     },
     watch: {
@@ -390,8 +393,7 @@ export default {
                 phone: this.phone
             }
             }).then(() => {
-                alert("\nRegistrazione avvenuta con successo!");
-                window.location.replace('Avanzato.vue');
+                this.corretto = true
                 
             }, (error) => {
                 alert("Errore richiesta:\n"+error)
