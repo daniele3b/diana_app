@@ -8,7 +8,7 @@
             <hr class="my-4">
             <form class="form-signin" @keyup.enter="accedi()">
               <div class="form-label-group">
-                <input type="text" id="inputEmailOrPhone" class="form-control" v-model="emailOrPhone" placeholder="Inserici l'indirizzo email o il telefono" required autofocus>
+                <input type="text" id="inputEmailOrPhone" class="form-control" v-model="emailOrPhone" placeholder="Inserici l'indirizzo email o il telefono" required >
               </div>
 
               <div class="form-label-group">
