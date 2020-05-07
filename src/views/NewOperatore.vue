@@ -89,11 +89,10 @@
               <div v-if="allerta" class="alert alert-danger" role="alert">
                 Non hai inserito tutto!
               </div>
-              <label v-if="corretto==true" class="alert alert-success">Inserimento operatore avvenuto con successo!</label>
               <hr class="my-4">
 
               <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="submit">Inserisci Operatore</button>
-              
+              <label v-if="corretto==true" class="alert alert-success">Inserimento operatore avvenuto con successo!</label>
               
               
 
@@ -313,7 +312,7 @@ export default {
           if(this.nameVer==true && this.surnameVer==true && this.phoneVer && this.emailVer==true && 
           this.birthplaceVer==true && this.passwordVer==true && this.dayOk==true && this.monthOk==true && 
           this.yearOk==true && this.sexOk==true && this.password2Ver==true) return true;
-          else return false
+            else return false
         }
         ,
         regPost() { 
