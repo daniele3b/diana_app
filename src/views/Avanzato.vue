@@ -19,6 +19,7 @@
         </div>
     </div>
      <div class="row mt-3">
+
         <div v-if="getTipo!='operatore'" class="col-4 d-none d-sm-block">
           <router-link to="/newoperatore">
          <button   id="im4"></button> 
@@ -30,6 +31,11 @@
          <button   id="im4"></button> 
           </router-link>
         </div>
+        <div class="col-4">
+          <router-link to="/report_storico">
+         <button   id="im5"></button> 
+          </router-link>
+          </div>
        
     </div>
 
@@ -118,6 +124,23 @@ computed:{
 
 #im4:hover{
   background-image:url('../assets/menu_ins2.png');
+   
+    
+}
+
+#im5{
+
+    height:250px;  
+    width:300px;
+    background-image:url('../assets/menu_dati.png');
+     background-size: cover;
+     border:0;
+     background-color: transparent;
+
+}
+
+#im5:hover{
+  background-image:url('../assets/menu_dati2.png');
    
     
 }

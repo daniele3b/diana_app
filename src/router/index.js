@@ -21,6 +21,9 @@ const protect = (to, from, next) => {
 }
 
 
+
+
+
 const protectSup = (to, from, next) => {
   if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
       localStorage.getItem('password') != undefined && localStorage.getItem('token') != undefined &&
