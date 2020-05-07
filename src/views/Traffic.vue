@@ -62,7 +62,7 @@
        
       
     
-        <!--  MAPPA CON IL SENSORE PIU' VICINO ALL'INDIRIZZO SPECIFICATO  -->
+        <!--  MAPPA CON IL MARKER INDICANTE L'INDIRIZZO SPECIFICATO  -->
         
         <center>
         <GmapMap v-if="showNearestSensor"
@@ -75,9 +75,9 @@
 
         <GmapMarker
             :key = index
-            v-for="(sensor, index) in sensorePiuVicino"
-            :id = "sensor.coordinates.lat+';'+sensor.coordinates.lon"
-            :position="google && new google.maps.LatLng(sensor.coordinates.lat, sensor.coordinates.lon)"
+            v-for="(address, index) in coordinateIndirizzoZona"
+            :id = "address.lat+';'+address.lng"
+            :position="google && new google.maps.LatLng(address.lat, address.lng)"
             :animation= google.maps.Animation.DROP
             :icon="{ url: require('../assets/markerSensore.png')}"
         />
@@ -127,6 +127,7 @@ export default {
   data(){
     return {
       indirizzoZona : "",
+      coordinateIndirizzoZona : [],
       placeholderIndirizzoZona : "Inserisci l' indirizzo",
       raggio : undefined,
       indirizzoTrue : true,
@@ -219,6 +220,10 @@ export default {
         this.velocitaFlussoLibero = response.data[0].freeFlowSpeed
         this.confidenza = response.data[0].confidence.toFixed(2)
         this.tempoViaggioCorrente = response.data[0].currentTravelTime
+        this.coordinateIndirizzoZona.push({
+          lat : response.data[0].lat,
+          lng : response.data[0].lon
+        })
         this.loading = false
       })
       .catch((error) => {
@@ -229,10 +234,9 @@ export default {
       if(!this.zonaTrue && this.indirizzoTrue){
         this.sensoriNelRaggio = []
         this.sensorePiuVicino = []
+        this.coordinateIndirizzoZona = []
         this.showNearestSensor = true
         this.showSensorsWithinRadius = false
-
-        this.sensorePiuVicino = []
 
         axios({
           method: 'get',
