@@ -143,7 +143,7 @@
                   <option value="incendio">incendio</option>
                   <option value="rifiuti">rifiuti</option>
                   <option value="urbanistica">urbanistica</option>
-                  <option value="idrogeologia"> idrogeologia</option>
+                  <option value="idrogeologia">idrogeologia</option>
                   <option value="altro">altro</option>
                  
                 </select>
@@ -463,7 +463,7 @@ export default {
          filterConfermato: function()
         {
         
-        if(this.CF2filter!=''||this.status2filter!=''||this.data_inizio!=''||this.data_fine!=''){
+        if(this.CF2filter!=''||this.status2filter!=''||this.data_inizio!=''||this.data_fine!=''||this.cat2filter!=''){
         this.app=this.reports
         this.reports=[]
          let i=0;
@@ -542,7 +542,7 @@ export default {
                      if(this.app[i].date<=this.data_fine&&this.app[i].status==(this.status2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 } 
-              //se ho tutto
+              //se ho cf stato inizio e fine
              if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter=='')
                 {
                      if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase()))
@@ -561,9 +561,97 @@ export default {
                      if(this.app[i].date<=this.data_fine)
                         this.reports.push(this.app[i])
                 }
-               
+
+                //se ho tutto
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+              //se cf stato iniz cat 
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+              //se ho cf stato cat fin
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+              //se ho cf ct fin iniz
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+              //se ho status ini fin cat
+                   if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+              //se ho cf stato cat
+                   if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+              //se ho cf stato inizio fine
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter=='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+                  //se ho cf stato fine
+             if(this.CF2filter!=''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine!=''&&this.cat2filter=='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].CF==(this.CF2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+                //se ho solo cat
+        
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+                  //se ho cat e stato
+             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+                  //se ho cf e cat
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+                  //se ho inizio e cat
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date>=this.data_inizio&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+                //se ho fine e cat
+             if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
 
          }
+         console.log(this.reports)
           this.filter=false
           this.filteractive=true
         }else{
@@ -578,8 +666,10 @@ export default {
             this.reports=this.app
             this.data_inizio=''
             this.data_fine=''
+            this.cat2filter=''
             this.app=[]
             this.filteractive=false
+
         },
 
         back: function(event)
@@ -594,6 +684,7 @@ export default {
           this.status=''
           this.data_inizio=''
           this.data_fine=''
+          this.cat2filter=''
           this.adding=false
           this.zoomed=false
           this.editing=false
