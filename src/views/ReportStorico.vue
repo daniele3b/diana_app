@@ -128,6 +128,8 @@
 
            <div v-else-if="adding==false &&zoomed==false&&editing==false&&filter==true" class="card-body" style="width:100%;height:520px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" ></a><b>APPLICA FILTRI</b></h5>
+           
+            <div class="ml-5" >
             <div class="row mt-3">
                 <div class="col-4">
               <input type="text" id="address" class="form-control " minlength="16" maxlength="16" v-model="CF2filter" placeholder=" CF"  required autofocus>
@@ -168,7 +170,7 @@
                 </div>
                 </div>
                 </div>
-        
+        </div>
                        <button   type="button"   class="btn btn-xs btn-success  p-2" @click="filterConfermato">Applica</button> 
                   
                 
@@ -654,6 +656,20 @@ export default {
              if(this.CF2filter==''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine!=''&&this.cat2filter!='')
                 {
                      if(this.app[i].date<=this.data_fine&&this.app[i].date>=this.data_inizio&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+                  //se cat inizio stato
+             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio!=''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date>=this.data_inizio&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+                  //se cat fine stato
+             if(this.CF2filter==''&& this.status2filter!=''&&this.data_inizio==''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].status==(this.status2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
                         this.reports.push(this.app[i])
                 }
 
