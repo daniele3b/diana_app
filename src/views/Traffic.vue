@@ -1,27 +1,27 @@
 <template>
-  <div>
-    <div class="row">
+  <div class="container">
+       
 
+      <div class="row">
         <div class="col">
             <div class="row mt-3">
                 <router-link to="/avanzato"><img src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;"></router-link>
             </div>
             
-            <div v-if="!loading && inviato" class="row">
+            <div v-if="!loading && inviato" class="row" style="margin-left:20px;">
+                <b style="margin-top:10px; margin-left:4px">Indirizzo</b>
                 <label class="switch">
                     <input type="checkbox">
                     <span @click="indirizzoTrue=!indirizzoTrue; zonaTrue=!zonaTrue" class="slider round"></span>
                 </label>
-            </div>
-            <div v-if="!loading && inviato" class="row" style="margin-left:1px">
-              <b>{{inserimento}}</b>
+                <b style="margin-top:10px; margin-left:8px">Area</b>
             </div>
 
         </div>
 
         <div class="col">
             
-            <div v-if="!loading && inviato" class = "row mt-3">
+            <div v-if="!loading && inviato" class = "row mt-5">
                 <input type="text" class="inserimento" v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:250px">
             </div>
             
@@ -33,40 +33,15 @@
                 <img @click="invia()" src="../assets/cerca.png" class="search mt-1" style="width:30px; heigth:30px; margin-left:110px">
             </div>
             
-            
-            
         </div>
 
-        <div class="col">
-        
-            <table v-if="inviato && !loading" class="table mt-3">
-                <thead class="thead-light" id="head">
-                    <tr>
-                        <th scope="col">Velocità attuale</th>
-                        <th scope="col">Velocità di flusso libero</th>
-                        <th scope="col">Confidenza</th>
-                        <th scope="col">Tempo di viaggio corrente</th>
-                    </tr>
-                </thead>
-                <tbody id="body">
-                    <tr>
-                        <td>{{velocitaAttuale}}</td>
-                        <td>{{velocitaFlussoLibero}}</td>
-                        <td>{{confidenza}}</td>
-                        <td>{{tempoViaggioCorrente}}</td>
-                    </tr>
-                </tbody>
-            </table>
+      </div>
 
-            <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
 
-        </div>
-    </div>
-       
         <!--  CONTROLLI DI VARIO TIPO PER LA VISUALIZZAZIONE DEI CAMPI DI INSERIMENTO, DELLA LENTE E DELLO SWITCH  -->
         
-        <div v-if="(!loading && !inviato) || loading" style="margin-top:180px">
-            <input type="text" class="inserimento" v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:350px; height:35px">
+        <div v-if="(!loading && !inviato) || loading" style="margin-top:180px margin-left:20px">
+            <input type="text" class="inserimento"  v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:350px; height:35px">
         </div>
 
         <div v-if="(!indirizzoTrue && zonaTrue) && ((!loading && !inviato) || loading)" class="mt-2">
@@ -78,27 +53,31 @@
         </div>
 
         <div v-if="(!loading && !inviato)">
+          <b>Indirizzo</b>
             <label class="switch">
                 <input type="checkbox">
                     <span @click="indirizzoTrue=!indirizzoTrue; zonaTrue=!zonaTrue" class="slider round"></span>
             </label>
-        </div>
-
-        <div v-if="!loading && !inviato" style="margin-left:1px">
-            <b>{{inserimento}}</b>
+            <b style="margin-left:5px">    Zona</b>
         </div>
         
         <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
 
-        <!--  MAPPA CON IL MARKER INDICANTE L'INDIRIZZO SPECIFICATO  -->
 
-        <center>
+     
+          <!--  MAPPA CON IL MARKER INDICANTE L'INDIRIZZO SPECIFICATO  -->
+
+        <div class="row" style="margin-top:30px; margin-right:200px">
+          
+          <center>
+          <div class="col">
+            
         <GmapMap v-if="!loading && showNearestSensor"
             class = "mappa"
             :center="{lat:41.9109, lng:12.6818}"
             :zoom="9"
             map-type-id="terrain"
-            style="width: 620px; height: 320px"
+            style="width: 460px; height: 320px"
         >
 
         <GmapMarker
@@ -111,12 +90,15 @@
         />
            
         </GmapMap>
-        </center>
-
-        <!--  MAPPA CON I SENSORI ALL'INTERNO DEL CERCHIO CHE HA COME CENTRO LA ZONA SPECIFICATA  
+          </div>
+          </center>
+          
+          <center>
+          <div class="col">
+            <!--  MAPPA CON I SENSORI ALL'INTERNO DEL CERCHIO CHE HA COME CENTRO LA ZONA SPECIFICATA  
               E COME RAGGIO IL RAGGIO SPECIFICATO  -->
-
-        <center>
+        
+        
         <GmapMap v-if="!loading && showSensorsWithinRadius"
             class = "mappa"
             :center="{lat:41.9109, lng:12.6818}"
@@ -135,7 +117,43 @@
         />
            
         </GmapMap>
-        </center>
+        
+
+          </div>
+
+          </center>
+
+          
+
+        <div class="col">
+        
+            <center>
+            <table v-if="inviato && !loading" class="table">
+                <thead class="thead-light" id="head">
+                    <tr>
+                        <th scope="col">Velocità attuale</th>
+                        <th scope="col">Velocità di flusso libero</th>
+                        <th scope="col">Confidenza</th>
+                        <th scope="col">Tempo di viaggio corrente</th>
+                    </tr>
+                </thead>
+                <tbody id="body">
+                    <tr>
+                        <td>{{velocitaAttuale}}</td>
+                        <td>{{velocitaFlussoLibero}}</td>
+                        <td>{{confidenza}}</td>
+                        <td>{{tempoViaggioCorrente}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </center>
+
+            <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
+
+        </div>
+
+        </div>
+        
 
   </div>    
 </template>
@@ -170,7 +188,6 @@ export default {
       showNearestSensor : false,
       showSensorsWithinRadius : false,
       loading : false,
-      inserimento : "Clicca per inserire una zona e un raggio"
     }
   },
 
