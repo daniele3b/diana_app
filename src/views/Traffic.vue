@@ -273,7 +273,6 @@
                                                           <th class="header" scope="col">UID</th>
                                                           <th class="header" scope="col">Latitudine</th>
                                                           <th class="header" scope="col">Longitudine</th>
-                                                          <th class="header" scope="col">Distanza</th>
                                                       </tr>
                                                   </thead>
               
@@ -283,7 +282,6 @@
                                                           <td class="data"> {{sensorePiuVicino[0].uid}} </td>
                                                           <td class="data"> {{sensorePiuVicino[0].coordinates.lat}} </td>
                                                           <td class="data"> {{sensorePiuVicino[0].coordinates.lon}} </td>
-                                                          <td class="data"> {{sensorePiuVicino[0].distance}} </td>
                                                       </tr>              
                                                   </tbody>
             
