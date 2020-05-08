@@ -67,241 +67,256 @@
           
           <center>
 
-            <div v-if="loading && showNearestSensor" class="col mt-4"><b>Caricamento in corso...</b></div>
-          <div class="col">
+              <div v-if="loading && showNearestSensor" class="col mt-4"><b>Caricamento in corso...</b></div>
+              <div class="col">
             
-        <GmapMap v-if="!loading && showNearestSensor"
-            class = "mappa"
-            :center="{lat:41.9109, lng:12.6818}"
-            :zoom="9"
-            map-type-id="terrain"
-            style="width: 430px; height: 320px"
-        >
+                  <GmapMap v-if="!loading && showNearestSensor"
+                      class = "mappa"
+                      :center="{lat:41.9109, lng:12.6818}"
+                      :zoom="9"
+                      map-type-id="terrain"
+                      style="width: 430px; height: 320px"
+                  >
 
-        <GmapMarker
-            :key = index
-            v-for="(address, index) in coordinateIndirizzoZona"
-            :id = "address.lat+';'+address.lng"
-            :position="google && new google.maps.LatLng(address.lat, address.lng)"
-            :animation= google.maps.Animation.DROP
-            :icon="{ url: require('../assets/markerSensore.png')}"
-        />
+                  <GmapMarker
+                      :key = index
+                      v-for="(address, index) in coordinateIndirizzoZona"
+                      :id = "address.lat+';'+address.lng"
+                      :position="google && new google.maps.LatLng(address.lat, address.lng)"
+                      :animation= google.maps.Animation.DROP
+                      :icon="{ url: require('../assets/markerSensore.png')}"
+                  />
            
-        </GmapMap>
-          </div>
+                  </GmapMap>
+              </div>
           </center>
           
           <center>
-            <div v-if="loading && showSensorsWithinRadius" class="col mt-4"><b>Caricamento in corso...</b></div>
-          <div class="col">
-            <!--  MAPPA CON I SENSORI ALL'INTERNO DEL CERCHIO CHE HA COME CENTRO LA ZONA SPECIFICATA  
-              E COME RAGGIO IL RAGGIO SPECIFICATO  -->
+            
+          <!-- SCRITTA DI CARICAMENTO  -->
+          <div v-if="loading && showSensorsWithinRadius" class="col mt-4"><b>Caricamento in corso...</b></div>
+            
+        <!--  MAPPA CON I SENSORI ALL'INTERNO DEL CERCHIO CHE HA COME CENTRO LA ZONA SPECIFICATA  
+            E COME RAGGIO IL RAGGIO SPECIFICATO  -->
+        
+              <div class="col">
         
         
-        <GmapMap v-if="!loading && showSensorsWithinRadius"
-            class = "mappa"
-            :center="{lat:41.9109, lng:12.6818}"
-            :zoom="9"
-            map-type-id="terrain"
-            style="width: 430px; height: 320px"
-        >
+                  <GmapMap v-if="!loading && showSensorsWithinRadius"
+                      class = "mappa"
+                      :center="{lat:41.9109, lng:12.6818}"
+                      :zoom="9"
+                      map-type-id="terrain"
+                      style="width: 430px; height: 320px"
+                  >
 
-        <GmapMarker
-            :key = index
-            v-for="(sensor, index) in sensoriNelRaggio"
-            :id = "sensor.coordinates.lat+';'+sensor.coordinates.lon"
-            :position="google && new google.maps.LatLng(sensor.coordinates.lat, sensor.coordinates.lon)"
-            :clickable="true"
-            :animation= google.maps.Animation.DROP
-            :icon="{ url: require('../assets/markerSensore.png')}"
-            @click="showInfoDetails"
-        />
+                  <GmapMarker
+                      :key = index
+                      v-for="(sensor, index) in sensoriNelRaggio"
+                      :id = "sensor.coordinates.lat+';'+sensor.coordinates.lon"
+                      :position="google && new google.maps.LatLng(sensor.coordinates.lat, sensor.coordinates.lon)"
+                      :clickable="true"
+                      :animation= google.maps.Animation.DROP
+                      :icon="{ url: require('../assets/markerSensore.png')}"
+                      @click="showInfoDetails"
+                  />
            
-        </GmapMap>
+                  </GmapMap>
         
 
-          </div>
+              </div>
 
           </center>
 
-          
+              <!--  SECONDA RIGA SECONDA COLONNA  -->
 
-        <div class="col">
+              <div class="col">
         
-            <center>
-              <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
+                  <center>
 
-            <div v-if="inviato && !loading" class="card mt-1 border-success" style="width: 27rem;">
-                <div class="card-body">
-                    <h5 class="card-title"><b>INFO TRAFFICO E SENSORI</b></h5>
-                    
-                    <!--  NAV  -->
-                    <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">INFO TRAFFICO</a>
-                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">INFO SENSORE</a>                            
-                        </div>
-                    </nav>
-                    
-                    <!-- CONTENUTO  -->
-
-                    <div class="tab-content" id="nav-tabContent">
-                        <!--  TRAFFICO  -->
-                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-
-                            <table class="table">
-                <thead class="thead-light" id="head">
-                    <tr>
-                        <th scope="col">Velocità attuale</th>
-                        <th scope="col">Velocità di flusso libero</th>
-                        <th scope="col">Confidenza</th>
-                        <th scope="col">Tempo di viaggio corrente</th>
-                    </tr>
-                </thead>
-                <tbody id="body">
-                    <tr>
-                        <td>{{velocitaAttuale}}</td>
-                        <td>{{velocitaFlussoLibero}}</td>
-                        <td>{{confidenza}}</td>
-                        <td>{{tempoViaggioCorrente}}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-                        </div>
-                        <!--  INFO NEL RAGGIO A PARTIRE DALLA ZONA SPECIFICATA  -->
-                        
-                        <!-- INFO SENSORE CLICCATO SE L'OPERATORE CLICCA SUL MARKER  -->
-                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                            
-                            <div v-if="markerClicked && showSensorsWithinRadius" class="table-responsive" id="mytable">
-                            
-                            <table class="table" id="tabella-info-sensori">
-              
-            <thead class="thead-light" id="header-1">
-              <tr class = "headerSensorInfo">
-                <th class="header" scope="col">Sensore</th>
-                <th class="header" scope="col">UID</th>
-                <th class="header" scope="col">Latitudine</th>
-                <th class="header" scope="col">Longitudine</th>
-              </tr>
-            </thead>
-              
-            <tbody class = "bodySensorInfo">
-              <tr>
-                <td class="data"> {{clickedSensor.sensor}} </td>
-                <td class="data"> {{clickedSensor.uid}} </td>
-                <td class="data"> {{clickedSensor.coordinates.lat}} </td>
-                <td class="data"> {{clickedSensor.coordinates.lon}} </td>
-              </tr>
-              
-            </tbody>
-            
-          </table>
-          </div>
-
-          <!--  DATI SENSORE CLICCATO SE L'OPERATORE CLICCA SUL MARKER -->
-          <div v-if="markerClicked && showSensorsWithinRadius" class="table-responsive" id="mytable">
-
-          <table class="table" >
-              
-              <thead class="thead-light" id="header-2">
-                <tr class = "headerChemicalAgentInfo">
-                  <th class="header" scope="col">Tipo</th>
-                  <th class="header" scope="col">Valore</th>
-                  <th class="header" scope="col">Media</th>
-                  <th class="header" scope="col">Criticità</th>
-                </tr>
-              </thead>
-              
-              <tbody>
-                <tr  class = "bodyChemicalAgentInfo" v-for="chemical_agent in currentSensorsInfo" :key="chemical_agent.types">
-                  <td class="data">{{chemical_agent.types}}</td>
-                    <td class="data">{{chemical_agent.value}}</td>
-                    <td class="data">{{chemical_agent.avg}}</td>
-                    <td class="data" v-if="chemical_agent.sogliaSuperata"><img src="../assets/rosso.jpg" style="height=15px; width:15px"></td>
-                    <td class="data" v-else><img src="../assets/verde.jpg" style="height=15px; width:15px"></td>
-                  </tr>
-              </tbody>
-            </table>
-
-            </div>
-
-            <!--  INFO NEL CASO IN CUI L'OPERATORE INSERISCE UN INDIRIZZO  -->
-                        
-                        <!-- INFO SENSORE PIU' VICINO  -->
-              <div v-if="showNearestSensor" class="table-responsive" id="mytable">
-                            
-                            <table class="table" id="tabella-info-sensori">
-              
-            <thead class="thead-light" id="header-1">
-              <tr class = "headerSensorInfo">
-                <th class="header" scope="col">Sensore</th>
-                <th class="header" scope="col">UID</th>
-                <th class="header" scope="col">Latitudine</th>
-                <th class="header" scope="col">Longitudine</th>
-              </tr>
-            </thead>
-              
-            <tbody class = "bodySensorInfo">
-              <tr>
-                <td class="data"> {{sensorePiuVicino[0].sensor}} </td>
-                <td class="data"> {{sensorePiuVicino[0].uid}} </td>
-                <td class="data"> {{sensorePiuVicino[0].coordinates.lat}} </td>
-                <td class="data"> {{sensorePiuVicino[0].coordinates.lon}} </td>
-              </tr>
-              
-            </tbody>
-            
-          </table>
-          </div>   
-
-          <!--  DATI SENSORE PIU' VICINO  -->
-          <div v-if="showNearestSensor" class="table-responsive" id="mytable">
-
-          <table class="table" >
-              
-              <thead class="thead-light" id="header-2">
-                <tr class = "headerChemicalAgentInfo">
-                  <th class="header" scope="col">Tipo</th>
-                  <th class="header" scope="col">Valore</th>
-                  <th class="header" scope="col">Media</th>
-                  <th class="header" scope="col">Criticità</th>
-                </tr>
-              </thead>
-              
-              <tbody>
-                <tr  class = "bodyChemicalAgentInfo" v-for="chemical_agent in currentSensorsInfo" :key="chemical_agent.types">
-                  <td class="data">{{chemical_agent.types}}</td>
-                    <td class="data">{{chemical_agent.value}}</td>
-                    <td class="data">{{chemical_agent.avg}}</td>
-                    <td class="data" v-if="chemical_agent.sogliaSuperata"><img src="../assets/rosso.jpg" style="height=15px; width:15px"></td>
-                    <td class="data" v-else><img src="../assets/verde.jpg" style="height=15px; width:15px"></td>
-                  </tr>
-              </tbody>
-            </table>
-
-            </div>  
-
-            </div>
-
-                       
-
-
+                      <!-- SCRITTA DI CARICAMENTO  -->
                       
-                    </div>
+                      <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
 
-                </div>
-            </div>
+                      <!--  CARD  -->
+                      
+                      <div v-if="inviato && !loading" class="card mt-1 border-success" style="width: 27rem;">
+                          <div class="card-body">
+                              <h5 class="card-title"><b>INFO TRAFFICO E SENSORI</b></h5>
+                    
+                                  <!--  NAV  -->
+                                  
+                                  <nav>
+                                      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">INFO TRAFFICO</a>
+                                          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">INFO SENSORE</a>                            
+                                      </div>
+                                  </nav>
+                    
+                                  <!-- CONTENUTO  DEL NAV  -->
 
-            </center>
+                                  <div class="tab-content" id="nav-tabContent">
+                        
+                                      <!--  INFO TRAFFICO  -->
+                        
+                                      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
-        </div>
+                                          <table class="table">
+                                              <thead class="thead-light" id="head">
+                                                  <tr>
+                                                      <th scope="col">Velocità attuale</th>
+                                                      <th scope="col">Velocità di flusso libero</th>
+                                                      <th scope="col">Confidenza</th>
+                                                      <th scope="col">Tempo di viaggio corrente</th>
+                                                  </tr>
+                                              </thead>
+                                              
+                                              <tbody id="body">
+                                                  <tr>
+                                                      <td>{{velocitaAttuale}}</td>
+                                                      <td>{{velocitaFlussoLibero}}</td>
+                                                      <td>{{confidenza}}</td>
+                                                      <td>{{tempoViaggioCorrente}}</td>
+                                                  </tr>
+                                              </tbody>
+                                          </table>
 
-        </div>
+                                      </div>
+                                      
+                                      <!--  INFO NEL RAGGIO A PARTIRE DALLA ZONA SPECIFICATA  -->
+                        
+                                      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                          
+                                          <!-- INFO SENSORE CLICCATO SE L'OPERATORE CLICCA SUL MARKER  -->
+                                          
+                                          <div v-if="markerClicked && showSensorsWithinRadius" class="table-responsive" id="mytable">
+                            
+                                              <table class="table" id="tabella-info-sensori">
+              
+                                                  <thead class="thead-light" id="header-1">
+                                                      <tr class = "headerSensorInfo">
+                                                          <th class="header" scope="col">Sensore</th>
+                                                          <th class="header" scope="col">UID</th>
+                                                          <th class="header" scope="col">Latitudine</th>
+                                                          <th class="header" scope="col">Longitudine</th>
+                                                      </tr>
+                                                  </thead>
+              
+                                                  <tbody class = "bodySensorInfo">
+                                                      <tr>
+                                                          <td class="data"> {{clickedSensor.sensor}} </td>
+                                                          <td class="data"> {{clickedSensor.uid}} </td>
+                                                          <td class="data"> {{clickedSensor.coordinates.lat}} </td>
+                                                          <td class="data"> {{clickedSensor.coordinates.lon}} </td>
+                                                      </tr>
+              
+                                                  </tbody>
+            
+                                              </table>
+                                          </div>
+
+                                          <!--  DATI SENSORE CLICCATO SE L'OPERATORE CLICCA SUL MARKER -->
+                                          
+                                          <div v-if="markerClicked && showSensorsWithinRadius" class="table-responsive" id="mytable">
+
+                                              <table class="table" >
+              
+                                                  <thead class="thead-light" id="header-2">
+                                                      <tr class = "headerChemicalAgentInfo">
+                                                          <th class="header" scope="col">Tipo</th>
+                                                          <th class="header" scope="col">Valore</th>
+                                                          <th class="header" scope="col">Media</th>
+                                                          <th class="header" scope="col">Criticità</th>
+                                                      </tr>
+                                                  </thead>
+              
+                                                  <tbody>
+                                                      <tr  class = "bodyChemicalAgentInfo" v-for="chemical_agent in currentSensorsInfo" :key="chemical_agent.types">
+                                                          <td class="data">{{chemical_agent.types}}</td>
+                                                          <td class="data">{{chemical_agent.value}}</td>
+                                                          <td class="data">{{chemical_agent.avg}}</td>
+                                                          <td class="data" v-if="chemical_agent.sogliaSuperata"><img src="../assets/rosso.jpg" style="height=15px; width:15px"></td>
+                                                          <td class="data" v-else><img src="../assets/verde.jpg" style="height=15px; width:15px"></td>
+                                                      </tr>
+                                                  </tbody>
+                                              
+                                              </table>
+
+                                          </div>
+
+                                          <!--  INFO NEL CASO IN CUI L'OPERATORE INSERISCE UN INDIRIZZO  -->
+                                          
+                                          <div v-if="showNearestSensor" class="table-responsive" id="mytable">
+                                              
+                                              <!-- INFO SENSORE PIU' VICINO  -->
+                            
+                                              <table class="table" id="tabella-info-sensori">
+              
+                                                  <thead class="thead-light" id="header-1">
+                                                      <tr class = "headerSensorInfo">
+                                                          <th class="header" scope="col">Sensore</th>
+                                                          <th class="header" scope="col">UID</th>
+                                                          <th class="header" scope="col">Latitudine</th>
+                                                          <th class="header" scope="col">Longitudine</th>
+                                                      </tr>
+                                                  </thead>
+              
+                                                  <tbody class = "bodySensorInfo">
+                                                      <tr>
+                                                          <td class="data"> {{sensorePiuVicino[0].sensor}} </td>
+                                                          <td class="data"> {{sensorePiuVicino[0].uid}} </td>
+                                                          <td class="data"> {{sensorePiuVicino[0].coordinates.lat}} </td>
+                                                          <td class="data"> {{sensorePiuVicino[0].coordinates.lon}} </td>
+                                                      </tr>              
+                                                  </tbody>
+            
+                                              </table>
+                                          </div>   
+
+                                          <div v-if="showNearestSensor" class="table-responsive" id="mytable">
+
+                                              <!--  DATI SENSORE PIU' VICINO  -->
+
+                                              <table class="table" >
+              
+                                                  <thead class="thead-light" id="header-2">
+                                                      <tr class = "headerChemicalAgentInfo">
+                                                          <th class="header" scope="col">Tipo</th>
+                                                          <th class="header" scope="col">Valore</th>
+                                                          <th class="header" scope="col">Media</th>
+                                                          <th class="header" scope="col">Criticità</th>
+                                                      </tr>
+                                                  </thead>
+              
+                                                  <tbody>
+                                                      <tr class = "bodyChemicalAgentInfo" v-for="chemical_agent in currentSensorsInfo" :key="chemical_agent.types">
+                                                          <td class="data">{{chemical_agent.types}}</td>
+                                                          <td class="data">{{chemical_agent.value}}</td>
+                                                          <td class="data">{{chemical_agent.avg}}</td>
+                                                          <td class="data" v-if="chemical_agent.sogliaSuperata"><img src="../assets/rosso.jpg" style="height=15px; width:15px"></td>
+                                                          <td class="data" v-else><img src="../assets/verde.jpg" style="height=15px; width:15px"></td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+
+                                          </div>  
+
+                                      </div>
+                      
+                                  </div>
+
+                              </div>
+            
+                          </div>
+            
+                      </center>
+                  
+                  </div>
         
+              </div>
 
-  </div>    
+        </div>    
+
 </template>
 
 
