@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    indirizzoTrue : {{indirizzoTrue}} <br>--------<br>
-    zonaTrue : {{zonaTrue}}
       
       <!-- PRIMA RIGA  --->
 
