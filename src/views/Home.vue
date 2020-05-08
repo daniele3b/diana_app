@@ -11,7 +11,7 @@
             <hr class="my-4">
             <p><b>Uniti possiamo fare la differenza, unisciti anche te alla lotta!</b></p>
             
-            <h6 style="text-color:black;">  <router-link to="/registration"> Registrati</router-link></h6>
+            <h6 >  <router-link to="/registration"> Registrati</router-link></h6>
            
         </div>
             
