@@ -35,11 +35,11 @@
                 <input @keyup.enter="invia()" type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:250px">
             </div>
 
-            <div v-if="!loading && inviato && error == 'indirizzoZona'" class="alert alert-danger" role="alert">
+            <div v-if="!loading && inviato && error == 'indirizzoZona'" class="alert alert-danger mt-1" role="alert">
                 {{messaggioErrore}}
             </div>
 
-            <div v-if="!loading && inviato && error == 'raggio'" class="alert alert-danger" role="alert">
+            <div v-if="!loading && inviato && error == 'raggio'" class="alert alert-danger mt-1" role="alert">
                 {{messaggioErrore}}
             </div>
             
@@ -62,11 +62,11 @@
             <input @keyup.enter="invia()" type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:350px; height:35px">
         </div>
 
-        <div v-if="((!loading && !inviato) || loading) && error == 'indirizzoZona'" class="alert alert-danger" role="alert">
+        <div v-if="((!loading && !inviato) || loading) && error == 'indirizzoZona'" class="alert alert-danger mt-1" role="alert">
                 {{messaggioErrore}}
         </div>
 
-        <div v-if="((!loading && !inviato) || loading) && error == 'raggio'" class="alert alert-danger" role="alert">
+        <div v-if="((!loading && !inviato) || loading) && error == 'raggio'" class="alert alert-danger mt-1" role="alert">
                 {{messaggioErrore}}
         </div>
 
