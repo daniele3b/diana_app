@@ -179,7 +179,8 @@ export default {
         }
       })
       .catch((error) => {
-          console.log(error)
+        alert("[/chemical_agents] Dati non disponibili")
+        console.log(error)
       })
 
       // PRENDO I DATI SUL TRAFFICO AEREO IN TEMPO REALE
@@ -301,11 +302,13 @@ export default {
               resolve(sensorsInfo)
             })
             .catch((error) => {
+              alert("[/filter/avg] Nessun dato disponibile")
               reject(error)
             })
           
           })
           .catch((error) => {
+            alert("[/current/:uid] Nessun dato disponibile")
             reject(error)
           })
         })
