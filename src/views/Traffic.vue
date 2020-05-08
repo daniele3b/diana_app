@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+      
       <div class="row">
         <div class="col">
             <div class="row mt-3">
@@ -74,7 +75,7 @@
             :center="{lat:41.9109, lng:12.6818}"
             :zoom="9"
             map-type-id="terrain"
-            style="width: 460px; height: 320px"
+            style="width: 430px; height: 320px"
         >
 
         <GmapMarker
@@ -102,7 +103,7 @@
             :center="{lat:41.9109, lng:12.6818}"
             :zoom="9"
             map-type-id="terrain"
-            style="width: 460px; height: 320px"
+            style="width: 430px; height: 320px"
         >
 
         <GmapMarker
@@ -110,8 +111,10 @@
             v-for="(sensor, index) in sensoriNelRaggio"
             :id = "sensor.coordinates.lat+';'+sensor.coordinates.lon"
             :position="google && new google.maps.LatLng(sensor.coordinates.lat, sensor.coordinates.lon)"
+            :clickable="true"
             :animation= google.maps.Animation.DROP
             :icon="{ url: require('../assets/markerSensore.png')}"
+            @click="showInfoDetails"
         />
            
         </GmapMap>
@@ -127,7 +130,26 @@
         
             <center>
               <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
-            <table v-if="inviato && !loading" class="table">
+
+            <div v-if="inviato && !loading" class="card mt-1 border-success" style="width: 27rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><b>INFO TRAFFICO E SENSORI</b></h5>
+                    
+                    <!--  NAV  -->
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">INFO TRAFFICO</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">INFO SENSORE</a>                            
+                        </div>
+                    </nav>
+                    
+                    <!-- CONTENUTO  -->
+
+                    <div class="tab-content" id="nav-tabContent">
+                        <!--  TRAFFICO  -->
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                            <table class="table">
                 <thead class="thead-light" id="head">
                     <tr>
                         <th scope="col">Velocità attuale</th>
@@ -145,6 +167,133 @@
                     </tr>
                 </tbody>
             </table>
+
+                        </div>
+                        <!--  INFO NEL RAGGIO A PARTIRE DALLA ZONA SPECIFICATA  -->
+                        
+                        <!-- INFO SENSORE CLICCATO SE L'OPERATORE CLICCA SUL MARKER  -->
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            
+                            <div v-if="markerClicked && showSensorsWithinRadius" class="table-responsive" id="mytable">
+                            
+                            <table class="table" id="tabella-info-sensori">
+              
+            <thead class="thead-light" id="header-1">
+              <tr class = "headerSensorInfo">
+                <th class="header" scope="col">Sensore</th>
+                <th class="header" scope="col">UID</th>
+                <th class="header" scope="col">Latitudine</th>
+                <th class="header" scope="col">Longitudine</th>
+              </tr>
+            </thead>
+              
+            <tbody class = "bodySensorInfo">
+              <tr>
+                <td class="data"> {{clickedSensor.sensor}} </td>
+                <td class="data"> {{clickedSensor.uid}} </td>
+                <td class="data"> {{clickedSensor.coordinates.lat}} </td>
+                <td class="data"> {{clickedSensor.coordinates.lon}} </td>
+              </tr>
+              
+            </tbody>
+            
+          </table>
+          </div>
+
+          <!--  DATI SENSORE CLICCATO SE L'OPERATORE CLICCA SUL MARKER -->
+          <div v-if="markerClicked && showSensorsWithinRadius" class="table-responsive" id="mytable">
+
+          <table class="table" >
+              
+              <thead class="thead-light" id="header-2">
+                <tr class = "headerChemicalAgentInfo">
+                  <th class="header" scope="col">Tipo</th>
+                  <th class="header" scope="col">Valore</th>
+                  <th class="header" scope="col">Media</th>
+                  <th class="header" scope="col">Criticità</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+                <tr  class = "bodyChemicalAgentInfo" v-for="chemical_agent in currentSensorsInfo" :key="chemical_agent.types">
+                  <td class="data">{{chemical_agent.types}}</td>
+                    <td class="data">{{chemical_agent.value}}</td>
+                    <td class="data">{{chemical_agent.avg}}</td>
+                    <td class="data" v-if="chemical_agent.sogliaSuperata"><img src="../assets/rosso.jpg" style="height=15px; width:15px"></td>
+                    <td class="data" v-else><img src="../assets/verde.jpg" style="height=15px; width:15px"></td>
+                  </tr>
+              </tbody>
+            </table>
+
+            </div>
+
+            <!--  INFO NEL CASO IN CUI L'OPERATORE INSERISCE UN INDIRIZZO  -->
+                        
+                        <!-- INFO SENSORE PIU' VICINO  -->
+              <div v-if="showNearestSensor" class="table-responsive" id="mytable">
+                            
+                            <table class="table" id="tabella-info-sensori">
+              
+            <thead class="thead-light" id="header-1">
+              <tr class = "headerSensorInfo">
+                <th class="header" scope="col">Sensore</th>
+                <th class="header" scope="col">UID</th>
+                <th class="header" scope="col">Latitudine</th>
+                <th class="header" scope="col">Longitudine</th>
+              </tr>
+            </thead>
+              
+            <tbody class = "bodySensorInfo">
+              <tr>
+                <td class="data"> {{sensorePiuVicino[0].sensor}} </td>
+                <td class="data"> {{sensorePiuVicino[0].uid}} </td>
+                <td class="data"> {{sensorePiuVicino[0].coordinates.lat}} </td>
+                <td class="data"> {{sensorePiuVicino[0].coordinates.lon}} </td>
+              </tr>
+              
+            </tbody>
+            
+          </table>
+          </div>   
+
+          <!--  DATI SENSORE PIU' VICINO  -->
+          <div v-if="showNearestSensor" class="table-responsive" id="mytable">
+
+          <table class="table" >
+              
+              <thead class="thead-light" id="header-2">
+                <tr class = "headerChemicalAgentInfo">
+                  <th class="header" scope="col">Tipo</th>
+                  <th class="header" scope="col">Valore</th>
+                  <th class="header" scope="col">Media</th>
+                  <th class="header" scope="col">Criticità</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+                <tr  class = "bodyChemicalAgentInfo" v-for="chemical_agent in currentSensorsInfo" :key="chemical_agent.types">
+                  <td class="data">{{chemical_agent.types}}</td>
+                    <td class="data">{{chemical_agent.value}}</td>
+                    <td class="data">{{chemical_agent.avg}}</td>
+                    <td class="data" v-if="chemical_agent.sogliaSuperata"><img src="../assets/rosso.jpg" style="height=15px; width:15px"></td>
+                    <td class="data" v-else><img src="../assets/verde.jpg" style="height=15px; width:15px"></td>
+                  </tr>
+              </tbody>
+            </table>
+
+            </div>  
+
+            </div>
+
+                       
+
+
+                      
+                    </div>
+
+                </div>
+            </div>
+
             </center>
 
         </div>
@@ -185,6 +334,12 @@ export default {
       showNearestSensor : false,
       showSensorsWithinRadius : false,
       loading : false,
+      markerClicked : false,
+      text : "",
+      clickedSensor : "",
+      latSensoreCliccato : "",
+      lngSensoreCliccato : "",
+      currentSensorsInfo : []
     }
   },
 
@@ -303,8 +458,31 @@ export default {
             "x-diana-auth-token": localStorage.token
           }
         })
-        .then((response) => {
+        .then(async (response) => {
           this.sensorePiuVicino.push(response.data[0])
+
+          const sensor = this.sensorePiuVicino[0]
+
+          const sensorInfo = await this.receiveData(sensor)
+          console.log(sensorInfo)
+        
+          if(sensorInfo.length == 0){
+            console.log("Errore nella ricezione dal server")
+            return
+          }
+
+          let i
+          const size = sensorInfo.length
+          for(i=0;i<size;i++){
+            if(sensorInfo[i].value > sensorInfo[i].avg){
+              sensorInfo[i].sogliaSuperata = true
+            } 
+            else{
+              sensorInfo[i].sogliaSuperata = false
+            }
+          }
+
+          this.currentSensorsInfo = sensorInfo 
         })
         .catch((error) => {
           console.log(error)
@@ -339,7 +517,116 @@ export default {
         })
       }
 
-    }
+    },
+
+    showInfoDetails : async function(event){
+
+        // SE L'OPERATORE HA INSERITO UNA ZONA E UN RAGGIO, VORRA' SAPER LE INFORMAZIONI E I DATI DI CIASCUN SENSORE QUANDO CLICCA SUL MARKER
+        if(this.showSensorsWithinRadius){
+          this.markerClicked = true
+
+          this.text = JSON.stringify(event.latLng)
+          const lat = JSON.parse(this.text).lat
+          const lng = JSON.parse(this.text).lng
+        
+          const sensors = this.sensoriNelRaggio
+          const dim = sensors.length
+          let i
+          let sensoreCliccato 
+
+          for(i=0;i<dim;i++){
+            if(sensors[i].coordinates.lat == lat && sensors[i].coordinates.lon == lng){
+
+              sensoreCliccato = sensors[i]
+              this.clickedSensor = sensoreCliccato
+              break
+            }
+          }
+
+          const sensorsInfo = await this.receiveData(sensoreCliccato)
+        
+          if(sensorsInfo.length == 0){
+            console.log("Errore nella ricezione dal server")
+            return
+          }
+
+          const size = sensorsInfo.length
+          for(i=0;i<size;i++){
+            if(sensorsInfo[i].value > sensorsInfo[i].avg){
+              sensorsInfo[i].sogliaSuperata = true
+            } 
+            else{
+              sensorsInfo[i].sogliaSuperata = false
+            }
+          }
+
+          this.currentSensorsInfo = sensorsInfo
+        }
+
+        // SE L'OPERATORE HA INSERITO UN INDIRIZZO, VORRA' SAPER LE INFORMAZIONI E I DATI DEL SENSORE PIU' VICINO A QUELL'INDIRIZZO
+        
+        
+      },
+
+      receiveData(sensoreCliccato){
+        let sensorsInfo = []
+
+        return new Promise(function(resolve, reject){
+          axios({
+            method: 'get',
+            url: 'http://localhost:8081/chemical_agents/current/'+sensoreCliccato.uid,
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          })
+          .then((response) => {
+            const data = response.data
+            const dim = data.length
+            let i
+            for(i=0;i<dim;i++){
+              sensorsInfo.push({
+                value : data[i].value,
+                types : data[i].types,
+                sensor : data[i].sensor,
+                lat : data[i].lat,
+                long : data[i].long,
+                avg : 0.0
+              })
+            }
+
+            axios({
+              method: 'get',
+              url: 'http://localhost:8081/chemical_agents/filter/avg/'+sensoreCliccato.uid,
+              headers: {
+                "x-diana-auth-token": localStorage.token
+              }
+            })
+            .then((response) => {
+              let avgs = response.data
+              const dim = avgs.length
+              let i
+              for(i=0;i<dim;i++){
+                const size = sensorsInfo.length
+                let j
+                for(j=0;j<size;j++){
+                  if(avgs[i].avg !== null && sensorsInfo[j].types == avgs[i].types){
+                    sensorsInfo[j].avg = avgs[i].avg.toFixed(2)
+                  }
+                } 
+              }
+
+              resolve(sensorsInfo)
+            })
+            .catch((error) => {
+              reject(error)
+            })
+          
+          })
+          .catch((error) => {
+            reject(error)
+          })
+        })
+      }
 
   }
 
