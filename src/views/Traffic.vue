@@ -28,11 +28,11 @@
         <div class="col">
             
             <div v-if="!loading && inviato" class = "row mt-5">
-                <input type="text" class="inserimento" v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:250px">
+                <input @keyup.enter="invia()" type="text" class="inserimento" v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:250px">
             </div>
             
             <div v-if="(!indirizzoTrue && zonaTrue) && (!loading && inviato)" class="row mt-2">
-                <input type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:250px">
+                <input @keyup.enter="invia()" type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:250px">
             </div>
             
             <div v-if="!loading && inviato" class="row">
@@ -47,11 +47,11 @@
         <!--  CONTROLLI DI VARIO TIPO PER LA VISUALIZZAZIONE DEI CAMPI DI INSERIMENTO, DELLA LENTE E DELLO SWITCH  -->
         
         <div v-if="(!loading && !inviato) || loading" style="margin-top:180px margin-left:20px">
-            <input type="text" class="inserimento"  v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:350px; height:35px">
+            <input @keyup.enter="invia()" type="text" class="inserimento"  v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:350px; height:35px">
         </div>
 
         <div v-if="(!indirizzoTrue && zonaTrue) && ((!loading && !inviato) || loading)" class="mt-2">
-            <input type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:350px; height:35px">
+            <input @keyup.enter="invia()" type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:350px; height:35px">
         </div>
 
         <div v-if="(!loading && !inviato)">
