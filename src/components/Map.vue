@@ -316,7 +316,8 @@ export default {
 
       planeClicked(){
         if(this.planeVisible) this.imgClass='imgNonEvidenziata mt-1 mr-1'; 
-        else this.imgClass='imgEvidenziata mt-1 mr-1'; 
+        else if(!this.planeVisible && this.planes.length > 0) this.imgClass='imgEvidenziataVerde mt-1 mr-1'
+        else if(!this.planeVisible && this.planes.length == 0) this.imgClass='imgEvidenziataRossa mt-1 mr-1'
         this.planeVisible = !this.planeVisible
       }
       
@@ -365,9 +366,13 @@ export default {
   cursor: pointer; 
 }
 
-.imgEvidenziata{ 
+.imgEvidenziataVerde{ 
   cursor: pointer;
   background-color :  rgba(7, 182, 7, 0.938)
+}
+
+.imgEvidenziataRossa{ 
+  background-color : red
 }
 
 </style>
