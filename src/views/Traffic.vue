@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+    indirizzoTrue : {{indirizzoTrue}} <br>--------<br>
+    zonaTrue : {{zonaTrue}}
       
       <!-- PRIMA RIGA  --->
 
@@ -575,6 +577,10 @@ export default {
           alert("Nessun sensore trovato all'interno del raggio specificato")
         })
       }
+
+      // Risetto le variabili dello switch al valore di default
+      this.indirizzoTrue = true
+      this.zonaTrue = false
 
     },
 
