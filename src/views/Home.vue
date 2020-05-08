@@ -1,37 +1,27 @@
 <template>
- <div class="container-fluid">
+ <div class="container-fluid" id="back">
 <div class="row mt-2" id="rigaesterna">
   <div class="col-12">
   <div class="row mt-1 mb-1 " id="rigainterna">
     <div class="col-12">
-      <center>
-            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img class="d-block " src="../assets/slide1.jpg" alt="First slide">
-                </div>
-                <div class="carousel-item">
-                  <img class="d-block " src="../assets/slide1.jpg" alt="Second slide">
-                </div>
-                <div class="carousel-item">
-                  <img class="d-block " src="../assets/slide1.jpg" alt="Third slide">
-                </div>
-              </div>
-              <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-              </a>
-            </div>
-            </center>
+      
+       <div class="jumbotron text-black" id="hero">
+            <h1 class="display-4"><b>Benvenuto su Diana!</b></h1>
+            <p class="lead"><b>L'obiettivo del progetto è quello di fornire ai cittadini ed alle province uno strumento utile alla lotta contro l'inquinamento.</b></p>
+            <hr class="my-4">
+            <p><b>Uniti possiamo fare la differenza, unisciti anche te alla lotta!</b></p>
+            
+            <h6 style="text-color:black;">  <router-link to="/registration"> Registrati</router-link></h6>
+           
+        </div>
+            
           </div>
   </div>
 
 </div>
   </div>
+    
+
 
   </div>
 </template>
@@ -48,11 +38,11 @@ export default {
 
 <style scoped>
 
-#rigaesterna{
-  background-color: black;
-}
+#hero{
 
-#rigainterna{
-  background-color: yellow;
+    background-image:url('../assets/slide1.jpg');
+     background-size: cover;
+     border:0;
+     background-color: transparent;
 }
 </style>
