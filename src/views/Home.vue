@@ -7,7 +7,7 @@
       
        <div class="jumbotron text-black" id="hero">
             <h1 class="display-4"><b>Benvenuto su Diana!</b></h1>
-            <p class="lead"><b>L'obiettivo del progetto è quello di fornire ai cittadini ed alle province uno strumento utile alla lotta contro l'inquinamento.</b></p>
+            <p class="lead"><b>L'obiettivo è fornire ai cittadini ed alle province uno strumento utile alla lotta contro l'inquinamento.</b></p>
             <hr class="my-4">
             <p><b>Uniti possiamo fare la differenza, unisciti anche te alla lotta!</b></p>
             
