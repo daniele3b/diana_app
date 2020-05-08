@@ -32,7 +32,7 @@
           </router-link>
         </div>
         <div class="col-4">
-          <router-link to="/report_storico">
+          <router-link to="/esportadati">
          <button   id="im5"></button> 
           </router-link>
           </div>
@@ -50,7 +50,7 @@ import { mapGetters} from 'vuex'
 
 export default {
   name: 'Avanzato',
-computed:{
+  computed:{
 ...mapGetters({
         'getTipo':'getType'
     })
