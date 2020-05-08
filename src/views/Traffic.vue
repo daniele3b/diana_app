@@ -1,7 +1,12 @@
 <template>
   <div class="container">
       
+      <!-- PRIMA RIGA  --->
+
       <div class="row">
+
+        <!-- PRIMA COLONNA PRIMA RIGA  --->
+
         <div class="col">
             <div class="row mt-3">
                 <router-link to="/avanzato"><img src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;"></router-link>
@@ -17,6 +22,8 @@
             </div>
 
         </div>
+
+        <!-- SECONDA COLONNA PRIMA RIGA  --->
 
         <div class="col">
             
@@ -60,16 +67,22 @@
             <b style="margin-left:5px">Zona</b>
         </div>
 
-     
-          <!--  MAPPA CON IL MARKER INDICANTE L'INDIRIZZO SPECIFICATO  -->
+        <!-- SECONDA RIGA  --->
 
         <div class="row mt-3">
           
           <center>
 
+              <!-- SCRITTA DI CARICAMENTO  -->
+              
               <div v-if="loading && showNearestSensor" class="col mt-4"><b>Caricamento in corso...</b></div>
+              
+              <!--  [N°1]SECONDA RIGA PRIMA COLONNA  -->
+
               <div class="col">
-            
+
+                  <!--  MAPPA CON IL MARKER INDICANTE L'INDIRIZZO SPECIFICATO  -->
+
                   <GmapMap v-if="!loading && showNearestSensor"
                       class = "mappa"
                       :center="{lat:41.9109, lng:12.6818}"
@@ -93,14 +106,16 @@
           
           <center>
             
-          <!-- SCRITTA DI CARICAMENTO  -->
-          <div v-if="loading && showSensorsWithinRadius" class="col mt-4"><b>Caricamento in corso...</b></div>
-            
-        <!--  MAPPA CON I SENSORI ALL'INTERNO DEL CERCHIO CHE HA COME CENTRO LA ZONA SPECIFICATA  
-            E COME RAGGIO IL RAGGIO SPECIFICATO  -->
-        
+              <!-- SCRITTA DI CARICAMENTO  -->
+          
+              <div v-if="loading && showSensorsWithinRadius" class="col mt-4"><b>Caricamento in corso...</b></div>
+          
+              <!--  [N°2]SECONDA RIGA PRIMA COLONNA  -->
+
               <div class="col">
-        
+
+                  <!--  MAPPA CON I SENSORI ALL'INTERNO DEL CERCHIO CHE HA COME CENTRO LA ZONA SPECIFICATA  
+                        E COME RAGGIO IL RAGGIO SPECIFICATO  -->
         
                   <GmapMap v-if="!loading && showSensorsWithinRadius"
                       class = "mappa"
