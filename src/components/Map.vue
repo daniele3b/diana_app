@@ -1,8 +1,7 @@
 <template>
   <div class="card">
     <span v-if="userType!='cittadino'"> <img @click="planeClicked" src="../assets/aereoNero.png"  :class="imgClass" style="width:30px; float:right;"></span>
-   
-    
+
     <div class="card-body">
     
       <div class = "card-img-top">
@@ -139,12 +138,39 @@ export default {
       immagineSogliaImpostata : false,
       planeVisible : false,
       planes : [],
-      imgClass : 'imgNonEvidenziata mt-1 mr-1'
+      imgClass : 'imgNonEvidenziata mt-1 mr-1',
     }
   },
 
   created(){
     this.userType = localStorage.type
+
+    // PRENDO I DATI SUL TRAFFICO AEREO IN TEMPO REALE
+
+      axios({
+        method: 'get',
+        url: 'http://localhost:8081/air_traffic',
+        headers: {
+          "x-diana-auth-token": localStorage.token
+        }
+      })
+      .then((response) => {
+
+        const dim = response.data.length
+
+        let i
+        for(i=0;i<dim;i++){
+          this.planes.push({
+            icao : response.data[i].icao,
+            lat : response.data[i].lat,
+            lng : response.data[i].lon
+          })
+        }
+      })
+      .catch((error) => {
+        this.imgClass='imgEvidenziataRossa mt-1 mr-1'
+        console.log(error)
+      })
   },
 
   mounted:
@@ -180,30 +206,6 @@ export default {
       })
       .catch((error) => {
         alert("[/chemical_agents] Dati non disponibili")
-        console.log(error)
-      })
-
-      // PRENDO I DATI SUL TRAFFICO AEREO IN TEMPO REALE
-
-      axios({
-        method: 'get',
-        url: 'http://localhost:8081/air_traffic',
-        headers: {
-          "x-diana-auth-token": localStorage.token
-        }
-      })
-      .then((response) => {
-        const dim = response.data.length
-        let i
-        for(i=0;i<dim;i++){
-          this.planes.push({
-            icao : response.data[i].icao,
-            lat : response.data[i].lat,
-            lng : response.data[i].lon
-          })
-        }
-      })
-      .catch((error) => {
         console.log(error)
       })
           
@@ -317,7 +319,6 @@ export default {
       planeClicked(){
         if(this.planeVisible) this.imgClass='imgNonEvidenziata mt-1 mr-1'; 
         else if(!this.planeVisible && this.planes.length > 0) this.imgClass='imgEvidenziataVerde mt-1 mr-1'
-        else if(!this.planeVisible && this.planes.length == 0) this.imgClass='imgEvidenziataRossa mt-1 mr-1'
         this.planeVisible = !this.planeVisible
       }
       
@@ -367,11 +368,12 @@ export default {
 }
 
 .imgEvidenziataVerde{ 
-  cursor: pointer;
+  cursor: pointer;   /* Per mostrare la mano quando il cursore va sull'immagine dell'aereo */
   background-color :  rgba(7, 182, 7, 0.938)
 }
 
-.imgEvidenziataRossa{ 
+.imgEvidenziataRossa{
+  pointer-events: none; /* Per bloccare il click del mouse e altri eventi di stato o di cursore sull'immagine dell'aereo */ 
   background-color : red
 }
 
