@@ -10,6 +10,7 @@ import Avanzato from '../views/Avanzato.vue'
 import CambioPw from '../views/CambioPw.vue'
 import Traffic from '../views/Traffic.vue'
 import NewOperatore from '../views/NewOperatore.vue'
+import Home from '../views/Home.vue'
 
 const protect = (to, from, next) => {
   if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
@@ -101,6 +102,11 @@ Vue.use(VueRouter)
     name:'NewOperatore',
     beforeEnter:protectSup,
     component:NewOperatore
+  },
+  {
+    path:'/home',
+    name:'Home',
+    component:Home
   }
 ]
 
