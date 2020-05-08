@@ -44,7 +44,7 @@
             </div>
             
             <div v-if="!loading && inviato" class="row">
-                <img @click="invia()" src="../assets/cerca.png" class="search mt-1" style="width:30px; heigth:30px; margin-left:110px">
+                <img @click="invia()" src="../assets/cerca.png" :class="classeLente" style="width:30px; heigth:30px; margin-left:110px">
             </div>
             
         </div>
@@ -71,7 +71,7 @@
         </div>
 
         <div v-if="(!loading && !inviato)">
-            <img @click="invia()" src="../assets/cerca.png" class="search mt-1" style="width:30px; heigth:30px;">
+            <img @click="invia()" src="../assets/cerca.png" :class="classeLente" style="width:30px; heigth:30px;">
         </div>
 
         <div v-if="(!loading && !inviato)">
@@ -388,6 +388,8 @@ export default {
       currentSensorsInfo : [],
       error : '',
       messaggioErrore : "",
+      coloreSfondoLente : "",
+      classeLente : "search mt-1"
     }
   },
 
@@ -448,6 +450,10 @@ export default {
     },
 
     invia(){
+      
+      // Per dare l'effetto della pressione della lente
+      this.classeLente = "searchWithbackGround mt-1"
+
       if(!this.indirizzoZonaValidi()){
           if(this.indirizzoTrue){
             this.error = 'indirizzoZona'
@@ -456,7 +462,11 @@ export default {
           else if(!this.indirizzoTrue && this.zonaTrue){
             this.error = 'indirizzoZona'
             this.messaggioErrore = "Zona inserita non valida"
-          } 
+          }
+
+          // Per dare l'effetto del rilascio della lente
+          setTimeout(() => {this.classeLente = "search mt-1"}, 200)
+
           return
       }
 
@@ -464,6 +474,9 @@ export default {
         if(!this.raggioValido()){
             this.error = 'raggio'
             this.messaggioErrore = "Raggio inserito non valido"
+
+            // Per dare l'effetto del rilascio della lente
+            setTimeout(() => {this.classeLente = "search mt-1"}, 200)
             return
         }
       }
@@ -579,6 +592,9 @@ export default {
       // Risetto le variabili dello switch al valore di default
       this.indirizzoTrue = true
       this.zonaTrue = false
+
+      // Per dare l'effetto del rilascio della lente
+      setTimeout(() => {this.classeLente = "search mt-1"}, 200)
 
     },
 
@@ -706,6 +722,11 @@ export default {
 
 .search{
     cursor: pointer;
+}
+
+.searchWithbackGround{
+    cursor: pointer;
+    background-color: green;
 }
 
 .inserimento{
