@@ -496,6 +496,7 @@ export default {
       })
       .catch((error) => {
         console.log(error)
+        alert("L'indirizzo inserito non esiste!")
       })
 
       // SE L'OPERATORE INSERISCE UN INDIRIZZO GLI VERRANNO MOSTRATE LE INFO E I DATI 
@@ -542,6 +543,7 @@ export default {
         })
         .catch((error) => {
           console.log(error)
+          alert("Errore sensore più vicino")
         })
       }
 
@@ -570,6 +572,7 @@ export default {
         })
         .catch((error) => {
           console.log(error)
+          alert("Nessun sensore trovato all'interno del raggio specificato")
         })
       }
 
@@ -674,11 +677,13 @@ export default {
               resolve(sensorsInfo)
             })
             .catch((error) => {
+              alert("[/filter/avg] Nessun dato disponibile")
               reject(error)
             })
           
           })
           .catch((error) => {
+            alert("[/current/:uid] Nessun dato disponibile")
             reject(error)
           })
         })
