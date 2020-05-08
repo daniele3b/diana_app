@@ -18,7 +18,7 @@
                         </label>
 
                         <div v-if="filtriTrue">
-                            <h6 class="card-subtitle mb-2 text-muted text-left">Filtra per data (dd/mm/yyy):</h6>
+                            <h6 class="card-subtitle mb-2 text-muted text-left">Filtra per data (yyyy-mm-dd):</h6>
                             <div class="form-label-group">
                                 <div class="row">
                                     <div class="col">
@@ -53,21 +53,24 @@
                                 <select v-model="tipo" style="text-align:left;" :class=tipoClass id="inputTipo"> 
                                     <option value="" >----------</option>
                                     <option value="O3">O3</option>
-                                    <option value="NO">NO</option>
-                                    <option value="NO2">NO2</option>
-                                    <option value="NOX">NOX</option>
                                     <option value="PM10">PM10</option>
                                     <option value="PM25">PM25</option>
-                                    <option value="BENZENE">BENZENE</option>
-                                    <option value="CO">CO</option>
                                     <option value="SO2">SO2</option>
                                 </select>
                             </div>
 
                         </div>
-                        
                         <hr class="my-4">
-                        <button  @click="alert('l')" class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Download</button>
+                        <div v-if="errore==true" class="alert alert-danger" role="alert">
+                          Errore download!
+                        </div>
+                        <label v-if="loading==true" class="alert">Download in corso...</label>
+                        <label v-if="corretto==true" class="alert alert-success">Download eseguito con successo!</label>
+                        <a href="" id="download_link" download="my_exported_file.txt">
+                          <button   @click="download" class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Download</button>
+                        </a>
+                        
+                        
                         </form>
                     </div>
                 </div>
@@ -79,7 +82,7 @@
 </template>
 
 <script>
-//import axios from 'axios'
+import axios from 'axios'
 
 export default {
     name : "EsportaDati",
@@ -99,13 +102,125 @@ export default {
             stazioneClass: 'select-control-mario',
             tipo: "",
             tipoOk: false,
-            tipoClass: 'select-control-mario'
+            tipoClass: 'select-control-mario',
+            loading: false,
+            corretto: false,
+            errore: false
         }
     },
     methods:{
         attivaFiltri: function(){ 
             if(this.filtriTrue==true) this.filtriTrue=false
             else if(this.filtriTrue==false) this.filtriTrue=true
+        },
+        download: function(){
+          this.corretto = false
+          this.errore = false
+          this.loading = true
+          //DOWNLOAD SENZA FILTRI
+          if(this.dataInizioOk==false && this.dataFineOk==false &&
+              this.stazioneOk==false && this.tipoOk==false){ 
+                  var url = 'http://localhost:8081/chemical_agents/history'
+                  axios({
+                          url: url,
+                          method: 'GET',
+                          headers: {
+                            "x-diana-auth-token": localStorage.token
+                          },
+                          responseType: 'blob' // important
+                      }).then((response) => { 
+                          const url = window.URL.createObjectURL(new Blob([response.data]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile = 'DianaHistory.json'
+                          link.setAttribute('download', nomefile);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                      }).catch(() =>{
+                          this.loading = false
+                        this.errore = true
+                      });
+          }
+          //DOWNLOAD FILTRO TIPO
+          else if(this.dataInizioOk==false && this.dataFineOk==false &&
+              this.stazioneOk==false && this.tipoOk==true){
+                  var urll = 'http://localhost:8081/chemical_agents/history/'+this.tipo
+                  axios({
+                          url: urll,
+                          method: 'GET',
+                          headers: {
+                            "x-diana-auth-token": localStorage.token
+                          },
+                          responseType: 'blob' // important
+                      }).then((response) => { 
+                          const url = window.URL.createObjectURL(new Blob([response.data]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile = 'Diana'+this.tipo+'.json'
+                          link.setAttribute('download', nomefile);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                      }).catch(() =>{
+                          this.loading = false
+                        this.errore = true
+                      });
+          }//DOWNLOAD FILTRO STAZIONE
+          else if(this.dataInizioOk==false && this.dataFineOk==false &&
+              this.stazioneOk==true && this.tipoOk==false){ 
+                  var urlstazione = 'http://localhost:8081/chemical_agents/history/station/'+this.stazione
+                  axios({
+                          url: urlstazione,
+                          method: 'GET',
+                          headers: {
+                            "x-diana-auth-token": localStorage.token
+                          },
+                          responseType: 'blob', // important
+                      }).then((response) => { 
+                          const url = window.URL.createObjectURL(new Blob([response.data]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile = 'Diana'+this.stazione+'.json'
+                          link.setAttribute('download', nomefile);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                      }).catch(() =>{
+                          this.loading = false
+                        this.errore = true
+                      });
+          }
+          //DOWNLOAD FILTRO DATE START DATE END
+          else if(this.dataInizioVer==true && this.dataFineVer==true &&
+              this.stazioneOk==false && this.tipoOk==false){ 
+                  var urldate = 'http://localhost:8081/chemical_agents/filter/date/'+this.dataInizio+"/"+this.dataFine
+                  axios({
+                          url: urldate,
+                          method: 'GET',
+                          headers: {
+                            "x-diana-auth-token": localStorage.token
+                          },
+                          responseType: 'blob', // important
+                      }).then((response) => { 
+                          const url = window.URL.createObjectURL(new Blob([response.data]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile = 'Diana'+this.dataInizio+"-"+this.dataFine+'.json'
+                          link.setAttribute('download', nomefile);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                      }).catch(() =>{
+                          this.loading = false
+                        this.errore=true
+                      });
+          }
+        
         }
     },
     watch:{
@@ -117,7 +232,8 @@ export default {
             else{
                 this.dataInizioOk = true
                 
-                if(this.dataInizio.length==12){
+                if(this.dataInizio.length==10 && this.dataInizio.charAt(4)=='-' &&
+                    this.dataInizio.charAt(7)=='-'){
                     this.dataInizioVer = true
                     this.dataInizioClass = 'form-control-mario-ver'
                 }
@@ -135,7 +251,8 @@ export default {
             else{
                 this.dataFineoOk = true
                 
-                if(this.dataFine.length==12){
+                if(this.dataFine.length==10 && this.dataFine.charAt(4)=='-' &&
+                    this.dataFine.charAt(7)=='-'){
                     this.dataFineVer = true
                     this.dataFineClass = 'form-control-mario-ver'
                 }
@@ -151,7 +268,7 @@ export default {
                 this.stazioneClass = 'select-control-mario'
             }
             else{
-                this.stazioneoOk = true
+                this.stazioneOk = true
                 this.stazioneClass = 'select-control-mario-ver'
             }
         },
