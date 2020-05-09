@@ -32,7 +32,7 @@
                                 <td>{{annuncio.end}}</td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Detail"><button :id="annuncio._id" @click="visualizzaDettagli" class = "btn btn-success btn-xs" data-title = "Detail" data-toggle = "modal" data-target = "#detail" style = "height:10px;width:20px;"><span class="glyphicon glyphicon-trash"></span></button></p></td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Edit"><button :id="annuncio._id" class = "btn btn-primary btn-xs" data-title = "Edit" data-toggle = "modal" data-target = "#edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                                <td><p data-placement = "top" data-toggle = "tooltip" title = "Delete"><button :id="annuncio._id" class = "btn btn-danger btn-xs" data-title = "Delete" data-toggle = "modal" data-target = "#delete"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
+                                <td><p data-placement = "top" data-toggle = "tooltip" title = "Delete"><button :id="annuncio._id" @click="cancellaAnnuncio" class = "btn btn-danger btn-xs" data-title = "Delete" data-toggle = "modal" data-target = "#delete"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
 
                             </tr>
                             
@@ -430,6 +430,38 @@ export default {
         if(annunci[i]._id == id_annuncio) this.annuncioDaVisualizzare = annunci[i]
       }
 
+    },
+
+    cancellaAnnuncio(event){
+      if(!confirm("Sei sicuro di voler rimuovere l'annuncio?")) return
+
+      const id_annuncio = event.target.id
+      const annunci = this.annunci
+      let i
+      const dim = annunci.length
+      let ind
+      
+      for(i=0;i<dim;i++){
+        if(annunci[i]._id == id_annuncio){
+            ind = i
+        } 
+      }
+
+      this.annunci.splice(ind, 1)
+
+      axios({
+        method: 'delete',
+        url: 'http://localhost:8081/announcements/'+id_annuncio,
+        headers: {
+          "x-diana-auth-token": localStorage.token
+        }
+      })
+      .then((response) => {
+        console.log("Eliminato: "+response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     },
 
     aggiungiZona(){
