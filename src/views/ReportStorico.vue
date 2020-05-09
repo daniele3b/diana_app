@@ -782,7 +782,7 @@ export default {
 height:540px;
 width:100%;
 overflow: auto;
-overflow-x: hidden; 
+
 }
 .table-wrapper-scroll-y {
 display: block;
@@ -808,6 +808,7 @@ table thead {
   font-size: 15px;
   position: sticky; top: 0;
   overflow-y: auto; 
+ 
   background-color:#f5f5f5;
   border:  1 grey;
   
