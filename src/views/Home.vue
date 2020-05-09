@@ -64,7 +64,7 @@
 </div>
  <hr>
 
- <div class="container pb-2" >
+ <div class="container pb-2 pb-2" >
 <div class="row mt-2">
 
   <div class="col-12">
@@ -74,10 +74,11 @@
     <div class="col">
       <div class="card"  >
         
-        <img class="card-img-top" src="../assets/filter.png" alt="Card image cap">
+        <img class="card-img-top" src="../assets/ivan.jpg" alt="Card image cap">
         <h5 class="card-title">Ivan Giacomoni</h5>
-        <div class="card-body">
-        <p class="card-text">Analisi in tempo reale dei dati chimici provenienti dalle stazioni situate sul territorio provinciale</p>
+        <div class="card-body pt-1">
+        <p class="card-text"><b>Frontend & Backend Developer</b></p>
+        <p class="card-text">E' il Roger Federer della programmazione, ha uno spirito di squadra che non è minimamente paragonabile a quello della sua Inter</p>
          </div>
       </div>
 
@@ -85,10 +86,11 @@
     <div class="col">
       <div class="card" >
         
-        <img class="card-img-top" src="../assets/filter.png" alt="Card image cap">
+        <img class="card-img-top" src="../assets/daniele.jpg" alt="Card image cap">
         <h5 class="card-title">Daniele Bufalieri</h5>
-        <div class="card-body">
-        <p class="card-text">Gestione delle segnalazioni dei cittadini che si sono uniti alla lotta per salvaguardare l'ambiente </p>
+        <div class="card-body pt-1">
+          <p class="card-text"><b>Frontend & Backend Developer </b></p>
+        <p class="card-text">Non so cosa scrivere, ma basti sapere che adesso non ho più tutti quei capelli,la foto risale al 2014 e adesso ho la boccia che mi accompagna ovunque vado </p>
          </div>
       </div>
 
@@ -96,10 +98,11 @@
     <div class="col">
       <div class="card" >
         
-        <img class="card-img-top" src="../assets/filter.png" alt="Card image cap">
+        <img class="card-img-top" src="../assets/mario.jpg" alt="Card image cap">
         <h5 class="card-title">Mario Cavaiola</h5>
-        <div class="card-body">
-        <p class="card-text">Forniamo strumenti di supporto alla decisione per facilitare l'analisi di eventi complessi </p>
+        <div class="card-body pt-1">
+        <p class="card-text"><b>Frontend & Backend Developer </b></p>
+             <p class="card-text">E' il supereroe del team, si sacrifica per tutti neanche fosse Mario della saga omonima. Unica pecca che lo ha marchiato? La zona rossa </p>
          </div>
       </div>
 
@@ -108,6 +111,7 @@
 
 </div>
 </div>
+
 
 
 
@@ -178,5 +182,6 @@ export default {
 
 
 }
+
 
 </style>
