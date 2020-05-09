@@ -1,6 +1,6 @@
 <template>
  <div class="card  mt-1"  onload="getReport();" >
-  <div class="card-header">Storico segnalazioni <router-link to="/dashboard"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link><img  v-if="filteractive==false&&filter==false"   @click="filtering" src="../assets/filter.png" style="float:right;  cursor: pointer;" height="22px;" > <img   v-if="filteractive==true"  @click="removeFilter" src="../assets/nofilter.png" style="float:right;cursor:pointer;" height="22px;" ></div>
+  <div class="card-header">Storico segnalazioni <router-link v-if="adding==false&&zoomed==false&&editing==false&&filter==false" to="/dashboard"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link><img  v-if="filteractive==false&&filter==false"   @click="filtering" src="../assets/filter.png" style="float:right;  cursor: pointer;" height="22px;" > <img   v-if="filteractive==true"  @click="removeFilter" src="../assets/nofilter.png" style="float:right;cursor:pointer;" height="22px;" ></div>
   <!-- schermata di visualizzazione-->
   <div v-if="adding==false&&zoomed==false&&editing==false&&filter==false" class="card-body">
     <div class="col-md-12" >
