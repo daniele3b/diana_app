@@ -18,14 +18,17 @@
                         </label>
 
                         <div v-if="filtriTrue">
+                            <br>
                             <h6 class="card-subtitle mb-2 text-muted text-left">Filtra per data (yyyy-mm-dd):</h6>
                             <div class="form-label-group">
                                 <div class="row">
                                     <div class="col">
                                         <input type="text" v-model=dataInizio :class="dataInizioClass" placeholder="Data Inizio" >
+                                        <label v-if="dataInizioOk==true && dataInizioVer==false" class="badge badge-danger">Formato data non corretto!</label>
                                     </div>
                                     <div class="col">
                                         <input type="text" v-model=dataFine :class="dataFineClass" placeholder="Data Fine">
+                                        <label v-if="dataFineOk==true && dataFineVer==false" class="badge badge-danger">Formato data non corretto!</label>
                                     </div>
                                 </div>
                             </div>
@@ -219,8 +222,107 @@ export default {
                           this.loading = false
                         this.errore=true
                       });
+          }//DOWNLOAD FILTRO TIPO E STAZIONE
+          else if(this.dataInizioVer==false && this.dataFineVer==false &&
+              this.stazioneOk==true && this.tipoOk==true){ 
+                  var urlstationtype = 'http://localhost:8081/chemical_agents/history/station/'+this.stazione+'/'+this.tipo
+                  axios({
+                          url: urlstationtype,
+                          method: 'GET',
+                          headers: {
+                            "x-diana-auth-token": localStorage.token
+                          },
+                          responseType: 'blob', // important
+                      }).then((response) => { 
+                          const url = window.URL.createObjectURL(new Blob([response.data]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile = 'Diana'+this.stazione+"-"+this.tipo+'.json'
+                          link.setAttribute('download', nomefile);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                      }).catch(() =>{
+                          this.loading = false
+                        this.errore=true
+                      });
+          }//DOWNLOAD FILTRO TIPO E DATE
+          else if(this.dataInizioVer==true && this.dataFineVer==true &&
+              this.stazioneOk==false && this.tipoOk==true){ 
+                  var urldatetype = 'http://localhost:8081/chemical_agents/filter/date/'+this.dataInizio+'/'+this.dataFine+'/type/'+this.tipo
+                  axios({
+                          url: urldatetype,
+                          method: 'GET',
+                          headers: {
+                            "x-diana-auth-token": localStorage.token
+                          },
+                          responseType: 'blob', // important
+                      }).then((response) => { 
+                          const url = window.URL.createObjectURL(new Blob([response.data]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile = 'Diana'+this.dataInizio+"-"+this.dataFine+"-"+this.tipo+'.json'
+                          link.setAttribute('download', nomefile);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                      }).catch(() =>{
+                          this.loading = false
+                        this.errore=true
+                      });
+          }//DOWNLOAD FILTRO STAZIONE E DATE
+          else if(this.dataInizioVer==true && this.dataFineVer==true &&
+              this.stazioneOk==true && this.tipoOk==false){ 
+                  var urldatestation = 'http://localhost:8081/chemical_agents/filter/date/'+this.stazione+'/'+this.dataInizio+'/'+this.dataFine
+                  axios({
+                          url: urldatestation,
+                          method: 'GET',
+                          headers: {
+                            "x-diana-auth-token": localStorage.token
+                          },
+                          responseType: 'blob', // important
+                      }).then((response) => { 
+                          const url = window.URL.createObjectURL(new Blob([response.data]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile = 'Diana'+this.dataInizio+"-"+this.dataFine+"-"+this.stazione+'.json'
+                          link.setAttribute('download', nomefile);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                      }).catch(() =>{
+                          this.loading = false
+                        this.errore=true
+                      });
+          }//DOWNLOAD FILTRO TIPO STAZIONE E DATE
+          else if(this.dataInizioVer==true && this.dataFineVer==true &&
+              this.stazioneOk==true && this.tipoOk==true){ 
+                  var urltypedatestation = 'http://localhost:8081/chemical_agents/filter/date/'+this.dataInizio+'/'+this.dataFine+'/type/'+this.tipo+'/'+this.stazione
+                  axios({
+                          url: urltypedatestation,
+                          method: 'GET',
+                          headers: {
+                            "x-diana-auth-token": localStorage.token
+                          },
+                          responseType: 'blob', // important
+                      }).then((response) => { 
+                          const url = window.URL.createObjectURL(new Blob([response.data]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile = 'Diana'+this.dataInizio+"-"+this.dataFine+"-"+this.stazione+'-'+this.tipo+'.json'
+                          link.setAttribute('download', nomefile);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                      }).catch(() =>{
+                          this.loading = false
+                        this.errore=true
+                      });
           }
-        
         }
     },
     watch:{
@@ -233,7 +335,8 @@ export default {
                 this.dataInizioOk = true
                 
                 if(this.dataInizio.length==10 && this.dataInizio.charAt(4)=='-' &&
-                    this.dataInizio.charAt(7)=='-'){
+                    this.dataInizio.charAt(7)=='-' && !isNaN(this.dataInizio.substr(0,4))
+                    && !isNaN(this.dataInizio.substr(5,2)) && !isNaN(this.dataInizio.substr(8,2))){
                     this.dataInizioVer = true
                     this.dataInizioClass = 'form-control-mario-ver'
                 }
@@ -252,7 +355,8 @@ export default {
                 this.dataFineoOk = true
                 
                 if(this.dataFine.length==10 && this.dataFine.charAt(4)=='-' &&
-                    this.dataFine.charAt(7)=='-'){
+                    this.dataFine.charAt(7)=='-' && !isNaN(this.dataFine.substr(0,4))
+                    && !isNaN(this.dataFine.substr(5,2)) && !isNaN(this.dataFine.substr(8,2))){
                     this.dataFineVer = true
                     this.dataFineClass = 'form-control-mario-ver'
                 }
