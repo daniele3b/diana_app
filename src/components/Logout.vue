@@ -19,7 +19,7 @@ export default {
     this.$store.commit('setMenu',false)
     
 
-      this.$router.push('/login')
+      this.$router.push('/')
 
     }
 
