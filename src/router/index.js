@@ -12,6 +12,7 @@ import Traffic from '../views/Traffic.vue'
 import NewOperatore from '../views/NewOperatore.vue'
 import Home from '../views/Home.vue'
 import EsportaDati from '../views/EsportaDati.vue'
+import Announcements from '../views/Announcements.vue'
 
 const protect = (to, from, next) => {
   if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
@@ -113,6 +114,12 @@ Vue.use(VueRouter)
     path:'/esportadati',
     name:'EsportaDati',
     component:EsportaDati
+  },
+  {
+    path:'/announcements',
+    name:'Announcements',
+    beforeEnter:protect,
+    component:Announcements
   }
 ]
 

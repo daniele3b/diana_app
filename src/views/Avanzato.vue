@@ -13,7 +13,7 @@
 
         </div>
         <div class="col">
-            <router-link to="/report_storico">
+            <router-link to="/announcements">
          <button   id="im3"></button> 
           </router-link>
         </div>
