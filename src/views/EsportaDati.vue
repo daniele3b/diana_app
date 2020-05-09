@@ -70,7 +70,7 @@
                         <label v-if="loading==true" class="alert">Download in corso...</label>
                         <label v-if="corretto==true" class="alert alert-success">Download eseguito con successo!</label>
                         <a href="" id="download_link" download="my_exported_file.txt">
-                          <button   @click="download" class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Download</button>
+                          <button   @click="download" class="btn btn-lg btn-success btn-block text-uppercase" >Download</button>
                         </a>
                         
                         
