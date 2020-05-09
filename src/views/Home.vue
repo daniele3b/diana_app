@@ -7,7 +7,7 @@
     <div class="jumbotron text-black" id="hero">
             <h1 class="display-4"><b>Benvenuto su Diana!</b></h1>
             <p class="lead"><b>L'obiettivo è fornire ai cittadini ed alle province uno strumento utile alla lotta contro l'inquinamento.</b></p>
-            <p><b>Uniti possiamo fare la differenza, unisciti anche te alla lotta!</b></p>
+            <p><b>Uniti possiamo fare la differenza, lotta insieme a noi!</b></p>
             
             <h5 >  <router-link to="/registration"> Partecipa anche tu!</router-link></h5>
             <p> <router-link to="/">Se sei già registrato accedi </router-link></p>
