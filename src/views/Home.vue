@@ -9,8 +9,8 @@
             <p class="lead"><b>L'obiettivo è fornire ai cittadini ed alle province uno strumento utile alla lotta contro l'inquinamento.</b></p>
             <p><b>Uniti possiamo fare la differenza, unisciti anche te alla lotta!</b></p>
             
-            <h6 >  <router-link to="/registration"> Registrati</router-link></h6>
-           
+            <h6 >  <router-link to="/registration"> Partecipa anche tu!</router-link></h6>
+            
         </div>
  </div>
  <div class="col mt-1">
@@ -75,7 +75,7 @@ export default {
 #isola{
   position:relative;
  animation-name: lievitazione;
-  animation-duration: 2.5s;
+  animation-duration: 2s;
     animation-iteration-count: infinite;
 }
 

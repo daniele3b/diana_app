@@ -39,30 +39,6 @@
   </div>
 
   
-  <!-- Collapse button -->
-  <button v-if="isLogged == false" class="navbar-toggler border border-dark mr-5 " type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation" id="hamburger2"  ><span class="navbar-toggler-icon"></span></button>
-
-  <!-- Collapsible content -->
-  <div v-if="isLogged == false" class="collapse navbar-collapse " id="navbarSupportedContent">
-
-    <!-- Links -->
-    
-    <ul class="navbar-nav mr-auto bg-success border border-dark pl-3 pr-3" style="position:relative; z-index: 1;float:right;">
-      
-      <li class="nav-item " >
-        <router-link  to="/" class="nav-link " href="#">Accedi </router-link>
-      </li>
-       <li class="nav-item">
-        <router-link  to="/registration" class="nav-link" href="#">Registrati</router-link>
-      </li>
-
-    </ul>
-  
-    <!-- Links -->
-
-  </div>
-
  
 
   
