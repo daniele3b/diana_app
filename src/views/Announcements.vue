@@ -2,7 +2,7 @@
     <div>
         <!--  SCHERMATA DI VISUALIZZAZIONE INIZIALE  -->
 
-        <div v-if="!adding && !visualizzandoDettagli">
+        <div v-if="!adding && !visualizzandoDettagli && !updating">
             <div class="row mt-1 ml-1">
                 <router-link to="/avanzato"><img src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;"></router-link>
             </div>
@@ -31,7 +31,7 @@
                                 <td>{{annuncio.start}}</td>
                                 <td>{{annuncio.end}}</td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Detail"><button :id="annuncio._id" @click="visualizzaDettagli" class = "btn btn-success btn-xs" data-title = "Detail" data-toggle = "modal" data-target = "#detail" style = "height:10px;width:20px;"><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                                <td><p data-placement = "top" data-toggle = "tooltip" title = "Edit"><button :id="annuncio._id" class = "btn btn-primary btn-xs" data-title = "Edit" data-toggle = "modal" data-target = "#edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                                <td><p data-placement = "top" data-toggle = "tooltip" title = "Edit"><button :id="annuncio._id" @click="settaCampiPerAggiornamentoAnnuncio" class = "btn btn-primary btn-xs" data-title = "Edit" data-toggle = "modal" data-target = "#edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Delete"><button :id="annuncio._id" @click="cancellaAnnuncio" class = "btn btn-danger btn-xs" data-title = "Delete" data-toggle = "modal" data-target = "#delete"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
 
                             </tr>
@@ -111,16 +111,34 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="newZona" placeholder="Clicca su '+' per aggiungere" type="text" style="width:200px">
+                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
                             </div>
 
                             <div class="col">
                                 <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px">+</button>
+                                <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px">-</button>
                             </div>
 
                         </div>
 
-                        <div class="row">
+                        <div v-if="mostraZoneInserite">
+                            <div v-for="(zona, index) in zone" :key="index">
+                                <div class="row mt-2">
+                                    
+                                    <div class="col">
+                                        {{zona}}
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px">-</button>
+                                    </div>
+                                
+                                </div>
+                               
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
                             <div class = "col mt-1">
                                 <h6>Descrizione</h6>
                             </div>
@@ -154,6 +172,8 @@
            </center>
         
         </div>
+
+        <!--  SCHERMATA DI VISUALIZZAZIONE DETTAGLI DELL'ANNUNCIO  -->
 
         <div v-if="visualizzandoDettagli">
 
@@ -243,6 +263,131 @@
            </center>
 
         </div>
+
+        <!--  SCHERMATA DI MODIFICA DELL'ANNUNCIO  -->
+
+        <div v-if="updating">
+            <div class="row mt-1 ml-1">
+                <img @click="tornaAllaSchermataPrecedente()" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
+            </div>
+
+            <center>
+                <div class="card card-signin border-success mt-2" style="width:520px;">
+                    <div class="card-body">
+                    
+                    <h5 class="card-title text-center"><b>AGGIORNA L'ANNUNCIO</b></h5>
+                    
+                    <form class="form-signin" @keyup.enter="aggiornaAnnuncio">
+                        
+                        <div class="row">
+                            <div class="col mt-1">
+                                <h6>Codice fiscale</h6>
+                            </div>
+                            
+                            <div class="col">
+                                <input class="inserimento" v-model="CF" type="text" style="width:200px">
+                            </div>
+
+                            <div class="col">
+
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Data inizio</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                            </div>
+
+                            <div class="col">
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Data fine</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
+                            </div>
+
+                            <div class="col">
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Zone</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
+                            </div>
+
+                            <div class="col">
+                                <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px">+</button>
+                                <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px">-</button>
+                            </div>
+
+                        </div>
+
+                        <div v-if="mostraZoneInserite">
+                            <div v-for="(zona, index) in zone" :key="index">
+                                <div class="row mt-2">
+                                    
+                                    <div class="col">
+                                        {{zona}}
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px">-</button>
+                                    </div>
+                                
+                                </div>
+                               
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Descrizione</h6>
+                            </div>
+
+                            <div class = "col">
+                                <textarea class="inserimento mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
+                            </div>
+
+                            <div class="col">
+
+                            </div>
+                        </div>
+
+                        <div v-if="cliccatoSuAggiorna && (error == 'CF' || error == 'Data inizio' || error == 'Data fine' || error == 'Logica delle date' || error == 'Descrizione')" class="alert alert-danger mt-1" role="alert">
+                            {{messaggioErrore}}
+                        </div>
+
+                        <div v-else-if="cliccatoSuAggiorna && error==''" class="alert alert-success mt-1" role="alert">
+                            {{messaggioConferma}}
+                        </div>
+
+                        <button @click="aggiornaAnnuncio()" type="button" class="btn btn-success mt-1">Aggiorna annuncio</button>
+
+                    </form>
+            
+                    </div>
+              
+            
+                </div>
+           
+           </center>
+        
+        </div>
         
     </div>
 
@@ -260,6 +405,7 @@ export default {
         loading : false,
         adding : false,
         visualizzandoDettagli : false,
+        updating : false,
         CF : "",
         data_inizio : "",
         data_fine : "",
@@ -269,8 +415,11 @@ export default {
         error : "",
         messaggioErrore : "",
         cliccatoSuPubblica : false,
+        cliccatoSuAggiorna : false,
         messaggioConferma : "",
-        annuncioDaVisualizzare : {}
+        annuncioDaVisualizzare : {},
+        annuncioDaModificare : {},
+        mostraZoneInserite : false
     }
   },
 
@@ -367,7 +516,6 @@ export default {
     },
     
     pubblicaAnnuncio(){
-      this.cliccatoSuPubblica = true
 
       if(!this.campiOK()){
         setTimeout(() => {this.cliccatoSuPubblica = false}, 2000)
@@ -375,7 +523,8 @@ export default {
       }
 
       if(!confirm("Confermi la pubblicazione dell'annuncio? Ogni cittadino riceverà un'email.")) return
-
+      
+      this.cliccatoSuPubblica = true
       this.error = ""
       
       axios({
@@ -427,7 +576,10 @@ export default {
       const dim = annunci.length
       
       for(i=0;i<dim;i++){
-        if(annunci[i]._id == id_annuncio) this.annuncioDaVisualizzare = annunci[i]
+        if(annunci[i]._id == id_annuncio){
+          this.annuncioDaVisualizzare = annunci[i]
+          break
+        }
       }
 
     },
@@ -444,6 +596,7 @@ export default {
       for(i=0;i<dim;i++){
         if(annunci[i]._id == id_annuncio){
             ind = i
+            break
         } 
       }
 
@@ -469,8 +622,101 @@ export default {
       this.newZona = ""
     },
 
+    rimuoviZona(event){
+      const i = event.target.id
+      this.zone.splice(i, 1)
+    },
+
+    settaCampiPerAggiornamentoAnnuncio(event){
+      this.updating = true
+    
+      const id_annuncio = event.target.id
+      const annunci = this.annunci
+      let i
+      const dim = annunci.length
+      
+      for(i=0;i<dim;i++){
+        if(annunci[i]._id == id_annuncio){
+          this.annuncioDaModificare = annunci[i]
+          break
+        }
+      }
+
+      this.CF = this.annuncioDaModificare.CF
+      this.data_inizio = this.annuncioDaModificare.start
+      this.data_fine = this.annuncioDaModificare.end
+      this.zone = this.annuncioDaModificare.zone
+      this.descrizione = this.annuncioDaModificare.description
+
+    },
+
+    aggiornaAnnuncio(){
+
+      if(!this.campiOK()){
+        setTimeout(() => {this.cliccatoSuAggiorna = false}, 2000)
+        return
+      }
+
+      if(!confirm("Sei sicuro di voler modificare l' annuncio?")) return
+
+      this.cliccatoSuAggiorna = true
+
+      this.error = ""
+      
+      axios({
+        method: 'put',
+        url: 'http://localhost:8081/announcements/'+this.annuncioDaModificare._id,
+        headers: {
+          "x-diana-auth-token": localStorage.token
+        },
+        data: {
+          CF: this.CF,
+          start: this.data_inizio,
+          end : this.data_fine,
+          description : this.descrizione,
+          zone : this.zone
+        }
+      })
+      .then((response) => {
+          this.messaggioConferma = "Annuncio aggiornato con successo!"
+
+          const ind_inizio = response.data.start.indexOf('T')
+          const ind_fine = response.data.end.indexOf('T')
+          response.data.start = response.data.start.substring(0, ind_inizio)
+          response.data.end = response.data.end.substring(0, ind_fine)
+
+          let i
+          const dim = this.annunci
+          for(i=0;i<dim;i++){
+            if(this.annuncioDaModificare._id == this.annunci[i]._id){
+              this.annunci[i].CF = response.data.CF
+              this.annunci[i].start = response.data.start
+              this.annunci[i].end = response.data.end
+              this.annunci[i].zone = response.data.zone
+              this.annunci[i].description = response.data.description
+              break
+            }
+          }
+
+          this.data_inizio = ""
+          this.data_fine = ""
+          this.descrizione = ""
+          this.zone = []
+          this.CF = ""
+
+          
+      })
+      .catch((error) => {
+          console.log(error)
+      })
+
+      setTimeout(() => {this.cliccatoSuAggiorna = false}, 2000)
+    },
+
     tornaAllaSchermataPrecedente(){
       this.adding = false
+      this.updating = false
+      this.mostraZoneInserite = false
       
       this.data_inizio = ""
       this.data_fine = ""
