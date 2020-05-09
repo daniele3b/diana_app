@@ -31,10 +31,14 @@
          <button   id="im4"></button> 
           </router-link>
         </div>
-        <div class="col-4">
+        <div class="col">
           <router-link to="/esportadati">
          <button   id="im5"></button> 
           </router-link>
+          </div>
+
+           <div class="col-4">
+        
           </div>
        
     </div>
