@@ -52,11 +52,11 @@
 
         <div v-if="adding">
             <div class="row mt-1 ml-1">
-                <img @click="adding=false" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
+                <img @click="tornaAllaSchermataPrecedente()" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
             </div>
 
             <center>
-                <div class="card card-signin border-success mt-2" style="width:470px">
+                <div class="card card-signin border-success mt-2" style="width:520px;">
                     <div class="card-body">
                     
                     <h5 class="card-title text-center"><b>INSERISCI NUOVO ANNUNCIO</b></h5>
@@ -71,6 +71,10 @@
                             <div class="col">
                                 <input class="inserimento" v-model="CF" type="text" style="width:200px">
                             </div>
+
+                            <div class="col">
+
+                            </div>
                         </div>
                         
                         <div class="row">
@@ -80,6 +84,10 @@
 
                             <div class = "col">
                                 <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                            </div>
+
+                            <div class="col">
+
                             </div>
                         </div>
 
@@ -91,16 +99,25 @@
                             <div class = "col">
                                 <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
                             </div>
+
+                            <div class="col">
+
+                            </div>
                         </div>
 
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Zona</h6>
+                                <h6>Zone</h6>
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="zone" type="text" style="width:200px">
+                                <input class="inserimento mt-1" v-model="newZona" placeholder="Clicca su '+' per aggiungere" type="text" style="width:200px">
                             </div>
+
+                            <div class="col">
+                                <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px">+</button>
+                            </div>
+
                         </div>
 
                         <div class="row">
@@ -109,7 +126,11 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="descrizione" type="text" style="width:200px;">
+                                <textarea class="inserimento mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
+                            </div>
+
+                            <div class="col">
+
                             </div>
                         </div>
 
@@ -243,8 +264,9 @@ export default {
         data_inizio : "",
         data_fine : "",
         descrizione : "",
+        newZona : "",
         zone : [],
-        error : '',
+        error : "",
         messaggioErrore : "",
         cliccatoSuPubblica : false,
         messaggioConferma : "",
@@ -347,7 +369,10 @@ export default {
     pubblicaAnnuncio(){
       this.cliccatoSuPubblica = true
 
-      if(!this.campiOK()) return
+      if(!this.campiOK()){
+        setTimeout(() => {this.cliccatoSuPubblica = false}, 2000)
+        return
+      }
 
       if(!confirm("Confermi la pubblicazione dell'annuncio? Ogni cittadino riceverà un'email.")) return
 
@@ -381,6 +406,7 @@ export default {
           this.data_inizio = ""
           this.data_fine = ""
           this.descrizione = ""
+          this.zone = []
           this.CF = ""
 
           
@@ -388,6 +414,8 @@ export default {
       .catch((error) => {
           console.log(error)
       })
+
+      setTimeout(() => {this.cliccatoSuPubblica = false}, 2000)
     },
 
     visualizzaDettagli(event){
@@ -403,6 +431,21 @@ export default {
       }
 
     },
+
+    aggiungiZona(){
+      if(this.newZona != "") this.zone.push(this.newZona)
+      this.newZona = ""
+    },
+
+    tornaAllaSchermataPrecedente(){
+      this.adding = false
+      
+      this.data_inizio = ""
+      this.data_fine = ""
+      this.descrizione = ""
+      this.zone = []
+      this.CF = ""
+    }
   },
 }
 </script>
