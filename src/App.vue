@@ -39,6 +39,11 @@
   </div>
 
 
+  <div class="mt-3 " v-else >
+
+      <router-link to="/login"> Accedi </router-link> | <router-link to="/registration"> Registrati </router-link>
+    </div>
+
 
   
  
