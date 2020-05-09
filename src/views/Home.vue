@@ -70,7 +70,7 @@
 <div class="row mt-5">
 
   <div class="col-12 ">
-      <h3><b>IL NOSTRO TEAM</b></h3>
+      <h3><b>IL TEAM</b></h3>
   </div>
   <div class="row mt-3">
     <div class="col">
