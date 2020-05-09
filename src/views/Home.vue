@@ -27,7 +27,7 @@
 </div>
   
 
-  <div class="container pb-2 mt-5" >
+  <div class="container pb-5 mt-5" >
 <div class="row mt-5">
 
   <div class="col-12">
@@ -64,9 +64,9 @@
   </div>
 </div>
 </div>
- <hr>
 
- <div class="container pb-5 pb-2" >
+
+ <div class="container pb-5 mt-5" >
 <div class="row mt-5">
 
   <div class="col-12 ">
