@@ -4,7 +4,7 @@
 
         <div v-if="!adding && !visualizzandoDettagli && !updating">
             <div class="row mt-1 ml-1">
-                <router-link to="/avanzato"><img src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;"></router-link>
+                <router-link to="/avanzato"><img data-title = "Torna alle avanzate" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;"></router-link>
             </div>
 
         <div class="card border-success mt-3">
@@ -42,7 +42,7 @@
 
                 <!-- BOTTONE DI AGGIUNTA  -->
                 
-                <button @click="adding=true" type="button" class="btn btn-success mt-1">Inserisci nuovo annuncio</button>
+                <button @click="adding=true" type="button" data-title = "Aggiungi" class="btn btn-success mt-1">Inserisci nuovo annuncio</button>
 
             </div>
         </div>
@@ -516,7 +516,8 @@ export default {
     },
     
     pubblicaAnnuncio(){
-
+      this.cliccatoSuPubblica = true
+      
       if(!this.campiOK()){
         setTimeout(() => {this.cliccatoSuPubblica = false}, 2000)
         return
@@ -524,7 +525,6 @@ export default {
 
       if(!confirm("Confermi la pubblicazione dell'annuncio? Ogni cittadino riceverà un'email.")) return
       
-      this.cliccatoSuPubblica = true
       this.error = ""
       
       axios({
@@ -651,6 +651,7 @@ export default {
     },
 
     aggiornaAnnuncio(){
+      this.cliccatoSuAggiorna = true
 
       if(!this.campiOK()){
         setTimeout(() => {this.cliccatoSuAggiorna = false}, 2000)
@@ -658,8 +659,6 @@ export default {
       }
 
       if(!confirm("Sei sicuro di voler modificare l' annuncio?")) return
-
-      this.cliccatoSuAggiorna = true
 
       this.error = ""
       
