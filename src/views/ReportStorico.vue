@@ -706,16 +706,18 @@ export default {
         back: function(event)
         {
           console.log(event.target.id)
-             this.address=''
-            this.category='---'
-            this.description=''
-             this.date=''
+          this.address=''
+          this.category='---'
+          this.description=''
+          this.date=''
           this.description=''
           this.CF=''
+          this.CF2filter=''
           this.status=''
           this.data_inizio=''
           this.data_fine=''
           this.cat2filter=''
+          this.status2filter=''
           this.adding=false
           this.zoomed=false
           this.editing=false
