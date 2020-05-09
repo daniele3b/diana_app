@@ -23,6 +23,15 @@ const protect = (to, from, next) => {
   else next({ name : "Login"})
 }
 
+const skip = (to, from, next) => {
+  if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
+      localStorage.getItem('password') != undefined && localStorage.getItem('token') != undefined &&
+      localStorage.getItem('type') != undefined){
+    next( {name: "Login"})
+  }
+  else next()
+}
+
 
 
 
@@ -39,8 +48,14 @@ const protectSup = (to, from, next) => {
 Vue.use(VueRouter)
 
   const routes = [
+    {
+        path:'/',
+        name:'Home',
+        beforeEnter:skip,
+        component:Home
+    },
   {
-    path: '/',
+    path: '/login',
     name: 'Login',
     component: Login
   },

@@ -10,7 +10,7 @@
             <p><b>Uniti possiamo fare la differenza, lotta insieme a noi!</b></p>
             
             <h5 >  <router-link to="/registration"> Partecipa anche tu!</router-link></h5>
-            <p> <router-link to="/">Se sei già registrato accedi </router-link></p>
+            <p> <router-link to="/login">Se sei già registrato accedi </router-link></p>
             
         </div>
        
