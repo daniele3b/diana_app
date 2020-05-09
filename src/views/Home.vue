@@ -33,11 +33,11 @@
   <div class="col-12">
       <h3><b>COSA FACCIAMO?</b></h3>
   </div>
-  <div class="row mt-3">
-    <div class="col">
+  <div class="row mt-3 ">
+    <div class="col ">
       <div class="card"  >
-        <img class="card-img-top" src="../assets/filter.png" alt="Card image cap">
-        <div class="card-body">
+        <img class="card-img-top" src="../assets/menu1.png" alt="Card image cap" height="250px" width="200px" >
+        <div class="card-body border-top">
         <p class="card-text">Analisi in tempo reale dei dati chimici provenienti dalle stazioni situate sul territorio provinciale</p>
          </div>
       </div>
@@ -45,8 +45,8 @@
     </div>
     <div class="col">
       <div class="card" >
-        <img class="card-img-top" src="../assets/filter.png" alt="Card image cap">
-        <div class="card-body">
+        <img class="card-img-top  " src="../assets/menu2.png" alt="Card image cap"  height="250px" width="200px">
+        <div class="card-body border-top">
         <p class="card-text">Gestione delle segnalazioni dei cittadini che si sono uniti alla lotta per salvaguardare l'ambiente </p>
          </div>
       </div>
@@ -54,8 +54,8 @@
     </div>
     <div class="col">
       <div class="card" >
-        <img class="card-img-top" src="../assets/filter.png" alt="Card image cap">
-        <div class="card-body">
+        <img class="card-img-top" src="../assets/menu3.png" alt="Card image cap" height="250px" width="200px">
+        <div class="card-body border-top">
         <p class="card-text">Forniamo strumenti di supporto alla decisione per facilitare l'analisi di eventi complessi </p>
          </div>
       </div>
@@ -69,14 +69,14 @@
  <div class="container pb-5 mt-5" >
 <div class="row mt-5">
 
-  <div class="col-12 ">
+  <div class="col-12 w-75">
       <h3><b>IL TEAM</b></h3>
   </div>
   <div class="row mt-3">
     <div class="col">
       <div class="card"  >
         
-        <img class="card-img-top" src="../assets/ivan.jpg" alt="Card image cap">
+        <img class="card-img-top" src="../assets/ivan.jpg" alt="Card image cap"  >
         <h5 class="card-title">Ivan Giacomoni</h5>
         <div class="card-body pt-1">
         <p class="card-text"><b>Frontend & Backend Developer</b></p>
@@ -88,7 +88,7 @@
     <div class="col">
       <div class="card" >
         
-        <img class="card-img-top" src="../assets/daniele.jpg" alt="Card image cap">
+        <img class="card-img-top" src="../assets/daniele.jpg" alt="Card image cap" >
         <h5 class="card-title">Daniele Bufalieri</h5>
         <div class="card-body pt-1">
           <p class="card-text"><b>Frontend & Backend Developer </b></p>
@@ -100,7 +100,7 @@
     <div class="col">
       <div class="card" >
         
-        <img class="card-img-top" src="../assets/mario.jpg" alt="Card image cap">
+        <img class="card-img-top" src="../assets/mario.jpg" alt="Card image cap"  >
         <h5 class="card-title">Mario Cavaiola</h5>
         <div class="card-body pt-1">
         <p class="card-text"><b>Frontend & Backend Developer </b></p>
@@ -153,6 +153,12 @@ export default {
 
   background-color: transparent;
 }
+.card {
+-webkit-box-shadow: 0px 1px 8px 3px rgba(0,0,0,0.44);
+-moz-box-shadow: 0px 1px 8px 3px rgba(0,0,0,0.44);
+box-shadow: 0px 1px 8px 3px rgba(0,0,0,0.44);
+}
+
 
 
 @keyframes lievitazione {
