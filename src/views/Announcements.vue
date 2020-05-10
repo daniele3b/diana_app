@@ -21,8 +21,8 @@
                                 <th scope="col">Data inizio</th>
                                 <th scope="col">Data fine</th>
                                 <th scope="col">Dettagli</th>
-                                <th scope="col">Edit</th>
-                                <th scope="col">Delete</th>
+                                <th v-if="tipoUtente != 'cittadino'" scope="col">Edit</th>
+                                <th v-if="tipoUtente != 'cittadino'" scope="col">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,8 +31,8 @@
                                 <td>{{annuncio.start}}</td>
                                 <td>{{annuncio.end}}</td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Detail"><button :id="annuncio._id" @click="visualizzaDettagli" class = "btn btn-success btn-xs" data-title = "Detail" data-toggle = "modal" data-target = "#detail" style = "height:10px;width:20px;"><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                                <td><p data-placement = "top" data-toggle = "tooltip" title = "Edit"><button :id="annuncio._id" @click="settaCampiPerAggiornamentoAnnuncio" class = "btn btn-primary btn-xs" data-title = "Edit" data-toggle = "modal" data-target = "#edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                                <td><p data-placement = "top" data-toggle = "tooltip" title = "Delete"><button :id="annuncio._id" @click="cancellaAnnuncio" class = "btn btn-danger btn-xs" data-title = "Delete" data-toggle = "modal" data-target = "#delete"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
+                                <td><p data-placement = "top" data-toggle = "tooltip" title = "Edit"><button v-if="tipoUtente != 'cittadino'" :id="annuncio._id" @click="settaCampiPerAggiornamentoAnnuncio" class = "btn btn-primary btn-xs" data-title = "Edit" data-toggle = "modal" data-target = "#edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                                <td><p data-placement = "top" data-toggle = "tooltip" title = "Delete"><button v-if="tipoUtente != 'cittadino'" :id="annuncio._id" @click="cancellaAnnuncio" class = "btn btn-danger btn-xs" data-title = "Delete" data-toggle = "modal" data-target = "#delete"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
 
                             </tr>
                             
@@ -42,7 +42,7 @@
 
                 <!-- BOTTONE DI AGGIUNTA  -->
                 
-                <button @click="adding=true" type="button" data-title = "Aggiungi" class="btn btn-success mt-1">Inserisci nuovo annuncio</button>
+                <button v-if="tipoUtente != 'cittadino'" @click="adding=true" type="button" data-title = "Aggiungi" class="btn btn-success mt-1">Inserisci nuovo annuncio</button>
 
             </div>
         </div>
@@ -401,6 +401,7 @@ export default {
 
   data(){
     return {
+        tipoUtente : "",
         annunci : [],
         loading : false,
         adding : false,
@@ -424,6 +425,8 @@ export default {
   },
 
   created(){
+    this.tipoUtente = localStorage.type
+
     this.annunci = []
 
     axios({
