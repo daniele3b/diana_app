@@ -3,9 +3,6 @@
         <!--  SCHERMATA DI VISUALIZZAZIONE INIZIALE  -->
 
         <div v-if="!adding && !visualizzandoDettagli && !updating">
-            <div class="row mt-1 ml-1">
-                <router-link to="/avanzato"><img data-title = "Torna alle avanzate" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;"></router-link>
-            </div>
 
         <div class="card border-success mt-3">
             <div class="card-body">
@@ -17,23 +14,26 @@
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
+                                <th scope="col"><router-link to="/avanzato"><img data-title = "Torna alle avanzate" src="../assets/back.png" class="back" style="width:20px; margin-left:16px;"></router-link></th>
                                 <th scope="col">CF</th>
                                 <th scope="col">Data inizio</th>
                                 <th scope="col">Data fine</th>
                                 <th scope="col">Dettagli</th>
                                 <th v-if="tipoUtente != 'cittadino'" scope="col">Edit</th>
                                 <th v-if="tipoUtente != 'cittadino'" scope="col">Delete</th>
+                                <th scope="col"><img src="../assets/filter.png" data-title = "Vai ai filtri" class="filter" style="width:25px"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="annuncio in annunci" :key="annuncio._id">
+                                <td><!--  PADDING PER IMG BACK  --></td>
                                 <td>{{annuncio.CF}}</td>
                                 <td>{{annuncio.start}}</td>
                                 <td>{{annuncio.end}}</td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Detail"><button :id="annuncio._id" @click="visualizzaDettagli" class = "btn btn-success btn-xs" data-title = "Detail" data-toggle = "modal" data-target = "#detail" style = "height:10px;width:20px;"><span class="glyphicon glyphicon-trash"></span></button></p></td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Edit"><button v-if="tipoUtente != 'cittadino'" :id="annuncio._id" @click="settaCampiPerAggiornamentoAnnuncio" class = "btn btn-primary btn-xs" data-title = "Edit" data-toggle = "modal" data-target = "#edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Delete"><button v-if="tipoUtente != 'cittadino'" :id="annuncio._id" @click="cancellaAnnuncio" class = "btn btn-danger btn-xs" data-title = "Delete" data-toggle = "modal" data-target = "#delete"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
-
+                                <td><!--  PADDING PER IMG FILTER  --></td>
                             </tr>
                             
                         </tbody>
@@ -407,6 +407,7 @@ export default {
         adding : false,
         visualizzandoDettagli : false,
         updating : false,
+        filtering : false,
         CF : "",
         data_inizio : "",
         data_fine : "",
@@ -740,6 +741,10 @@ export default {
 <style scoped>
 
 .back{
+    cursor: pointer;
+}
+
+.filter{
     cursor: pointer;
 }
 
