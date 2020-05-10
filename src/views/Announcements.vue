@@ -499,7 +499,7 @@
 
         <!--  SCHERMATA DI VISUALIZZAZIONE ANNUNCI FILTRATI  -->
 
-        <div v-if="filtering">
+        <div v-if="filtering && !visualizzandoDettagli">
             <div class="card border-success mt-3">
             <div class="card-body">
                 <h5 class="card-title"><b>ANNUNCI</b></h5>
@@ -910,7 +910,7 @@ export default {
       if(this.CF == "" && this.data_inizio == "" && this.data_fine == "" && this.zone.length == 0){
         this.cliccatoSuFiltra = true  // Faccio rimanere l'utente sulla schermata di inserimento filtri
         this.error = "erroreFiltri"
-        this.messaggioErrore="Nessun campo inserito"
+        this.messaggioErrore="Nessun campo inserito o valido"
         setTimeout(() => {this.error = ""}, 2000)
         return
       }
@@ -918,7 +918,8 @@ export default {
       // SOLO CF
       if(this.controllaCF() && this.data_inizio == "" && this.data_fine == "" && this.zone.length == 0){
         this.filtering = true
-
+        this.error = "" // POICHE' POSSONO ESSERE INTRECETTATI I VARI CONTROLLI DI ERRORE SUI CAMPI, RESETTO L'ERRORE
+                        // PER EVITARE DI VISUALIZZARLO DOPO ESSERE RIENTRATO SULLA SCHERMATA DEI FILTRI
         let i
         const dim = this.annunci.length
         const annunci = this.annunci
@@ -927,7 +928,45 @@ export default {
         }
       }
 
-      else{
+      else if(!this.controllaCF() && this.data_inizio == "" && this.data_fine == "" && this.zone.length == 0){
+        this.cliccatoSuFiltra = true  // Faccio rimanere l'utente sulla schermata di inserimento filtri
+        setTimeout(() => {this.error = ""}, 2000)
+        return
+      }
+
+      // SOLO DATA INIZIO
+      else if(this.controllaDataInizio() && this.CF == "" && this.data_fine == "" && this.zone.length == 0){
+        this.filtering = true
+        this.error = "" // POICHE' POSSONO ESSERE INTRECETTATI I VARI CONTROLLI DI ERRORE SUI CAMPI, RESETTO L'ERRORE
+                        // PER EVITARE DI VISUALIZZARLO DOPO ESSERE RIENTRATO SULLA SCHERMATA DEI FILTRI
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){
+          if(annunci[i].start >= this.data_inizio) this.annunciFiltrati.push(annunci[i])
+        }
+      }
+
+      else if(!this.controllaDataInizio() && this.CF == "" && this.data_fine == "" && this.zone.length == 0){
+        this.cliccatoSuFiltra = true  // Faccio rimanere l'utente sulla schermata di inserimento filtri
+        setTimeout(() => {this.error = ""}, 2000)
+        return
+      }
+
+      //SOLO DATA FINE
+      else if(this.controllaDataFine() && this.CF == "" && this.data_inizio == "" && this.zone.length == 0){
+        this.filtering = true
+        this.error = "" // POICHE' POSSONO ESSERE INTRECETTATI I VARI CONTROLLI DI ERRORE SUI CAMPI, RESETTO L'ERRORE
+                        // PER EVITARE DI VISUALIZZARLO DOPO ESSERE RIENTRATO SULLA SCHERMATA DEI FILTRI
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){
+          if(annunci[i].end <= this.data_fine) this.annunciFiltrati.push(annunci[i])
+        }
+      }
+
+      else if(!this.controllaDataFine() && this.CF == "" && this.data_inizio == "" && this.zone.length == 0){
         this.cliccatoSuFiltra = true  // Faccio rimanere l'utente sulla schermata di inserimento filtri
         setTimeout(() => {this.error = ""}, 2000)
         return
@@ -943,6 +982,7 @@ export default {
       this.data_fine = ""
       this.descrizione = ""
       this.zone = []
+      this.annunciFiltrati = []
       this.CF = ""
     },
 
