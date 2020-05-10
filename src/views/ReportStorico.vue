@@ -681,6 +681,25 @@ export default {
                         this.reports.push(this.app[i])
                 }
 
+                  //se cf cat fine
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio==''&&this.data_fine!=''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date<=this.data_fine&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+
+                
+                //se cf cat inizio
+             if(this.CF2filter!=''&& this.status2filter==''&&this.data_inizio!=''&&this.data_fine==''&&this.cat2filter!='')
+                {
+                     if(this.app[i].date>=this.data_inizio&&this.app[i].CF==(this.CF2filter.toUpperCase())&&this.app[i].category==(this.cat2filter.toUpperCase()))
+                        this.reports.push(this.app[i])
+                }
+
+
+                
+
          }
          console.log(this.reports)
           this.filter=false
