@@ -1,8 +1,6 @@
 <template>
     <div>
-        cliccatoSuFiltra : {{cliccatoSuFiltra}} <br> ------ <br> filtering : {{filtering}}
         <!--  SCHERMATA DI VISUALIZZAZIONE INIZIALE  -->
-        CF : {{CF}} <br>
 
         <div v-if="!adding && !visualizzandoDettagli && !updating && !cliccatoSuFiltra && !filtering">
 
@@ -482,7 +480,7 @@
                             </div>
                         </div>
 
-                        <div v-if="(error  == 'erroreFiltri')" class="alert alert-danger mt-1" role="alert">
+                        <div v-if="(error  == 'erroreFiltri' || error == 'CF' || error == 'Data inizio' || error == 'Data fine' || error == 'Logica delle date')" class="alert alert-danger mt-1" role="alert">
                             {{messaggioErrore}}
                         </div>
 
@@ -624,7 +622,6 @@ export default {
       const res = regex.test(this.CF)
       
       if(!res){
-          alert("errore Cf")    // DA RIMUOVERE !!!
           this.error = "CF"
           this.messaggioErrore = "Codice fiscale non valido"
           return false
@@ -657,15 +654,31 @@ export default {
     },
 
     controllaDataInizio(){
-      if(this.data_inizio.length < 10) return false
-      if(this.data_inizio != "" && this.data_fine != "" && this.data_fine < this.data_inizio) return false
+      if(this.data_inizio.length < 10){
+        this.error = "Data inizio"
+        this.messaggioErrore = "Data di inizio non valida"
+        return false
+      }
+      if(this.data_inizio.length == 10 && this.data_fine.length == 10 && this.data_fine < this.data_inizio){
+        this.error = "Logica delle date"
+        this.messaggioErrore = "La data di inizio non può essere maggiore di quella di fine"
+        return false
+      }
       return true
     },
 
     controllaDataFine(){
       
-      if(this.data_fine.length < 10) return false
-      if(this.data_inizio != "" && this.data_fine != "" && this.data_fine < this.data_inizio) return false
+      if(this.data_fine.length < 10){
+        this.error = "Data fine"
+        this.messaggioErrore = "Data di fine non valida"
+        return false  
+      }
+      if(this.data_inizio.length == 10 && this.data_fine.length == 10 && this.data_fine < this.data_inizio){
+        this.error = "Logica delle date"
+        this.messaggioErrore = "La data di inizio non può essere maggiore di quella di fine"
+        return false
+      }
       return true
     },
 
@@ -691,7 +704,7 @@ export default {
       this.cliccatoSuPubblica = true
       
       if(!this.campiOK()){
-        setTimeout(() => {this.cliccatoSuPubblica = false}, 2000)
+        setTimeout(() => {this.cliccatoSuPubblica = false; this.error=""}, 2000)
         return
       }
 
@@ -895,16 +908,30 @@ export default {
       this.cliccatoSuFiltra = false
       
       if(this.CF == "" && this.data_inizio == "" && this.data_fine == "" && this.zone.length == 0){
-        alert("QUI")
         this.cliccatoSuFiltra = true  // Faccio rimanere l'utente sulla schermata di inserimento filtri
         this.error = "erroreFiltri"
-        this.messaggioErrore="Errore"
+        this.messaggioErrore="Nessun campo inserito"
         setTimeout(() => {this.error = ""}, 2000)
         return
       }
+      
+      // SOLO CF
+      if(this.controllaCF() && this.data_inizio == "" && this.data_fine == "" && this.zone.length == 0){
+        this.filtering = true
 
-      this.filtering = true
-      this.validazioneFiltri = false
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){
+          if(annunci[i].CF == this.CF) this.annunciFiltrati.push(annunci[i])
+        }
+      }
+
+      else{
+        this.cliccatoSuFiltra = true  // Faccio rimanere l'utente sulla schermata di inserimento filtri
+        setTimeout(() => {this.error = ""}, 2000)
+        return
+      }
 
     },
 
