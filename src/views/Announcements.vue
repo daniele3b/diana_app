@@ -2,7 +2,7 @@
     <div>
         <!--  SCHERMATA DI VISUALIZZAZIONE INIZIALE  -->
 
-        <div v-if="!adding && !visualizzandoDettagli && !updating">
+        <div v-if="!adding && !visualizzandoDettagli && !updating && !filtering">
 
         <div class="card border-success mt-3">
             <div class="card-body">
@@ -21,7 +21,7 @@
                                 <th scope="col">Dettagli</th>
                                 <th v-if="tipoUtente != 'cittadino'" scope="col">Edit</th>
                                 <th v-if="tipoUtente != 'cittadino'" scope="col">Delete</th>
-                                <th scope="col"><img src="../assets/filter.png" data-title = "Vai ai filtri" class="filter" style="width:25px"></th>
+                                <th scope="col"><img @click="filtering=true" src="../assets/filter.png" data-title = "Vai ai filtri" class="filter" style="width:25px"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -388,6 +388,118 @@
            </center>
         
         </div>
+
+       <!--  SCHERMATA FILTRI  --> 
+
+        <div v-if="filtering">
+            
+            <div class="row mt-1 ml-1">
+                <img @click="tornaAllaSchermataPrecedente()" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
+            </div>
+
+            <center>
+                <div class="card card-signin border-success mt-2" style="width:520px;">
+                    <div class="card-body">
+                    
+                    <h5 class="card-title text-center"><b>FILTRA ANNUNCI</b></h5>
+                    
+                    <form class="form-signin" @keyup.enter="filtraAnnunci()">
+                        
+                        <div class="row">
+                            <div class="col mt-1">
+                                <h6>Codice fiscale</h6>
+                            </div>
+                            
+                            <div class="col">
+                                <input class="inserimento" v-model="CF" type="text" style="width:200px">
+                            </div>
+
+                            <div class="col">
+                                <!--  PADDING  -->
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Data inizio</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                            </div>
+
+                            <div class="col">
+                                <!--  PADDING  -->
+                            </div>
+                        </div>
+
+                        <div class="row mt-1">
+                            <div class = "col mt-1">
+                                <h6>Data fine</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
+                            </div>
+
+                            <div class="col">
+                                <!--  PADDING  -->
+                            </div>
+                        </div>
+
+                        <div class="row mt-1">
+                            <div class = "col mt-1">
+                                <h6>Zone</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
+                            </div>
+
+                            <div class="col">
+                                <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px">+</button>
+                                <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px">-</button>
+                            </div>
+
+                        </div>
+
+                        <div v-if="mostraZoneInserite">
+                            <div v-for="(zona, index) in zone" :key="index">
+                                <div class="row mt-2">
+                                    
+                                    <div class="col">
+                                        {{zona}}
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px">-</button>
+                                    </div>
+                                
+                                </div>
+                               
+                            </div>
+                        </div>
+
+                        <div v-if="cliccatoSuPubblica && (error == 'CF' || error == 'Data inizio' || error == 'Data fine' || error == 'Logica delle date' || error == 'Descrizione')" class="alert alert-danger mt-1" role="alert">
+                            {{messaggioErrore}}
+                        </div>
+
+                        <div v-else-if="cliccatoSuPubblica && error==''" class="alert alert-success mt-1" role="alert">
+                            {{messaggioConferma}}
+                        </div>
+
+                        <button @click="filtraAnnunci()" type="button" class="btn btn-success mt-1">Filtra annunci</button>
+
+                    </form>
+            
+                    </div>
+              
+            
+                </div>
+           
+           </center>
+            
+        </div>
         
     </div>
 
@@ -403,6 +515,7 @@ export default {
     return {
         tipoUtente : "",
         annunci : [],
+        annunciFiltrati : [],
         loading : false,
         adding : false,
         visualizzandoDettagli : false,
@@ -723,9 +836,14 @@ export default {
       setTimeout(() => {this.cliccatoSuAggiorna = false}, 2000)
     },
 
+    filtraAnnunci(){
+      alert("FILTRANDO...")
+    },
+
     tornaAllaSchermataPrecedente(){
       this.adding = false
       this.updating = false
+      this.filtering = false
       this.mostraZoneInserite = false
       
       this.data_inizio = ""
