@@ -526,7 +526,11 @@ export default {
         return
       }
 
-      if(!confirm("Confermi la pubblicazione dell'annuncio? Ogni cittadino riceverà un'email.")) return
+      if(!confirm("Confermi la pubblicazione dell'annuncio? Ogni cittadino riceverà un'email.")){
+        this.cliccatoSuPubblica = false
+        return
+      }
+         
       
       this.error = ""
       
@@ -661,7 +665,10 @@ export default {
         return
       }
 
-      if(!confirm("Sei sicuro di voler modificare l' annuncio?")) return
+      if(!confirm("Sei sicuro di voler modificare l' annuncio?")){
+        this.cliccatoSuAggiorna = false
+        return
+      } 
 
       this.error = ""
       
