@@ -22,6 +22,9 @@
       <li class="nav-item " >
         <router-link  to="/" class="nav-link " href="#">Dashboard </router-link>
       </li>
+      <li v-if="getTipo=='cittadino'" class="nav-item">
+        <router-link  to="/announcements" class="nav-link" href="#">Annunci</router-link>
+      </li>
        <li v-if="getTipo!='cittadino'" class="nav-item">
         <router-link  to="/avanzato" class="nav-link" href="#">Avanzato</router-link>
       </li>
