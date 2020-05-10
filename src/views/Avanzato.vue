@@ -26,7 +26,7 @@
           </router-link>
         </div>
         <!-- Non so questo sotto a che serve -M -->
-        <div v-if="getTipo!='operatore'"  class="col d-block d-sm-none">
+        <div v-if="localStorage.type!='operatore'"  class="col d-block d-sm-none">
           <router-link to="/newoperatore">
          <button   id="im4"></button> 
           </router-link>
