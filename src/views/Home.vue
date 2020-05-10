@@ -1,6 +1,6 @@
 <template>
  <div class="container-fluid" id="cosafacciamo">
-<div class="row mt-2 pb-3" id="rigaesterna" height="200px">
+<div class="row mt-2 pb-3 d-none d-sm-block" id="rigaesterna" height="200px">
   <div class="col-12">
  <div class="row">
  <div class="col-8">
@@ -25,10 +25,38 @@
   </div>
 
 </div>
+<!-- view tel -->
+<div class="row mt-2 pb-3 d-block d-sm-none" id="rigaesterna" height="200px">
+
+ <div class="row">
+
+    <div class="col-12">
+      <img src="../assets/isola.png" height="300px" id="isola" >
+    </div>
+</div>
+<div class="row">
+    <div class="jumbotron text-black" id="hero">
+            <h1 class="display-4"><b>Benvenuto su Diana!</b></h1>
+            <p class="lead"><b>L'obiettivo è fornire ai cittadini ed alle province uno strumento utile alla lotta contro l'inquinamento.</b></p>
+            <p><b>Uniti possiamo fare la differenza, lotta insieme a noi!</b></p>
+            
+            <h5 >  <router-link to="/registration"> Partecipa anche tu!</router-link></h5>
+            <p> <router-link to="/login">Se sei già registrato accedi </router-link></p>
+            
+        </div>
+       
+ </div>
+
+
+</div>
+    
+
+
+
   
 
   <div class="container pb-5 mt-5" >
-<div class="row mt-5">
+<div class="row mt-5  d-none d-sm-block">
 
   <div class="col-12">
       <h3><b>COSA FACCIAMO?</b></h3>
@@ -63,11 +91,53 @@
     </div>
   </div>
 </div>
+<!-- view tel-->
+<div class="row d-block d-sm-none">
+
+  <div class="bd-example">
+  <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="../assets/menu1.png" class="d-block " align=left alt="...">
+        <span class="carousel-caption ml-5 " style="position:relative;left:2%;">
+          <p>Analisi in tempo reale dei dati chimici provenienti dalle stazioni situate sul territorio provinciale</p>
+        </span>
+      </div>
+      <div class="carousel-item">
+        <img src="../assets/menu2.png" class="d-block" align=left alt="...">
+        <span class="carousel-caption ml-5 " style="position:relative;left:2%;">
+          <p>Gestione delle segnalazioni dei cittadini che si sono uniti alla lotta per salvaguardare l'ambiente</p>
+        </span>
+      </div>
+      <div class="carousel-item">
+        <img src="../assets/menu3.png" class="d-block " align=left alt="...">
+         <span class="carousel-caption ml-5 " style="position:relative;left:2%;">
+          <p>Forniamo strumenti di supporto <br>alla decisione per facilitare<br> l'analisi di eventi complessi </p>
+        </span>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+  </div>
 </div>
 
 
  <div class="container pb-5 mt-5" >
-<div class="row mt-5">
+<div class="row mt-5 d-none d-sm-block">
 
   <div class="col-12 w-75">
       <h3><b>IL TEAM</b></h3>
@@ -112,6 +182,48 @@
   </div>
 
 </div>
+<!-- view telefono-->
+<div class="row d-block d-sm-none">
+   <h3><b>IL TEAM</b></h3>
+  <div class="bd-example">
+  <div id="carouselExampleCaptions2" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+      <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="../assets/ivan.jpg" class="d-block w-100" align=left alt="...">
+        <span class="carousel-caption ml-5 " >
+          <p>E' il Roger Federer della programmazione, ha uno spirito di squadra che non è minimamente paragonabile a quello della sua Inter</p>
+        </span>
+      </div>
+      <div class="carousel-item">
+        <img src="../assets/daniele.jpg" class="d-block w-100" align=left alt="..." > 
+        <span class="carousel-caption ml-5 " >
+          <p>Non so cosa scrivere, ma basti sapere che adesso non ho più tutti quei capelli,la foto risale al 2014 e adesso ho la boccia che mi accompagna ovunque vado </p>
+        </span>
+      </div>
+      <div class="carousel-item">
+        <img src="../assets/mario.jpg" class="d-block w-100" align=left alt="...">
+         <span class="carousel-caption ml-5 " >
+          <p>E' il supereroe del team, si sacrifica per tutti neanche fosse Mario della saga omonima. Unica pecca che lo ha marchiato? La zona rossa </p>
+        </span>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleCaptions2" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleCaptions2" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+
 </div>
 
 
@@ -119,6 +231,7 @@
 
 
 <hr>
+</div>
 </div>
     
 

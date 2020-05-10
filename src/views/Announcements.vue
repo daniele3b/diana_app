@@ -685,7 +685,7 @@ export default {
           response.data.end = response.data.end.substring(0, ind_fine)
 
           let i
-          const dim = this.annunci
+          const dim = this.annunci.length
           for(i=0;i<dim;i++){
             if(this.annuncioDaModificare._id == this.annunci[i]._id){
               this.annunci[i].CF = response.data.CF
