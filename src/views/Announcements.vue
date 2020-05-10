@@ -605,7 +605,6 @@ export default {
       }
     })
     .catch((error) => {
-      alert("Non sono stati pubblicati annunci oggi")
       console.log(error)
     })
   },
