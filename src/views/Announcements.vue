@@ -2,7 +2,7 @@
     <div>
         <!--  SCHERMATA DI VISUALIZZAZIONE INIZIALE  -->
 
-        <div v-if="!adding && !visualizzandoDettagli && !updating && !filtering">
+        <div v-if="!adding && !visualizzandoDettagli && !updating && !cliccatoSuFiltra && !filtering">
 
         <div class="card border-success mt-3">
             <div class="card-body">
@@ -21,7 +21,7 @@
                                 <th scope="col">Dettagli</th>
                                 <th v-if="tipoUtente != 'cittadino'" scope="col">Edit</th>
                                 <th v-if="tipoUtente != 'cittadino'" scope="col">Delete</th>
-                                <th scope="col"><img @click="filtering=true" src="../assets/filter.png" data-title = "Vai ai filtri" class="filter" style="width:25px"></th>
+                                <th scope="col"><img @click="cliccatoSuFiltra=true" src="../assets/filter.png" data-title = "Vai ai filtri" class="filter" style="width:25px"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -389,9 +389,9 @@
         
         </div>
 
-       <!--  SCHERMATA FILTRI  --> 
+        <!--  SCHERMATA FILTRI  --> 
 
-        <div v-if="filtering">
+        <div v-if="cliccatoSuFiltra">
             
             <div class="row mt-1 ml-1">
                 <img @click="tornaAllaSchermataPrecedente()" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
@@ -500,6 +500,43 @@
            </center>
             
         </div>
+
+        <!--  SCHERMATA ANNUNCI FILTRATI  -->
+
+        <div v-if="filtering">
+            <div class="card border-success mt-3">
+            <div class="card-body">
+                <h5 class="card-title"><b>ANNUNCI</b></h5>
+                
+                <!--  TABELLA  -->
+                
+                <div class="table-responsive table-borderless" style="height:350px">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">CF</th>
+                                <th scope="col">Data inizio</th>
+                                <th scope="col">Data fine</th>
+                                <th scope="col">Dettagli</th>
+                                <th scope="col"><img @click="cliccatoSuFiltra=false; filtering=false" src="../assets/nofilter.png" data-title = "Vai ai filtri" class="filter" style="width:25px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="annuncio in annunciFiltrati" :key="annuncio._id">
+                                <td>{{annuncio.CF}}</td>
+                                <td>{{annuncio.start}}</td>
+                                <td>{{annuncio.end}}</td>
+                                <td><p data-placement = "top" data-toggle = "tooltip" title = "Detail"><button :id="annuncio._id" @click="visualizzaDettagli" class = "btn btn-success btn-xs" data-title = "Detail" data-toggle = "modal" data-target = "#detail" style = "height:10px;width:20px;"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                                <td><!--  PADDING PER IMG NO FILTER  --></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+        </div>
         
     </div>
 
@@ -520,6 +557,7 @@ export default {
         adding : false,
         visualizzandoDettagli : false,
         updating : false,
+        cliccatoSuFiltra : false,
         filtering : false,
         CF : "",
         data_inizio : "",
@@ -837,13 +875,14 @@ export default {
     },
 
     filtraAnnunci(){
-      alert("FILTRANDO...")
+      this.cliccatoSuFiltra = false
+      this.filtering = true
     },
 
     tornaAllaSchermataPrecedente(){
       this.adding = false
       this.updating = false
-      this.filtering = false
+      this.cliccatoSuFiltra = false
       this.mostraZoneInserite = false
       
       this.data_inizio = ""
