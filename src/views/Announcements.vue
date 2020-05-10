@@ -479,11 +479,7 @@
                                
                             </div>
                         </div>
-
-                        <div v-if="(error  == 'erroreFiltri' || error == 'CF' || error == 'Data inizio' || error == 'Data fine' || error == 'Logica delle date')" class="alert alert-danger mt-1" role="alert">
-                            {{messaggioErrore}}
-                        </div>
-
+                        
                         <button @click="filtraAnnunci()" type="button" class="btn btn-success mt-1">Filtra annunci</button>
 
                     </form>
@@ -532,7 +528,7 @@
                 
             </div>
         </div>
-        </div>
+      </div>
         
     </div>
 
