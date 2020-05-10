@@ -1,6 +1,8 @@
 <template>
     <div>
+        cliccatoSuFiltra : {{cliccatoSuFiltra}} <br> ------ <br> filtering : {{filtering}}
         <!--  SCHERMATA DI VISUALIZZAZIONE INIZIALE  -->
+        CF : {{CF}} <br>
 
         <div v-if="!adding && !visualizzandoDettagli && !updating && !cliccatoSuFiltra && !filtering">
 
@@ -480,12 +482,8 @@
                             </div>
                         </div>
 
-                        <div v-if="cliccatoSuPubblica && (error == 'CF' || error == 'Data inizio' || error == 'Data fine' || error == 'Logica delle date' || error == 'Descrizione')" class="alert alert-danger mt-1" role="alert">
+                        <div v-if="(error  == 'erroreFiltri')" class="alert alert-danger mt-1" role="alert">
                             {{messaggioErrore}}
-                        </div>
-
-                        <div v-else-if="cliccatoSuPubblica && error==''" class="alert alert-success mt-1" role="alert">
-                            {{messaggioConferma}}
                         </div>
 
                         <button @click="filtraAnnunci()" type="button" class="btn btn-success mt-1">Filtra annunci</button>
@@ -501,7 +499,7 @@
             
         </div>
 
-        <!--  SCHERMATA ANNUNCI FILTRATI  -->
+        <!--  SCHERMATA DI VISUALIZZAZIONE ANNUNCI FILTRATI  -->
 
         <div v-if="filtering">
             <div class="card border-success mt-3">
@@ -518,7 +516,7 @@
                                 <th scope="col">Data inizio</th>
                                 <th scope="col">Data fine</th>
                                 <th scope="col">Dettagli</th>
-                                <th scope="col"><img @click="cliccatoSuFiltra=false; filtering=false" src="../assets/nofilter.png" data-title = "Vai ai filtri" class="filter" style="width:25px"></th>
+                                <th scope="col"><img @click="rimuoviFiltri()" src="../assets/nofilter.png" data-title = "Vai ai filtri" class="filter" style="width:25px"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -572,7 +570,7 @@ export default {
         messaggioConferma : "",
         annuncioDaVisualizzare : {},
         annuncioDaModificare : {},
-        mostraZoneInserite : false
+        mostraZoneInserite : false,
     }
   },
 
@@ -621,10 +619,12 @@ export default {
   methods : {
     
     controllaCF(){
+
       var regex = /^[A-Z]{6}[0-9]{2}[A-Z]{1}[0-9]{2}[A-Z]{1}[0-9]{3}[A-Z]{1}$/
       const res = regex.test(this.CF)
       
       if(!res){
+          alert("errore Cf")    // DA RIMUOVERE !!!
           this.error = "CF"
           this.messaggioErrore = "Codice fiscale non valido"
           return false
@@ -656,6 +656,19 @@ export default {
       return true
     },
 
+    controllaDataInizio(){
+      if(this.data_inizio.length < 10) return false
+      if(this.data_inizio != "" && this.data_fine != "" && this.data_fine < this.data_inizio) return false
+      return true
+    },
+
+    controllaDataFine(){
+      
+      if(this.data_fine.length < 10) return false
+      if(this.data_inizio != "" && this.data_fine != "" && this.data_fine < this.data_inizio) return false
+      return true
+    },
+
     controllaDescrizione(){
       if(this.descrizione == ""){
         this.error = "Descrizione"
@@ -668,6 +681,10 @@ export default {
     
     campiOK(){
         return this.controllaCF() && this.controllaDate() && this.controllaDescrizione()
+    },
+
+    controllaZone(){
+      return true
     },
     
     pubblicaAnnuncio(){
@@ -876,7 +893,30 @@ export default {
 
     filtraAnnunci(){
       this.cliccatoSuFiltra = false
+      
+      if(this.CF == "" && this.data_inizio == "" && this.data_fine == "" && this.zone.length == 0){
+        alert("QUI")
+        this.cliccatoSuFiltra = true  // Faccio rimanere l'utente sulla schermata di inserimento filtri
+        this.error = "erroreFiltri"
+        this.messaggioErrore="Errore"
+        setTimeout(() => {this.error = ""}, 2000)
+        return
+      }
+
       this.filtering = true
+      this.validazioneFiltri = false
+
+    },
+
+    rimuoviFiltri(){
+      this.cliccatoSuFiltra = false
+      this.filtering = false
+
+      this.data_inizio = ""
+      this.data_fine = ""
+      this.descrizione = ""
+      this.zone = []
+      this.CF = ""
     },
 
     tornaAllaSchermataPrecedente(){
