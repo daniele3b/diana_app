@@ -15,7 +15,7 @@
       <div class="row ">
 
     <div class="col">
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="100000">
   <div class="carousel-inner">
     <div class="carousel-item active">
       <Map> </Map>
