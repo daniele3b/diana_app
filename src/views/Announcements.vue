@@ -405,7 +405,7 @@
                     
                     <form class="form-signin" @keyup.enter="filtraAnnunci()">
                         
-                        <div class="row">
+                        <div v-if="tipoUtente != 'cittadino'" class="row">
                             <div class="col mt-1">
                                 <h6>Codice fiscale</h6>
                             </div>
