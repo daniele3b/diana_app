@@ -17,7 +17,7 @@
 
     <!-- Links -->
     
-    <ul class="navbar-nav mr-auto bg-success border border-dark pl-3 pr-3" style="position:relative; z-index: 1;float:right;">
+    <ul class="navbar-nav mr-auto bg-success border border-dark pl-3 pr-3" style="position:relative; z-index: 3;float:right;">
       
       <li class="nav-item " >
         <router-link  to="/" class="nav-link " href="#">Dashboard </router-link>
