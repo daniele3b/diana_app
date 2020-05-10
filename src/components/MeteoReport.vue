@@ -4,7 +4,7 @@
      <div class="col p-0">
             <Meteo></Meteo>
       </div>
-      <div class="col ml-4 d-none d-sm-block">
+      <div class="col ml-4 ">
         <UV>  </UV>
         </div>
         
