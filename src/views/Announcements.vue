@@ -15,7 +15,7 @@
                 
                 <div class="table-responsive table-borderless" style="height:350px">
                     <table class="table">
-                        <thead>
+                        <thead class="thead-light">
                             <tr>
                                 <th scope="col">CF</th>
                                 <th scope="col">Data inizio</th>
