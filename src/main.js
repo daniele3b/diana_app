@@ -8,15 +8,16 @@ require('dotenv').config()
 
 Vue.config.productionTip = false
 
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDHqV6lgLeqIRoVRBh47mQVjwI-mX9891E',
+    libraries: 'places'
+  },
+}) 
+
 new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
 
-Vue.use(VueGoogleMaps, {
-  load: {
-    key: 'AIzaSyDHqV6lgLeqIRoVRBh47mQVjwI-mX9891E',
-    libraries: 'places'
-  },
-})
