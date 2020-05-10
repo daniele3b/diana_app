@@ -73,7 +73,7 @@
                             </div>
 
                             <div class="col">
-
+                                <!--  PADDING  -->
                             </div>
                         </div>
                         
@@ -87,7 +87,7 @@
                             </div>
 
                             <div class="col">
-
+                                <!--  PADDING  -->
                             </div>
                         </div>
 
@@ -101,7 +101,7 @@
                             </div>
 
                             <div class="col">
-
+                                <!--  PADDING  -->
                             </div>
                         </div>
 
@@ -148,7 +148,7 @@
                             </div>
 
                             <div class="col">
-
+                                <!--  PADDING  -->
                             </div>
                         </div>
 
@@ -289,7 +289,7 @@
                             </div>
 
                             <div class="col">
-
+                                <!--  PADDING  -->
                             </div>
                         </div>
                         
@@ -303,7 +303,7 @@
                             </div>
 
                             <div class="col">
-
+                                <!--  PADDING  -->
                             </div>
                         </div>
 
@@ -317,7 +317,7 @@
                             </div>
 
                             <div class="col">
-
+                                <!--  PADDING  -->
                             </div>
                         </div>
 
@@ -350,7 +350,7 @@
                                     </div>
                                 
                                 </div>
-                               
+
                             </div>
                         </div>
 
@@ -364,7 +364,7 @@
                             </div>
 
                             <div class="col">
-
+                                <!--  PADDING  -->
                             </div>
                         </div>
 
