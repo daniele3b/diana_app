@@ -525,7 +525,11 @@ export default {
 
           })
           }
+              if(this.citt==false){
+      
        
+          this.t= setInterval(this.updateData, 100000);
+              }
       },
       methods: {
         zoom: function(event)
@@ -635,6 +639,7 @@ export default {
 
         updateData: function (){
 
+if(this.adding==false&&this.editing==false){
        console.log('Timer 1')
        
         
@@ -686,7 +691,7 @@ export default {
             alert("GET report"+error)
           })
           this.loading=false
-          
+          }
           
 
         },
@@ -758,6 +763,10 @@ export default {
           
         }
       },
+      beforeDestroy(){
+
+        clearTimeout(this.t)
+      }
  
 
 }
