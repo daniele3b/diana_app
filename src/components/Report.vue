@@ -525,9 +525,7 @@ export default {
 
           })
           }
-       if(this.citt==false){
-         this.t= setInterval(this.updateData, 5000);
-       }
+       
       },
       methods: {
         zoom: function(event)
@@ -590,7 +588,9 @@ export default {
         var ind = this.reports.findIndex(i =>  i==this.obj2edit);
 
         this.reports[ind].status=this.status.toUpperCase()
+        this.updateData()
         this.editing=false
+      
 
         },
 
@@ -630,14 +630,14 @@ export default {
           {
             console.log('Era uno scherzo !')
           }
+          this.updateData()
         },
 
         updateData: function (){
 
        console.log('Timer 1')
-        if(this.editing==false&&this.adding==false)
-          
-        {
+       
+        
         this.loading=true
 
         this.reports=[]
@@ -686,7 +686,7 @@ export default {
             alert("GET report"+error)
           })
           this.loading=false
-          }
+          
           
 
         },
@@ -752,15 +752,13 @@ export default {
             alert('Non puoi inserire valori vuoti!')
 
           }
+
+          this.updateData()
           
           
         }
       },
-      beforeDestroy()
-      {
-        console.log('Timer 1')
-        clearTimeout(this.t);
-      }
+ 
 
 }
 
