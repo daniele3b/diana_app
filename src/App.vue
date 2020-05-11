@@ -44,7 +44,7 @@
 
   <div class="mt-3 " v-else >
 
-      <router-link to="/login"> Accedi </router-link> | <router-link to="/registration"> Registrati </router-link>
+      <router-link to="/login" class="link"> Accedi </router-link> | <router-link to="/registration" class="link"> Registrati </router-link>
     </div>
 
 
@@ -182,6 +182,11 @@ mounted(){
 #hamburger:hover{
 background-color: #238521;
 
+}
+
+.link{
+
+   color: black;
 }
 </style>
 
