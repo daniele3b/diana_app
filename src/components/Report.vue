@@ -525,7 +525,7 @@ export default {
 
           })
           }
-       
+         
       },
       methods: {
         zoom: function(event)
@@ -635,6 +635,7 @@ export default {
 
         updateData: function (){
 
+
        console.log('Timer 1')
        
         
@@ -687,7 +688,7 @@ export default {
           })
           this.loading=false
           
-          
+        
 
         },
 
@@ -708,8 +709,11 @@ export default {
           this.description=''
           this.CF=''
           this.status=''
+
+          this.updateData()
           this.adding=false
           this.zoomed=false
+          
           this.editing=false
           
         },
@@ -753,11 +757,11 @@ export default {
 
           }
 
-          this.updateData()
+          //this.updateData()
           
           
         }
-      },
+      }
  
 
 }

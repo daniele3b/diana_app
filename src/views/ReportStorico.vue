@@ -309,7 +309,6 @@ export default {
            
           })
 
-        // this.t= setInterval(this.updateData, 60000);
       },
       methods: {
         filtering: function()
@@ -367,7 +366,7 @@ export default {
             }
           }).then((response) => {
            console.log(response)
-           this.updateData
+           this.updateData()
 
           })
             .catch((error) => {
@@ -378,9 +377,10 @@ export default {
         var ind = this.reports.findIndex(i =>  i==this.obj2edit);
 
         this.reports[ind].status=this.status.toUpperCase()
+        this.updateData()
         this.editing=false
 
-        this.updateData()
+        
 
         },
 
@@ -405,7 +405,7 @@ export default {
               "x-diana-auth-token": localStorage.token
             }
           }).then((response) => { 
-            this.updateData
+           
            
            
            
@@ -420,6 +420,9 @@ export default {
           {
             console.log('Era uno scherzo !')
           }
+
+
+           this.updateData()
         },
 
         updateData: function (){
@@ -736,6 +739,7 @@ export default {
           this.data_fine=''
           this.cat2filter=''
           this.status2filter=''
+          this.updateData()
           this.adding=false
           this.zoomed=false
           this.editing=false
