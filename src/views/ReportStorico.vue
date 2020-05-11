@@ -367,6 +367,7 @@ export default {
             }
           }).then((response) => {
            console.log(response)
+           this.updateData
 
           })
             .catch((error) => {
@@ -378,6 +379,8 @@ export default {
 
         this.reports[ind].status=this.status.toUpperCase()
         this.editing=false
+
+        this.updateData()
 
         },
 
@@ -402,7 +405,7 @@ export default {
               "x-diana-auth-token": localStorage.token
             }
           }).then((response) => { 
-
+            this.updateData
            
            
            
@@ -422,7 +425,7 @@ export default {
         updateData: function (){
 
 
-          if(this.editing==false&&this.adding==false){
+        
           console.log('Timer 2')
           this.reports=[]
          
@@ -455,7 +458,7 @@ export default {
             .catch((error) => {
             alert("GET report"+error)
           })
-             }
+             
           
 
         },
@@ -778,6 +781,7 @@ export default {
             alert('Non puoi inserire valori vuoti!')
 
           }
+          this.updateData()
           
           
         }
