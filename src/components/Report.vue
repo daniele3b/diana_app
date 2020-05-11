@@ -709,8 +709,11 @@ export default {
           this.description=''
           this.CF=''
           this.status=''
+
+          this.updateData()
           this.adding=false
           this.zoomed=false
+          
           this.editing=false
           
         },
@@ -754,7 +757,7 @@ export default {
 
           }
 
-          this.updateData()
+          //this.updateData()
           
           
         }
