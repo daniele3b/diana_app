@@ -459,7 +459,7 @@ export default {
 
           })
             .catch((error) => {
-            alert("GET report"+error)
+            console.log(error)
           })
              
           
