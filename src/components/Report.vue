@@ -633,7 +633,7 @@ export default {
         updateData: function (){
         this.loading=true
 
-        let app2=this.reports
+        this.reports=[]
         
 
         let data=new Date()
@@ -658,30 +658,10 @@ export default {
            let i=0
            for(i=0;i<response.data.length;i++)
            {
-             this.app2.push(response.data[i])
+             this.reports.push(response.data[i])
             
            }
 
-          if(this.reports.length<app2.lenght){
-          for(i=0;i<app2.length;i++)
-          {
-              if(!this.reports.includes(app2[i]))
-                  this.reports.push(app2[i])
-              if(!app2.includes(this.reports[i]))
-                this.reports.splice(i-1,1)
-
-          }
-          }else{
-               for(i=0;i<this.reports.length;i++)
-          {
-              if(!this.reports.includes(app2[i]))
-                  this.reports.push(app2[i])
-              if(!app2.includes(this.reports[i]))
-                this.reports.splice(i-1,1)
-
-          }
-
-          }
 
 
 
