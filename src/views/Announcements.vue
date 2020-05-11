@@ -178,7 +178,7 @@
         <div v-if="visualizzandoDettagli">
 
             <div class="row mt-1 ml-1">
-                <img @click="visualizzandoDettagli=false" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
+                <img @click="aggiornaSchermataAnnunci(); visualizzandoDettagli=false" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
             </div>
 
             <center>
@@ -571,45 +571,49 @@ export default {
   created(){
     this.tipoUtente = localStorage.type
 
-    this.annunci = []
-
-    axios({
-      method: 'get',
-      url: 'http://localhost:8081/announcements',
-      headers: {
-        "x-diana-auth-token": localStorage.token
-      }
-    })
-    .then((response) => {
-      
-      let i 
-      const annunci = response.data
-      const dim = annunci.length
-      for(i=0;i<dim;i++){
-        
-        let data_inizio = annunci[i].start
-        const ind_inizio = data_inizio.indexOf('T')
-        let data_fine = annunci[i].end
-        const ind_fine = data_fine.indexOf('T')
-
-        data_inizio = data_inizio.substring(0, ind_inizio)
-        data_fine = data_fine.substring(0, ind_fine)
-        
-        annunci[i].start = data_inizio
-        annunci[i].end = data_fine
-
-        if(annunci[i].zone[0] == "Everywhere") annunci[i].zone[0] = "Nessuna zona specificata"
-
-        this.annunci.push(annunci[i])
-        
-      }
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+    this.aggiornaSchermataAnnunci()
   },
 
   methods : {
+
+    aggiornaSchermataAnnunci(){
+      this.annunci = []
+
+      axios({
+        method: 'get',
+        url: 'http://localhost:8081/announcements',
+        headers: {
+          "x-diana-auth-token": localStorage.token
+        }
+      })
+      .then((response) => {
+      
+        let i 
+        const annunci = response.data
+        const dim = annunci.length
+        for(i=0;i<dim;i++){
+        
+          let data_inizio = annunci[i].start
+          const ind_inizio = data_inizio.indexOf('T')
+          let data_fine = annunci[i].end
+          const ind_fine = data_fine.indexOf('T')
+
+          data_inizio = data_inizio.substring(0, ind_inizio)
+          data_fine = data_fine.substring(0, ind_fine)
+        
+          annunci[i].start = data_inizio
+          annunci[i].end = data_fine
+
+          if(annunci[i].zone[0] == "Everywhere") annunci[i].zone[0] = "Nessuna zona specificata"
+
+          this.annunci.push(annunci[i])
+        
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },
     
     controllaCF(){
 
@@ -1200,6 +1204,9 @@ export default {
     },
 
     tornaAllaSchermataPrecedente(){
+      
+      this.aggiornaSchermataAnnunci()
+
       this.adding = false
       this.updating = false
       this.cliccatoSuFiltra = false
