@@ -309,7 +309,7 @@ export default {
            
           })
 
-         this.t= setInterval(this.updateData, 60000);
+        // this.t= setInterval(this.updateData, 60000);
       },
       methods: {
         filtering: function()
