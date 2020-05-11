@@ -560,17 +560,12 @@ export default {
         })
         .catch((error) => {
           console.log(error)
-          alert("Errore sensore più vicino")
         })
       }
 
       // SE L'OPERATORE INSERISCE UNA ZONA E UN CERTO RAGGIO GLI VERRANNO MOSTRATI I SENSORI
       // ALL'INTERNO DI TALE RAGGIO A PARTIRE DA QUELLA ZONA
       else if(this.zonaTrue && !this.indirizzoTrue){
-        if(!this.raggioValido()){
-            alert('Raggio non valido')
-            return
-        }
         
         this.sensoriNelRaggio = []
         this.sensorePiuVicino = []
