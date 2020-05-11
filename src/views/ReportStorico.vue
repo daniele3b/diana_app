@@ -239,7 +239,8 @@ export default {
          filteractive:false,
          filter:false,
          data_inizio:'',
-         data_fine:''
+         data_fine:'',
+         t:null
         }
     },
     watch:{
@@ -308,7 +309,7 @@ export default {
            
           })
 
-        //  setInterval(this.updateData, 60000);
+         this.t= setInterval(this.updateData, 60000);
       },
       methods: {
         filtering: function()
@@ -420,21 +421,15 @@ export default {
 
         updateData: function (){
 
-          this.reports=[]
-           let data=new Date()
 
-        let month=data.getMonth()+1
-        let day=data.getDate()
-        let year=data.getFullYear()
-        
-        if(month<10)
-          month='0'+month
-        if(day<10)
-          day='0'+day
+          if(this.editing==false&&this.adding==false){
+          console.log('Timer 2')
+          this.reports=[]
+         
 
           axios({
             method: 'get',
-            url: 'http://localhost:8081/report/filter/date/'+year+'-'+month+'-'+day,
+            url: 'http://localhost:8081/report/',
             headers: {
               "x-diana-auth-token": localStorage.token
             }
@@ -460,6 +455,7 @@ export default {
             .catch((error) => {
             alert("GET report"+error)
           })
+             }
           
 
         },
@@ -785,6 +781,11 @@ export default {
           
           
         }
+      },
+      beforeDestroy()
+      {
+         console.log('Timer 2')
+        clearTimeout(this.t);
       }
 
 }

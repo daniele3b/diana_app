@@ -409,7 +409,8 @@ export default {
          editing:false,
          obj2edit:{},
          citt:false,
-         loading:false
+         loading:false,
+         t:null
          
         }
     },
@@ -525,7 +526,7 @@ export default {
           })
           }
        if(this.citt==false){
-          setInterval(this.updateData, 5000);
+         this.t= setInterval(this.updateData, 5000);
        }
       },
       methods: {
@@ -633,7 +634,7 @@ export default {
 
         updateData: function (){
 
-        console.log(this.editing)
+       console.log('Timer 1')
         if(this.editing==false&&this.adding==false)
           
         {
@@ -754,6 +755,11 @@ export default {
           
           
         }
+      },
+      beforeDestroy()
+      {
+        console.log('Timer 1')
+        clearTimeout(this.t);
       }
 
 }
