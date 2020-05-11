@@ -34,7 +34,7 @@
   </div>
 
  <div v-else class="col-md-12" >
-    <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+    <div class="table-responsive ">
     <table id="mytable" class="table  "  >
         <thead>
           <th>CF</th>
@@ -750,9 +750,9 @@ export default {
 
 .my-custom-scrollbar {
 height:320px;
-width:650px;
+width:100%;
 overflow: auto;
-overflow-x: hidden; 
+
 }
 .table-wrapper-scroll-y {
 display: block;
