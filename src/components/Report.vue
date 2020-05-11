@@ -631,6 +631,11 @@ export default {
         },
 
         updateData: function (){
+
+        console.log(this.editing)
+        if(this.editing==false&&this.adding==false)
+          
+        {
         this.loading=true
 
         this.reports=[]
@@ -672,13 +677,14 @@ export default {
              this.reports[i].status=this.reports[i].status.toUpperCase()
              this.reports[i].category=this.reports[i].category.toUpperCase()
            }
-            console.log(this.reports)
+           
 
           })
             .catch((error) => {
             alert("GET report"+error)
           })
           this.loading=false
+          }
           
 
         },
