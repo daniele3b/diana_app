@@ -182,8 +182,10 @@
                  
 
          </div>
+         
  
-             
+              <div v-if="loading" class="card-body"><b>Caricamento in corso...</b></div>
+
            </div>
 
 <!-- LAYOUT TELEFONO -->
@@ -369,7 +371,7 @@
                  
 
          </div>
-
+        <div v-if="loading" class="card-body"><b>Caricamento in corso...</b></div>
 
 
 
@@ -406,7 +408,8 @@ export default {
          status:'',
          editing:false,
          obj2edit:{},
-         citt:false
+         citt:false,
+         loading:false
          
         }
     },
@@ -522,7 +525,7 @@ export default {
           })
           }
 
-        //  setInterval(this.updateData, 60000);
+          setInterval(this.updateData, 5000);
       },
       methods: {
         zoom: function(event)
@@ -628,9 +631,12 @@ export default {
         },
 
         updateData: function (){
+        this.loading=true
 
-          this.reports=[]
-           let data=new Date()
+        let app2=this.reports
+        
+
+        let data=new Date()
 
         let month=data.getMonth()+1
         let day=data.getDate()
@@ -652,9 +658,32 @@ export default {
            let i=0
            for(i=0;i<response.data.length;i++)
            {
-             this.reports.push(response.data[i])
+             this.app2.push(response.data[i])
             
            }
+
+          if(this.reports.length<app2.lenght){
+          for(i=0;i<app2.length;i++)
+          {
+              if(!this.reports.includes(app2[i]))
+                  this.reports.push(app2[i])
+              if(!app2.includes(this.reports[i]))
+                this.reports.splice(i-1,1)
+
+          }
+          }else{
+               for(i=0;i<this.reports.length;i++)
+          {
+              if(!this.reports.includes(app2[i]))
+                  this.reports.push(app2[i])
+              if(!app2.includes(this.reports[i]))
+                this.reports.splice(i-1,1)
+
+          }
+
+          }
+
+
 
            for(i=0;i<this.reports.length;i++)
            {
@@ -669,6 +698,7 @@ export default {
             .catch((error) => {
             alert("GET report"+error)
           })
+          this.loading=false
           
 
         },
