@@ -464,6 +464,8 @@ export default {
             this.messaggioErrore = "Zona inserita non valida"
           }
 
+          setTimeout(() => {this.error = ""}, 2000)
+
           // Per dare l'effetto del rilascio della lente
           setTimeout(() => {this.classeLente = "search mt-1"}, 200)
 
@@ -474,6 +476,8 @@ export default {
         if(!this.raggioValido()){
             this.error = 'raggio'
             this.messaggioErrore = "Raggio inserito non valido"
+
+            setTimeout(() => {this.error = ""}, 2000)
 
             // Per dare l'effetto del rilascio della lente
             setTimeout(() => {this.classeLente = "search mt-1"}, 200)
@@ -726,7 +730,7 @@ export default {
 
 .searchWithbackGround{
     cursor: pointer;
-    background-color: green;
+    background-color: red;
 }
 
 .inserimento{
