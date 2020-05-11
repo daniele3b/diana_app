@@ -525,10 +525,9 @@ export default {
 
           })
           }
-              if(this.citt==false){
-      
-       
-          this.t= setInterval(this.updateData, 100000);
+          if(this.citt==false)
+              {
+                this.t= setInterval(this.updateData, 100000);
               }
       },
       methods: {
