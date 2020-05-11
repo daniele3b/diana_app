@@ -524,8 +524,9 @@ export default {
 
           })
           }
-
+       if(this.citt==false){
           setInterval(this.updateData, 5000);
+       }
       },
       methods: {
         zoom: function(event)
