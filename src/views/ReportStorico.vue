@@ -39,7 +39,7 @@
 
       <!-- schermata di zoom-->
            <div v-else-if="adding==false &&zoomed==true&&filter==false" class="card-body" style="width:100%;height:520px;" >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>DETTAGLIO SEGNALAZIONE</b></h5>
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>DETTAGLIO SEGNALAZIONE</b></h5>
                <hr class="my-4">
             
           <div class="row text-left">
@@ -80,7 +80,7 @@
 <!-- schermata edit-->
 
            <div v-else-if="adding==false &&zoomed==false&&editing==true&&filter==false" class="card-body" style="width:100%;height:520px;" >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>EDITING STATO</b></h5>
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>EDITING STATO</b></h5>
             <hr class="my-4">
             <div class="row text-left">
               <div class="col">
@@ -128,7 +128,7 @@
 
            <div v-else-if="adding==false &&zoomed==false&&editing==false&&filter==true" class="card-body" style="width:100%;height:520px;" >
             
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" ></a><b>APPLICA FILTRI</b></h5>
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" ><b>APPLICA FILTRI</b></h5>
             <center>
             <div class="card-body" >
               <div id="box" style="width:300px;">
