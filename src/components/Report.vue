@@ -65,7 +65,7 @@
  
 
   <!-- schermata di add --->
-  <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width:720px;height:400px;" >
+  <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width:100%;height:400px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>AGGIUNGI SEGNALAZIONE</b></h5>
                <hr class="my-4">
             <form class="form-signin">
@@ -95,7 +95,7 @@
            </div>
 
       <!-- schermata di zoom-->
-           <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:720px;height:400px;" >
+           <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:100%;height:400px;" >
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>DETTAGLIO SEGNALAZIONE</b></h5>
                <hr class="my-4">
             
@@ -135,7 +135,8 @@
           </div>
 
 <!-- schermata edit-->
-           <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width:720px;height:400px;" >
+           <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width:100%;height:400px;" >
+           
             <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>EDITING STATO</b></h5>
             <hr class="my-4">
             <div class="row text-left">
@@ -163,8 +164,8 @@
                 </div>
               </div>
            
-              <div class="col">
-                <div class="row">
+              <div class="col" >
+                <div class="row" >
                  STATO: {{this.status}}
                   <select type="option" id="categoria" class="form-control" v-model="status" required>
                   <option disabled value="" >{{this.status}}</option>
