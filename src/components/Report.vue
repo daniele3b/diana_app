@@ -603,7 +603,7 @@ export default {
                     console.log('Token tolto')
                   
                   }).catch(() => {
-                    console.log('FOTTITI QUI NON ARRIVI')
+                    console.log('NESSUN TOKEN RIMUOVERE')
                   })
                       
 
@@ -643,9 +643,9 @@ export default {
           })
             .catch((error) => {
               console.log(error)
-            this.rimuoviToken(this.obj2edit.id_number)
-            this.updateData()
-            this.editing=false
+              alert('Sessione scaduta!')
+              this.updateData()
+              this.editing=false
           })
        
       
@@ -681,10 +681,10 @@ export default {
                                    this.updateData()
                                    this.rimuoviToken(event.target.id)
                             })//se delete a male
-                            .catch((error) => {
-                              alert("Delete"+error)
+                            .catch(() => {
+                              alert("Sessione scaduta!")
                               this.updateData()
-                              this.rimuoviToken(event.target.id)
+                              
                         })
                   }else //Se annullo la cancellazione
                   {
