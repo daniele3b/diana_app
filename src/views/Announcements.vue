@@ -785,7 +785,7 @@ export default {
 
         // SE NON RIESCO LA SESSIONE E' SCADUTA E TORNO INDIETRO
         .catch(() => {
-          alert("Sessione scaduta!")
+            console.log('NESSUN TOKEN RIMUOVERE')
           
         })
 
