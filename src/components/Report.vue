@@ -19,7 +19,7 @@
         </thead>
       
       <tbody >
-            <tr v-for="rep in reports" :key="rep._id">
+            <tr :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
@@ -411,7 +411,8 @@ export default {
          citt:false,
          loading:false,
          t:null,
-         toBeDestroy:null
+         toBeDestroy:null,
+         classeRiga:''
          
         }
     },
@@ -581,6 +582,13 @@ export default {
 
          
 
+        },
+        cambiaClasse:function(rep)
+        {
+          if(rep.token!='')
+            return "bg-secondary"
+          else
+            return ""
         },
 
 
