@@ -52,7 +52,7 @@
 
         <div v-if="adding">
             <div class="row mt-1 ml-1">
-                <img @click="tornaAllaSchermataPrecedente()" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
+                <img @click="tornaAllaSchermataPrecedenteDaFiltri" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
             </div>
 
             <center>
@@ -268,7 +268,7 @@
 
         <div v-if="updating">
             <div class="row mt-1 ml-1">
-                <img @click="tornaAllaSchermataPrecedente()" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
+                <img @click="tornaAllaSchermataPrecedenteDaModifica()" src="../assets/back.png" :id="idBack" class="back mt-1" style="width:20px; margin-left:16px;">
             </div>
 
             <center>
@@ -394,7 +394,7 @@
         <div v-if="cliccatoSuFiltra">
             
             <div class="row mt-1 ml-1">
-                <img @click="tornaAllaSchermataPrecedente()" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
+                <img @click="tornaAllaSchermataPrecedenteDaFiltri()" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
             </div>
 
             <center>
@@ -565,6 +565,7 @@ export default {
         annuncioDaVisualizzare : {},
         annuncioDaModificare : {},
         mostraZoneInserite : false,
+        idBack : ""
     }
   },
 
@@ -740,36 +741,106 @@ export default {
     },
 
     cancellaAnnuncio(event){
-      if(!confirm("Sei sicuro di voler rimuovere l'annuncio?")) return
-
       const id_annuncio = event.target.id
-      const annunci = this.annunci
-      let i
-      const dim = annunci.length
-      let ind
       
-      for(i=0;i<dim;i++){
-        if(annunci[i]._id == id_annuncio){
-            ind = i
-            break
-        } 
-      }
-
-      this.annunci.splice(ind, 1)
-
+      // PROVO A SETTARE IL TOKEN
       axios({
-        method: 'delete',
-        url: 'http://localhost:8081/announcements/'+id_annuncio,
+        method: 'post',
+        url: 'http://localhost:8081/token/setToken/announcement/'+id_annuncio,
         headers: {
           "x-diana-auth-token": localStorage.token
         }
       })
-      .then((response) => {
-        console.log("Eliminato: "+response.data)
+
+      // SE RIESCO POSSO ELIMINARE L'ANNUNCIO
+      .then(() => {
+        if(!confirm("Sei sicuro di voler rimuovere l'annuncio?")){
+      
+          // PROVO A resettare IL TOKEN
+          axios({
+          method: 'delete',
+          url: 'http://localhost:8081/token/deleteToken/announcement/'+id_annuncio,
+          headers: {
+            "x-diana-auth-token": localStorage.token
+          }
+        })
+
+        // SE RIESCO TORNO INDIETRO
+        .then(() => {
+          this.aggiornaSchermataAnnunci()
+
+          this.adding = false
+          this.updating = false
+          this.cliccatoSuFiltra = false
+          this.mostraZoneInserite = false
+      
+          this.data_inizio = ""
+          this.data_fine = ""
+          this.descrizione = ""
+          this.zone = []
+          this.CF = ""
+        
+          this.idBack = ""
+        })
+
+        // SE NON RIESCO LA SESSIONE E' SCADUTA E TORNO INDIETRO
+        .catch(() => {
+          alert("Sessione scaduta!")
+
+          this.aggiornaSchermataAnnunci()
+
+          this.adding = false
+          this.updating = false
+          this.cliccatoSuFiltra = false
+          this.mostraZoneInserite = false
+      
+          this.data_inizio = ""
+          this.data_fine = ""
+          this.descrizione = ""
+          this.zone = []
+          this.CF = ""
+        
+          this.idBack = ""
+        })
+
+        return
+        } 
+
+        const annunci = this.annunci
+        let i
+        const dim = annunci.length
+        let ind
+      
+        for(i=0;i<dim;i++){
+          if(annunci[i]._id == id_annuncio){
+            ind = i
+            break
+          } 
+        }
+
+        this.annunci.splice(ind, 1)
+
+        axios({
+          method: 'delete',
+          url: 'http://localhost:8081/announcements/'+id_annuncio,
+          headers: {
+            "x-diana-auth-token": localStorage.token
+          }
+        })
+        .then((response) => {
+          console.log("Eliminato: "+response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
       })
-      .catch((error) => {
-        console.log(error)
+
+      // SE NON RIESCO NON POSSO ELIMINARE L'ANNUNCIO
+      .catch(() => {
+        alert("Token già settato: un altro operatore sta lavorando su questo annuncio!")
       })
+
+      
     },
 
     aggiungiZona(){
@@ -783,25 +854,47 @@ export default {
     },
 
     settaCampiPerAggiornamentoAnnuncio(event){
-      this.updating = true
-    
-      const id_annuncio = event.target.id
-      const annunci = this.annunci
-      let i
-      const dim = annunci.length
       
-      for(i=0;i<dim;i++){
-        if(annunci[i]._id == id_annuncio){
-          this.annuncioDaModificare = annunci[i]
-          break
+      
+      const id_annuncio = event.target.id
+      this.idBack = id_annuncio
+      
+      // PROVO A SETTARE IL TOKEN
+      axios({
+        method: 'post',
+        url: 'http://localhost:8081/token/setToken/announcement/'+id_annuncio,
+        headers: {
+          "x-diana-auth-token": localStorage.token
         }
-      }
+      })
 
-      this.CF = this.annuncioDaModificare.CF
-      this.data_inizio = this.annuncioDaModificare.start
-      this.data_fine = this.annuncioDaModificare.end
-      this.zone = this.annuncioDaModificare.zone
-      this.descrizione = this.annuncioDaModificare.description
+      // SE RIESCO POSSO MODIFICARE L'ANNUNCIO
+      .then(() => {
+
+        const annunci = this.annunci
+        let i
+        const dim = annunci.length
+      
+        for(i=0;i<dim;i++){
+          if(annunci[i]._id == id_annuncio){
+            this.annuncioDaModificare = annunci[i]
+            break
+          }
+        }
+
+        this.CF = this.annuncioDaModificare.CF
+        this.data_inizio = this.annuncioDaModificare.start
+        this.data_fine = this.annuncioDaModificare.end
+        this.zone = this.annuncioDaModificare.zone
+        this.descrizione = this.annuncioDaModificare.description
+
+        this.updating = true
+      })
+
+      // SE NON RIESCO NON POSSO MODIFICARE L'ANNUNCIO
+      .catch(() => {
+        alert("Token già settato: un altro operatore sta lavorando su questo annuncio!")
+      })
 
     },
 
@@ -1203,7 +1296,58 @@ export default {
       this.CF = ""
     },
 
-    tornaAllaSchermataPrecedente(){
+    tornaAllaSchermataPrecedenteDaModifica(){
+      const id_annuncio = this.idBack
+      
+      // PROVO A resettare IL TOKEN
+      axios({
+        method: 'delete',
+        url: 'http://localhost:8081/token/deleteToken/announcement/'+id_annuncio,
+        headers: {
+          "x-diana-auth-token": localStorage.token
+        }
+      })
+
+      // SE RIESCO TORNO INDIETRO
+      .then(() => {
+        this.aggiornaSchermataAnnunci()
+
+        this.adding = false
+        this.updating = false
+        this.cliccatoSuFiltra = false
+        this.mostraZoneInserite = false
+      
+        this.data_inizio = ""
+        this.data_fine = ""
+        this.descrizione = ""
+        this.zone = []
+        this.CF = ""
+        
+        this.idBack = ""
+      })
+
+      // SE NON RIESCO LA SESSIONE E' SCADUTA E TORNO INDIETRO
+      .catch(() => {
+        alert("Sessione scaduta!")
+
+        this.aggiornaSchermataAnnunci()
+
+        this.adding = false
+        this.updating = false
+        this.cliccatoSuFiltra = false
+        this.mostraZoneInserite = false
+      
+        this.data_inizio = ""
+        this.data_fine = ""
+        this.descrizione = ""
+        this.zone = []
+        this.CF = ""
+        
+        this.idBack = ""
+      })
+    },
+
+    tornaAllaSchermataPrecedenteDaFiltri(){
       
       this.aggiornaSchermataAnnunci()
 
