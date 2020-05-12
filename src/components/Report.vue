@@ -755,7 +755,7 @@ export default {
             .catch((error) => {
             console.log(error)
           })
-          }else
+          }else //aggiornamento se è un cittadino
           {
             
             this.reports=[]
