@@ -608,6 +608,7 @@ export default {
                       
 
         },
+        //tanto per pushare
         editConfermato: function()
         {
 
