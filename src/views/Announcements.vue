@@ -25,7 +25,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="annuncio in annunci" :key="annuncio._id">
+                            <tr :class="cambiaClasse(annuncio)" v-for="annuncio in annunci" :key="annuncio._id">
                                 <td><!--  PADDING PER IMG BACK  --></td>
                                 <td>{{annuncio.CF}}</td>
                                 <td>{{annuncio.start}}</td>
@@ -1361,7 +1361,15 @@ export default {
       this.descrizione = ""
       this.zone = []
       this.CF = ""
-    }
+    },
+
+    cambiaClasse:function(annuncio)
+        {
+          if(annuncio.token!='')
+            return "bg-secondary"
+          else
+            return ""
+        }
   },
 }
 </script>
