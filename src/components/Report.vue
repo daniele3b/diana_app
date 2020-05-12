@@ -410,7 +410,8 @@ export default {
          obj2edit:{},
          citt:false,
          loading:false,
-         t:null
+         t:null,
+         toBeDestroy:null
          
         }
     },
@@ -550,7 +551,7 @@ export default {
           
           var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
         
-
+        this.toBeDestroy=event.target.id
         //provo a settare il token
         axios({
             method: 'post',
@@ -646,7 +647,7 @@ export default {
         {
          // console.log(event.target.id)
 
-
+        this.toBeDestroy=event.target.id
 
             //provo a settare il token
         axios({
@@ -840,6 +841,9 @@ export default {
           
         }
       }
+
+       
+      
  
 
 }
