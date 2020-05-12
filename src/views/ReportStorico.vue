@@ -1,5 +1,5 @@
 <template>
- <div class="card  mt-1"  onload="getReport();" >
+ <div class="card  mt-1 border-success"  onload="getReport();" >
   <div class="card-header">Storico segnalazioni <router-link v-if="adding==false&&zoomed==false&&editing==false&&filter==false" to="/dashboard"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link><img  v-if="filteractive==false&&filter==false"   @click="filtering" src="../assets/filter.png" style="float:right;  cursor: pointer;" height="22px;" > <img   v-if="filteractive==true"  @click="removeFilter" src="../assets/nofilter.png" style="float:right;cursor:pointer;" height="22px;" ></div>
   <!-- schermata di visualizzazione-->
   <div v-if="adding==false&&zoomed==false&&editing==false&&filter==false" class="card-body">
@@ -39,7 +39,7 @@
 
       <!-- schermata di zoom-->
            <div v-else-if="adding==false &&zoomed==true&&filter==false" class="card-body" style="width:100%;height:520px;" >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>DETTAGLIO SEGNALAZIONE</b></h5>
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>DETTAGLIO SEGNALAZIONE</b></h5>
                <hr class="my-4">
             
           <div class="row text-left">
@@ -80,7 +80,7 @@
 <!-- schermata edit-->
 
            <div v-else-if="adding==false &&zoomed==false&&editing==true&&filter==false" class="card-body" style="width:100%;height:520px;" >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>EDITING STATO</b></h5>
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>EDITING STATO</b></h5>
             <hr class="my-4">
             <div class="row text-left">
               <div class="col">
@@ -128,7 +128,7 @@
 
            <div v-else-if="adding==false &&zoomed==false&&editing==false&&filter==true" class="card-body" style="width:100%;height:520px;" >
             
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" ></a><b>APPLICA FILTRI</b></h5>
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" ><b>APPLICA FILTRI</b></h5>
             <center>
             <div class="card-body" >
               <div id="box" style="width:300px;">
@@ -239,7 +239,8 @@ export default {
          filteractive:false,
          filter:false,
          data_inizio:'',
-         data_fine:''
+         data_fine:'',
+         t:null
         }
     },
     watch:{
@@ -308,7 +309,6 @@ export default {
            
           })
 
-        //  setInterval(this.updateData, 60000);
       },
       methods: {
         filtering: function()
@@ -366,6 +366,7 @@ export default {
             }
           }).then((response) => {
            console.log(response)
+           this.updateData()
 
           })
             .catch((error) => {
@@ -376,7 +377,10 @@ export default {
         var ind = this.reports.findIndex(i =>  i==this.obj2edit);
 
         this.reports[ind].status=this.status.toUpperCase()
+        this.updateData()
         this.editing=false
+
+        
 
         },
 
@@ -401,7 +405,7 @@ export default {
               "x-diana-auth-token": localStorage.token
             }
           }).then((response) => { 
-
+           
            
            
            
@@ -416,25 +420,22 @@ export default {
           {
             console.log('Era uno scherzo !')
           }
+
+
+           this.updateData()
         },
 
         updateData: function (){
 
-          this.reports=[]
-           let data=new Date()
 
-        let month=data.getMonth()+1
-        let day=data.getDate()
-        let year=data.getFullYear()
         
-        if(month<10)
-          month='0'+month
-        if(day<10)
-          day='0'+day
+          console.log('Timer 2')
+          this.reports=[]
+         
 
           axios({
             method: 'get',
-            url: 'http://localhost:8081/report/filter/date/'+year+'-'+month+'-'+day,
+            url: 'http://localhost:8081/report/',
             headers: {
               "x-diana-auth-token": localStorage.token
             }
@@ -458,8 +459,9 @@ export default {
 
           })
             .catch((error) => {
-            alert("GET report"+error)
+            console.log(error)
           })
+             
           
 
         },
@@ -737,6 +739,7 @@ export default {
           this.data_fine=''
           this.cat2filter=''
           this.status2filter=''
+          this.updateData()
           this.adding=false
           this.zoomed=false
           this.editing=false
@@ -782,9 +785,15 @@ export default {
             alert('Non puoi inserire valori vuoti!')
 
           }
+          this.updateData()
           
           
         }
+      },
+      beforeDestroy()
+      {
+         console.log('Timer 2')
+        clearTimeout(this.t);
       }
 
 }

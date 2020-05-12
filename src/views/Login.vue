@@ -110,8 +110,15 @@ export default {
 
       emailOrPhone : function(){
         const tmp = this.emailOrPhone
-        const len = tmp.length
+        //const len = tmp.length
+        const regex = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+        const res = regex.test(tmp)
 
+        if(res){
+          this.emailOk = true
+          this.phoneOk = false
+        }
+/*
         if(tmp[0] == '@' || tmp[len-1] == '@' || tmp[0] == '.' || tmp[len-1] == '.'){
           this.emailOk = false
           this.phoneOk = false  
@@ -136,8 +143,8 @@ export default {
           this.emailOk = true
           this.phoneOk = false
         }
-
-        else if(this.cercaElem('@') == 0){
+*/
+        else if(!res){
           if(this.emailOrPhone.length == 10 && !isNaN(parseInt(this.emailOrPhone))){
             this.emailOk = false
             this.phoneOk = true

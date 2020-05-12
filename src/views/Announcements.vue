@@ -178,7 +178,7 @@
         <div v-if="visualizzandoDettagli">
 
             <div class="row mt-1 ml-1">
-                <img @click="visualizzandoDettagli=false" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
+                <img @click="aggiornaSchermataAnnunci(); visualizzandoDettagli=false" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
             </div>
 
             <center>
@@ -405,7 +405,7 @@
                     
                     <form class="form-signin" @keyup.enter="filtraAnnunci()">
                         
-                        <div class="row">
+                        <div v-if="tipoUtente != 'cittadino'" class="row">
                             <div class="col mt-1">
                                 <h6>Codice fiscale</h6>
                             </div>
@@ -479,11 +479,7 @@
                                
                             </div>
                         </div>
-
-                        <div v-if="(error  == 'erroreFiltri' || error == 'CF' || error == 'Data inizio' || error == 'Data fine' || error == 'Logica delle date')" class="alert alert-danger mt-1" role="alert">
-                            {{messaggioErrore}}
-                        </div>
-
+                        
                         <button @click="filtraAnnunci()" type="button" class="btn btn-success mt-1">Filtra annunci</button>
 
                     </form>
@@ -502,7 +498,7 @@
         <div v-if="filtering && !visualizzandoDettagli">
             <div class="card border-success mt-3">
             <div class="card-body">
-                <h5 class="card-title"><b>ANNUNCI</b></h5>
+                <h5 class="card-title"><b>ANNUNCI FILTRATI</b></h5>
                 
                 <!--  TABELLA  -->
                 
@@ -532,7 +528,7 @@
                 
             </div>
         </div>
-        </div>
+      </div>
         
     </div>
 
@@ -575,46 +571,49 @@ export default {
   created(){
     this.tipoUtente = localStorage.type
 
-    this.annunci = []
-
-    axios({
-      method: 'get',
-      url: 'http://localhost:8081/announcements',
-      headers: {
-        "x-diana-auth-token": localStorage.token
-      }
-    })
-    .then((response) => {
-      
-      let i 
-      const annunci = response.data
-      const dim = annunci.length
-      for(i=0;i<dim;i++){
-        
-        let data_inizio = annunci[i].start
-        const ind_inizio = data_inizio.indexOf('T')
-        let data_fine = annunci[i].end
-        const ind_fine = data_fine.indexOf('T')
-
-        data_inizio = data_inizio.substring(0, ind_inizio)
-        data_fine = data_fine.substring(0, ind_fine)
-        
-        annunci[i].start = data_inizio
-        annunci[i].end = data_fine
-
-        if(annunci[i].zone[0] == "Everywhere") annunci[i].zone[0] = "Nessuna zona specificata"
-
-        this.annunci.push(annunci[i])
-        
-      }
-    })
-    .catch((error) => {
-      alert("Non sono stati pubblicati annunci oggi")
-      console.log(error)
-    })
+    this.aggiornaSchermataAnnunci()
   },
 
   methods : {
+
+    aggiornaSchermataAnnunci(){
+      this.annunci = []
+
+      axios({
+        method: 'get',
+        url: 'http://localhost:8081/announcements',
+        headers: {
+          "x-diana-auth-token": localStorage.token
+        }
+      })
+      .then((response) => {
+      
+        let i 
+        const annunci = response.data
+        const dim = annunci.length
+        for(i=0;i<dim;i++){
+        
+          let data_inizio = annunci[i].start
+          const ind_inizio = data_inizio.indexOf('T')
+          let data_fine = annunci[i].end
+          const ind_fine = data_fine.indexOf('T')
+
+          data_inizio = data_inizio.substring(0, ind_inizio)
+          data_fine = data_fine.substring(0, ind_fine)
+        
+          annunci[i].start = data_inizio
+          annunci[i].end = data_fine
+
+          if(annunci[i].zone[0] == "Everywhere") annunci[i].zone[0] = "Nessuna zona specificata"
+
+          this.annunci.push(annunci[i])
+        
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },
     
     controllaCF(){
 
@@ -653,35 +652,6 @@ export default {
       return true
     },
 
-    controllaDataInizio(){
-      if(this.data_inizio.length < 10){
-        this.error = "Data inizio"
-        this.messaggioErrore = "Data di inizio non valida"
-        return false
-      }
-      if(this.data_inizio.length == 10 && this.data_fine.length == 10 && this.data_fine < this.data_inizio){
-        this.error = "Logica delle date"
-        this.messaggioErrore = "La data di inizio non può essere maggiore di quella di fine"
-        return false
-      }
-      return true
-    },
-
-    controllaDataFine(){
-      
-      if(this.data_fine.length < 10){
-        this.error = "Data fine"
-        this.messaggioErrore = "Data di fine non valida"
-        return false  
-      }
-      if(this.data_inizio.length == 10 && this.data_fine.length == 10 && this.data_fine < this.data_inizio){
-        this.error = "Logica delle date"
-        this.messaggioErrore = "La data di inizio non può essere maggiore di quella di fine"
-        return false
-      }
-      return true
-    },
-
     controllaDescrizione(){
       if(this.descrizione == ""){
         this.error = "Descrizione"
@@ -694,10 +664,6 @@ export default {
     
     campiOK(){
         return this.controllaCF() && this.controllaDate() && this.controllaDescrizione()
-    },
-
-    controllaZone(){
-      return true
     },
     
     pubblicaAnnuncio(){
@@ -907,19 +873,10 @@ export default {
     filtraAnnunci(){
       this.cliccatoSuFiltra = false
       
-      if(this.CF == "" && this.data_inizio == "" && this.data_fine == "" && this.zone.length == 0){
-        this.cliccatoSuFiltra = true  // Faccio rimanere l'utente sulla schermata di inserimento filtri
-        this.error = "erroreFiltri"
-        this.messaggioErrore="Nessun campo inserito o valido"
-        setTimeout(() => {this.error = ""}, 2000)
-        return
-      }
-      
       // SOLO CF
-      if(this.controllaCF() && this.data_inizio == "" && this.data_fine == "" && this.zone.length == 0){
+      if(this.CF != "" && this.data_inizio == "" && this.data_fine == "" && this.zone.length == 0){
         this.filtering = true
-        this.error = "" // POICHE' POSSONO ESSERE INTRECETTATI I VARI CONTROLLI DI ERRORE SUI CAMPI, RESETTO L'ERRORE
-                        // PER EVITARE DI VISUALIZZARLO DOPO ESSERE RIENTRATO SULLA SCHERMATA DEI FILTRI
+        
         let i
         const dim = this.annunci.length
         const annunci = this.annunci
@@ -928,17 +885,10 @@ export default {
         }
       }
 
-      else if(!this.controllaCF() && this.data_inizio == "" && this.data_fine == "" && this.zone.length == 0){
-        this.cliccatoSuFiltra = true  // Faccio rimanere l'utente sulla schermata di inserimento filtri
-        setTimeout(() => {this.error = ""}, 2000)
-        return
-      }
-
       // SOLO DATA INIZIO
-      else if(this.controllaDataInizio() && this.CF == "" && this.data_fine == "" && this.zone.length == 0){
+      else if(this.data_inizio != "" && this.CF == "" && this.data_fine == "" && this.zone.length == 0){
         this.filtering = true
-        this.error = "" // POICHE' POSSONO ESSERE INTRECETTATI I VARI CONTROLLI DI ERRORE SUI CAMPI, RESETTO L'ERRORE
-                        // PER EVITARE DI VISUALIZZARLO DOPO ESSERE RIENTRATO SULLA SCHERMATA DEI FILTRI
+        
         let i
         const dim = this.annunci.length
         const annunci = this.annunci
@@ -947,29 +897,296 @@ export default {
         }
       }
 
-      else if(!this.controllaDataInizio() && this.CF == "" && this.data_fine == "" && this.zone.length == 0){
-        this.cliccatoSuFiltra = true  // Faccio rimanere l'utente sulla schermata di inserimento filtri
-        setTimeout(() => {this.error = ""}, 2000)
-        return
+      //SOLO DATA FINE
+      else if(this.data_fine != "" && this.CF == "" && this.data_inizio == "" && this.zone.length == 0){
+          this.filtering = true
+          
+          let i
+          const dim = this.annunci.length
+          const annunci = this.annunci
+          for(i=0;i<dim;i++){
+            if(annunci[i].end <= this.data_fine) this.annunciFiltrati.push(annunci[i])
+          }
+        
       }
 
-      //SOLO DATA FINE
-      else if(this.controllaDataFine() && this.CF == "" && this.data_inizio == "" && this.zone.length == 0){
+      //SOLO ZONA
+      else if(this.zone.length > 0 && this.CF == "" && this.data_inizio == "" && this.data_fine == ""){
         this.filtering = true
-        this.error = "" // POICHE' POSSONO ESSERE INTRECETTATI I VARI CONTROLLI DI ERRORE SUI CAMPI, RESETTO L'ERRORE
-                        // PER EVITARE DI VISUALIZZARLO DOPO ESSERE RIENTRATO SULLA SCHERMATA DEI FILTRI
+
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){  // Scorro gli annunci
+          const zone = annunci[i].zone
+          let j
+          const size = zone.length
+          for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
+            const zonaAnnuncio = zone[j].toLowerCase()
+            let h
+            const len = this.zone.length
+            for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
+              const zonaFiltro = this.zone[h].toLowerCase()
+              const res = zonaAnnuncio.match(zonaFiltro)
+              
+              if(res != null && !this.annunciFiltrati.includes(annunci[i])){
+                this.annunciFiltrati.push(annunci[i])
+              }
+            }
+          }
+        }
+        
+      }
+
+      // SOLO CF E DATA INIZIO
+      if(this.CF != "" && this.data_inizio != "" && this.data_fine == "" && this.zone.length == 0){
+        this.filtering = true
+        
         let i
         const dim = this.annunci.length
         const annunci = this.annunci
         for(i=0;i<dim;i++){
-          if(annunci[i].end <= this.data_fine) this.annunciFiltrati.push(annunci[i])
+          if(annunci[i].CF == this.CF && annunci[i].start >= this.data_inizio) this.annunciFiltrati.push(annunci[i])
         }
       }
 
-      else if(!this.controllaDataFine() && this.CF == "" && this.data_inizio == "" && this.zone.length == 0){
-        this.cliccatoSuFiltra = true  // Faccio rimanere l'utente sulla schermata di inserimento filtri
-        setTimeout(() => {this.error = ""}, 2000)
-        return
+      // SOLO CF E DATA FINE
+      if(this.CF != "" && this.data_fine != "" && this.data_inizio == "" && this.zone.length == 0){
+        this.filtering = true
+        
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){
+          if(annunci[i].CF == this.CF && annunci[i].end <= this.data_fine) this.annunciFiltrati.push(annunci[i])
+        }
+      }
+
+      // SOLO DATA INIZIO E DATA FINE
+      if(this.data_inizio != "" && this.data_fine != "" && this.CF == "" && this.zone.length == 0){
+        this.filtering = true
+        
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){
+          if(annunci[i].start >= this.data_inizio && annunci[i].end <= this.data_fine) this.annunciFiltrati.push(annunci[i])
+        }
+      }
+
+      // SOLO CF E ZONE
+      if(this.CF != "" && this.zone.length > 0 && this.data_inizio == "" && this.data_fine == ""){
+        this.filtering = true
+        
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){  // Scorro gli annunci
+          if(annunci[i].CF == this.CF){
+            const zone = annunci[i].zone
+            let j
+            const size = zone.length
+            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
+              const zonaAnnuncio = zone[j].toLowerCase()
+              let h
+              const len = this.zone.length
+              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
+                const zonaFiltro = this.zone[h].toLowerCase()
+                const res = zonaAnnuncio.match(zonaFiltro)
+              
+                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
+                  this.annunciFiltrati.push(annunci[i])
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      // SOLO DATA INIZIO E ZONE
+      if(this.data_inizio != "" && this.zone.length > 0 && this.data_fine == "" && this.CF == ""){
+        this.filtering = true
+        
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){  // Scorro gli annunci
+          if(annunci[i].start >= this.data_inizio){
+            const zone = annunci[i].zone
+            let j
+            const size = zone.length
+            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
+              const zonaAnnuncio = zone[j].toLowerCase()
+              let h
+              const len = this.zone.length
+              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
+                const zonaFiltro = this.zone[h].toLowerCase()
+                const res = zonaAnnuncio.match(zonaFiltro)
+              
+                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
+                  this.annunciFiltrati.push(annunci[i])
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // SOLO DATA FINE E ZONE
+      if(this.data_fine != "" && this.zone.length > 0 && this.data_inizio == "" && this.CF == ""){
+        this.filtering = true
+        
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){  // Scorro gli annunci
+          if(annunci[i].end <= this.data_fine){
+            const zone = annunci[i].zone
+            let j
+            const size = zone.length
+            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
+              const zonaAnnuncio = zone[j].toLowerCase()
+              let h
+              const len = this.zone.length
+              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
+                const zonaFiltro = this.zone[h].toLowerCase()
+                const res = zonaAnnuncio.match(zonaFiltro)
+              
+                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
+                  this.annunciFiltrati.push(annunci[i])
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // SOLO CF, DATA INIZIO E DATA FINE
+      if(this.CF != "" && this.data_inizio != "" && this.data_fine != "" && this.zone.length == 0){
+        this.filtering = true
+        
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){
+          if(annunci[i].CF == this.CF && annunci[i].start >= this.data_inizio && annunci[i].end <= this.data_fine) this.annunciFiltrati.push(annunci[i])
+        }
+      }
+
+      // SOLO CF, DATA INIZIO E ZONE
+      if(this.CF != "" && this.data_inizio != "" && this.zone.length > 0 && this.data_fine == ""){
+        this.filtering = true
+        
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){  // Scorro gli annunci
+          if(annunci[i].CF == this.CF && annunci[i].start >= this.data_inizio){
+            const zone = annunci[i].zone
+            let j
+            const size = zone.length
+            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
+              const zonaAnnuncio = zone[j].toLowerCase()
+              let h
+              const len = this.zone.length
+              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
+                const zonaFiltro = this.zone[h].toLowerCase()
+                const res = zonaAnnuncio.match(zonaFiltro)
+              
+                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
+                  this.annunciFiltrati.push(annunci[i])
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // SOLO CF, DATA FINE E ZONE
+      if(this.CF != "" && this.data_fine != "" && this.zone.length > 0 && this.data_inizio == ""){
+        this.filtering = true
+        
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){  // Scorro gli annunci
+          if(annunci[i].CF == this.CF && annunci[i].end <= this.data_fine){
+            const zone = annunci[i].zone
+            let j
+            const size = zone.length
+            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
+              const zonaAnnuncio = zone[j].toLowerCase()
+              let h
+              const len = this.zone.length
+              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
+                const zonaFiltro = this.zone[h].toLowerCase()
+                const res = zonaAnnuncio.match(zonaFiltro)
+              
+                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
+                  this.annunciFiltrati.push(annunci[i])
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // SOLO DATA INIZIO, DATA FINE E ZONE
+      if(this.data_inizio != "" && this.data_fine != "" && this.zone.length > 0 && this.CF == ""){
+        this.filtering = true
+        
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){  // Scorro gli annunci
+          if(annunci[i].start >= this.data_inizio && annunci[i].end <= this.data_fine){
+            const zone = annunci[i].zone
+            let j
+            const size = zone.length
+            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
+              const zonaAnnuncio = zone[j].toLowerCase()
+              let h
+              const len = this.zone.length
+              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
+                const zonaFiltro = this.zone[h].toLowerCase()
+                const res = zonaAnnuncio.match(zonaFiltro)
+              
+                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
+                  this.annunciFiltrati.push(annunci[i])
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // CF, DATA INIZIO, DATA FINE E ZONE
+      if(this.CF != "" && this.data_inizio != "" && this.data_fine != "" && this.zone.length > 0){
+        this.filtering = true
+        
+        let i
+        const dim = this.annunci.length
+        const annunci = this.annunci
+        for(i=0;i<dim;i++){  // Scorro gli annunci
+          if(annunci[i].CF == this.CF && annunci[i].start >= this.data_inizio && annunci[i].end <= this.data_fine){
+            const zone = annunci[i].zone
+            let j
+            const size = zone.length
+            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
+              const zonaAnnuncio = zone[j].toLowerCase()
+              let h
+              const len = this.zone.length
+              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
+                const zonaFiltro = this.zone[h].toLowerCase()
+                const res = zonaAnnuncio.match(zonaFiltro)
+              
+                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
+                  this.annunciFiltrati.push(annunci[i])
+                }
+              }
+            }
+          }
+        }
       }
 
     },
@@ -987,6 +1204,9 @@ export default {
     },
 
     tornaAllaSchermataPrecedente(){
+      
+      this.aggiornaSchermataAnnunci()
+
       this.adding = false
       this.updating = false
       this.cliccatoSuFiltra = false

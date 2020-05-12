@@ -10,7 +10,9 @@
         
     </div>
     <div class="row mb-1">
+      <div class="col p-0">
             <Report></Report>
+      </div>
     
   </div>
 </div>

@@ -12,7 +12,7 @@
                 <router-link to="/avanzato"><img src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;"></router-link>
             </div>
             
-            <div v-if="!loading && inviato" class="row" style="margin-left:20px;">
+            <div v-if="inviato" class="row" style="margin-left:20px;">
                 <b style="margin-top:10px; margin-left:4px">Indirizzo</b>
                 <label class="switch">
                     <input type="checkbox">
@@ -27,23 +27,23 @@
 
         <div class="col">
             
-            <div v-if="!loading && inviato" class = "row mt-5">
+            <div v-if="inviato" class = "row mt-5">
                 <input @keyup.enter="invia()" type="text" class="inserimento" v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:250px">
             </div>
             
-            <div v-if="(!indirizzoTrue && zonaTrue) && (!loading && inviato)" class="row mt-2">
+            <div v-if="(!indirizzoTrue && zonaTrue) && (inviato)" class="row mt-2">
                 <input @keyup.enter="invia()" type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:250px">
             </div>
 
-            <div v-if="!loading && inviato && error == 'indirizzoZona'" class="alert alert-danger mt-1" role="alert">
+            <div v-if="inviato && error == 'indirizzoZona'" class="alert alert-danger mt-1" role="alert">
                 {{messaggioErrore}}
             </div>
 
-            <div v-if="!loading && inviato && error == 'raggio'" class="alert alert-danger mt-1" role="alert">
+            <div v-if="inviato && error == 'raggio'" class="alert alert-danger mt-1" role="alert">
                 {{messaggioErrore}}
             </div>
             
-            <div v-if="!loading && inviato" class="row">
+            <div v-if="inviato" class="row">
                 <img @click="invia()" src="../assets/cerca.png" :class="classeLente" style="width:30px; heigth:30px; margin-left:110px">
             </div>
             
@@ -54,27 +54,27 @@
           
         <!--  CONTROLLI DI VARIO TIPO PER LA VISUALIZZAZIONE DEI CAMPI DI INSERIMENTO, DELLA LENTE E DELLO SWITCH  -->
         
-        <div v-if="(!loading && !inviato) || loading" style="margin-top:180px margin-left:20px">
+        <div v-if="!inviato" style="margin-top:180px margin-left:20px">
             <input @keyup.enter="invia()" type="text" class="inserimento"  v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:350px; height:35px">
         </div>
 
-        <div v-if="(!indirizzoTrue && zonaTrue) && ((!loading && !inviato) || loading)" class="mt-2">
+        <div v-if="(!indirizzoTrue && zonaTrue) && !inviato" class="mt-2">
             <input @keyup.enter="invia()" type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:350px; height:35px">
         </div>
 
-        <div v-if="((!loading && !inviato) || loading) && error == 'indirizzoZona'" class="alert alert-danger mt-1" role="alert">
+        <div v-if="!inviato && error == 'indirizzoZona'" class="alert alert-danger mt-1" role="alert">
                 {{messaggioErrore}}
         </div>
 
-        <div v-if="((!loading && !inviato) || loading) && error == 'raggio'" class="alert alert-danger mt-1" role="alert">
+        <div v-if="!inviato && error == 'raggio'" class="alert alert-danger mt-1" role="alert">
                 {{messaggioErrore}}
         </div>
 
-        <div v-if="(!loading && !inviato)">
+        <div v-if="!inviato">
             <img @click="invia()" src="../assets/cerca.png" :class="classeLente" style="width:30px; heigth:30px;">
         </div>
 
-        <div v-if="(!loading && !inviato)">
+        <div v-if="!inviato">
           <b>Indirizzo</b>
             <label class="switch">
                 <input type="checkbox">
@@ -88,10 +88,6 @@
         <div class="row mt-3">
           
           <center>
-
-              <!-- SCRITTA DI CARICAMENTO  -->
-              
-              <div v-if="loading && showNearestSensor" class="col mt-4"><b>Caricamento in corso...</b></div>
               
               <!--  [N°1]SECONDA RIGA PRIMA COLONNA  -->
 
@@ -99,7 +95,7 @@
 
                   <!--  MAPPA CON IL MARKER INDICANTE L'INDIRIZZO SPECIFICATO  -->
 
-                  <GmapMap v-if="!loading && showNearestSensor"
+                  <GmapMap v-if="inviato && showNearestSensor"
                       class = "mappa"
                       :center="{lat:41.9109, lng:12.6818}"
                       :zoom="9"
@@ -121,11 +117,7 @@
           </center>
           
           <center>
-            
-              <!-- SCRITTA DI CARICAMENTO  -->
-          
-              <div v-if="loading && showSensorsWithinRadius" class="col mt-4"><b>Caricamento in corso...</b></div>
-          
+
               <!--  [N°2]SECONDA RIGA PRIMA COLONNA  -->
 
               <div class="col">
@@ -133,7 +125,7 @@
                   <!--  MAPPA CON I SENSORI ALL'INTERNO DEL CERCHIO CHE HA COME CENTRO LA ZONA SPECIFICATA  
                         E COME RAGGIO IL RAGGIO SPECIFICATO  -->
         
-                  <GmapMap v-if="!loading && showSensorsWithinRadius"
+                  <GmapMap v-if="inviato && showSensorsWithinRadius"
                       class = "mappa"
                       :center="{lat:41.9109, lng:12.6818}"
                       :zoom="9"
@@ -165,13 +157,9 @@
         
                   <center>
 
-                      <!-- SCRITTA DI CARICAMENTO  -->
-                      
-                      <div v-if="loading" class="mt-4"><b>Caricamento in corso...</b></div>
-
                       <!--  CARD  -->
                       
-                      <div v-if="inviato && !loading" class="card mt-1 border-success" style="width: 27rem;">
+                      <div v-if="inviato" class="card mt-1 border-success" style="width: 27rem;">
                           <div class="card-body">
                               <h5 class="card-title"><b>INFO TRAFFICO E SENSORI</b></h5>
                     
@@ -379,7 +367,6 @@ export default {
       sensoriNelRaggio : [],
       showNearestSensor : false,
       showSensorsWithinRadius : false,
-      loading : false,
       markerClicked : false,
       text : "",
       clickedSensor : "",
@@ -389,7 +376,8 @@ export default {
       error : '',
       messaggioErrore : "",
       coloreSfondoLente : "",
-      classeLente : "search mt-1"
+      classeLente : "search mt-1",
+      datiRicevuti : false
     }
   },
 
@@ -453,27 +441,40 @@ export default {
       
       // Per dare l'effetto della pressione della lente
       this.classeLente = "searchWithbackGround mt-1"
+      this.datiRicevuti = false
 
-      if(!this.indirizzoZonaValidi()){
-          if(this.indirizzoTrue){
-            this.error = 'indirizzoZona'
-            this.messaggioErrore = "Indirizzo inserito non valido"
-          }
-          else if(!this.indirizzoTrue && this.zonaTrue){
-            this.error = 'indirizzoZona'
-            this.messaggioErrore = "Zona inserita non valida"
-          }
+      if(this.indirizzoTrue && !this.zonaTrue){
+        if(!this.indirizzoZonaValidi()){
+          this.error = 'indirizzoZona'
+          this.messaggioErrore = "Indirizzo inserito non valido"
+
+          setTimeout(() => {this.error = ""}, 2000)
 
           // Per dare l'effetto del rilascio della lente
           setTimeout(() => {this.classeLente = "search mt-1"}, 200)
 
           return
+        }
       }
 
       else if(this.zonaTrue && !this.indirizzoTrue){
-        if(!this.raggioValido()){
+        if(!this.indirizzoZonaValidi()){
+          this.error = 'indirizzoZona'
+          this.messaggioErrore = "Zona inserita non valida"
+
+          setTimeout(() => {this.error = ""}, 2000)
+
+          // Per dare l'effetto del rilascio della lente
+          setTimeout(() => {this.classeLente = "search mt-1"}, 200)
+
+          return
+        }
+
+        else if(this.indirizzoZonaValidi() && !this.raggioValido()){
             this.error = 'raggio'
             this.messaggioErrore = "Raggio inserito non valido"
+
+            setTimeout(() => {this.error = ""}, 2000)
 
             // Per dare l'effetto del rilascio della lente
             setTimeout(() => {this.classeLente = "search mt-1"}, 200)
@@ -481,11 +482,13 @@ export default {
         }
       }
 
+      // Per dare l'effetto del rilascio della lente
+        setTimeout(() => {this.classeLente = "search mt-1"}, 200)
+
       this.coordinateIndirizzoZona = []
 
       this.error = ""
-      this.inviato = true
-      this.loading = true
+      
 
       // L'OPERATORE AVRA' INFORMAZIONI SUL TRAFFICO IN TEMPO REALE DELL'INDIRIZZO O DELLA ZONA INSERITA
 
@@ -497,6 +500,8 @@ export default {
         }
       })
       .then((response) => {
+        this.inviato = true
+
         this.velocitaAttuale = response.data[0].currentSpeed
         this.velocitaFlussoLibero = response.data[0].freeFlowSpeed
         this.confidenza = response.data[0].confidence.toFixed(2)
@@ -505,96 +510,89 @@ export default {
           lat : response.data[0].lat,
           lng : response.data[0].lon
         })
-        this.loading = false
-      })
+
+        // SE L'OPERATORE INSERISCE UN INDIRIZZO GLI VERRANNO MOSTRATE LE INFO E I DATI 
+      // DEL SENSORE PIU' VICINO A QUELL'INDIRIZZO
+      
+        if(!this.zonaTrue && this.indirizzoTrue){
+          this.sensoriNelRaggio = []
+          this.sensorePiuVicino = []
+          this.showNearestSensor = true
+          this.showSensorsWithinRadius = false
+
+          axios({
+            method: 'get',
+            url: 'http://localhost:8081/traffic/'+this.indirizzoZona+'/sensor',
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          })
+          .then(async (response) => {
+            this.sensorePiuVicino.push(response.data[0])
+
+            const sensor = this.sensorePiuVicino[0]
+
+            const sensorInfo = await this.receiveData(sensor)
+            console.log(sensorInfo)
+        
+            if(sensorInfo.length == 0){
+              console.log("Errore nella ricezione dal server")
+              return
+            }
+
+            let i
+            const size = sensorInfo.length
+            for(i=0;i<size;i++){
+              if(sensorInfo[i].value > sensorInfo[i].avg){
+                sensorInfo[i].sogliaSuperata = true
+              } 
+              else{
+                sensorInfo[i].sogliaSuperata = false
+              }
+            }
+
+            this.currentSensorsInfo = sensorInfo 
+
+            this.datiRicevuti = true
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        }
+
+        // SE L'OPERATORE INSERISCE UNA ZONA E UN CERTO RAGGIO GLI VERRANNO MOSTRATI I SENSORI
+        // ALL'INTERNO DI TALE RAGGIO A PARTIRE DA QUELLA ZONA
+        else if(this.zonaTrue && !this.indirizzoTrue){
+        
+          this.sensoriNelRaggio = []
+          this.sensorePiuVicino = []
+          this.showNearestSensor = false
+          this.showSensorsWithinRadius = true
+
+          axios({
+            method: 'get',
+            url: 'http://localhost:8081/traffic/'+this.indirizzoZona+'/sensor/'+this.raggio,
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          })
+          .then((response) => {
+            this.sensoriNelRaggio = response.data
+            this.datiRicevuti = true
+          })
+          .catch((error) => {
+            console.log(error)
+            alert("Nessun sensore trovato all'interno del raggio specificato")
+          })
+        }
+
+        
+        })
       .catch((error) => {
+        this.inviato = false
         console.log(error)
         alert("L'indirizzo inserito non esiste!")
       })
-
-      // SE L'OPERATORE INSERISCE UN INDIRIZZO GLI VERRANNO MOSTRATE LE INFO E I DATI 
-      // DEL SENSORE PIU' VICINO A QUELL'INDIRIZZO
-      
-      if(!this.zonaTrue && this.indirizzoTrue){
-        this.sensoriNelRaggio = []
-        this.sensorePiuVicino = []
-        this.showNearestSensor = true
-        this.showSensorsWithinRadius = false
-
-        axios({
-          method: 'get',
-          url: 'http://localhost:8081/traffic/'+this.indirizzoZona+'/sensor',
-          headers: {
-            "x-diana-auth-token": localStorage.token
-          }
-        })
-        .then(async (response) => {
-          this.sensorePiuVicino.push(response.data[0])
-
-          const sensor = this.sensorePiuVicino[0]
-
-          const sensorInfo = await this.receiveData(sensor)
-          console.log(sensorInfo)
-        
-          if(sensorInfo.length == 0){
-            console.log("Errore nella ricezione dal server")
-            return
-          }
-
-          let i
-          const size = sensorInfo.length
-          for(i=0;i<size;i++){
-            if(sensorInfo[i].value > sensorInfo[i].avg){
-              sensorInfo[i].sogliaSuperata = true
-            } 
-            else{
-              sensorInfo[i].sogliaSuperata = false
-            }
-          }
-
-          this.currentSensorsInfo = sensorInfo 
-        })
-        .catch((error) => {
-          console.log(error)
-          alert("Errore sensore più vicino")
-        })
-      }
-
-      // SE L'OPERATORE INSERISCE UNA ZONA E UN CERTO RAGGIO GLI VERRANNO MOSTRATI I SENSORI
-      // ALL'INTERNO DI TALE RAGGIO A PARTIRE DA QUELLA ZONA
-      else if(this.zonaTrue && !this.indirizzoTrue){
-        if(!this.raggioValido()){
-            alert('Raggio non valido')
-            return
-        }
-        
-        this.sensoriNelRaggio = []
-        this.sensorePiuVicino = []
-        this.showNearestSensor = false
-        this.showSensorsWithinRadius = true
-
-        axios({
-          method: 'get',
-          url: 'http://localhost:8081/traffic/'+this.indirizzoZona+'/sensor/'+this.raggio,
-          headers: {
-            "x-diana-auth-token": localStorage.token
-          }
-        })
-        .then((response) => {
-          this.sensoriNelRaggio = response.data
-        })
-        .catch((error) => {
-          console.log(error)
-          alert("Nessun sensore trovato all'interno del raggio specificato")
-        })
-      }
-
-      // Risetto le variabili dello switch al valore di default
-      this.indirizzoTrue = true
-      this.zonaTrue = false
-
-      // Per dare l'effetto del rilascio della lente
-      setTimeout(() => {this.classeLente = "search mt-1"}, 200)
 
     },
 
@@ -726,7 +724,7 @@ export default {
 
 .searchWithbackGround{
     cursor: pointer;
-    background-color: green;
+    background-color: blue;
 }
 
 .inserimento{

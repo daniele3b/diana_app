@@ -19,7 +19,7 @@
         </thead>
       
       <tbody >
-            <tr v-for="rep in reports" :key="rep._id">
+            <tr :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
@@ -34,7 +34,7 @@
   </div>
 
  <div v-else class="col-md-12" >
-    <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+    <div class="table-responsive ">
     <table id="mytable" class="table  "  >
         <thead>
           <th>CF</th>
@@ -47,7 +47,7 @@
         </thead>
       
       <tbody >
-            <tr v-for="rep in reports" :key="rep._id">
+            <tr  :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
@@ -65,8 +65,8 @@
  
 
   <!-- schermata di add --->
-  <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width:720px;height:400px;" >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>AGGIUNGI SEGNALAZIONE</b></h5>
+  <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width:100%;height:400px;" >
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>AGGIUNGI SEGNALAZIONE</b></h5>
                <hr class="my-4">
             <form class="form-signin">
               
@@ -95,8 +95,8 @@
            </div>
 
       <!-- schermata di zoom-->
-           <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:720px;height:400px;" >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>DETTAGLIO SEGNALAZIONE</b></h5>
+           <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:100%;height:400px;" >
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>DETTAGLIO SEGNALAZIONE</b></h5>
                <hr class="my-4">
             
           <div class="row text-left">
@@ -135,8 +135,9 @@
           </div>
 
 <!-- schermata edit-->
-           <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width:720px;height:400px;" >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>EDITING STATO</b></h5>
+           <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width:100%;height:400px;" >
+           
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;"  :id="obj2edit.id_number" @click="back2" /><b>EDITING STATO</b></h5>
             <hr class="my-4">
             <div class="row text-left">
               <div class="col">
@@ -163,8 +164,8 @@
                 </div>
               </div>
            
-              <div class="col">
-                <div class="row">
+              <div class="col" >
+                <div class="row" >
                  STATO: {{this.status}}
                   <select type="option" id="categoria" class="form-control" v-model="status" required>
                   <option disabled value="" >{{this.status}}</option>
@@ -181,8 +182,10 @@
                  
 
          </div>
+         
  
-             
+              <div v-if="loading" class="card-body"><b>Caricamento in corso...</b></div>
+
            </div>
 
 <!-- LAYOUT TELEFONO -->
@@ -206,7 +209,7 @@
         </thead>
       
       <tbody >
-            <tr v-for="rep in reports" :key="rep._id">
+            <tr  :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
@@ -234,7 +237,7 @@
         </thead>
       
       <tbody >
-            <tr v-for="rep in reports" :key="rep._id">
+            <tr :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
@@ -253,7 +256,7 @@
 
   <!-- schermata di add --->
   <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width: 420px; " >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>AGGIUNGI SEGNALAZIONE</b></h5>
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>AGGIUNGI SEGNALAZIONE</b></h5>
                <hr class="my-4">
             <form class="form-signin">
               
@@ -283,7 +286,7 @@
 
       <!-- schermata di zoom-->
            <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width: 420px; " >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>DETTAGLIO SEGNALAZIONE</b></h5>
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>DETTAGLIO SEGNALAZIONE</b></h5>
                <hr class="my-4">
             
           <div class="row text-left">
@@ -323,7 +326,7 @@
 
 <!-- schermata edit-->
            <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width: 420px; " >
-            <h5 class="card-title text-center"><a href="#"><img src="../assets/back.png" style="float:left;" height="20px;" @click="back" /></a><b>EDITING STATO</b></h5>
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back2" :id="obj2edit.id_number" /><b>EDITING STATO</b></h5>
             <hr class="my-4">
             <div class="row text-left">
               <div class="col">
@@ -368,7 +371,7 @@
                  
 
          </div>
-
+        <div v-if="loading" class="card-body"><b>Caricamento in corso...</b></div>
 
 
 
@@ -405,7 +408,11 @@ export default {
          status:'',
          editing:false,
          obj2edit:{},
-         citt:false
+         citt:false,
+         loading:false,
+         t:null,
+         toBeDestroy:null,
+         classeRiga:''
          
         }
     },
@@ -520,8 +527,7 @@ export default {
 
           })
           }
-
-        //  setInterval(this.updateData, 60000);
+         
       },
       methods: {
         zoom: function(event)
@@ -540,29 +546,78 @@ export default {
           this.status=obj.status
           console.log('zoom'+event.target.id)
         },
+        
         edit: function(event)
         {
-          this.editing=true;
+          
           var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
+        
+        this.toBeDestroy=event.target.id
+        //provo a settare il token
+        axios({
+            method: 'post',
+            url: 'http://localhost:8081/token/setToken/report/'+this.reports[ind].id_number,
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          }).then(() => {
 
-          this.obj2edit=this.reports[ind]
+              //entro nella schermata edit
+                this.obj2edit=this.reports[ind]
 
-          this.address=this.obj2edit.address
-          this.date=this.obj2edit.date
-          this.category=this.obj2edit.category
-          this.description=this.obj2edit.description
-          this.CF=this.obj2edit.CF
-          this.status=this.obj2edit.status
+                this.address=this.obj2edit.address
+                this.date=this.obj2edit.date
+                this.category=this.obj2edit.category
+                this.description=this.obj2edit.description
+                this.CF=this.obj2edit.CF
+                this.status=this.obj2edit.status
+                this.editing=true;
+
+          })
+            .catch(() => {
+            //non entro, e aggiorno i dati
+             alert('Report gestito da un altro operatore')
+             this.updateData()
+          })
+
+         
 
         },
-        editConfermato: function(){
+        cambiaClasse:function(rep)
+        {
+          if(rep.token!='')
+            return "bg-secondary"
+          else
+            return ""
+        },
+
+
+        rimuoviToken:function(id){
+          axios({
+                    method: 'delete',
+                    url: 'http://localhost:8081/token/deleteToken/report/'+id,
+                    headers: {
+                      "x-diana-auth-token": localStorage.token
+                    }
+                  }).then(() => {
+                    console.log('Token tolto')
+                  
+                  }).catch(() => {
+                    console.log('FOTTITI QUI NON ARRIVI')
+                  })
+                      
+
+        },
+        editConfermato: function()
+        {
+
         this.obj2edit.addres=this.address
         this.obj2edit.date=this.date
         this.obj2edit.category=this.category
         this.obj2edit.description=this.description
         this.obj2edit.CF=this.CF
 
-
+        
          axios({
             method: 'put',
             url: 'http://localhost:8081/report/'+this.obj2edit.id_number,
@@ -572,64 +627,93 @@ export default {
              data: {
                status:this.status
             }
-          }).then((response) => {
-           console.log(response)
+          }).then(() => {
+               
+                
+            //rimuovo il token
+            this.rimuoviToken(this.obj2edit.id_number)          
+            var ind = this.reports.findIndex(i =>  i==this.obj2edit);
+
+            this.reports[ind].status=this.status.toUpperCase()
+            this.updateData()
+            this.editing=false
+                
 
           })
             .catch((error) => {
               console.log(error)
+            this.rimuoviToken(this.obj2edit.id_number)
+            this.updateData()
+            this.editing=false
           })
        
-
-        var ind = this.reports.findIndex(i =>  i==this.obj2edit);
-
-        this.reports[ind].status=this.status.toUpperCase()
-        this.editing=false
+      
 
         },
 
         del: function(event)
         {
          // console.log(event.target.id)
-          var r = confirm("Sei sicuro di voler eliminare la segnalazione?");
-          if (r == true) {
-    
-         // console.log(event.target.id)
-          var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
 
-    
-            //console.log(ind)
-             this.reports.splice(ind,1)
-            
- 
-           axios({
-            method: 'delete',
-            url: 'http://localhost:8081/report/'+event.target.id,
+        this.toBeDestroy=event.target.id
+
+            //provo a settare il token
+        axios({
+            method: 'post',
+            url: 'http://localhost:8081/token/setToken/report/'+event.target.id,
             headers: {
               "x-diana-auth-token": localStorage.token
             }
-          }).then((response) => { 
+          }).then(() => {
+                  var r = confirm("Sei sicuro di voler eliminare la segnalazione?");
+                  if (r == true) {
+                    
+                    //Se elimino faccio la chiamata
+                  axios({
+                              method: 'delete',
+                              url: 'http://localhost:8081/report/'+event.target.id,
+                              headers: {
+                                "x-diana-auth-token": localStorage.token
+                              }
+                            }).then((response) => { 
+                                   console.log(response)
+                                   this.updateData()
+                                   this.rimuoviToken(event.target.id)
+                            })//se delete a male
+                            .catch((error) => {
+                              alert("Delete"+error)
+                              this.updateData()
+                              this.rimuoviToken(event.target.id)
+                        })
+                  }else //Se annullo la cancellazione
+                  {
+                    console.log('Era uno scherzo !')
+                    this.rimuoviToken(event.target.id)
+                    //rimuovo il token
+                    this.updateData()
+                    
+                  }
+        }).catch(()=>{
+             alert('Report gestito da un altro operatore')
 
-           
-           
-           
-            
-            console.log(response)
+        })
 
-          })
-            .catch((error) => {
-            alert("Delete"+error)
-          })
-          }else
-          {
-            console.log('Era uno scherzo !')
-          }
+        
         },
 
         updateData: function (){
 
-          this.reports=[]
-           let data=new Date()
+          if(this.citt==false){
+
+       console.log('Timer 1')
+       
+        
+        this.loading=true
+
+        this.reports=[]
+        
+
+        let data=new Date()
 
         let month=data.getMonth()+1
         let day=data.getDate()
@@ -655,6 +739,9 @@ export default {
             
            }
 
+
+
+
            for(i=0;i<this.reports.length;i++)
            {
              var res = this.reports[i].date.split("T");
@@ -662,13 +749,53 @@ export default {
              this.reports[i].status=this.reports[i].status.toUpperCase()
              this.reports[i].category=this.reports[i].category.toUpperCase()
            }
-            console.log(this.reports)
+           
 
           })
             .catch((error) => {
-            alert("GET report"+error)
+            console.log(error)
           })
+          }else //aggiornamento se è un cittadino
+          {
+            
+            this.reports=[]
+           axios({
+            method: 'get',
+            url: 'http://localhost:8081/report/',
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          }).then((response) => { 
+
+           let i=0
+           for(i=0;i<response.data.length;i++)
+           {
+             this.reports.push(response.data[i])
+            
+           }
+
+           for(i=0;i<this.reports.length;i++)
+           {
+             var res = this.reports[i].date.split("T");
+             this.reports[i].date=res[0]
+             this.reports[i].status=this.reports[i].status.toUpperCase()
+             this.reports[i].category=this.reports[i].category.toUpperCase()
+           }
+
+           console.log(this.reports)
+
+          })
+            .catch((error) => {
+              if(error.status==404)
+              console.log('NO data')
+
+          })
+          }
+
           
+          this.loading=false
+          
+        
 
         },
 
@@ -679,18 +806,40 @@ export default {
           
         },
 
-        back: function(event)
+        back: function()
         {
-          console.log(event.target.id)
-             this.address=''
-            this.category='---'
-            this.description=''
-             this.date=''
+         
+          this.address=''
+          this.category='---'
+          this.description=''
+          this.date=''
           this.description=''
           this.CF=''
           this.status=''
+
+          this.updateData()
           this.adding=false
           this.zoomed=false
+          
+          this.editing=false
+          
+        },
+        
+        back2: function(event)
+        {
+          this.rimuoviToken(event.target.id)
+          this.address=''
+          this.category='---'
+          this.description=''
+          this.date=''
+          this.description=''
+          this.CF=''
+          this.status=''
+
+          this.updateData()
+          this.adding=false
+          this.zoomed=false
+          
           this.editing=false
           
         },
@@ -733,10 +882,16 @@ export default {
             alert('Non puoi inserire valori vuoti!')
 
           }
+
+          //this.updateData()
           
           
         }
       }
+
+       
+      
+ 
 
 }
 
@@ -750,9 +905,9 @@ export default {
 
 .my-custom-scrollbar {
 height:320px;
-width:650px;
+width:100%;
 overflow: auto;
-overflow-x: hidden; 
+
 }
 .table-wrapper-scroll-y {
 display: block;
