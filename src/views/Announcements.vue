@@ -786,6 +786,27 @@ export default {
         // SE NON RIESCO LA SESSIONE E' SCADUTA E TORNO INDIETRO
         .catch(() => {
           alert("Sessione scaduta!")
+          
+        })
+
+        return
+        } 
+
+        
+
+        axios({
+          method: 'delete',
+          url: 'http://localhost:8081/announcements/'+id_annuncio,
+          headers: {
+            "x-diana-auth-token": localStorage.token
+          }
+        })
+        .then((response) => {
+          console.log("Eliminato: "+response.data)
+        })
+        .catch((error) => {
+          alert("Sessione scaduta")
+          console.log(error)
 
           this.aggiornaSchermataAnnunci()
 
@@ -801,37 +822,6 @@ export default {
           this.CF = ""
         
           this.idBack = ""
-        })
-
-        return
-        } 
-
-        const annunci = this.annunci
-        let i
-        const dim = annunci.length
-        let ind
-      
-        for(i=0;i<dim;i++){
-          if(annunci[i]._id == id_annuncio){
-            ind = i
-            break
-          } 
-        }
-
-        this.annunci.splice(ind, 1)
-
-        axios({
-          method: 'delete',
-          url: 'http://localhost:8081/announcements/'+id_annuncio,
-          headers: {
-            "x-diana-auth-token": localStorage.token
-          }
-        })
-        .then((response) => {
-          console.log("Eliminato: "+response.data)
-        })
-        .catch((error) => {
-          console.log(error)
         })
       })
 
@@ -957,7 +947,21 @@ export default {
           
       })
       .catch((error) => {
+          alert("Sessione scaduta")
           console.log(error)
+
+          this.adding = false
+          this.updating = false
+          this.cliccatoSuFiltra = false
+          this.mostraZoneInserite = false
+      
+          this.data_inizio = ""
+          this.data_fine = ""
+          this.descrizione = ""
+          this.zone = []
+          this.CF = ""
+        
+          this.idBack = ""
       })
 
       setTimeout(() => {this.cliccatoSuAggiorna = false}, 2000)
