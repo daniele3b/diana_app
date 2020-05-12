@@ -7,9 +7,18 @@
                         <router-link to="/avanzato"><img src="../assets/back.png" style="float:left;" height="20px;"></router-link>
                         <h5 class="card-title text-center"><b>Esporta dati </b></h5>
                         <hr class="my-4">
-                        <form class="form-signin" onsubmit="return checkForm();">
+                      <form class="form-signin" onsubmit="return false"> 
                         In questa sezione puoi effettuare i download degli storici degli agenti chimici in formato JSON e XML.
                         <hr class="my-4">
+
+                        <div class="row" style="text-align:center; display:block;">
+                          <div class="form-check form-check-inline">
+                            <input v-model="radio" name="radio" type="radio" value="JSON" id="radio1" checked><pre> </pre> JSON
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input v-model="radio" name="radio" type="radio" value="XML" id="radio2" ><pre> </pre> XML
+                          </div>
+                        </div>
                         
                         Applica filtri:
                         <label class="switch">
@@ -37,17 +46,17 @@
                             <div class="form-inline">
                                 <select v-model=stazione style="text-align:left;" :class=stazioneClass id="inputTipo"> 
                                     <option value="" >----------</option>
-                                    <option value="9345">Villa Ada</option>
-                                    <option value="9343">Cinecittà</option>
-                                    <option value="9347">Cavaliere</option>
-                                    <option value="9342">Francia</option>
-                                    <option value="9346">Guido</option>
-                                    <option value="9344">Guidonia</option>
-                                    <option value="10911">Fiumicino</option>
-                                    <option value="9349">Malagrotta</option>
-                                    <option value="9352">Arenula</option>
-                                    <option value="9348">Cipro</option>
-                                    <option value="10910">Colleferro</option>
+                                    <option value="9345">Villa Ada - 9345</option>
+                                    <option value="9343">Cinecittà - 9343</option>
+                                    <option value="9347">Cavaliere - 9347</option>
+                                    <option value="9342">Francia - 9342</option>
+                                    <option value="9346">Guido - 9346</option>
+                                    <option value="9344">Guidonia - 9344</option>
+                                    <option value="10911">Fiumicino - 10911</option>
+                                    <option value="9349">Malagrotta - 9349</option>
+                                    <option value="9352">Arenula - 9352</option>
+                                    <option value="9348">Cipro - 9348</option>
+                                    <option value="10910">Colleferro - 10910</option>
                                 </select>
                             </div>
                             
@@ -64,17 +73,25 @@
 
                         </div>
                         <hr class="my-4">
+                        
                         <div v-if="errore==true" class="alert alert-danger" role="alert">
                           Errore download!
                         </div>
-                        <label v-if="loading==true" class="alert">Download in corso...</label>
+                        <div class="col" style="text-align:center;">
+                          <label v-if="loading==true" class="alert">Download in corso...</label>
+                          <div v-if="loading==true" class="spinner-border" role="status">
+                            <span class="sr-only">Download in corso...</span>
+                            <br>
+                          </div>
+                        </div>
+                        
                         <label v-if="corretto==true" class="alert alert-success">Download eseguito con successo!</label>
                         <a href="" id="download_link" download="my_exported_file.txt">
-                          <button   @click="download" class="btn btn-lg btn-success btn-block text-uppercase" >Download</button>
+                          <button  @click="download" type="submit" class="btn btn-lg btn-success btn-block text-uppercase" >Download</button>
                         </a>
                         
                         
-                        </form>
+                      </form>
                     </div>
                 </div>
             </div>
@@ -84,7 +101,7 @@
     
 </template>
 
-<script>
+<script >
 import axios from 'axios'
 
 export default {
@@ -108,7 +125,8 @@ export default {
             tipoClass: 'select-control-mario',
             loading: false,
             corretto: false,
-            errore: false
+            errore: false,
+            radio: "JSON"
         }
     },
     methods:{
@@ -117,6 +135,48 @@ export default {
             else if(this.filtriTrue==false) this.filtriTrue=true
         },
         download: function(){
+          //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          function json2xml(o, tab) {
+            var toXml = function(v, name, ind) {
+                var m;
+              var xml = "";
+              if (v instanceof Array) {
+                  for (var i=0, n=v.length; i<n; i++)
+                    xml += ind + toXml(v[i], name, ind+"\t") + "\n";
+              }
+              else if (typeof(v) == "object") {
+                  var hasChild = false;
+                  xml += ind + "<" + name;
+                  for (m in v) {
+                    if (m.charAt(0) == "@")
+                        xml += " " + m.substr(1) + "=\"" + v[m].toString() + "\"";
+                    else
+                        hasChild = true;
+                  }
+                  xml += hasChild ? ">" : "/>";
+                  if (hasChild) {
+                    for (m in v) {
+                        if (m == "#text")
+                          xml += v[m];
+                        else if (m == "#cdata")
+                          xml += "<![CDATA[" + v[m] + "]]>";
+                        else if (m.charAt(0) != "@")
+                          xml += toXml(v[m], m, ind+"\t");
+                    }
+                    xml += (xml.charAt(xml.length-1)=="\n"?ind:"") + "</" + name + ">";
+                  }
+              }
+              else {
+                  xml += ind + "<" + name + ">" + v.toString() +  "</" + name + ">";
+              }
+              return xml;
+            }, xml="";
+            for (var m in o)
+              xml += toXml(o[m], m, "");
+            return tab ? xml.replace(/\t/g, tab) : xml.replace(/\t|\n/g, "");
+
+        }
+          //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
           this.corretto = false
           this.errore = false
           this.loading = true
@@ -132,21 +192,35 @@ export default {
                           },
                           responseType: 'blob' // important
                       }).then((response) => { 
-                          const url = window.URL.createObjectURL(new Blob([response.data]));
-                          const link = document.createElement('a');
-                          link.href = url;
-                          var nomefile = 'DianaHistory.json'
-                          link.setAttribute('download', nomefile);
-                          document.body.appendChild(link);
-                          link.click();
-                          this.loading = false
-                          this.corretto = true
+                          if(this.radio == 'JSON'){
+                            alert('JSON')
+                            const url = window.URL.createObjectURL(new Blob([response.data]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            var nomefile = 'DianaHistory.json'
+                            link.setAttribute('download', nomefile);
+                            document.body.appendChild(link);
+                            link.click();
+                            this.loading = false
+                            this.corretto = true
+                          }else if(this.radio == 'XML'){
+                            alert('XML')
+                            var testo = json2xml(response.data, "")
+                            const url = window.URL.createObjectURL(new Blob([testo]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            var nomefile2 = 'DianaHistory.xml'
+                            link.setAttribute('download', nomefile2);
+                            document.body.appendChild(link);
+                            link.click();
+                            this.loading = false
+                            this.corretto = true
+                          }
                       }).catch(() =>{
                           this.loading = false
                         this.errore = true
                       });
-          }
-          //DOWNLOAD FILTRO TIPO
+          }//DOWNLOAD FILTRO TIPO
           else if(this.dataInizioOk==false && this.dataFineOk==false &&
               this.stazioneOk==false && this.tipoOk==true){
                   var urll = 'http://localhost:8081/chemical_agents/history/'+this.tipo
@@ -158,15 +232,30 @@ export default {
                           },
                           responseType: 'blob' // important
                       }).then((response) => { 
-                          const url = window.URL.createObjectURL(new Blob([response.data]));
-                          const link = document.createElement('a');
-                          link.href = url;
-                          var nomefile = 'Diana'+this.tipo+'.json'
-                          link.setAttribute('download', nomefile);
-                          document.body.appendChild(link);
-                          link.click();
-                          this.loading = false
-                          this.corretto = true
+                          if(this.radio == 'JSON'){
+                            alert('JSON')
+                            const url = window.URL.createObjectURL(new Blob([response.data]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            var nomefile = 'Diana'+this.tipo+'.json'
+                            link.setAttribute('download', nomefile);
+                            document.body.appendChild(link);
+                            link.click();
+                            this.loading = false
+                            this.corretto = true
+                          }else if(this.radio == 'XML'){
+                            alert('XML')
+                            var testo = json2xml(response.data, "")
+                            const url = window.URL.createObjectURL(new Blob([testo]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            var nomefile2 = 'Diana'+this.tipo+'.xml'
+                            link.setAttribute('download', nomefile2);
+                            document.body.appendChild(link);
+                            link.click();
+                            this.loading = false
+                            this.corretto = true
+                          }
                       }).catch(() =>{
                           this.loading = false
                         this.errore = true
@@ -183,21 +272,35 @@ export default {
                           },
                           responseType: 'blob', // important
                       }).then((response) => { 
-                          const url = window.URL.createObjectURL(new Blob([response.data]));
+                        if(this.radio == 'JSON'){
+                            alert('JSON')
+                            const url = window.URL.createObjectURL(new Blob([response.data]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            var nomefile = 'Diana'+this.stazione+'.json'
+                            link.setAttribute('download', nomefile);
+                            document.body.appendChild(link);
+                            link.click();
+                            this.loading = false
+                            this.corretto = true
+                        }else if(this.radio == 'XML'){
+                          alert('XML')
+                          var testo = json2xml(response.data, "   ")
+                          const url = window.URL.createObjectURL(new Blob([testo]));
                           const link = document.createElement('a');
                           link.href = url;
-                          var nomefile = 'Diana'+this.stazione+'.json'
-                          link.setAttribute('download', nomefile);
+                          var nomefile2 = 'Diana'+this.stazione+'.xml'
+                          link.setAttribute('download', nomefile2);
                           document.body.appendChild(link);
                           link.click();
                           this.loading = false
                           this.corretto = true
+                        }
                       }).catch(() =>{
                           this.loading = false
                         this.errore = true
                       });
-          }
-          //DOWNLOAD FILTRO DATE START DATE END
+          }//DOWNLOAD FILTRO DATE START DATE END
           else if(this.dataInizioVer==true && this.dataFineVer==true &&
               this.stazioneOk==false && this.tipoOk==false){ 
                   var urldate = 'http://localhost:8081/chemical_agents/filter/date/'+this.dataInizio+"/"+this.dataFine
@@ -209,15 +312,30 @@ export default {
                           },
                           responseType: 'blob', // important
                       }).then((response) => { 
-                          const url = window.URL.createObjectURL(new Blob([response.data]));
+                        if(this.radio == 'JSON'){
+                            alert('JSON')
+                            const url = window.URL.createObjectURL(new Blob([response.data]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            var nomefile = 'Diana'+this.dataInizio+"-"+this.dataFine+'.json'
+                            link.setAttribute('download', nomefile);
+                            document.body.appendChild(link);
+                            link.click();
+                            this.loading = false
+                            this.corretto = true
+                        }else if(this.radio == 'XML'){
+                          alert('XML')
+                          var testo = json2xml(response.data, "   ")
+                          const url = window.URL.createObjectURL(new Blob([testo]));
                           const link = document.createElement('a');
                           link.href = url;
-                          var nomefile = 'Diana'+this.dataInizio+"-"+this.dataFine+'.json'
-                          link.setAttribute('download', nomefile);
+                          var nomefile2 = 'Diana'+this.dataInizio+"-"+this.dataFine+'.xml'
+                          link.setAttribute('download', nomefile2);
                           document.body.appendChild(link);
                           link.click();
                           this.loading = false
                           this.corretto = true
+                        }
                       }).catch(() =>{
                           this.loading = false
                         this.errore=true
@@ -234,6 +352,8 @@ export default {
                           },
                           responseType: 'blob', // important
                       }).then((response) => { 
+                        if(this.radio == 'JSON'){
+                          alert('JSON')
                           const url = window.URL.createObjectURL(new Blob([response.data]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -243,6 +363,19 @@ export default {
                           link.click();
                           this.loading = false
                           this.corretto = true
+                        }else if(this.radio == 'XML'){
+                          alert('XML')
+                          var testo = json2xml(response.data, "   ")
+                          const url = window.URL.createObjectURL(new Blob([testo]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile2 = 'Diana'+this.stazione+"-"+this.tipo+'.xml'
+                          link.setAttribute('download', nomefile2);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                        }
                       }).catch(() =>{
                           this.loading = false
                         this.errore=true
@@ -259,6 +392,8 @@ export default {
                           },
                           responseType: 'blob', // important
                       }).then((response) => { 
+                        if(this.radio == 'JSON'){
+                          alert('JSON')
                           const url = window.URL.createObjectURL(new Blob([response.data]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -268,6 +403,19 @@ export default {
                           link.click();
                           this.loading = false
                           this.corretto = true
+                        }else if(this.radio == 'XML'){
+                          alert('XML')
+                          var testo = json2xml(response.data, "   ")
+                          const url = window.URL.createObjectURL(new Blob([testo]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile2 = 'Diana'+this.dataInizio+"-"+this.dataFine+'-'+this.tipo+'.xml'
+                          link.setAttribute('download', nomefile2);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                        }
                       }).catch(() =>{
                           this.loading = false
                         this.errore=true
@@ -284,6 +432,8 @@ export default {
                           },
                           responseType: 'blob', // important
                       }).then((response) => { 
+                        if(this.radio == 'JSON'){
+                          alert('JSON')
                           const url = window.URL.createObjectURL(new Blob([response.data]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -293,6 +443,19 @@ export default {
                           link.click();
                           this.loading = false
                           this.corretto = true
+                        }else if(this.radio == 'XML'){
+                          alert('XML')
+                          var testo = json2xml(response.data, "   ")
+                          const url = window.URL.createObjectURL(new Blob([testo]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile2 = 'Diana'+this.dataInizio+"-"+this.dataFine+'-'+this.stazione+'.xml'
+                          link.setAttribute('download', nomefile2);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                        }
                       }).catch(() =>{
                           this.loading = false
                         this.errore=true
@@ -309,6 +472,8 @@ export default {
                           },
                           responseType: 'blob', // important
                       }).then((response) => { 
+                        if(this.radio == 'JSON'){
+                          alert('JSON')
                           const url = window.URL.createObjectURL(new Blob([response.data]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -318,6 +483,19 @@ export default {
                           link.click();
                           this.loading = false
                           this.corretto = true
+                        }else if(this.radio == 'XML'){
+                          alert('XML')
+                          var testo = json2xml(response.data, "   ")
+                          const url = window.URL.createObjectURL(new Blob([testo]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          var nomefile2 = 'Diana'+this.dataInizio+"-"+this.dataFine+"-"+this.stazione+'-'+this.tipo+'.xml'
+                          link.setAttribute('download', nomefile2);
+                          document.body.appendChild(link);
+                          link.click();
+                          this.loading = false
+                          this.corretto = true
+                        }
                       }).catch(() =>{
                           this.loading = false
                         this.errore=true
@@ -394,6 +572,22 @@ export default {
 </script>
 
 <style scoped>
+
+.form-check {
+  position: relative;
+  display: block;
+  padding-left: 1.25rem;
+  
+}
+
+.form-check-inline {
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-left: 0;
+  margin-right: 0.75rem;
+}
 
 .form-control-mario {
   display: block;

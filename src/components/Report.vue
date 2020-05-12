@@ -19,7 +19,7 @@
         </thead>
       
       <tbody >
-            <tr v-for="rep in reports" :key="rep._id">
+            <tr :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
@@ -47,7 +47,7 @@
         </thead>
       
       <tbody >
-            <tr v-for="rep in reports" :key="rep._id">
+            <tr  :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
@@ -209,7 +209,7 @@
         </thead>
       
       <tbody >
-            <tr v-for="rep in reports" :key="rep._id">
+            <tr  :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
@@ -237,7 +237,7 @@
         </thead>
       
       <tbody >
-            <tr v-for="rep in reports" :key="rep._id">
+            <tr :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
@@ -411,7 +411,8 @@ export default {
          citt:false,
          loading:false,
          t:null,
-         toBeDestroy:null
+         toBeDestroy:null,
+         classeRiga:''
          
         }
     },
@@ -582,6 +583,13 @@ export default {
          
 
         },
+        cambiaClasse:function(rep)
+        {
+          if(rep.token!='')
+            return "bg-secondary"
+          else
+            return ""
+        },
 
 
         rimuoviToken:function(id){
@@ -695,6 +703,7 @@ export default {
 
         updateData: function (){
 
+          if(this.citt==false){
 
        console.log('Timer 1')
        
@@ -746,6 +755,44 @@ export default {
             .catch((error) => {
             console.log(error)
           })
+          }else //aggiornamento se è un cittadino
+          {
+            
+            this.reports=[]
+           axios({
+            method: 'get',
+            url: 'http://localhost:8081/report/',
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          }).then((response) => { 
+
+           let i=0
+           for(i=0;i<response.data.length;i++)
+           {
+             this.reports.push(response.data[i])
+            
+           }
+
+           for(i=0;i<this.reports.length;i++)
+           {
+             var res = this.reports[i].date.split("T");
+             this.reports[i].date=res[0]
+             this.reports[i].status=this.reports[i].status.toUpperCase()
+             this.reports[i].category=this.reports[i].category.toUpperCase()
+           }
+
+           console.log(this.reports)
+
+          })
+            .catch((error) => {
+              if(error.status==404)
+              console.log('NO data')
+
+          })
+          }
+
+          
           this.loading=false
           
         
