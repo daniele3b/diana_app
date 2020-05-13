@@ -18,7 +18,7 @@
         </thead>
       
       <tbody >
-            <tr v-for="rep in reports" :key="rep._id">
+            <tr :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
@@ -80,7 +80,7 @@
 <!-- schermata edit-->
 
            <div v-else-if="adding==false &&zoomed==false&&editing==true&&filter==false" class="card-body" style="width:100%;height:520px;" >
-            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>EDITING STATO</b></h5>
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back2" /><b>EDITING STATO</b></h5>
             <hr class="my-4">
             <div class="row text-left">
               <div class="col">
@@ -332,29 +332,71 @@ export default {
           this.status=obj.status
           console.log('zoom'+event.target.id)
         },
+
+        rimuoviToken:function(id){
+          axios({
+                    method: 'delete',
+                    url: 'http://localhost:8081/token/deleteToken/report/'+id,
+                    headers: {
+                      "x-diana-auth-token": localStorage.token
+                    }
+                  }).then(() => {
+                    console.log('Token tolto')
+                  
+                  }).catch(() => {
+                    console.log('NESSUN TOKEN RIMUOVERE')
+                  })
+                      
+
+        },
+          cambiaClasse:function(rep)
+        {
+          if(rep.token!='')
+            return "bg-secondary"
+          else
+            return ""
+        },
+        
         edit: function(event)
         {
-          this.editing=true;
-          var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
+              var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
 
-          this.obj2edit=this.reports[ind]
+            axios({
+            method: 'post',
+            url: 'http://localhost:8081/token/setToken/report/'+this.reports[ind].id_number,
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          }).then(() => {
 
-          this.address=this.obj2edit.address
-          this.date=this.obj2edit.date
-          this.category=this.obj2edit.category
-          this.description=this.obj2edit.description
-          this.CF=this.obj2edit.CF
-          this.status=this.obj2edit.status
+              //entro nella schermata edit
+                this.obj2edit=this.reports[ind]
+
+                this.address=this.obj2edit.address
+                this.date=this.obj2edit.date
+                this.category=this.obj2edit.category
+                this.description=this.obj2edit.description
+                this.CF=this.obj2edit.CF
+                this.status=this.obj2edit.status
+                this.editing=true;
+
+          })
+            .catch(() => {
+            //non entro, e aggiorno i dati
+             alert('Report gestito da un altro operatore')
+             this.updateData()
+          })
+
 
         },
         editConfermato: function(){
-        this.obj2edit.addres=this.address
+       this.obj2edit.addres=this.address
         this.obj2edit.date=this.date
         this.obj2edit.category=this.category
         this.obj2edit.description=this.description
         this.obj2edit.CF=this.CF
 
-
+        
          axios({
             method: 'put',
             url: 'http://localhost:8081/report/'+this.obj2edit.id_number,
@@ -364,65 +406,96 @@ export default {
              data: {
                status:this.status
             }
-          }).then((response) => {
-           console.log(response)
-           this.updateData()
+          }).then(() => {
+               
+                
+            //rimuovo il token
+            this.rimuoviToken(this.obj2edit.id_number)          
+            var ind = this.reports.findIndex(i =>  i==this.obj2edit);
+
+            this.reports[ind].status=this.status.toUpperCase()
+            this.updateData()
+            this.editing=false
+                
 
           })
             .catch((error) => {
               console.log(error)
+              alert('Sessione scaduta!')
+              this.updateData()
+              this.editing=false
           })
        
+      
+        },
+        back2: function(event)
+        {
+          this.rimuoviToken(event.target.id)
+          this.address=''
+          this.category='---'
+          this.description=''
+          this.date=''
+          this.description=''
+          this.CF=''
+          this.status=''
 
-        var ind = this.reports.findIndex(i =>  i==this.obj2edit);
-
-        this.reports[ind].status=this.status.toUpperCase()
-        this.updateData()
-        this.editing=false
-
-        
-
+          this.updateData()
+          this.adding=false
+          this.zoomed=false
+          
+          this.editing=false
+          
         },
 
-        del: function(event)
+
+       del: function(event)
         {
          // console.log(event.target.id)
-          var r = confirm("Sei sicuro di voler eliminare la segnalazione?");
-          if (r == true) {
-    
-         // console.log(event.target.id)
-          var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
 
-    
-            //console.log(ind)
-             this.reports.splice(ind,1)
-            
- 
-           axios({
-            method: 'delete',
-            url: 'http://localhost:8081/report/'+event.target.id,
+        this.toBeDestroy=event.target.id
+
+            //provo a settare il token
+        axios({
+            method: 'post',
+            url: 'http://localhost:8081/token/setToken/report/'+event.target.id,
             headers: {
               "x-diana-auth-token": localStorage.token
             }
-          }).then((response) => { 
-           
-           
-           
-           
-            
-            console.log(response)
+          }).then(() => {
+                  var r = confirm("Sei sicuro di voler eliminare la segnalazione?");
+                  if (r == true) {
+                    
+                    //Se elimino faccio la chiamata
+                  axios({
+                              method: 'delete',
+                              url: 'http://localhost:8081/report/'+event.target.id,
+                              headers: {
+                                "x-diana-auth-token": localStorage.token
+                              }
+                            }).then((response) => { 
+                                   console.log(response)
+                                   this.updateData()
+                                   this.rimuoviToken(event.target.id)
+                            })//se delete a male
+                            .catch(() => {
+                              alert("Sessione scaduta!")
+                              this.updateData()
+                              
+                        })
+                  }else //Se annullo la cancellazione
+                  {
+                    console.log('Era uno scherzo !')
+                    this.rimuoviToken(event.target.id)
+                    //rimuovo il token
+                    this.updateData()
+                    
+                  }
+        }).catch(()=>{
+             alert('Report gestito da un altro operatore')
 
-          })
-            .catch((error) => {
-            alert("Delete"+error)
-          })
-          }else
-          {
-            console.log('Era uno scherzo !')
-          }
+        })
 
-
-           this.updateData()
+        
         },
 
         updateData: function (){
