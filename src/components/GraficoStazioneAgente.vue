@@ -67,7 +67,32 @@ beforeCreate(){
           "x-diana-auth-token": localStorage.token
         }})
         .then((response) => {
-          this.dati_stazione=response.data
+
+
+        let app=response.data
+        let i=0
+        for(i=0;i<app.length;i++)
+        {
+          let j=0
+          let t=true
+          let data=app[i].reg_date
+          let res=data.split('T')
+          app[i].reg_date=res[0]
+          for(j=0;j<this.dati_stazione.length;j++)
+           {
+
+              if(this.dati_stazione[j].reg_date==app[i].reg_date){
+                t=false
+                break
+            }
+           }
+
+        if(t==true)
+        this.dati_stazione.push(app[i])
+                            
+
+        }
+         
         
         })
 
@@ -81,6 +106,7 @@ beforeCreate(){
       updateData:function()
       {
 
+        this.dati_stazione=[]
         this.stat=this.$store.getters.getStazione
         this.agent=this.$store.getters.getAgente
         
@@ -106,7 +132,30 @@ beforeCreate(){
           "x-diana-auth-token": localStorage.token
         }})
         .then((response) => {
-         this.dati_stazione=response.data
+         
+        let app=response.data
+        let i=0
+        for(i=0;i<app.length;i++)
+        {
+          let j=0
+          let t=true
+          let data=app[i].reg_date
+          let res=data.split('T')
+          app[i].reg_date=res[0]
+          for(j=0;j<this.dati_stazione.length;j++)
+           {
+
+              if(this.dati_stazione[j].reg_date==app[i].reg_date){
+                t=false
+                break
+            }
+           }
+
+        if(t==true)
+        this.dati_stazione.push(app[i])
+                            
+
+        }
         })
 
         .catch(() => {
