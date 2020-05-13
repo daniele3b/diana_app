@@ -1,15 +1,13 @@
 <template>
     <div>
-        GRAFICO STAZIONE
+        GRAFICO STAZIONE AGENTE
     </div>
 </template>
 
 <script>
 import axios from 'axios'
 export default {
-
-
-    name: "GraficoStazione",
+    name: "GraficoStazioneAgente",
     
     data(){
       return {
