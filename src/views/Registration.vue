@@ -207,13 +207,21 @@ export default {
         birthplace: function(){
           if(this.birthplace=='') this.birthplaceOk = false
           else this.birthplaceOk = true
+
+          if(this.birthplace.charAt(0) == this.birthplace.charAt(0).toLowerCase()){ 
+            var newBirth = ""
+            newBirth=this.birthplace.charAt(0).toUpperCase() + this.birthplace.slice(1);
+            this.birthplace = newBirth
+          }  
+          
           var trovato = false
           var json = require('../../comuni.json');
           var i=0
           for(i=0; i<json.length; i++){
             if(json[i].nome==this.birthplace)
               trovato=true
-          }
+          }          
+
           if(trovato==true && this.birthplaceOk==true) { this.birthplaceVer = true; this.birthplaceClass = "form-control-mario-ver";}
           else { this.birthplaceVer = false; this.birthplaceClass = "form-control-mario-errore";}
         },
