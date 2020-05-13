@@ -9,9 +9,17 @@ export default new Vuex.Store({
     token : "",
     type : "",
     menuclicked:false,
-    statomenu:""
+    statomenu:"",
+    stazione:"",
+    agente:""
   },
   getters: {
+    getStazione: state=>{
+      return state.stazione
+    },
+    getAgente: state =>{
+      return state.agente
+    },
     getLogged: state => {
       return state.logged
     },
@@ -32,6 +40,14 @@ export default new Vuex.Store({
   mutations: {
     setLogged: (state,val)=> {
       state.logged=val
+    },
+    setAgente: (state,val)=>
+    {
+      state.agente=val
+    },
+    setStazione: (state,val)=>
+    {
+      state.stazione=val
     },
 
     setToken: (state, token)=> {
