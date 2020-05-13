@@ -13,6 +13,7 @@ import NewOperatore from '../views/NewOperatore.vue'
 import Home from '../views/Home.vue'
 import EsportaDati from '../views/EsportaDati.vue'
 import Announcements from '../views/Announcements.vue'
+import AnalisiDati from '../views/AnalisiDati.vue'
 
 const protect = (to, from, next) => {
   if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
@@ -135,6 +136,12 @@ Vue.use(VueRouter)
     name:'Announcements',
     beforeEnter:protect,
     component:Announcements
+  },
+  {
+    path:'/analisidati',
+    name: 'AnalisiDati',
+    beforeEnter:protect,
+    component:AnalisiDati
   }
 ]
 

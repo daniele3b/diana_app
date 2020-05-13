@@ -7,7 +7,7 @@
           </router-link>
         </div>
         <div class="col">
-            <router-link to="/report_storico">
+            <router-link to="/analisidati">
          <button   id="im2"></button> 
           </router-link>
 
