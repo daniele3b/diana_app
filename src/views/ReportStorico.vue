@@ -80,7 +80,7 @@
 <!-- schermata edit-->
 
            <div v-else-if="adding==false &&zoomed==false&&editing==true&&filter==false" class="card-body" style="width:100%;height:520px;" >
-            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back2" /><b>EDITING STATO</b></h5>
+            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back2" :id="obj2edit.id_number"/><b>EDITING STATO</b></h5>
             <hr class="my-4">
             <div class="row text-left">
               <div class="col">
