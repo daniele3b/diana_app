@@ -205,6 +205,13 @@ export default {
         birthplace: function(){
           if(this.birthplace=='') this.birthplaceOk = false
           else this.birthplaceOk = true
+
+          if(this.birthplace.charAt(0) == this.birthplace.charAt(0).toLowerCase()){ 
+            var newBirth = ""
+            newBirth=this.birthplace.charAt(0).toUpperCase() + this.birthplace.slice(1);
+            this.birthplace = newBirth
+          }  
+
           var trovato = false
           var json = require('../../comuni.json');
           var i=0
