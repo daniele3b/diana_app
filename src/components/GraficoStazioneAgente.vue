@@ -72,7 +72,7 @@ beforeCreate(){
         })
 
         .catch((error) => {
-          console.log(error)
+         this.dati_stazione=[]
         })
      
     },
@@ -110,7 +110,7 @@ beforeCreate(){
         })
 
         .catch((error) => {
-          console.log(error)
+          this.dati_stazione=[]
         })
       }
 
