@@ -1,8 +1,7 @@
 <template>
     <div>
         GRAFICO STAZIONE AGENTE
-        {{stat}}
-        {{agent}}
+        {{dati_stazione}}
     </div>
 </template>
 
@@ -45,6 +44,7 @@ beforeCreate(){
 
         this.stat=this.$store.getters.getStazione
         this.agent=this.$store.getters.getAgente
+        
         let data=new Date()
 
         let month=data.getMonth()+1
@@ -67,7 +67,8 @@ beforeCreate(){
           "x-diana-auth-token": localStorage.token
         }})
         .then((response) => {
-          console.log(response)
+          this.dati_stazione=response.data
+        
         })
 
         .catch((error) => {
@@ -82,6 +83,7 @@ beforeCreate(){
 
         this.stat=this.$store.getters.getStazione
         this.agent=this.$store.getters.getAgente
+        
         let data=new Date()
 
         let month=data.getMonth()+1
@@ -104,7 +106,7 @@ beforeCreate(){
           "x-diana-auth-token": localStorage.token
         }})
         .then((response) => {
-          console.log(response)
+         this.dati_stazione=response.data
         })
 
         .catch((error) => {
