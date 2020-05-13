@@ -18,7 +18,7 @@
         </thead>
       
       <tbody >
-            <tr :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
+            <tr  v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
                 <td>{{rep.category}}</td>
                 <td>{{rep.date}}</td>
@@ -349,7 +349,8 @@ export default {
                       
 
         },
-          cambiaClasse:function(rep)
+        
+        cambiaClasse:function(rep)
         {
           if(rep.token!='')
             return "bg-secondary"
@@ -360,7 +361,7 @@ export default {
         edit: function(event)
         {
               var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
-
+            //setto token
             axios({
             method: 'post',
             url: 'http://localhost:8081/token/setToken/report/'+this.reports[ind].id_number,
@@ -390,7 +391,8 @@ export default {
 
         },
         editConfermato: function(){
-       this.obj2edit.addres=this.address
+
+        this.obj2edit.addres=this.address
         this.obj2edit.date=this.date
         this.obj2edit.category=this.category
         this.obj2edit.description=this.description
