@@ -1,15 +1,17 @@
 <template>
     <div>
-        GRAFICO STAZIONE
+        
+        <div v-for ="(agente, index) in dati_stazione" :key="index">
+          {{agente}} <br>
+        </div>
+        
     </div>
 </template>
 
 <script>
 import axios from 'axios'
-import {mapGetters} from 'vuex'
 
 export default {
-
 
     name: "GraficoStazione",
     
@@ -19,30 +21,21 @@ export default {
       }
     },
 
-    computed : {
-      ...mapGetters([
-        'getStazione'
-      ])
-    },
-
     beforeCreate(){
-
-      // VEDERE SE NEL LOCAL STORAGE C'E' L'ID DELLA STAZIONE
+    
+      const url = 'http://localhost:8081/chemical_agents/current/'+this.$store.getters.getStazione
 
       axios({
         method: 'get',
-        url: 'http://localhost:8081/chemical_agents/current/9343',
+        url: url,
         headers: {
           "x-diana-auth-token": localStorage.token
         }
+        
+      })
 
-        .then((response) => {
-          console.log(response)
-        })
-
-        .catch((error) => {
-          console.log(error)
-        })
+      .then((response) => {
+        this.dati_stazione = response.data
       })
     },
 
