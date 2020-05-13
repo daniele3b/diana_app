@@ -71,7 +71,7 @@ beforeCreate(){
         
         })
 
-        .catch((error) => {
+        .catch(() => {
          this.dati_stazione=[]
         })
      
@@ -109,7 +109,7 @@ beforeCreate(){
          this.dati_stazione=response.data
         })
 
-        .catch((error) => {
+        .catch(() => {
           this.dati_stazione=[]
         })
       }
