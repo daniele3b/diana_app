@@ -1,28 +1,18 @@
 <template>
     <div>
-        GRAFICO STAZIONE
+        GRAFICO STAZIONE AGENTE
     </div>
 </template>
 
 <script>
 import axios from 'axios'
-import {mapGetters} from 'vuex'
-
 export default {
-
-
-    name: "GraficoStazione",
+    name: "GraficoStazioneAgente",
     
     data(){
       return {
         dati_stazione : [],
       }
-    },
-
-    computed : {
-      ...mapGetters([
-        'getStazione'
-      ])
     },
 
     beforeCreate(){
