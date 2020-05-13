@@ -136,8 +136,7 @@ export default {
           this.$store.commit('setStazione',this.stazione)
           this.$store.commit('setAgente',this.agente)
 
-          this.stazione=''
-          this.agente=''
+        
       }
     }
 
