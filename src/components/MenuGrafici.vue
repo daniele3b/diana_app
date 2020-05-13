@@ -57,7 +57,7 @@ import {mapMutations, mapGetters} from 'vuex'
 import axios from 'axios'
 
 export default {
-    name: 'Login',
+    name: 'MenuGrafici',
     data (){
       return {
           stations:[],
@@ -129,7 +129,7 @@ export default {
       ]),
       settaStore: function()
       {
-
+          
           this.$store.commit('setStazione',this.stazione)
           this.$store.commit('setAgente',this.agente)
 
