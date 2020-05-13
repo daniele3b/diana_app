@@ -17,15 +17,28 @@ export default {
 
     beforeCreate(){
 
-      // VEDERE SE NEL LOCAL STORAGE C'E' L'ID DELLA STAZIONE
+ 
+        let data=new Date()
+
+        let month=data.getMonth()+1
+        let day=data.getDate()
+        let year=data.getFullYear()
+
+        let day_start=day-7
+        
+        if(month<10)
+          month='0'+month
+        if(day<10)
+          day='0'+day
+        if(day_start<10)
+          day='0'+day
 
       axios({
         method: 'get',
-        url: 'http://localhost:8081/chemical_agents/current/9343',
+        url: 'http://localhost:8081/chemical_agents/filter/date/'+year+'-'+month+'-'+day_start+'/'+year+'-'+month+'-'+day+'/type/'+this.$store.getters.getAgente+'/'+this.$store.getters.getStazione,
         headers: {
           "x-diana-auth-token": localStorage.token
-        }
-
+        }})
         .then((response) => {
           console.log(response)
         })
@@ -33,7 +46,7 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-      })
+     
     },
 
     methods : {

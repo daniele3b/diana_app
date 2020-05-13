@@ -1,55 +1,52 @@
 <template>
     <div class="container">
-    <div class="row">
-      <div class="col-8">
-        <div class="card card-signin my-5 border-success mb-3">
-          <div class="card-body">
-              <div class="row">
 
-                <div class="col">
-                    STAZIONE:
-                </div>
-                  <div class="col">
-                      
+      
+        <div class="card card-signin my-5 border-success mb-3">
+    
+          <div class="card-body "  >
+           <router-link to='/avanzato'><img src="../assets/back.png" style="height:20px;float:left;"></router-link> <h5 class="card-title">Scegli i dati da graficare</h5>
+            
+             
+              <div class="row ">
+ 
+                     <div class="col align-self-start">
                       <select v-model=stazione style="text-align:left;" > 
-                                    <option value="" >----------</option>
+                                    <option value="" >STAZIONE</option>
                                     <option :value=stat.uid v-for="stat in stations" :key=stat.uid>{{stat.name}} </option>
 
                         </select>
-                    </div>
+                        </div>
                 </div>
-                   <div class="row">
-                         <div class="col">
-                    AGENTE:
-                </div>
-                  <div class="col">
-                    
-                      <select v-model=agente style="text-align:left;" > 
-                                    <option value="" >----------</option>
+                   <div class="row mt-2">
+                    <div class="col align-self-start">
+                      <select v-model=agente style="text-align:left;"> 
+                                    <option value="" >AGENTE CHIMICO</option>
                                     <option :value=a v-for="a in agents" :key=a>{{a}} </option>
-
                         </select>
+                        </div>
+                   
                     </div>
-                </div>
-
-                <div class="row">
-                    
-            
-                  <div class="col">
-                    
-                     <button type="button" @click="settaStore()" class="bg-success text-white"> GRAFICA </button>
+                    <div class="row mt-2">
+                        <div class="col align-self-start">
+                           <button type="button" @click="settaStore()" class="bg-success text-white"> GRAFICA </button>
+                        </div>
                     </div>
+                    
                 </div>
-                {{stazione}}
-                {{agente}}
-        
-        
+                
+             
+                    
+                     
+                
+                </div>
+           
             
-          </div>
-        </div>
+        
+       
       </div>
-    </div>
-  </div>
+    
+
 </template>
 
 
@@ -60,7 +57,7 @@ import {mapMutations, mapGetters} from 'vuex'
 import axios from 'axios'
 
 export default {
-    name: 'Login',
+    name: 'MenuGrafici',
     data (){
       return {
           stations:[],
@@ -132,12 +129,11 @@ export default {
       ]),
       settaStore: function()
       {
-
+          
           this.$store.commit('setStazione',this.stazione)
           this.$store.commit('setAgente',this.agente)
 
-          this.stazione=''
-          this.agente=''
+        
       }
     }
 
