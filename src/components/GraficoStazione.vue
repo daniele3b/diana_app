@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import {mapGetters} from 'vuex'
 
 export default {
     name: "GraficoStazione",
@@ -13,6 +15,12 @@ export default {
       return {
         dati_stazione : [],
       }
+    },
+
+    computed : {
+      ...mapGetters([
+        'getStazione'
+      ])
     },
 
     beforeCreate(){
