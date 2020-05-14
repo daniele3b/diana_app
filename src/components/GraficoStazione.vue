@@ -44,6 +44,9 @@ export default {
       this.uidStazione = this.$store.getters.getStazione
       
       const oggi = new Date()
+      let setteGiorniFa = new Date()
+      setteGiorniFa.setDate(oggi.getDate() - 7) 
+      alert(setteGiorniFa)
 
       let mese = oggi.getMonth() + 1
       let giorno = oggi.getDate()
@@ -59,7 +62,7 @@ export default {
         giorno_inizio = '0' + giorno_inizio
 
       const url = 'http://localhost:8081/chemical_agents/filter/date/'+this.$store.getters.getStazione+'/'+anno+'-'+mese+'-'+giorno_inizio+'/'+anno+'-'+mese+'-'+giorno
-      
+
       axios({
         method: 'get',
         url: url,
@@ -70,7 +73,15 @@ export default {
       })
 
       .then((response) => {
-        this.dati_stazione = response.data
+        let res = response.data
+
+        let i
+        const dim = res.length
+        for(i=0;i<dim;i++){
+          res[i].reg_date = res[i].reg_date.split('T')[0]
+        }
+
+        this.dati_stazione = res
       })
 
       .catch(() => {})
@@ -78,10 +89,6 @@ export default {
 
     mounted(){
       //this.renderChart(data, options)
-    },
-
-    beforeDestroy(){
-      this.$store.commit('setStazione', "")
     },
 
     methods : {
@@ -118,9 +125,42 @@ export default {
         })
 
         .then((response) => {
-          this.dati_stazione = response.data
+          let res = response.data
+
+          let i
+          const dim = res.length
+          for(i=0;i<dim;i++){
+            res[i].reg_date = res[i].reg_date.split('T')[0]
+          }
+
+        this.dati_stazione = res
         })
-      }
+      },
+
+      /*inArray(agente){
+        let i
+        const dim = this.dati_stazione.length
+
+        const oggi = new Date()
+
+        let mese = oggi.getMonth() + 1
+        let giorno = oggi.getDate()
+        let anno = oggi.getFullYear()
+
+        let giorno_inizio = giorno - 7
+        
+        if(mese < 10)
+          mese = '0' + mese
+        if(giorno < 10)
+          giorno = '0' + giorno
+        if(giorno_inizio < 10)
+          giorno_inizio = '0' + giorno_inizio
+
+        for(i=0;i<dim;i++){
+          console.log("UN ATTIMO")
+        }
+      }*/
+
     },
 }
 
