@@ -182,11 +182,6 @@ export default {
       }
     },
     watch:{
-      checkAgente(value)
-      {
-        this.agent=value
-        this.updateData()
-      },
       changingVis: function(){
         if(this.changingVis == true){
           this.chartdata.datasets[0].hidden = this.hidStations[0]
