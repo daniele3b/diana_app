@@ -4,7 +4,7 @@
        <div class="col-lg-12 col-md-7 col-lg-5 mx-auto">
           <div class="card card-signin my-5  border-success">
             <div class="card-body">
-                <h4>GRAFICO STAZIONE</h4>
+                <h6><b>{{nomeStazione}}</b></h6>
                 <hr class="my-4">
                 
                 <div>
@@ -27,7 +27,6 @@
 <script>
 import axios from 'axios'
 import { Line } from 'vue-chartjs'
-import {mapMutations} from 'vuex'
 
 export default {
     extends: Line,
@@ -36,18 +35,8 @@ export default {
     
     data(){
       return {
-        dati_stazione : [],
-        dati_filtrati : [],
-        clicked : false,
         uidStazione : "",
-        giorno : "", 
-        mese : "",
-        anno: "",
-        giorno_inizio : "",
-        mese_inizio : "",
-        anno_inizio : "",
-        oggi : null,
-        setteGiorniFa : null,
+        nomeStazione : "",
 
         chartdata: {
           labels: [],
@@ -111,163 +100,23 @@ export default {
       },
     },
 
- beforeCreate(){
-      
-      this.uidStazione = this.$store.getters.getStazione
-      
-      const oggi = new Date()
-      
-      let setteGiorniFa = new Date()
-      setteGiorniFa.setDate(oggi.getDate() - 7)
-
-      this.oggi = oggi
-      this.setteGiorniFa = setteGiorniFa
-
-      let giorno = oggi.getDate()
-      let mese = oggi.getMonth() + 1
-      let anno = oggi.getFullYear()
-
-      let giorno_inizio =  setteGiorniFa.getDate()
-      let mese_inizio = setteGiorniFa.getMonth() + 1
-      let anno_inizio = setteGiorniFa.getFullYear()
-        
-      if(mese < 10)
-        mese = '0' + mese
-      if(giorno < 10)
-        giorno = '0' + giorno
-      
-      if(giorno_inizio < 10)
-        giorno_inizio = '0' + giorno_inizio
-      if(mese_inizio < 10)
-        mese_inizio = '0' + mese_inizio
-
-      this.giorno = giorno
-      this.mese = mese
-      this.anno = anno
-      this.giorno_inizio = giorno_inizio
-      this.mese_inizio = mese_inizio
-      this.anno_inizio = anno_inizio
-
-      const url = 'http://localhost:8081/chemical_agents/filter/date/'+this.$store.getters.getStazione+'/'+anno_inizio+
-      '-'+mese_inizio+'-'+giorno_inizio+'/'+anno+'-'+mese+'-'+giorno
-
-      axios({
-        method: 'get',
-        url: url,
-        headers: {
-          "x-diana-auth-token": localStorage.token
-        }
-        
-      })
-
-      .then((response) => {
-        let res = response.data
-
-        let i
-        let dim = res.length
-        for(i=0;i<dim;i++){
-          res[i].reg_date = res[i].reg_date.split('T')[0]
-        }
-
-        this.dati_stazione = res
-
-         const oggi = new Date()
-
-        let giorno = oggi.getDate()
-        let mese = oggi.getMonth() + 1
-        let anno = oggi.getFullYear()
-        
-        if(mese < 10)
-          mese = '0' + mese
-        if(giorno < 10)
-          giorno = '0' + giorno
-      
- 
-        dim = this.dati_stazione.length
-
-        for(i=0;i<dim;i++){
-
-          const anno_agente = this.dati_stazione[i].reg_date.split('-')[0]
-          const mese_agente = this.dati_stazione[i].reg_date.split('-')[1]
-          const giorno_agente = this.dati_stazione[i].reg_date.split('-')[2]
-
-          const oggi = new Date(mese+'/'+giorno+'/'+anno)
-          const dataRilevazione = new Date(mese_agente+'/'+giorno_agente+'/'+anno_agente)
-          
-          // differenza in tempo
-          var timeDiff = Math.abs(oggi.getTime() - dataRilevazione.getTime());
-
-          // differenza in giorni
-          var diff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-          
-          // Devo controllare che la differenza tra le due date sia < 7  :):)
-          if(diff < 7){
-            const obj = {
-              reg_date : this.dati_stazione[i].reg_date,
-              types : this.dati_stazione[i].types
-            }
-
-            if(!this.inArray(obj)){
-              this.dati_filtrati.push(this.dati_stazione[i])
-            }
-          }
-        }
-        
-        
-        
-      let giorni = []
-      
-      for(i=0; i<=6;i++){
-        let date = new Date();
-        let last = new Date(date.getTime() - (i * 24 * 60 * 60 * 1000));
-        let day = last.getDate();
-        let month = last.getMonth() + 1;
-        if(day < 10 ) day = '0' + day
-        if(month < 10 ) month = '0' + month
-        giorni[6-i] = day + '/' + month
-      }
-      giorni[6] = 'Oggi'  
-        
-      this.chartdata.labels = giorni
-
-      dim = this.dati_filtrati.length
-       console.log('FILTROATI:'+dim)
-  
-      for(i=0;i<dim;i++){
-        if(this.dati_filtrati[i].types == "SO2") this.chartdata.datasets[0].data[i] = this.dati_filtrati[i].value
-        if(this.dati_filtrati[i].types == "PM10") this.chartdata.datasets[1].data[i] = this.dati_filtrati[i].value
-        if(this.dati_filtrati[i].types == "O3") this.chartdata.datasets[2].data[i] = this.dati_filtrati[i].value
-        if(this.dati_filtrati[i].types == "PM25") this.chartdata.datasets[3].data[i] = this.dati_filtrati[i].value
-      }
-
-      this.renderChart(this.chartdata, this.options)
-        console.log(this.dati_filtrati)
-      })
-
-      .catch(() => {})
-    },
-
     mounted(){
-  
+      this.uidStazione = this.$store.getters.getStazione
 
+      this.getDataFromStation()
     },
 
     methods : {
 
-      ...mapMutations([
-        'setStazione'
-      ]),
-
       getDataFromStation(){
-        this.uidStazione = this.$store.getters.getStazione
-      
+        const dati_filtrati = []
+        const dati = [[], [], [], []]  // [[SO2], [PM10], [O3], [PM25]]
+
+        // PRENDO TUTTI I DATI SU UN CERTO SENSORE A PARTIRE DA SETTE GIORNI FA FINO A OGGI
         const oggi = new Date()
       
         let setteGiorniFa = new Date()
         setteGiorniFa.setDate(oggi.getDate() - 7)
-
-        this.oggi = oggi
-        this.setteGiorniFa = setteGiorniFa
 
         let giorno = oggi.getDate()
         let mese = oggi.getMonth() + 1
@@ -287,13 +136,6 @@ export default {
         if(mese_inizio < 10)
           mese_inizio = '0' + mese_inizio
 
-        this.giorno = giorno
-        this.mese = mese
-        this.anno = anno
-        this.giorno_inizio = giorno_inizio
-        this.mese_inizio = mese_inizio
-        this.anno_inizio = anno_inizio
-
         const url = 'http://localhost:8081/chemical_agents/filter/date/'+this.$store.getters.getStazione+'/'+anno_inizio+
         '-'+mese_inizio+'-'+giorno_inizio+'/'+anno+'-'+mese+'-'+giorno
 
@@ -309,28 +151,94 @@ export default {
         .then((response) => {
           let res = response.data
 
+          this.nomeStazione = res[0].sensor
+
           let i
-          const dim = res.length
+          let dim = res.length
           for(i=0;i<dim;i++){
             res[i].reg_date = res[i].reg_date.split('T')[0]
           }
 
-          this.dati_stazione = res
+          // SALVO I DATI IN dati_stazione
+          const dati_stazione = res
+        
+          // FILTRO I DATI PRENDENDO LA PRIMA OCCORRENZA DI CIASCUN TIPO DI AGENTE PER OGNI GIORNO
+          dim = dati_stazione.length
 
-          this.filtraDati()
-        })
+          for(i=0;i<dim;i++){
 
-        .catch(() => {})
+            const anno_agente = dati_stazione[i].reg_date.split('-')[0]
+            const mese_agente = dati_stazione[i].reg_date.split('-')[1]
+            const giorno_agente = dati_stazione[i].reg_date.split('-')[2]
+
+            const oggi = new Date(mese+'/'+giorno+'/'+anno)
+            const dataRilevazione = new Date(mese_agente+'/'+giorno_agente+'/'+anno_agente)
+          
+            // Differenza in tempo
+            var diffTempo = Math.abs(oggi.getTime() - dataRilevazione.getTime());
+
+            // Differenza in giorni
+            var diff = Math.ceil(diffTempo / (1000 * 3600 * 24));
+          
+            // Devo controllare che la differenza tra le due date sia < 7  :):)
+            if(diff < 7){
+              const obj = {
+                reg_date : dati_stazione[i].reg_date,
+                types : dati_stazione[i].types
+              }
+
+              if(!this.inArray(obj, dati_filtrati)){
+                dati_filtrati.push(dati_stazione[i])
+              }
+            }
+          }
+        
+        
+        // SALVO IN LABELS GLI ULTIMI 7 GIORNI (OGGI INCLUSO) PER POTERLI PIAZZARE SULL?ASSE DELLE ASCISSE DEL GRAFICO
+        let giorni = []
+      
+        for(i=0;i<=6;i++){
+          let date = new Date();
+          let last = new Date(date.getTime() - (i * 24 * 60 * 60 * 1000));
+          let day = last.getDate();
+          let month = last.getMonth() + 1;
+          if(day < 10 ) day = '0' + day
+          if(month < 10 ) month = '0' + month
+          giorni[6-i] = day + '/' + month
+        }
+        giorni[6] = 'Oggi'  
+        
+        this.chartdata.labels = giorni   // SALVO IN LABELS
+      
+        // ASSEGNO I VALORI FILTRATI DI CIASCUN AGENTE A UN ARRAY DI ARRAY DI APPOGGIO
+        dim = dati_filtrati.length
+      
+        for(i=0;i<dim;i++){
+          if(dati_filtrati[i].types == "SO2")  dati[0].push(dati_filtrati[i].value)
+          if(dati_filtrati[i].types == "PM10") dati[1].push(dati_filtrati[i].value)
+          if(dati_filtrati[i].types == "O3")   dati[2].push(dati_filtrati[i].value)
+          if(dati_filtrati[i].types == "PM25") dati[3].push(dati_filtrati[i].value)
+        }
+
+        // ASSEGNO CIASCUN ARRAY ALL'ARRAY DATA DELL'OGGETTO CORRISPONDENTE NEL DATASETS
+        this.chartdata.datasets[0].data = dati[0]
+        this.chartdata.datasets[1].data = dati[1]
+        this.chartdata.datasets[2].data = dati[2]
+        this.chartdata.datasets[3].data = dati[3]
+
+        this.renderChart(this.chartdata, this.options)
+      })
+
+      .catch(() => {})
       },
 
 
-      inArray(elem){
+      inArray(elem, arr){
         let i
-        const dati_filtrati = this.dati_filtrati
-        const dim = dati_filtrati.length
+        const dim = arr.length
 
         for(i=0;i<dim;i++){
-          if(dati_filtrati[i].reg_date == elem.reg_date && dati_filtrati[i].types == elem.types) return true
+          if(arr[i].reg_date == elem.reg_date && arr[i].types == elem.types) return true
         }
         return false
       }
