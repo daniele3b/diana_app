@@ -1,8 +1,10 @@
 <template>
 
-<div>
-
-    <div>
+ <div class="container">
+      <div class="row">
+       <div class="col-lg-12 col-md-7 col-lg-5 mx-auto">
+          <div class="card card-signin my-5  border-success">
+            <div class="card-body">
   <canvas
       ref="canvas"
       id="canvas"
@@ -11,8 +13,9 @@
       height="400">
       </canvas>
     </div>
-    <div >
-       {{dati_stazione}}
+          </div>
+       </div>
+   
       </div>
       </div>
     
@@ -31,19 +34,23 @@ export default {
         stat:'',
         agent:'',
       chartdata: {
-      labels: ['AQI','2','3' ],
+      labels: [],
       datasets: [
         {
           label: 'AQI',
-          backgroundColor: '#f87979',
-          data: []
+          data: [1,2,3,4,5,6,7],
+          hidden: false,
+          backgroundColor: "rgba(78, 240, 14, 0.2)",
+          borderColor: "rgba(79, 207, 29, 1)",
+          borderWidth: 1
         }
       ]
     },
     dati:[],
     options: {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+       
     }
       }
     },
@@ -75,13 +82,31 @@ beforeCreate(){
         this.stat=this.$store.getters.getStazione
         this.agent=this.$store.getters.getAgente
         
+
+
+        var setteGiorni = []
+        var i = 0
+        for(i=0; i<=6;i++){
+          var date = new Date();
+          var last = new Date(date.getTime() - (i * 24 * 60 * 60 * 1000));
+          var day =last.getDate();
+          var month=last.getMonth()+1;
+          if(day < 10 ) day = '0'+day
+          if(month < 10 ) month = '0'+month
+          setteGiorni[6-i] = day+'/'+month
+        }
+        setteGiorni[6] = 'Oggi'
+        
+  
+
+
         let data=new Date()
 
 
 
 
-        let month=data.getMonth()+1
-        let day=data.getDate()
+         month=data.getMonth()+1
+         day=data.getDate()
         let year=data.getFullYear()
 
       let setteGiorniFa = new Date()
@@ -131,18 +156,19 @@ beforeCreate(){
         if(t==true){
         this.dati_stazione.push(app[i])
         this.dati.push(app[i].value)
-                
+      
         }
 
         }
          
-           
-      for(i=0;i<this.dati.length;i++)
-      {
-       this.chartdata.datasets[0].data.push(this.dati[i])
-       
-      }
+    
+      this.chartdata.datasets[0].label=this.$store.getters.getAgente
+       this.chartdata.datasets[0].data=this.dati
+       this.chartdata.labels=setteGiorni
+   
+        console.log(this.chartdata.labels)
         console.log(this.chartdata.datasets[0].data)
+         this.renderChart(this.chartdata, this.options)
       
         })
 
@@ -155,27 +181,36 @@ beforeCreate(){
      
     },
 
-    mounted()
-    {
-      
-       
-    
-     
-       this.renderChart(this.chartdata, this.options)
-    },
+   
     methods:
     {
       updateData:function()
       {
 
+
+        
+        var setteGiorni = []
+        var i = 0
+        for(i=0; i<=6;i++){
+          var date = new Date();
+          var last = new Date(date.getTime() - (i * 24 * 60 * 60 * 1000));
+          var day =last.getDate();
+          var month=last.getMonth()+1;
+          if(day < 10 ) day = '0'+day
+          if(month < 10 ) month = '0'+month
+          setteGiorni[6-i] = day+'/'+month
+        }
+        setteGiorni[6] = 'Oggi'
+
+        this.dati=[]
         this.dati_stazione=[]
         this.stat=this.$store.getters.getStazione
         this.agent=this.$store.getters.getAgente
         
         let data=new Date()
 
-        let month=data.getMonth()+1
-        let day=data.getDate()
+         month=data.getMonth()+1
+         day=data.getDate()
         let year=data.getFullYear()
 
         let setteGiorniFa = new Date()
@@ -222,11 +257,21 @@ beforeCreate(){
             }
            }
 
-        if(t==true)
+        if(t==true){
         this.dati_stazione.push(app[i])
+        this.dati.push(app[i].value)
+        }
                             
 
         }
+
+         this.chartdata.datasets[0].label=this.$store.getters.getAgente
+       this.chartdata.datasets[0].data=this.dati
+       this.chartdata.labels=setteGiorni
+   
+        console.log(this.chartdata.labels)
+        console.log(this.chartdata.datasets[0].data)
+         this.renderChart(this.chartdata, this.options)
         })
 
         .catch(() => {
