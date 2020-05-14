@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 import { Line } from 'vue-chartjs'
 
@@ -85,6 +86,8 @@ export default {
 
         dati_stazione : ['ciao'],
         agente:'PM10',
+
+        datiValue: [[],[],[],[],[],[],[],[],[],[],[]],
         chartdata: {
             labels: [],
             datasets: [
@@ -203,7 +206,7 @@ export default {
       }
     },
     mounted()
-    {   
+    {   //GIORNI LABEL
         var setteGiorni = []
         var i = 0
         for(i=0; i<=6;i++){
@@ -220,11 +223,97 @@ export default {
         this.agente=this.$store.getters.getAgente
 
         this.chartdata.labels = setteGiorni
-        this.renderChart(this.chartdata, this.options)
-    },
-    beforeCreate(){
+
+        //GETDATA
+        this.dati_stazione=[]
         this.agente=this.$store.getters.getAgente
+        
+        let data=new Date()
+
+        let fmonth=data.getMonth()+1
+        let fday=data.getDate()
+        let fyear=data.getFullYear()
+
+        let setteGiorniFa = new Date()
+        setteGiorniFa.setDate(data.getDate() - 7) 
+    
+        let giorno_inizio =  setteGiorniFa.getDate()
+        let mese_inizio = setteGiorniFa.getMonth() + 1
+        let anno_inizio = setteGiorniFa.getFullYear()
+        if(fmonth<10)fmonth='0'+fmonth
+        if(fday<10)fday='0'+fday
+        if(giorno_inizio < 10)giorno_inizio = '0' + giorno_inizio
+        if(mese_inizio < 10)mese_inizio = '0' + mese_inizio
+
+        var url = 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+fyear+'-'+fmonth+'-'+fday+'/type/'+this.agente
+
+        axios({
+          method: 'get',
+          url: url,
+          headers: {
+            "x-diana-auth-token": localStorage.token
+          }})
+        .then((response) => {
+          let app=response.data
+          let i=0
+          for(i=0;i<app.length;i++){
+            let j=0
+            let t=true
+            let data=app[i].reg_date
+            let res=data.split('T')
+            app[i].reg_date=res[0]
+
+            let sensor = app[i].sensor
+            app[i].sensor = sensor
+
+            for(j=0;j<this.dati_stazione.length;j++){
+                if(this.dati_stazione[j].reg_date==app[i].reg_date &&
+                    this.dati_stazione[j].sensor==app[i].sensor){
+                  t=false
+                  break
+              }
+            }
+            if(t==true)
+            this.dati_stazione.push(app[i])
+          }
+          //AGGIORNA CHARTDATA CON I DATI OTTENUTI
+        for(i=0; i<this.dati_stazione.length;i++){
+          if(this.dati_stazione[i].sensor=='Colleferro Europa, Roma, Lazio, Italy')this.datiValue[0].push(this.dati_stazione[i].value)
+          if(this.dati_stazione[i].sensor=='Villa ada, Roma, Lazio, Italy')this.datiValue[1].push(this.dati_stazione[i].value)
+          if(this.dati_stazione[i].sensor=='Guido, Roma, Lazio, Italy')this.datiValue[2].push(this.dati_stazione[i].value)
+          if(this.dati_stazione[i].sensor=='Francia, Roma, Lazio, Italy')this.datiValue[3].push(this.dati_stazione[i].value)
+          if(this.dati_stazione[i].sensor=='Cipro, Roma, Lazio, Italy')this.datiValue[4].push(this.dati_stazione[i].value)
+          if(this.dati_stazione[i].sensor=='Arenula, Roma, Lazio, Italy')this.datiValue[5].push(this.dati_stazione[i].value)
+          if(this.dati_stazione[i].sensor=='Guidonia, Roma, Lazio, Italy')this.datiValue[6].push(this.dati_stazione[i].value)
+          if(this.dati_stazione[i].sensor=='Cavaliere, Roma, Lazio, Italy')this.datiValue[7].push(this.dati_stazione[i].value)
+          if(this.dati_stazione[i].sensor=='Cinecitta\', Roma, Lazio, Italy')this.datiValue[8].push(this.dati_stazione[i].value)
+          if(this.dati_stazione[i].sensor=='Malagrotta, Roma, Lazio, Italy')this.datiValue[9].push(this.dati_stazione[i].value)
+          if(this.dati_stazione[i].sensor=='Fiumicino Villa Guglielmi, Roma, Lazio, Italy')this.datiValue[10].push(this.dati_stazione[i].value)
+        }
+        
+
+        this.chartdata.datasets[0].data=this.datiValue[0]
+        this.chartdata.datasets[1].data=this.datiValue[1]
+        this.chartdata.datasets[2].data=this.datiValue[2]
+        this.chartdata.datasets[3].data=this.datiValue[3]
+        this.chartdata.datasets[4].data=this.datiValue[4]
+        this.chartdata.datasets[5].data=this.datiValue[5]
+        this.chartdata.datasets[6].data=this.datiValue[6]
+        this.chartdata.datasets[7].data=this.datiValue[7]
+        this.chartdata.datasets[8].data=this.datiValue[8]
+        this.chartdata.datasets[9].data=this.datiValue[9]
+        this.chartdata.datasets[10].data=this.datiValue[10]
+
+        this.renderChart(this.chartdata, this.options)
+
+        })
+        .catch(() => {
+          alert(url)
+        })
+
+        
     }
+    
 }
 
 </script>
