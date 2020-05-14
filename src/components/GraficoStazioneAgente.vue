@@ -1,20 +1,49 @@
 <template>
+
+<div>
+
     <div>
-        GRAFICO STAZIONE AGENTE
-        {{dati_stazione}}
+  <canvas
+      ref="canvas"
+      id="canvas"
+      class="bg"
+      width="400"
+      height="400">
+      </canvas>
     </div>
+    <div >
+       {{dati_stazione}}
+      </div>
+      </div>
+    
 </template>
 
 <script>
 import axios from 'axios'
+import { Bar } from 'vue-chartjs'
 export default {
+    extends: Bar,
     name: "GraficoStazioneAgente",
     
     data(){
       return {
         dati_stazione : [],
         stat:'',
-        agent:''
+        agent:'',
+         chartdata: {
+      labels: ['AQI' ],
+      datasets: [
+        {
+          label: 'Data One',
+          backgroundColor: '#f87979',
+          data: [40, 20]
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
       }
     },
 
@@ -100,6 +129,11 @@ beforeCreate(){
          this.dati_stazione=[]
         })
      
+    },
+
+    mounted()
+    {
+       this.renderChart(this.chartdata, this.options)
     },
     methods:
     {
