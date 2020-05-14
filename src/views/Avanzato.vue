@@ -62,6 +62,9 @@ export default {
   created()
   {
     this.tipoUtente=localStorage.type
+
+      this.$store.commit('setStazione','')
+      this.$store.commit('setAgente','')
   },
   computed:{
 ...mapGetters({
