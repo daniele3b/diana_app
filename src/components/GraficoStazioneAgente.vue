@@ -76,22 +76,33 @@ beforeCreate(){
         
         let data=new Date()
 
+
+
+
         let month=data.getMonth()+1
         let day=data.getDate()
         let year=data.getFullYear()
 
-        let day_start=day-7
+      let setteGiorniFa = new Date()
+      setteGiorniFa.setDate(data.getDate() - 7) 
+    
+      let giorno_inizio =  setteGiorniFa.getDate()
+      let mese_inizio = setteGiorniFa.getMonth() + 1
+      let anno_inizio = setteGiorniFa.getFullYear()
         
         if(month<10)
           month='0'+month
         if(day<10)
           day='0'+day
-        if(day_start<10)
-          day='0'+day
+
+        if(giorno_inizio < 10)
+          giorno_inizio = '0' + giorno_inizio
+        if(mese_inizio < 10)
+          mese_inizio = '0' + mese_inizio
 
       axios({
         method: 'get',
-        url: 'http://localhost:8081/chemical_agents/filter/date/'+year+'-'+month+'-'+day_start+'/'+year+'-'+month+'-'+day+'/type/'+this.$store.getters.getAgente+'/'+this.$store.getters.getStazione,
+        url: 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+year+'-'+month+'-'+day+'/type/'+this.$store.getters.getAgente+'/'+this.$store.getters.getStazione,
         headers: {
           "x-diana-auth-token": localStorage.token
         }})
@@ -150,18 +161,27 @@ beforeCreate(){
         let day=data.getDate()
         let year=data.getFullYear()
 
-        let day_start=day-7
+        let setteGiorniFa = new Date()
+      setteGiorniFa.setDate(data.getDate() - 7) 
+    
+      let giorno_inizio =  setteGiorniFa.getDate()
+      let mese_inizio = setteGiorniFa.getMonth() + 1
+      let anno_inizio = setteGiorniFa.getFullYear()
         
         if(month<10)
           month='0'+month
         if(day<10)
           day='0'+day
-        if(day_start<10)
-          day='0'+day
+
+        if(giorno_inizio < 10)
+          giorno_inizio = '0' + giorno_inizio
+        if(mese_inizio < 10)
+          mese_inizio = '0' + mese_inizio
+
 
       axios({
         method: 'get',
-        url: 'http://localhost:8081/chemical_agents/filter/date/'+year+'-'+month+'-'+day_start+'/'+year+'-'+month+'-'+day+'/type/'+this.agent+'/'+this.stat,
+        url: 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+year+'-'+month+'-'+day+'/type/'+this.agent+'/'+this.stat,
         headers: {
           "x-diana-auth-token": localStorage.token
         }})
