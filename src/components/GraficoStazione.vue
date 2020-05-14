@@ -111,7 +111,7 @@ export default {
       },
     },
 
-    beforeCreate(){
+ beforeCreate(){
       
       this.uidStazione = this.$store.getters.getStazione
       
@@ -164,25 +164,59 @@ export default {
         let res = response.data
 
         let i
-        const dim = res.length
+        let dim = res.length
         for(i=0;i<dim;i++){
           res[i].reg_date = res[i].reg_date.split('T')[0]
         }
 
         this.dati_stazione = res
 
-        this.filtraDati()
+         const oggi = new Date()
 
-      })
-
-      .catch(() => {})
-    },
-
-    mounted(){
+        let giorno = oggi.getDate()
+        let mese = oggi.getMonth() + 1
+        let anno = oggi.getFullYear()
+        
+        if(mese < 10)
+          mese = '0' + mese
+        if(giorno < 10)
+          giorno = '0' + giorno
       
+ 
+        dim = this.dati_stazione.length
 
+        for(i=0;i<dim;i++){
+
+          const anno_agente = this.dati_stazione[i].reg_date.split('-')[0]
+          const mese_agente = this.dati_stazione[i].reg_date.split('-')[1]
+          const giorno_agente = this.dati_stazione[i].reg_date.split('-')[2]
+
+          const oggi = new Date(mese+'/'+giorno+'/'+anno)
+          const dataRilevazione = new Date(mese_agente+'/'+giorno_agente+'/'+anno_agente)
+          
+          // differenza in tempo
+          var timeDiff = Math.abs(oggi.getTime() - dataRilevazione.getTime());
+
+          // differenza in giorni
+          var diff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+          
+          // Devo controllare che la differenza tra le due date sia < 7  :):)
+          if(diff < 7){
+            const obj = {
+              reg_date : this.dati_stazione[i].reg_date,
+              types : this.dati_stazione[i].types
+            }
+
+            if(!this.inArray(obj)){
+              this.dati_filtrati.push(this.dati_stazione[i])
+            }
+          }
+        }
+        
+        
+        
       let giorni = []
-      let i
+      
       for(i=0; i<=6;i++){
         let date = new Date();
         let last = new Date(date.getTime() - (i * 24 * 60 * 60 * 1000));
@@ -196,8 +230,8 @@ export default {
         
       this.chartdata.labels = giorni
 
-      const dim = this.dati_filtrati.length
-
+      dim = this.dati_filtrati.length
+       console.log('FILTROATI:'+dim)
   
       for(i=0;i<dim;i++){
         if(this.dati_filtrati[i].types == "SO2") this.chartdata.datasets[0].data[i] = this.dati_filtrati[i].value
@@ -207,6 +241,15 @@ export default {
       }
 
       this.renderChart(this.chartdata, this.options)
+        console.log(this.dati_filtrati)
+      })
+
+      .catch(() => {})
+    },
+
+    mounted(){
+  
+
     },
 
     methods : {
@@ -280,50 +323,6 @@ export default {
         .catch(() => {})
       },
 
-      filtraDati(){
-
-        const oggi = new Date()
-
-        let giorno = oggi.getDate()
-        let mese = oggi.getMonth() + 1
-        let anno = oggi.getFullYear()
-        
-        if(mese < 10)
-          mese = '0' + mese
-        if(giorno < 10)
-          giorno = '0' + giorno
-      
-        let i
-        const dim = this.dati_stazione.length
-
-        for(i=0;i<dim;i++){
-
-          const anno_agente = this.dati_stazione[i].reg_date.split('-')[0]
-          const mese_agente = this.dati_stazione[i].reg_date.split('-')[1]
-          const giorno_agente = this.dati_stazione[i].reg_date.split('-')[2]
-
-          const oggi = new Date(mese+'/'+giorno+'/'+anno)
-          const dataRilevazione = new Date(mese_agente+'/'+giorno_agente+'/'+anno_agente)
-          
-          // differenza in tempo
-          var timeDiff = Math.abs(oggi.getTime() - dataRilevazione.getTime());
-
-          // differenza in giorni
-          var diff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-          
-          // Devo controllare che la differenza tra le due date sia < 7  :):)
-          if(diff < 7){
-            const obj = {
-              reg_date : this.dati_stazione[i].reg_date,
-              types : this.dati_stazione[i].types
-            }
-
-            if(!this.inArray(obj)){
-              this.dati_filtrati.push(this.dati_stazione[i])
-            }
-          }
-        }
-      },
 
       inArray(elem){
         let i
