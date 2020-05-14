@@ -20,9 +20,9 @@
 
 <script>
 import axios from 'axios'
-import { Bar } from 'vue-chartjs'
+import { Line } from 'vue-chartjs'
 export default {
-    extends: Bar,
+    extends: Line,
     name: "GraficoStazioneAgente",
     
     data(){
@@ -30,16 +30,17 @@ export default {
         dati_stazione : [],
         stat:'',
         agent:'',
-         chartdata: {
-      labels: ['AQI' ],
+      chartdata: {
+      labels: ['AQI','2','3' ],
       datasets: [
         {
-          label: 'Data One',
+          label: 'AQI',
           backgroundColor: '#f87979',
-          data: [40, 20]
+          data: []
         }
       ]
     },
+    dati:[],
     options: {
       responsive: true,
       maintainAspectRatio: false
@@ -127,23 +128,39 @@ beforeCreate(){
             }
            }
 
-        if(t==true)
+        if(t==true){
         this.dati_stazione.push(app[i])
-                            
+        this.dati.push(app[i].value)
+                
+        }
 
         }
          
-        
+           
+      for(i=0;i<this.dati.length;i++)
+      {
+       this.chartdata.datasets[0].data.push(this.dati[i])
+       
+      }
+        console.log(this.chartdata.datasets[0].data)
+      
         })
 
         .catch(() => {
          this.dati_stazione=[]
         })
+
+
+       
      
     },
 
     mounted()
     {
+      
+       
+    
+     
        this.renderChart(this.chartdata, this.options)
     },
     methods:
