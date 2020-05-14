@@ -15,53 +15,7 @@
                             height="400">
                             </canvas>
                           </div>
-                      <!-- SWITCH STAZIONI -->
-                      <div style="text-align:left;">
-                        <hr class="my-4">
-                          Visualizza per stazione: <br> <br>
-                          <div class="row">
-                            <div class="col-sm-4">
-                              Colleferro: <label class="switch"><input type="checkbox" checked> <span @click="changingVis=true; hidStations[0]=!hidStations[0]" class="slider round"></span></label>
-                            </div>
-                            <div class="col-sm-4">
-                              Villa Ada: <label class="switch"><input type="checkbox"> <span @click="changingVis=true; hidStations[1]=!hidStations[1]" class="slider round"></span></label>
-                            </div>
-                            <div class="col-sm-4">
-                              Guido: <label class="switch"><input type="checkbox"> <span @click="changingVis=true; hidStations[2]=!hidStations[2]" class="slider round"></span></label>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-sm-4">
-                              Francia: <label class="switch"><input type="checkbox"> <span @click="changingVis=true; hidStations[3]=!hidStations[3]" class="slider round"></span></label>
-                            </div>
-                            <div class="col-sm-4">
-                              Cipro: <label class="switch"><input type="checkbox"> <span @click="changingVis=true; hidStations[4]=!hidStations[4]" class="slider round"></span></label>
-                            </div>
-                            <div class="col-sm-4">
-                              Arenula: <label class="switch"><input type="checkbox"> <span @click="changingVis=true; hidStations[5]=!hidStations[5]" class="slider round"></span></label>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-sm-4">
-                              Guidonia: <label class="switch"><input type="checkbox"> <span @click="changingVis=true; hidStations[6]=!hidStations[6]" class="slider round"></span></label>
-                            </div>
-                            <div class="col-sm-4">
-                              Cavaliere: <label class="switch"><input type="checkbox"> <span @click="changingVis=true; hidStations[7]=!hidStations[7]" class="slider round"></span></label>
-                            </div>
-                            <div class="col-sm-4">
-                              Cinecittà: <label class="switch"><input type="checkbox"> <span @click="changingVis=true; hidStations[8]=!hidStations[8]" class="slider round"></span></label>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-sm-4">
-                              Malagrotta: <label class="switch"><input type="checkbox"> <span @click="changingVis=true; hidStations[9]=!hidStations[9]" class="slider round"></span></label>
-                            </div>
-                            <div class="col-md-8">
-                              Fiumicino Villa Guglielmi: <label class="switch"><input type="checkbox"> <span @click="changingVis=true; hidStations[10]=!hidStations[10]" class="slider round"></span></label>
-                            </div>
-                          </div>
-                          <hr class="my-4">
-                      </div>
+                      
             </div>
           </div>
         </div>
@@ -81,13 +35,12 @@ export default {
     
     data(){
       return {
-        changingVis : false,
-        hidStations : [false,true,true,true,true,true,true,true,true,true,true],
 
         dati_stazione : ['ciao'],
         agente:'PM10',
 
         datiValue: [[],[],[],[],[],[],[],[],[],[],[]],
+
         chartdata: {
             labels: [],
             datasets: [
@@ -181,25 +134,96 @@ export default {
         return this.$store.getters.getAgente
       }
     },
+
     watch:{
-      changingVis: function(){
-        if(this.changingVis == true){
-          this.chartdata.datasets[0].hidden = this.hidStations[0]
-          this.chartdata.datasets[1].hidden = this.hidStations[1]
-          this.chartdata.datasets[2].hidden = this.hidStations[2]
-          this.chartdata.datasets[3].hidden = this.hidStations[3]
-          this.chartdata.datasets[4].hidden = this.hidStations[4]
-          this.chartdata.datasets[5].hidden = this.hidStations[5]
-          this.chartdata.datasets[6].hidden = this.hidStations[6]
-          this.chartdata.datasets[7].hidden = this.hidStations[7]
-          this.chartdata.datasets[8].hidden = this.hidStations[8]
-          this.chartdata.datasets[9].hidden = this.hidStations[9]
-          this.chartdata.datasets[10].hidden = this.hidStations[10]
-          this.renderChart(this.chartdata, this.options)
-          this.changingVis=false
+        checkAgente(value)
+        {
+            this.agente=value
+            this.dati_stazione=[]
+            this.datiValue= [[],[],[],[],[],[],[],[],[],[],[]];
+            
+            let data=new Date()
+
+            let fmonth=data.getMonth()+1
+            let fday=data.getDate()
+            let fyear=data.getFullYear()
+            
+            let setteGiorniFa = new Date()
+            setteGiorniFa.setDate(data.getDate() - 7) 
+        
+            let giorno_inizio =  setteGiorniFa.getDate()
+            let mese_inizio = setteGiorniFa.getMonth() + 1
+            let anno_inizio = setteGiorniFa.getFullYear()
+            if(fmonth<10)fmonth='0'+fmonth
+            if(fday<10)fday='0'+fday
+            if(giorno_inizio < 10)giorno_inizio = '0' + giorno_inizio
+            if(mese_inizio < 10)mese_inizio = '0' + mese_inizio
+
+            var url = 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+fyear+'-'+fmonth+'-'+fday+'/type/'+this.agente
+            
+            axios({
+              method: 'get',
+              url: url,
+              headers: {
+                "x-diana-auth-token": localStorage.token
+              }})
+            .then((response) => {
+              let app=response.data
+              let i=0
+              for(i=0;i<app.length;i++){
+                let j=0
+                let t=true
+                let data=app[i].reg_date
+                let res=data.split('T')
+                app[i].reg_date=res[0]
+
+                let sensor = app[i].sensor
+                app[i].sensor = sensor
+                
+                for(j=0;j<this.dati_stazione.length;j++){
+                    if(this.dati_stazione[j].reg_date==app[i].reg_date &&
+                        this.dati_stazione[j].sensor==app[i].sensor){
+                      t=false
+                      break
+                  }
+                }
+                if(t==true)
+                this.dati_stazione.push(app[i])
+              }
+              //AGGIORNA CHARTDATA CON I DATI OTTENUTI
+            for(i=0; i<this.dati_stazione.length;i++){
+              if(this.dati_stazione[i].sensor=='Colleferro Europa, Roma, Lazio, Italy')this.datiValue[0].push(this.dati_stazione[i].value)
+              if(this.dati_stazione[i].sensor=='Villa ada, Roma, Lazio, Italy')this.datiValue[1].push(this.dati_stazione[i].value)
+              if(this.dati_stazione[i].sensor=='Guido, Roma, Lazio, Italy')this.datiValue[2].push(this.dati_stazione[i].value)
+              if(this.dati_stazione[i].sensor=='Francia, Roma, Lazio, Italy')this.datiValue[3].push(this.dati_stazione[i].value)
+              if(this.dati_stazione[i].sensor=='Cipro, Roma, Lazio, Italy')this.datiValue[4].push(this.dati_stazione[i].value)
+              if(this.dati_stazione[i].sensor=='Arenula, Roma, Lazio, Italy')this.datiValue[5].push(this.dati_stazione[i].value)
+              if(this.dati_stazione[i].sensor=='Guidonia, Roma, Lazio, Italy')this.datiValue[6].push(this.dati_stazione[i].value)
+              if(this.dati_stazione[i].sensor=='Cavaliere, Roma, Lazio, Italy')this.datiValue[7].push(this.dati_stazione[i].value)
+              if(this.dati_stazione[i].sensor=='Cinecitta\', Roma, Lazio, Italy')this.datiValue[8].push(this.dati_stazione[i].value)
+              if(this.dati_stazione[i].sensor=='Malagrotta, Roma, Lazio, Italy')this.datiValue[9].push(this.dati_stazione[i].value)
+              if(this.dati_stazione[i].sensor=='Fiumicino Villa Guglielmi, Roma, Lazio, Italy')this.datiValue[10].push(this.dati_stazione[i].value)
+            }
+            this.chartdata.datasets[0].data=this.datiValue[0]
+            this.chartdata.datasets[1].data=this.datiValue[1]
+            this.chartdata.datasets[2].data=this.datiValue[2]
+            this.chartdata.datasets[3].data=this.datiValue[3]
+            this.chartdata.datasets[4].data=this.datiValue[4]
+            this.chartdata.datasets[5].data=this.datiValue[5]
+            this.chartdata.datasets[6].data=this.datiValue[6]
+            this.chartdata.datasets[7].data=this.datiValue[7]
+            this.chartdata.datasets[8].data=this.datiValue[8]
+            this.chartdata.datasets[9].data=this.datiValue[9]
+            this.chartdata.datasets[10].data=this.datiValue[10]
+            this.renderChart(this.chartdata, this.options)
+
+            })
+            .catch(() => {
+              alert(url)
+            })
         }
-      }
     },
+    
     mounted()
     {   //GIORNI LABEL
         var setteGiorni = []
@@ -221,7 +245,6 @@ export default {
 
         //GETDATA
         this.dati_stazione=[]
-        this.agente=this.$store.getters.getAgente
         
         let data=new Date()
 
