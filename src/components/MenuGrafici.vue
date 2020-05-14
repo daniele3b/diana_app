@@ -5,7 +5,7 @@
         <div class="card card-signin my-5 border-success mb-3">
     
           <div class="card-body "  >
-           <router-link to='/avanzato'><img src="../assets/back.png" style="height:20px;float:left;"></router-link> <h5 class="card-title">Scegli i dati da graficare</h5>
+           <router-link to='/avanzato'><img src="../assets/back.png" style="height:20px;float:left;" @click="back"></router-link> <h5 class="card-title">Scegli i dati da graficare</h5>
             
              
               <div class="row ">
@@ -134,6 +134,11 @@ export default {
           this.$store.commit('setAgente',this.agente)
 
         
+      },
+      back: function()
+      {
+         this.$store.commit('setStazione','')
+          this.$store.commit('setAgente','')
       }
     }
 
