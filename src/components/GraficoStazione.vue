@@ -1,20 +1,36 @@
 <template>
-    <div>
-        
-        <div v-for="(agente, index) in dati_filtrati" :key = index>
-            {{agente}}
+    <div class="container">
+      <div class="row">
+       <div class="col-lg-12 col-md-7 col-lg-5 mx-auto">
+          <div class="card card-signin my-5  border-success">
+            <div class="card-body">
+                <h4>GRAFICO STAZIONE</h4>
+                <hr class="my-4">
+                
+                <div>
+                    <canvas
+                        ref="canvas"
+                        id="canvas"
+                        class="bg"
+                        width="400"
+                        height="400">
+                    </canvas>
+                </div>
+                      
+            </div>
+          </div>
         </div>
-
+      </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
-import { Bar } from 'vue-chartjs'
+import { Line } from 'vue-chartjs'
 import {mapMutations} from 'vuex'
 
 export default {
-    extends: Bar,
+    extends: Line,
 
     name: "GraficoStazione",
     
@@ -24,15 +40,62 @@ export default {
         dati_filtrati : [],
         clicked : false,
         uidStazione : "",
-        giorno : "",
+        giorno : "", 
         mese : "",
         anno: "",
         giorno_inizio : "",
         mese_inizio : "",
         anno_inizio : "",
         oggi : null,
-        setteGiorniFa : null
+        setteGiorniFa : null,
+
+        chartdata: {
+          labels: [],
+          datasets: [
+            {
+              label: 'SO2',
+              data: [1,2,3,4,5,6,7],
+              hidden: false,
+              backgroundColor: "rgba(78, 240, 14, 0.2)",
+              borderColor: "rgba(79, 207, 29, 1)",
+              borderWidth: 1
+            },
+
+            {
+              label: 'PM10',
+              data: [1,2,3,4,5,6,7],
+              hidden: true,
+              backgroundColor: "rgba(229, 255, 0, 0.2)",
+              borderColor: "rgba(195, 217, 0, 1)",
+              borderWidth: 1
+            },
+
+            {
+              label: 'O3',
+              data: [1,2,3,4,5,6,7],
+              hidden: true,
+              backgroundColor: "rgba(255, 158, 0, 0.2)",
+              borderColor: "rgba(173, 107, 0, 1)",
+              borderWidth: 1
+            },
+
+            {
+              label: 'PM25',
+              data: [1,2,3,4,5,6,7],
+              hidden: true,
+              backgroundColor: "rgba(245, 0, 255, 0.2)",
+              borderColor: "rgba(155, 0, 161, 1)",
+              borderWidth: 1
+            },
+          ]
+        },
+
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        }
       }
+
     },
 
     computed: {
@@ -49,7 +112,7 @@ export default {
     },
 
     beforeCreate(){
-
+      
       this.uidStazione = this.$store.getters.getStazione
       
       const oggi = new Date()
@@ -109,13 +172,41 @@ export default {
         this.dati_stazione = res
 
         this.filtraDati()
+
       })
 
       .catch(() => {})
     },
 
     mounted(){
-      //this.renderChart(data, options)
+      
+
+      let giorni = []
+      let i
+      for(i=0; i<=6;i++){
+        let date = new Date();
+        let last = new Date(date.getTime() - (i * 24 * 60 * 60 * 1000));
+        let day = last.getDate();
+        let month = last.getMonth() + 1;
+        if(day < 10 ) day = '0' + day
+        if(month < 10 ) month = '0' + month
+        giorni[6-i] = day + '/' + month
+      }
+      giorni[6] = 'Oggi'  
+        
+      this.chartdata.labels = giorni
+
+      const dim = this.dati_filtrati.length
+
+  
+      for(i=0;i<dim;i++){
+        if(this.dati_filtrati[i].types == "SO2") this.chartdata.datasets[0].data[i] = this.dati_filtrati[i].value
+        if(this.dati_filtrati[i].types == "PM10") this.chartdata.datasets[1].data[i] = this.dati_filtrati[i].value
+        if(this.dati_filtrati[i].types == "O3") this.chartdata.datasets[2].data[i] = this.dati_filtrati[i].value
+        if(this.dati_filtrati[i].types == "PM25") this.chartdata.datasets[3].data[i] = this.dati_filtrati[i].value
+      }
+
+      this.renderChart(this.chartdata, this.options)
     },
 
     methods : {
@@ -220,8 +311,8 @@ export default {
           // differenza in giorni
           var diff = Math.ceil(timeDiff / (1000 * 3600 * 24));
           
-          // Devo controllare (per qualche motivo del cazzo) che la differenza tra le due date sia <= 7
-          if(diff <= 7){
+          // Devo controllare che la differenza tra le due date sia < 7  :):)
+          if(diff < 7){
             const obj = {
               reg_date : this.dati_stazione[i].reg_date,
               types : this.dati_stazione[i].types
