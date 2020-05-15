@@ -1,6 +1,9 @@
 <template>
 <div >
-  <div class="container-fluid mt-3 d-none d-sm-block">
+
+      <!-- xl -->
+
+      <div class="container-fluid mt-3 d-none d-xl-block">
     <div class="row  ">
       <div class="col-6 ml-5">
         <MeteoReport></MeteoReport>
@@ -10,8 +13,9 @@
         </div>
       </div>
       </div>
-      <!-- layout cell -->
-      <div class="container-fluid mt-3 d-block d-sm-none">
+
+      <!-- layout slider -->
+      <div class="container-fluid mt-3 d-xl-none">
       <div class="row ">
 
     <div class="col">
