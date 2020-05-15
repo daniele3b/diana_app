@@ -183,13 +183,8 @@ export default {
   font-size: 1.5rem;
 }
 
-.card-signin .card-body {
-  padding: 2rem; 
-}
 
-.form-signin {
-  width: 100%;
-}
+
 
 .form-signin .btn {
   font-size: 80%;
@@ -201,10 +196,6 @@ export default {
   transition: all 0.2s;
 }
 
-.form-label-group {
-  position: relative;
-  margin-bottom: 1rem;
-}
 
 .form-label-group input {
   height: auto;
@@ -212,10 +203,6 @@ export default {
   border-color: green;
 }
 
-.my-4 {
-  border : 1;
-  border-color : grey;
-}
 
 
 </style>
