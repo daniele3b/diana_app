@@ -975,10 +975,7 @@ table thead {
   border-radius: 2rem;
 }
 
-.my-4 {
-  border : 1;
-  border-color : grey;
-}
+
 
 #mytable{
   font-size: 8;
