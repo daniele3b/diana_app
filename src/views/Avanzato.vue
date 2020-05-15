@@ -28,16 +28,7 @@
           </router-link>
           </div>
   
-        <div v-if="tipoUtente!='operatore'" class="col-4 ">
-          <router-link to="/newoperatore">
-         <button   id="im4"></button> 
-          </router-link>
-        </div>
     
-
-           <div class="col-4">
-        
-          </div>
        
     </div>
     <div v-else class="row mt-3">
