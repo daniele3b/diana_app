@@ -1,7 +1,49 @@
 <template>
 <div>
-  <!-- pc e schermi xl-->
-  <div class="container mt-3 d-none  d-xl-block">
+  <!-- pc -->
+  <div class="container mt-3 d-none  d-lg-block d-xl-none">
+    <div class="row mt-3">
+        <div class="col">
+             <router-link to="/traffic">
+         <button   id="im1"></button> 
+          </router-link>
+        </div>
+        <div class="col">
+            <router-link to="/analisidati">
+         <button   id="im2"></button> 
+          </router-link>
+
+        </div>
+        <div class="col">
+            <router-link to="/announcements">
+         <button   id="im3"></button> 
+          </router-link>
+        </div>
+    </div>
+     <div class="row mt-3">
+
+        <div class="col-4  d-none d-sm-block">
+          <router-link to="/esportadati">
+         <button   id="im5"></button> 
+          </router-link>
+          </div>
+  
+        <div v-if="tipoUtente!='operatore'" class="col-4 d-none d-sm-block">
+          <router-link to="/newoperatore">
+         <button   id="im4"></button> 
+          </router-link>
+        </div>
+    
+
+           <div class="col-4">
+        
+          </div>
+       
+    </div>
+    </div>
+    <!-- XL -->
+    
+  <div class="container mt-3  d-none d-xl-block">
     <div class="row mt-3">
         <div class="col">
              <router-link to="/traffic">
@@ -172,9 +214,6 @@
     </div>
     
     </div>
-
-
-    
  
   </div>
 </template>
