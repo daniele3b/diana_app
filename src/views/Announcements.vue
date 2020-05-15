@@ -504,7 +504,7 @@
                         
                         <div class="row">
                             <div class="col">
-                                <h6>Codice fiscale</h6>
+                                <h6>CF</h6>
                             </div>
                             
                             <div class="col">
@@ -761,7 +761,7 @@
                             <div class = "col">
                                 <!--  PADDING  -->
                             </div>
-                            
+
                             <div class="col">
                                 <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px"><b>+</b></button>
                                 <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
