@@ -11,11 +11,15 @@ export default new Vuex.Store({
     menuclicked:false,
     statomenu:"",
     stazione:"",
-    agente:""
+    agente:"",
+    nomeStazione:"",
   },
   getters: {
     getStazione: state=>{
       return state.stazione
+    },
+    getNomeStazione: state=>{
+      return state.nomeStazione
     },
     getAgente: state =>{
       return state.agente
@@ -48,6 +52,10 @@ export default new Vuex.Store({
     setStazione: (state,val)=>
     {
       state.stazione=val
+    },
+    setNomeStazione: (state,val)=>
+    {
+      state.nomeStazione=val
     },
 
     setToken: (state, token)=> {

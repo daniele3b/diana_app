@@ -5,6 +5,9 @@
        <div class="col-lg-12 col-md-7 col-lg-5 mx-auto">
           <div class="card card-signin my-5  border-success">
             <div class="card-body">
+ <h6><b>{{this.$store.getters.getNomeStazione}}</b></h6>
+              <hr>
+  <div>
   <canvas
       ref="canvas"
       id="canvas"
@@ -12,6 +15,7 @@
       width="400"
       height="400">
       </canvas>
+    </div>
     </div>
           </div>
        </div>
@@ -174,6 +178,7 @@ beforeCreate(){
 
         .catch(() => {
          this.dati_stazione=[]
+         alert('Nessun dato disponibile!')
         })
 
 
@@ -276,6 +281,7 @@ beforeCreate(){
 
         .catch(() => {
           this.dati_stazione=[]
+           alert('Nessun dato disponibile!')
         })
       }
 

@@ -132,6 +132,14 @@ export default {
           
           this.$store.commit('setStazione',this.stazione)
           this.$store.commit('setAgente',this.agente)
+          let i=0
+          for(i=0;i<this.stations.length;i++)
+          {
+            if(this.stations[i].uid==this.stazione)
+              this.$store.commit('setNomeStazione',this.stations[i].name)
+
+
+          }
 
         
       },
