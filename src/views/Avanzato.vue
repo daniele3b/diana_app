@@ -144,7 +144,7 @@
           </router-link>
         </div>
     </div>
-     <div class="row mt-3">
+     <div v-if="tipoUtente!='operatore'"  class="row mt-3">
 
 
         <div class="col ">
@@ -153,7 +153,7 @@
           </router-link>
         </div>
           
-        <div v-if="tipoUtente!='operatore'"  class="col ">
+        <div  class="col ">
           <router-link to="/newoperatore">
          <button   id="im4"></button>  
           </router-link>
@@ -161,9 +161,16 @@
 
            <div class="col-4">
         
-          </div>
-       
+          </div>    
     </div>
+    <div v-else class="row mt-3">
+        <div class="col-4 ">
+          <router-link to="/esportadati ">
+         <button   id="im5"></button> 
+          </router-link>
+        </div>
+    </div>
+    
     </div>
 
 
