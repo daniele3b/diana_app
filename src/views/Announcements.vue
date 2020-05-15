@@ -56,7 +56,9 @@
             </div>
 
             <center>
-                <div class="card card-signin border-success mt-2" style="width:520px;">
+                
+                <!--  DA PC E TUTTI GLI ALTRI DISPOSITIVI AD ECCEZIONE DEL TELEFONO  -->
+                <div class="card card-signin border-success mt-2 d-none d-sm-block" style="width:520px;">
                     <div class="card-body">
                     
                     <h5 class="card-title text-center"><b>INSERISCI NUOVO ANNUNCIO</b></h5>
@@ -65,7 +67,7 @@
                         
                         <div class="row">
                             <div class="col mt-1">
-                                <h6>Codice fiscale</h6>
+                                <h6>CF</h6>
                             </div>
                             
                             <div class="col">
@@ -115,8 +117,8 @@
                             </div>
 
                             <div class="col">
-                                <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px">+</button>
-                                <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px">-</button>
+                                <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px"><b>+</b></button>
+                                <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
                             </div>
 
                         </div>
@@ -130,7 +132,7 @@
                                     </div>
                                     
                                     <div class="col">
-                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px">-</button>
+                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
                                     </div>
                                 
                                 </div>
@@ -149,6 +151,110 @@
 
                             <div class="col">
                                 <!--  PADDING  -->
+                            </div>
+                        </div>
+
+                        <div v-if="cliccatoSuPubblica && (error == 'CF' || error == 'Data inizio' || error == 'Data fine' || error == 'Logica delle date' || error == 'Descrizione')" class="alert alert-danger mt-1" role="alert">
+                            {{messaggioErrore}}
+                        </div>
+
+                        <div v-else-if="cliccatoSuPubblica && error==''" class="alert alert-success mt-1" role="alert">
+                            {{messaggioConferma}}
+                        </div>
+
+                        <button @click="pubblicaAnnuncio()" type="button" class="btn btn-success mt-1">Pubblica annuncio</button>
+
+                    </form>
+            
+                    </div>
+              
+            
+                </div>
+
+                
+                <!--  DA TELEFONO  -->
+                <div class="card card-signin border-success mt-2 d-block d-sm-none" style="width:100%;">
+                    <div class="card-body">
+                    
+                    <h5 class="card-title text-center"><b>INSERISCI NUOVO ANNUNCIO</b></h5>
+                    
+                    <form @keyup.enter="pubblicaAnnuncio()">
+                        
+                        <div class="row">
+                            <div class="col mt-1">
+                                <h6>CF</h6>
+                            </div>
+                            
+                            <div class="col">
+                                <input class="inserimento" v-model="CF" type="text" style="width:200px">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Data inizio</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Data fine</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Zone</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
+                            </div>
+                        </div>
+
+                        <div class="row mt-1">
+                            <div class="col">
+                                <!--  PADDING  -->
+                            </div>
+
+                            <div class="col">
+                                <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px"><b>+</b></button>
+                                <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
+                            </div>
+                        </div>
+
+                        <div v-if="mostraZoneInserite">
+                            <div v-for="(zona, index) in zone" :key="index">
+                                <div class="row mt-2">
+                                    
+                                    <div class="col">
+                                        {{zona}}
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
+                                    </div>
+                                
+                                </div>
+                               
+                            </div>
+                        </div>
+
+                        <div class="row mt-1">
+                            <div class = "col mt-1">
+                                <h6>Descrizione</h6>
+                            </div>
+
+                            <div class = "col">
+                                <textarea class="inserimento mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
                             </div>
                         </div>
 
@@ -272,7 +378,9 @@
             </div>
 
             <center>
-                <div class="card card-signin border-success mt-2" style="width:520px;">
+                <!--  DA PC E TUTTI GLI ALTRI DISPOSITIVI AD ECCEZIONE DEL TELEFONO  -->
+
+                <div class="card card-signin border-success mt-2 d-none d-sm-block" style="width:520px;">
                     <div class="card-body">
                     
                     <h5 class="card-title text-center"><b>AGGIORNA L'ANNUNCIO</b></h5>
@@ -281,7 +389,7 @@
                         
                         <div class="row">
                             <div class="col mt-1">
-                                <h6>Codice fiscale</h6>
+                                <h6>CF</h6>
                             </div>
                             
                             <div class="col">
@@ -331,8 +439,8 @@
                             </div>
 
                             <div class="col">
-                                <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px">+</button>
-                                <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px">-</button>
+                                <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px"><b>+</b></button>
+                                <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
                             </div>
 
                         </div>
@@ -346,7 +454,7 @@
                                     </div>
                                     
                                     <div class="col">
-                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px">-</button>
+                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
                                     </div>
                                 
                                 </div>
@@ -384,6 +492,116 @@
               
             
                 </div>
+
+                <!--  DA TELEFONO  -->
+
+                <div class="card card-signin border-success mt-2 d-block d-sm-none" style="width:100%">
+                    <div class="card-body">
+                    
+                    <h5 class="card-title text-center"><b>AGGIORNA L'ANNUNCIO</b></h5>
+                    
+                    <form @keyup.enter="aggiornaAnnuncio">
+                        
+                        <div class="row">
+                            <div class="col">
+                                <h6>Codice fiscale</h6>
+                            </div>
+                            
+                            <div class="col">
+                                <input class="inserimento" v-model="CF" type="text" style="width:200px">
+                            </div>
+                        </div>
+
+                        
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Data inizio</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Data fine</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Zone</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-1">
+                             <div class="col">
+                                 <!--  PADDING  -->
+                             </div>
+                             
+                             <div class="col">
+                                 <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px"><b>+</b></button>
+                                 <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
+                             </div>
+
+                        </div>
+
+                        <div v-if="mostraZoneInserite">
+                            <div v-for="(zona, index) in zone" :key="index">
+                                <div class="row mt-2">
+                                    
+                                    <div class="col">
+                                        {{zona}}
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
+                                    </div>
+                                
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Descrizione</h6>
+                            </div>
+
+                            <div class = "col">
+                                <textarea class="inserimento mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div v-if="cliccatoSuAggiorna && (error == 'CF' || error == 'Data inizio' || error == 'Data fine' || error == 'Logica delle date' || error == 'Descrizione')" class="alert alert-danger mt-1" role="alert">
+                            {{messaggioErrore}}
+                        </div>
+
+                        <div v-else-if="cliccatoSuAggiorna && error==''" class="alert alert-success mt-1" role="alert">
+                            {{messaggioConferma}}
+                        </div>
+
+                        <button @click="aggiornaAnnuncio()" type="button" class="btn btn-success mt-1">Aggiorna annuncio</button>
+
+                    </form>
+            
+                    </div>
+              
+            
+                </div>
            
            </center>
         
@@ -398,7 +616,9 @@
             </div>
 
             <center>
-                <div class="card card-signin border-success mt-2" style="width:520px;">
+
+                <!--  DA PC E TUTTI I DISPOSITIVI AD ECCEZIONE DEL TELEFONO  -->
+                <div class="card card-signin border-success mt-2 d-none d-sm-block" style="width:520px;">
                     <div class="card-body">
                     
                     <h5 class="card-title text-center"><b>FILTRA ANNUNCI</b></h5>
@@ -407,7 +627,7 @@
                         
                         <div v-if="tipoUtente != 'cittadino'" class="row">
                             <div class="col mt-1">
-                                <h6>Codice fiscale</h6>
+                                <h6>CF</h6>
                             </div>
                             
                             <div class="col">
@@ -457,8 +677,8 @@
                             </div>
 
                             <div class="col">
-                                <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px">+</button>
-                                <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px">-</button>
+                                <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px"><b>+</b></button>
+                                <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
                             </div>
 
                         </div>
@@ -472,7 +692,92 @@
                                     </div>
                                     
                                     <div class="col">
-                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px">-</button>
+                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
+                                    </div>
+                                
+                                </div>
+                               
+                            </div>
+                        </div>
+                        
+                        <button @click="filtraAnnunci()" type="button" class="btn btn-success mt-1">Filtra annunci</button>
+
+                    </form>
+            
+                    </div>
+              
+            
+                </div>
+
+                <!--  DA TELEFONO  -->
+                <div class="card card-signin border-success mt-2 d-block d-sm-none" style="width:100%;">
+                    <div class="card-body">
+                    
+                    <h5 class="card-title text-center"><b>FILTRA ANNUNCI</b></h5>
+                    
+                    <form @keyup.enter="filtraAnnunci()">
+                        
+                        <div v-if="tipoUtente != 'cittadino'" class="row">
+                            <div class="col mt-1">
+                                <h6>CF</h6>
+                            </div>
+                            
+                            <div class="col">
+                                <input class="inserimento" v-model="CF" type="text" style="width:200px">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class = "col mt-1">
+                                <h6>Data inizio</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                            </div>
+                        </div>
+
+                        <div class="row mt-1">
+                            <div class = "col mt-1">
+                                <h6>Data fine</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
+                            </div>
+                        </div>
+
+                        <div class="row mt-1">
+                            <div class = "col mt-1">
+                                <h6>Zone</h6>
+                            </div>
+
+                            <div class = "col">
+                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
+                            </div>
+                        </div>
+
+                        <div class="row mt-1">
+                            <div class = "col">
+                                <!--  PADDING  -->
+                            </div>
+                            
+                            <div class="col">
+                                <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px"><b>+</b></button>
+                                <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
+                            </div>
+                        </div>
+
+                        <div v-if="mostraZoneInserite">
+                            <div v-for="(zona, index) in zone" :key="index">
+                                <div class="row mt-2">
+                                    
+                                    <div class="col">
+                                        {{zona}}
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <button @click="rimuoviZona" :id="index" class="btn border-warning ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
                                     </div>
                                 
                                 </div>
