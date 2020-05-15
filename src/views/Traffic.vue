@@ -145,6 +145,12 @@
                       :icon="{ url: require('../assets/markerSensore.png')}"
                       @click="showInfoDetails"
                   />
+
+                  <GmapCircle
+                      :center="{lat:centroCerchio.lat, lng:centroCerchio.lng}"
+                      :radius="raggio * 1000"
+                      :options="{fillColor:'green', fillOpacity:0.3, strokeColor: 'green', strokeWeight: 1.2}"
+                  />
            
                   </GmapMap>
         
@@ -383,6 +389,7 @@ export default {
       latMap : 41.9109,
       lngMap : 12.6818,
       zoomMap : 9,
+      centroCerchio : {}
     }
   },
 
@@ -443,10 +450,6 @@ export default {
     },
 
     invia(){
-      // Al click sulla lente centro la mappa su Roma e dintorni
-      this.latMap = 41.9109
-      this.lngMap = 12.6818
-      this.zoomMap = 9
       
       // Per dare l'effetto della pressione della lente
       this.classeLente = "searchWithbackGround mt-1"
@@ -511,6 +514,9 @@ export default {
       .then((response) => {
         this.inviato = true
 
+        this.centroCerchio.lat = response.data[0].lat
+        this.centroCerchio.lng = response.data[0].lon
+
         this.velocitaAttuale = response.data[0].currentSpeed
         this.velocitaFlussoLibero = response.data[0].freeFlowSpeed
         this.confidenza = response.data[0].confidence.toFixed(2)
@@ -524,6 +530,10 @@ export default {
       // DEL SENSORE PIU' VICINO A QUELL'INDIRIZZO
       
         if(!this.zonaTrue && this.indirizzoTrue){
+          this.latMap = this.coordinateIndirizzoZona[0].lat
+          this.lngMap = this.coordinateIndirizzoZona[0].lng
+          this.zoomMap = 14
+
           this.sensoriNelRaggio = []
           this.sensorePiuVicino = []
           this.showNearestSensor = true
@@ -572,7 +582,10 @@ export default {
         // SE L'OPERATORE INSERISCE UNA ZONA E UN CERTO RAGGIO GLI VERRANNO MOSTRATI I SENSORI
         // ALL'INTERNO DI TALE RAGGIO A PARTIRE DA QUELLA ZONA
         else if(this.zonaTrue && !this.indirizzoTrue){
-        
+          this.latMap = 41.9109
+          this.lngMap = 12.6818
+          this.zoomMap = 9
+
           this.sensoriNelRaggio = []
           this.sensorePiuVicino = []
           this.showNearestSensor = false
