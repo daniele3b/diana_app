@@ -71,7 +71,7 @@
                             </div>
                             
                             <div class="col">
-                                <input class="inserimento" v-model="CF" type="text" style="width:200px">
+                                <input class="form-control border-success" v-model="CF" type="text" style="width:200px">
                             </div>
 
                             <div class="col">
@@ -85,7 +85,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_inizio" type="date" style="width:200px">
                             </div>
 
                             <div class="col">
@@ -99,7 +99,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_fine" type="date" style="width:200px">
                             </div>
 
                             <div class="col">
@@ -113,7 +113,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
+                                <input class="form-control border-success mt-1" v-model="newZona" placeholder="Aggiungi(+) / Rimuovi(-)" type="text" style="width:200px;">
                             </div>
 
                             <div class="col">
@@ -146,7 +146,7 @@
                             </div>
 
                             <div class = "col">
-                                <textarea class="inserimento mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
+                                <textarea class="form-control border-success mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
                             </div>
 
                             <div class="col">
@@ -186,7 +186,7 @@
                             </div>
                             
                             <div class="col">
-                                <input class="inserimento" v-model="CF" type="text" style="width:200px">
+                                <input class="form-control border-success" v-model="CF" type="text" style="width:200px">
                             </div>
                         </div>
                         
@@ -196,7 +196,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_inizio" type="date" style="width:200px">
                             </div>
                         </div>
 
@@ -206,7 +206,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_fine" type="date" style="width:200px">
                             </div>
                         </div>
 
@@ -216,7 +216,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
+                                <input class="form-control border-success mt-1" v-model="newZona" placeholder="Aggiungi(+) / Rimuovi(-)" type="text" style="width:200px;">
                             </div>
                         </div>
 
@@ -254,7 +254,7 @@
                             </div>
 
                             <div class = "col">
-                                <textarea class="inserimento mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
+                                <textarea class="form-control border-success mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
                             </div>
                         </div>
 
@@ -393,7 +393,7 @@
                             </div>
                             
                             <div class="col">
-                                <input class="inserimento" v-model="CF" type="text" style="width:200px">
+                                <input class="form-control border-success" v-model="CF" type="text" style="width:200px">
                             </div>
 
                             <div class="col">
@@ -407,7 +407,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_inizio" type="date" style="width:200px">
                             </div>
 
                             <div class="col">
@@ -421,7 +421,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_fine" type="date" style="width:200px">
                             </div>
 
                             <div class="col">
@@ -435,7 +435,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
+                                <input class="form-control border-success mt-1" v-model="newZona" placeholder="Aggiungi(+) / Rimuovi(-)" type="text" style="width:200px;">
                             </div>
 
                             <div class="col">
@@ -468,7 +468,7 @@
                             </div>
 
                             <div class = "col">
-                                <textarea class="inserimento mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
+                                <textarea class="form-control border-success mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
                             </div>
 
                             <div class="col">
@@ -508,7 +508,7 @@
                             </div>
                             
                             <div class="col">
-                                <input class="inserimento" v-model="CF" type="text" style="width:200px">
+                                <input class="form-control border-success" v-model="CF" type="text" style="width:200px">
                             </div>
                         </div>
 
@@ -519,7 +519,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_inizio" type="date" style="width:200px">
                             </div>
 
                         </div>
@@ -530,7 +530,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_fine" type="date" style="width:200px">
                             </div>
 
                         </div>
@@ -541,7 +541,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
+                                <input class="form-control border-success mt-1" v-model="newZona" placeholder="Aggiungi(+) / Rimuovi(-)" type="text" style="width:200px;">
                             </div>
 
                         </div>
@@ -581,7 +581,7 @@
                             </div>
 
                             <div class = "col">
-                                <textarea class="inserimento mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
+                                <textarea class="form-control border-success mt-1" v-model="descrizione" type="textarea" maxlength="200" style="width:200px; height:200px"></textarea>
                             </div>
 
                         </div>
@@ -631,7 +631,7 @@
                             </div>
                             
                             <div class="col">
-                                <input class="inserimento" v-model="CF" type="text" style="width:200px">
+                                <input class="form-control border-success" v-model="CF" type="text" style="width:200px">
                             </div>
 
                             <div class="col">
@@ -645,7 +645,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_inizio" type="date" style="width:200px">
                             </div>
 
                             <div class="col">
@@ -659,7 +659,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_fine" type="date" style="width:200px">
                             </div>
 
                             <div class="col">
@@ -673,7 +673,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
+                                <input class="form-control border-success mt-1" v-model="newZona" placeholder="Aggiungi(+) / Rimuovi(-)" type="text" style="width:200px;">
                             </div>
 
                             <div class="col">
@@ -723,7 +723,7 @@
                             </div>
                             
                             <div class="col">
-                                <input class="inserimento" v-model="CF" type="text" style="width:200px">
+                                <input class="form-control border-success" v-model="CF" type="text" style="width:200px">
                             </div>
                         </div>
                         
@@ -733,7 +733,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_inizio" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_inizio" type="date" style="width:200px">
                             </div>
                         </div>
 
@@ -743,7 +743,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="data_fine" type="date" style="width:200px">
+                                <input class="form-control border-success mt-1" v-model="data_fine" type="date" style="width:200px">
                             </div>
                         </div>
 
@@ -753,7 +753,7 @@
                             </div>
 
                             <div class = "col">
-                                <input class="inserimento mt-1" v-model="newZona" placeholder="Aggiungi (+) / Rimuovi (-)" type="text" style="width:200px;">
+                                <input class="form-control border-success mt-1" v-model="newZona" placeholder="Aggiungi(+) / Rimuovi(-)" type="text" style="width:200px;">
                             </div>
                         </div>
 
