@@ -32,7 +32,7 @@
             </div>
             
             <div v-if="(!indirizzoTrue && zonaTrue) && (inviato)" class="row mt-2">
-                <input @keyup.enter="invia()" type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:250px">
+                <input @keyup.enter="invia()" type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio(in km)" style="width:250px">
             </div>
 
             <div v-if="inviato && error == 'indirizzoZona'" class="alert alert-danger mt-1" role="alert">
@@ -59,7 +59,7 @@
         </div>
 
         <div v-if="(!indirizzoTrue && zonaTrue) && !inviato" class="mt-2">
-            <input @keyup.enter="invia()" type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio" style="width:350px; height:35px">
+            <input @keyup.enter="invia()" type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio(in km)" style="width:350px; height:35px">
         </div>
 
         <div v-if="!inviato && error == 'indirizzoZona'" class="alert alert-danger mt-1" role="alert">
