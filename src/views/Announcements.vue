@@ -901,7 +901,7 @@ export default {
         return
       } 
 
-      this.error = ""
+      this.error = "nessun errore"
       
       axios({
         method: 'put',
@@ -918,6 +918,7 @@ export default {
         }
       })
       .then((response) => {
+          this.error = ""
           this.messaggioConferma = "Annuncio aggiornato con successo!"
 
           const ind_inizio = response.data.start.indexOf('T')
