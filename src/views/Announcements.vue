@@ -61,7 +61,7 @@
                     
                     <h5 class="card-title text-center"><b>INSERISCI NUOVO ANNUNCIO</b></h5>
                     
-                    <form class="form-signin" @keyup.enter="pubblicaAnnuncio()">
+                    <form @keyup.enter="pubblicaAnnuncio()">
                         
                         <div class="row">
                             <div class="col mt-1">
@@ -277,7 +277,7 @@
                     
                     <h5 class="card-title text-center"><b>AGGIORNA L'ANNUNCIO</b></h5>
                     
-                    <form class="form-signin" @keyup.enter="aggiornaAnnuncio">
+                    <form @keyup.enter="aggiornaAnnuncio">
                         
                         <div class="row">
                             <div class="col mt-1">
@@ -1399,5 +1399,14 @@ export default {
     border-color: green;
     border-radius: 10px 10px 10px 10px;
 }
+
+  .form-signin .btn {
+    font-size: 80%;
+    border-radius: 1rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+    padding: 1rem;
+    transition: all 0.2s;
+  }
 
 </style>
