@@ -293,8 +293,3 @@ beforeCreate(){
 
 </script>
 
-<style scoped>
-
-
-
-</style>
