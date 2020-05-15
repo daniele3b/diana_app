@@ -934,15 +934,6 @@ table thead {
 }
 
 
-.form-signin .btn {
-  font-size: 80%;
-  border-radius: 5rem;
-  letter-spacing: .1rem;
-  font-weight: bold;
-  padding: 0;
-  transition: all 0.2s;
-}
-
 .form-label-group {
   position: relative;
   margin-bottom: 0;
@@ -952,10 +943,7 @@ table thead {
   border-radius: 2rem;
 }
 
-.my-4 {
-  border : 1;
-  border-color : grey;
-}
+
 
 #mytable{
   font-size: 8;
