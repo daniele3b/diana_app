@@ -97,8 +97,8 @@
 
                   <GmapMap v-if="inviato && showNearestSensor"
                       class = "mappa"
-                      :center="{lat:41.9109, lng:12.6818}"
-                      :zoom="9"
+                      :center="{lat:latMap, lng:lngMap}"
+                      :zoom="zoomMap"
                       map-type-id="terrain"
                       style="width: 430px; height: 320px"
                   >
@@ -108,8 +108,10 @@
                       v-for="(address, index) in coordinateIndirizzoZona"
                       :id = "address.lat+';'+address.lng"
                       :position="google && new google.maps.LatLng(address.lat, address.lng)"
+                      :clickable="true"
                       :animation= google.maps.Animation.DROP
                       :icon="{ url: require('../assets/markerSensore.png')}"
+                      @click="zoomSuIndirizzo"
                   />
            
                   </GmapMap>
@@ -127,8 +129,8 @@
         
                   <GmapMap v-if="inviato && showSensorsWithinRadius"
                       class = "mappa"
-                      :center="{lat:41.9109, lng:12.6818}"
-                      :zoom="9"
+                      :center="{lat:latMap, lng:lngMap}"
+                      :zoom="zoomMap"
                       map-type-id="terrain"
                       style="width: 430px; height: 320px"
                   >
@@ -377,7 +379,10 @@ export default {
       messaggioErrore : "",
       coloreSfondoLente : "",
       classeLente : "search mt-1",
-      datiRicevuti : false
+      datiRicevuti : false,
+      latMap : 41.9109,
+      lngMap : 12.6818,
+      zoomMap : 9,
     }
   },
 
@@ -438,6 +443,10 @@ export default {
     },
 
     invia(){
+      // Al click sulla lente centro la mappa su Roma e dintorni
+      this.latMap = 41.9109
+      this.lngMap = 12.6818
+      this.zoomMap = 9
       
       // Per dare l'effetto della pressione della lente
       this.classeLente = "searchWithbackGround mt-1"
@@ -638,10 +647,12 @@ export default {
           }
 
           this.currentSensorsInfo = sensorsInfo
-        }
 
-        // SE L'OPERATORE HA INSERITO UN INDIRIZZO, VORRA' SAPER LE INFORMAZIONI E I DATI DEL SENSORE PIU' VICINO A QUELL'INDIRIZZO
-        
+          // Centro la mappa sul sensore appena cliccato e applico un leggero zoom
+          this.latMap = lat
+          this.lngMap = lng
+          this.zoomMap = 9.5
+        }
         
       },
 
@@ -705,6 +716,16 @@ export default {
             reject(error)
           })
         })
+      },
+
+      zoomSuIndirizzo(event){
+        this.text = JSON.stringify(event.latLng)
+        const lat = JSON.parse(this.text).lat
+        const lng = JSON.parse(this.text).lng
+
+        this.latMap = lat
+        this.lngMap = lng
+        this.zoomMap = 14
       }
 
   }
