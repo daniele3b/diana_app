@@ -20,22 +20,27 @@
     </div>
      <div class="row mt-3">
 
+        <div class="col-4  d-none d-sm-block">
+          <router-link to="/esportadati">
+         <button   id="im5"></button> 
+          </router-link>
+          </div>
+        <div class="col d-block d-sm-none ">
+          <router-link to="/esportadati ">
+         <button   id="im5"></button> 
+          </router-link>
+        </div>
+          
         <div v-if="tipoUtente!='operatore'" class="col-4 d-none d-sm-block">
           <router-link to="/newoperatore">
          <button   id="im4"></button> 
           </router-link>
         </div>
-        <!-- Non so questo sotto a che serve -M -->
         <div v-if="tipoUtente!='operatore'"  class="col d-block d-sm-none">
           <router-link to="/newoperatore">
          <button   id="im4"></button> 
           </router-link>
         </div>
-        <div class="col">
-          <router-link to="/esportadati">
-         <button   id="im5"></button> 
-          </router-link>
-          </div>
 
            <div class="col-4">
         
