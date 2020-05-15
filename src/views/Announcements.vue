@@ -403,7 +403,7 @@
                     
                     <h5 class="card-title text-center"><b>FILTRA ANNUNCI</b></h5>
                     
-                    <form class="form-signin" @keyup.enter="filtraAnnunci()">
+                    <form @keyup.enter="filtraAnnunci()">
                         
                         <div v-if="tipoUtente != 'cittadino'" class="row">
                             <div class="col mt-1">
@@ -901,7 +901,7 @@ export default {
         return
       } 
 
-      this.error = "nessun errore"
+      this.error = "nessun errore"   // MESSAGGIO CONFERMA
       
       axios({
         method: 'put',
@@ -939,15 +939,42 @@ export default {
             }
           }
 
-          this.data_inizio = ""
+          /*this.data_inizio = ""
           this.data_fine = ""
           this.descrizione = ""
           this.zone = []
-          this.CF = ""
+          this.CF = ""*/
 
+          axios({
+            method: 'put',
+            url: 'http://localhost:8081/token/refreshToken/announcement/'+this.annuncioDaModificare._id,
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            },
+          })
+
+          .then(() => {})
+          .catch(() => {
+            this.aggiornaSchermataAnnunci()
+          
+            this.adding = false
+            this.updating = false
+            this.cliccatoSuFiltra = false
+            this.mostraZoneInserite = false
+      
+            this.data_inizio = ""
+            this.data_fine = ""
+            this.descrizione = ""
+            this.zone = []
+            this.CF = ""
+        
+            this.idBack = ""
+          })
           
       })
       .catch((error) => {
+          this.aggiornaSchermataAnnunci()
+          
           alert("Sessione scaduta")
           console.log(error)
 
@@ -1016,22 +1043,7 @@ export default {
         const dim = this.annunci.length
         const annunci = this.annunci
         for(i=0;i<dim;i++){  // Scorro gli annunci
-          const zone = annunci[i].zone
-          let j
-          const size = zone.length
-          for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
-            const zonaAnnuncio = zone[j].toLowerCase()
-            let h
-            const len = this.zone.length
-            for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
-              const zonaFiltro = this.zone[h].toLowerCase()
-              const res = zonaAnnuncio.match(zonaFiltro)
-              
-              if(res != null && !this.annunciFiltrati.includes(annunci[i])){
-                this.annunciFiltrati.push(annunci[i])
-              }
-            }
-          }
+          this.appoggioFiltri(annunci[i])
         }
         
       }
@@ -1081,22 +1093,7 @@ export default {
         const annunci = this.annunci
         for(i=0;i<dim;i++){  // Scorro gli annunci
           if(annunci[i].CF == this.CF){
-            const zone = annunci[i].zone
-            let j
-            const size = zone.length
-            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
-              const zonaAnnuncio = zone[j].toLowerCase()
-              let h
-              const len = this.zone.length
-              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
-                const zonaFiltro = this.zone[h].toLowerCase()
-                const res = zonaAnnuncio.match(zonaFiltro)
-              
-                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
-                  this.annunciFiltrati.push(annunci[i])
-                }
-              }
-            }
+            this.appoggioFiltri(annunci[i])
           }
         }
       }
@@ -1110,22 +1107,7 @@ export default {
         const annunci = this.annunci
         for(i=0;i<dim;i++){  // Scorro gli annunci
           if(annunci[i].start >= this.data_inizio){
-            const zone = annunci[i].zone
-            let j
-            const size = zone.length
-            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
-              const zonaAnnuncio = zone[j].toLowerCase()
-              let h
-              const len = this.zone.length
-              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
-                const zonaFiltro = this.zone[h].toLowerCase()
-                const res = zonaAnnuncio.match(zonaFiltro)
-              
-                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
-                  this.annunciFiltrati.push(annunci[i])
-                }
-              }
-            }
+            this.appoggioFiltri(annunci[i])
           }
         }
       }
@@ -1139,22 +1121,7 @@ export default {
         const annunci = this.annunci
         for(i=0;i<dim;i++){  // Scorro gli annunci
           if(annunci[i].end <= this.data_fine){
-            const zone = annunci[i].zone
-            let j
-            const size = zone.length
-            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
-              const zonaAnnuncio = zone[j].toLowerCase()
-              let h
-              const len = this.zone.length
-              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
-                const zonaFiltro = this.zone[h].toLowerCase()
-                const res = zonaAnnuncio.match(zonaFiltro)
-              
-                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
-                  this.annunciFiltrati.push(annunci[i])
-                }
-              }
-            }
+            this.appoggioFiltri(annunci[i])
           }
         }
       }
@@ -1180,22 +1147,7 @@ export default {
         const annunci = this.annunci
         for(i=0;i<dim;i++){  // Scorro gli annunci
           if(annunci[i].CF == this.CF && annunci[i].start >= this.data_inizio){
-            const zone = annunci[i].zone
-            let j
-            const size = zone.length
-            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
-              const zonaAnnuncio = zone[j].toLowerCase()
-              let h
-              const len = this.zone.length
-              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
-                const zonaFiltro = this.zone[h].toLowerCase()
-                const res = zonaAnnuncio.match(zonaFiltro)
-              
-                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
-                  this.annunciFiltrati.push(annunci[i])
-                }
-              }
-            }
+            this.appoggioFiltri(annunci[i])
           }
         }
       }
@@ -1209,22 +1161,7 @@ export default {
         const annunci = this.annunci
         for(i=0;i<dim;i++){  // Scorro gli annunci
           if(annunci[i].CF == this.CF && annunci[i].end <= this.data_fine){
-            const zone = annunci[i].zone
-            let j
-            const size = zone.length
-            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
-              const zonaAnnuncio = zone[j].toLowerCase()
-              let h
-              const len = this.zone.length
-              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
-                const zonaFiltro = this.zone[h].toLowerCase()
-                const res = zonaAnnuncio.match(zonaFiltro)
-              
-                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
-                  this.annunciFiltrati.push(annunci[i])
-                }
-              }
-            }
+            this.appoggioFiltri(annunci[i])
           }
         }
       }
@@ -1238,22 +1175,7 @@ export default {
         const annunci = this.annunci
         for(i=0;i<dim;i++){  // Scorro gli annunci
           if(annunci[i].start >= this.data_inizio && annunci[i].end <= this.data_fine){
-            const zone = annunci[i].zone
-            let j
-            const size = zone.length
-            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
-              const zonaAnnuncio = zone[j].toLowerCase()
-              let h
-              const len = this.zone.length
-              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
-                const zonaFiltro = this.zone[h].toLowerCase()
-                const res = zonaAnnuncio.match(zonaFiltro)
-              
-                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
-                  this.annunciFiltrati.push(annunci[i])
-                }
-              }
-            }
+            this.appoggioFiltri(annunci[i])
           }
         }
       }
@@ -1267,26 +1189,30 @@ export default {
         const annunci = this.annunci
         for(i=0;i<dim;i++){  // Scorro gli annunci
           if(annunci[i].CF == this.CF && annunci[i].start >= this.data_inizio && annunci[i].end <= this.data_fine){
-            const zone = annunci[i].zone
-            let j
-            const size = zone.length
-            for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
-              const zonaAnnuncio = zone[j].toLowerCase()
-              let h
-              const len = this.zone.length
-              for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
-                const zonaFiltro = this.zone[h].toLowerCase()
-                const res = zonaAnnuncio.match(zonaFiltro)
-              
-                if(res != null && !this.annunciFiltrati.includes(annunci[i])){
-                  this.annunciFiltrati.push(annunci[i])
-                }
-              }
-            }
+            this.appoggioFiltri(annunci[i])
           }
         }
       }
 
+    },
+
+    appoggioFiltri(annuncio){
+      const zone = annuncio.zone
+      let j
+      const size = zone.length
+      for(j=0;j<size;j++){ // Per ogni annuncio scorro le zone inserite
+        const zonaAnnuncio = zone[j].toLowerCase()
+        let h
+        const len = this.zone.length
+        for(h=0;h<len;h++){  // Per ogni zona inserita di ogni annuncio vedo se corrisponde a qualcuna di quelle per cui sto filtrando
+          const zonaFiltro = this.zone[h].toLowerCase()
+          const res = zonaAnnuncio.match(zonaFiltro)
+              
+          if(res != null && !this.annunciFiltrati.includes(annuncio)){
+              this.annunciFiltrati.push(annuncio)
+          }
+        }
+      }
     },
 
     rimuoviFiltri(){
