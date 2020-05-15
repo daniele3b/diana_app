@@ -12,8 +12,8 @@
             
             <GmapMap
               class = "mappa"
-              :center="{lat:41.9109, lng:12.6818}"
-              :zoom="9"
+              :center="{lat:latMap, lng:lngMap}"
+              :zoom="zoomMap"
               map-type-id="terrain"
               style="width: 420px; height: 320px"
             >
@@ -139,6 +139,9 @@ export default {
       planeVisible : false,
       planes : [],
       imgClass : 'imgNonEvidenziata mt-1 mr-1',
+      latMap : 41.9109,
+      lngMap : 12.6818,
+      zoomMap : 9
     }
   },
 
@@ -252,6 +255,10 @@ export default {
         }
 
         this.currentSensorsInfo = sensorsInfo
+        
+        this.latMap = lat
+        this.lngMap = lng
+        this.zoomMap = 9.5
       },
 
       receiveData(sensoreCliccato){
