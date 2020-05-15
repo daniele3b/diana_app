@@ -70,18 +70,15 @@
          <button   id="im5"></button> 
           </router-link>
         </div>
-          
-        <div v-if="tipoUtente!='operatore'"  class="col ">
+    </div>
+      <div class="row mt-3">
+
+  <div v-if="tipoUtente!='operatore'"  class="col ">
           <router-link to="/newoperatore">
          <button   id="im4"></button>  
           </router-link>
         </div>
-
-           <div class="col-4">
-        
-          </div>
-       
-    </div>
+        </div>
     </div>
 
 <!-- cellulari leggermente più grandi/ tablet 7-8 pollici-->
@@ -117,12 +114,13 @@
   
   <div class="row mt-3">
 
-  <div v-if="tipoUtente!='operatore'"  class="col ">
-          <router-link to="/newoperatore">
-         <button   id="im4"></button>  
-          </router-link>
-        </div>
-        </div>
+        <div v-if="tipoUtente!='operatore'"  class="col ">
+                <router-link to="/newoperatore">
+              <button   id="im4"></button>  
+                </router-link>
+         </div>
+    </div>
+ </div>
 
 
   <!-- tablet grandi -->
@@ -169,7 +167,7 @@
     </div>
 
 
-    </div>
+    
  
   </div>
 </template>
