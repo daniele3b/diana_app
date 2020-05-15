@@ -218,8 +218,10 @@ export default {
           var json = require('../../comuni.json');
           var i=0
           for(i=0; i<json.length; i++){
-            if(json[i].nome==this.birthplace)
+            if(json[i].nome.toLowerCase()==this.birthplace.toLowerCase()){
               trovato=true
+              this.birthplace = json[i].nome
+            }
           }          
 
           if(trovato==true && this.birthplaceOk==true) { this.birthplaceVer = true; this.birthplaceClass = "form-control-mario-ver";}
