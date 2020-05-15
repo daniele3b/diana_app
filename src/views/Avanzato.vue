@@ -1,5 +1,6 @@
 <template>
-  <div class="container mt-3">
+<div>
+  <div class="container mt-3 d-none  d-xl-block">
     <div class="row mt-3">
         <div class="col">
              <router-link to="/traffic">
@@ -25,20 +26,52 @@
          <button   id="im5"></button> 
           </router-link>
           </div>
-        <div class="col d-block d-sm-none ">
-          <router-link to="/esportadati ">
-         <button   id="im5"></button> 
-          </router-link>
-        </div>
-          
+  
         <div v-if="tipoUtente!='operatore'" class="col-4 d-none d-sm-block">
           <router-link to="/newoperatore">
          <button   id="im4"></button> 
           </router-link>
         </div>
-        <div v-if="tipoUtente!='operatore'"  class="col d-block d-sm-none">
+    
+
+           <div class="col-4">
+        
+          </div>
+       
+    </div>
+
+  </div>
+  <div class="container mt-3 d-block d-sm-none">
+        <div class="row mt-3">
+        <div class="col">
+             <router-link to="/traffic">
+         <button   id="im1"></button> 
+          </router-link>
+        </div>
+        <div class="col">
+            <router-link to="/analisidati">
+         <button   id="im2"></button> 
+          </router-link>
+
+        </div>
+        <div class="col">
+            <router-link to="/announcements">
+         <button   id="im3"></button> 
+          </router-link>
+        </div>
+    </div>
+     <div class="row mt-3">
+
+
+        <div class="col ">
+          <router-link to="/esportadati ">
+         <button   id="im5"></button> 
+          </router-link>
+        </div>
+          
+        <div v-if="tipoUtente!='operatore'"  class="col ">
           <router-link to="/newoperatore">
-         <button   id="im4"></button> 
+         <button   id="im4"></button>  
           </router-link>
         </div>
 
@@ -47,7 +80,48 @@
           </div>
        
     </div>
+    </div>
 
+
+     <div class="container mt-3 d-none d-sm-block d-md-none">
+        <div class="row mt-3">
+        <div class="col">
+             <router-link to="/traffic">
+         <button   id="im1"></button> 
+          </router-link>
+        </div>
+        <div class="col">
+            <router-link to="/analisidati">
+         <button   id="im2"></button> 
+          </router-link>
+
+        </div>
+        <div class="col">
+            <router-link to="/announcements">
+         <button   id="im3"></button> 
+          </router-link>
+        </div>
+    </div>
+     <div class="row mt-3">
+
+
+        <div class="col ">
+          <router-link to="/esportadati ">
+         <button   id="im5"></button> 
+          </router-link>
+        </div>
+     </div>
+       <div class="row mt-3">
+
+  <div v-if="tipoUtente!='operatore'"  class="col ">
+          <router-link to="/newoperatore">
+         <button   id="im4"></button>  
+          </router-link>
+        </div>
+        </div>
+  
+    </div>
+ 
   </div>
 </template>
 
