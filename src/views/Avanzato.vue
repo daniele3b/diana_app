@@ -22,15 +22,15 @@
     </div>
      <div v-if="tipoUtente=='operatore'" class="row mt-3">
 
-        <div class="col ">
+        <div class="col-4 ">
           <router-link to="/esportadati">
          <button   id="im5"></button> 
           </router-link>
           </div>
 
-          <div class="col">
+          <div class="col-4">
             </div>
-  <div class="col">
+  <div class="col-4">
             </div>
     
        
