@@ -870,8 +870,8 @@ export default {
               this.reports.push(response.data)
                 
                 
-            }, (error) => {
-                alert("Errore richiesta:\n"+error.message)
+            }, () => {
+                alert("Hai raggiunto il numero massimo di segnalazioni giornaliere")
             }); 
 
             this.address=''
