@@ -4,13 +4,13 @@ import router from './router'
 import store from './store'
 import * as VueGoogleMaps from 'vue2-google-maps'
 
-require('dotenv').config()
+require("dotenv").config();
 
 Vue.config.productionTip = false
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyDHqV6lgLeqIRoVRBh47mQVjwI-mX9891E',
+    key: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
     libraries: 'places'
   },
 }) 
