@@ -119,7 +119,8 @@ beforeCreate(){
       let giorno_inizio =  setteGiorniFa.getDate()
       let mese_inizio = setteGiorniFa.getMonth() + 1
       let anno_inizio = setteGiorniFa.getFullYear()
-        
+      
+      giorno_inizio+=1
         if(month<10)
           month='0'+month
         if(day<10)
@@ -130,6 +131,7 @@ beforeCreate(){
         if(mese_inizio < 10)
           mese_inizio = '0' + mese_inizio
 
+      console.log(giorno_inizio+mese_inizio+anno_inizio)
       axios({
         method: 'get',
         url: 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+year+'-'+month+'-'+day+'/type/'+this.$store.getters.getAgente+'/'+this.$store.getters.getStazione,
@@ -229,6 +231,9 @@ beforeCreate(){
           month='0'+month
         if(day<10)
           day='0'+day
+
+            
+      giorno_inizio+=1
 
         if(giorno_inizio < 10)
           giorno_inizio = '0' + giorno_inizio
