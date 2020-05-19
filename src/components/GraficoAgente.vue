@@ -154,6 +154,7 @@ export default {
             let giorno_inizio =  setteGiorniFa.getDate()
             let mese_inizio = setteGiorniFa.getMonth() + 1
             let anno_inizio = setteGiorniFa.getFullYear()
+            giorno_inizio+=1
             if(fmonth<10)fmonth='0'+fmonth
             if(fday<10)fday='0'+fday
             if(giorno_inizio < 10)giorno_inizio = '0' + giorno_inizio
@@ -258,6 +259,7 @@ export default {
         let giorno_inizio =  setteGiorniFa.getDate()
         let mese_inizio = setteGiorniFa.getMonth() + 1
         let anno_inizio = setteGiorniFa.getFullYear()
+        giorno_inizio+=1
         if(fmonth<10)fmonth='0'+fmonth
         if(fday<10)fday='0'+fday
         if(giorno_inizio < 10)giorno_inizio = '0' + giorno_inizio
