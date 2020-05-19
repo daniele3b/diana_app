@@ -1,7 +1,9 @@
 <template>
-
-  <div class="row" >
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4" >
+<div>
+<!-- PC -->
+<div class="container d-none d-xl-block">
+  <div class="row" style="text-align:left;">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4" style="text-align:center;">
       <div class="card" onload="getReport();" >
         <!-- TABBED PANE BAR-->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -199,7 +201,150 @@
       </div>
     </div>
   </div>
+</div>
+<!-- TELEFONO -->
+<div class="container mt-3 d-block d-sm-none">
+  <div class="col-12 col-sm-4 col-md-6 col-lg-4" style="text-align:center;">
+  <div class="row" style="text-align:left;">
+    
+      <div class="card" style="height:450px;" onload="getReport();" >
+         
+            <div class="container" style="text-align:center;">
 
+                  
+                    <!-- GIORNO -->
+                    <img v-if="stato=='Clear' && notte==false" style="align:center; padding-top:15px;" src="../../images/sun.png" alt="">
+                    <img v-if="stato=='Clouds' && notte==false" style="align:center; padding-top:15px;" src="../../images/cloud.png" alt="">
+                    <img v-if="stato=='Rain' && notte==false" style="align:center; padding-top:15px;" src="../../images/rain.png" alt="">
+                    <!-- NOTTE -->
+                    <img v-if="stato=='Clear' && notte==true" style="align:center; padding-top:15px;" src="../../images/moon.png" alt="">
+                    <img v-if="stato=='Clouds' && notte==true" style="align:center; padding-top:15px;" src="../../images/mooncloud.png" alt="">
+                    <img v-if="stato=='Rain' && notte==true" style="align:center; padding-top:15px;" src="../../images/moonrain.png" alt="">
+                  
+                
+                  <div id="due">
+                    {{t_att}}°C
+                  </div>
+                  <div id="tre">
+                    {{descrizione}}
+                  </div>
+                  <div id="tre">
+                    Vento: {{wind}} km/h
+                  </div>
+                  <div id="tre">
+                    Umidità: {{humidity}}%
+                  </div>
+          </div>
+            <div class ="col" style="padding-top:5px;padding-left:25px;">
+              <table>
+                  <!-- Prima riga giorno -->
+                  <tr>
+                    <td class="colonna-mario-prima">
+                      {{this.giorni[this.oggi+1]}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{this.giorni[this.oggi+2]}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{this.giorni[this.oggi+3]}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{this.giorni[this.oggi+4]}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{this.giorni[this.oggi+5]}}
+                    </td>
+                  </tr>
+                  <!-- Seconda riga meteo -->
+                  <tr>
+                    <td class="colonna-mario-prima">
+                      <img v-if="FCarray[0].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[0].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[0].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                    <td class="colonna-mario">
+                      <img v-if="FCarray[1].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[1].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[1].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                    <td class="colonna-mario">
+                      <img v-if="FCarray[2].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[2].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[2].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                    <td class="colonna-mario">
+                      <img v-if="FCarray[3].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[3].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[3].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                    <td class="colonna-mario">
+                      <img v-if="FCarray[4].descrizione.substr(0,3)=='Cle'" src="../../images/sumicon.jpg" alt="">
+                      <img v-if="FCarray[4].descrizione.substr(0,3)=='Clo'" src="../../images/cloudicon.jpg" alt="">
+                      <img v-if="FCarray[4].descrizione.substr(0,3)=='Rai'" src="../../images/rainicon.jpg" alt="">
+                    </td>
+                  </tr>
+                  <!-- Terza riga Max --><tr>
+                    <td class="colonna-mario-prima" style="color:red;">
+                      {{ FCarray[0].t_max}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:red;">
+                      {{ FCarray[1].t_max}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:red;">
+                      {{ FCarray[2].t_max}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:red;">
+                      {{ FCarray[3].t_max}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:red;">
+                      {{ FCarray[4].t_max}}°C
+                    </td>
+                  </tr>
+                  <!-- Quarta riga min --><tr>
+                    
+                    <td class="colonna-mario-prima" style="color:blue;">
+                      {{ FCarray[0].t_min}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:blue;">
+                      {{ FCarray[1].t_min}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:blue;">
+                      {{ FCarray[2].t_min}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:blue;">
+                      {{ FCarray[3].t_min}}°C
+                    </td>
+                    <td class="colonna-mario" style="color:blue;">
+                      {{ FCarray[4].t_min}}°C
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="colonna-mario-prima">
+                      {{ FCarray[0].wind}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{ FCarray[1].wind}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{ FCarray[2].wind}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{ FCarray[3].wind}}
+                    </td>
+                    <td class="colonna-mario">
+                      {{ FCarray[4].wind}}
+                    </td>
+
+                  </tr>
+
+              </table>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 </template>
 
 <script>
@@ -336,7 +481,7 @@ export default {
 }
 .colonna-mario-prima{
   font-size: 17px;
-  padding-left: 7px;
+  padding-left: 0px;
   padding-right: 7px;
   font-family: "Times New Roman", Times, serif;
 }
@@ -353,8 +498,15 @@ export default {
   height: 200px;
   border-color: green;
  /* background-image: url('../../images/immmeteo.jpg');*/
-  
-  
+}
+.cardt {
+  border: 1;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+  width: 360px;
+  height: 200px;
+  border-color: green;
+ /* background-image: url('../../images/immmeteo.jpg');*/
 }
 
 .iconaMeteo {
@@ -367,12 +519,6 @@ export default {
 .temperatura{
   text-align: right;
 }
-
-
-
-
-
-
 
 .form-label-group input {
   height: auto;
