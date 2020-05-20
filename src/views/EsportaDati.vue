@@ -134,49 +134,46 @@ export default {
             if(this.filtriTrue==true) this.filtriTrue=false
             else if(this.filtriTrue==false) this.filtriTrue=true
         },
-        download: function(){
-          //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-          function json2xml(o, tab) {
-            var toXml = function(v, name, ind) {
-                var m;
-              var xml = "";
-              if (v instanceof Array) {
-                  for (var i=0, n=v.length; i<n; i++)
-                    xml += ind + toXml(v[i], name, ind+"\t") + "\n";
-              }
-              else if (typeof(v) == "object") {
-                  var hasChild = false;
-                  xml += ind + "<" + name;
-                  for (m in v) {
-                    if (m.charAt(0) == "@")
-                        xml += " " + m.substr(1) + "=\"" + v[m].toString() + "\"";
-                    else
-                        hasChild = true;
-                  }
-                  xml += hasChild ? ">" : "/>";
-                  if (hasChild) {
-                    for (m in v) {
-                        if (m == "#text")
-                          xml += v[m];
-                        else if (m == "#cdata")
-                          xml += "<![CDATA[" + v[m] + "]]>";
-                        else if (m.charAt(0) != "@")
-                          xml += toXml(v[m], m, ind+"\t");
-                    }
-                    xml += (xml.charAt(xml.length-1)=="\n"?ind:"") + "</" + name + ">";
-                  }
-              }
-              else {
-                  xml += ind + "<" + name + ">" + v.toString() +  "</" + name + ">";
-              }
-              return xml;
-            }, xml="";
-            for (var m in o)
-              xml += toXml(o[m], m, "");
-            return tab ? xml.replace(/\t/g, tab) : xml.replace(/\t|\n/g, "");
-
-        }
-          //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      json2xml: function (o, tab) {
+        var toXml = function(v, name, ind) {
+      var xml = "";
+      if (v instanceof Array) {
+         for (var i=0, n=v.length; i<n; i++)
+            xml += ind + toXml(v[i], name, ind+"\t") + "\n";
+      }
+      else if (typeof(v) == "object") {
+         var hasChild = false;
+         xml += ind + "<" + name;
+         for (var m in v) {
+            if (m.charAt(0) == "@")
+               xml += " " + m.substr(1) + "=\"" + v[m].toString() + "\"";
+            else
+               hasChild = true;
+         }
+         xml += hasChild ? ">" : "/>";
+         if (hasChild) {
+            for ( m in v) {
+               if (m == "#text")
+                  xml += v[m];
+               else if (m == "#cdata")
+                  xml += "<![CDATA[" + v[m] + "]]>";
+               else if (m.charAt(0) != "@")
+                  xml += toXml(v[m], m, ind+"\t");
+            }
+            xml += (xml.charAt(xml.length-1)=="\n"?ind:"") + "</" + name + ">";
+         }
+      }
+      else {
+         xml += ind + "<" + name + ">" + v.toString() +  "</" + name + ">";
+      }
+      return xml;
+   }, xml="";
+   for (var m in o)
+      xml += toXml(o[m], m, "");
+   return tab ? xml.replace(/\t/g, tab) : xml.replace(/\t|\n/g, "");
+  },
+      download: function(){
+        
           this.corretto = false
           this.errore = false
           this.loading = true
@@ -190,10 +187,10 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
-                          responseType: 'blob' // important
                       }).then((response) => { 
                           if(this.radio == 'JSON'){
                             alert('JSON')
+                            console.log(response)
                             const url = window.URL.createObjectURL(new Blob([response.data]));
                             const link = document.createElement('a');
                             link.href = url;
@@ -205,7 +202,10 @@ export default {
                             this.corretto = true
                           }else if(this.radio == 'XML'){
                             alert('XML')
-                            var testo = json2xml(response.data, "")
+                          
+                            var testo = this.json2xml(response.data, "")
+                           testo="<data>"+testo+"</data>"
+                            
                             const url = window.URL.createObjectURL(new Blob([testo]));
                             const link = document.createElement('a');
                             link.href = url;
@@ -217,6 +217,7 @@ export default {
                             this.corretto = true
                           }
                       }).catch(() =>{
+                        console.log('fottiti')
                           this.loading = false
                         this.errore = true
                       });
@@ -230,10 +231,11 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
-                          responseType: 'blob' // important
+                          
                       }).then((response) => { 
                           if(this.radio == 'JSON'){
                             alert('JSON')
+                            console.log(response)
                             const url = window.URL.createObjectURL(new Blob([response.data]));
                             const link = document.createElement('a');
                             link.href = url;
@@ -244,8 +246,9 @@ export default {
                             this.loading = false
                             this.corretto = true
                           }else if(this.radio == 'XML'){
-                            alert('XML')
-                            var testo = json2xml(response.data, "")
+                            alert('XML TIPO')                            
+                            var testo = this.json2xml(response.data, "")
+                           testo="<data>"+testo+"</data>"
                             const url = window.URL.createObjectURL(new Blob([testo]));
                             const link = document.createElement('a');
                             link.href = url;
@@ -270,7 +273,7 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
-                          responseType: 'blob', // important
+                         
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
                             alert('JSON')
@@ -285,7 +288,9 @@ export default {
                             this.corretto = true
                         }else if(this.radio == 'XML'){
                           alert('XML')
-                          var testo = json2xml(response.data, "   ")
+          
+                          var testo = this.json2xml(response.data, "")
+                            testo="<data>"+testo+"</data>"
                           const url = window.URL.createObjectURL(new Blob([testo]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -310,7 +315,7 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
-                          responseType: 'blob', // important
+                         
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
                             alert('JSON')
@@ -325,7 +330,8 @@ export default {
                             this.corretto = true
                         }else if(this.radio == 'XML'){
                           alert('XML')
-                          var testo = json2xml(response.data, "   ")
+                          var testo = this.json2xml(response.data, "")
+                            testo="<data>"+testo+"</data>"
                           const url = window.URL.createObjectURL(new Blob([testo]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -350,7 +356,7 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
-                          responseType: 'blob', // important
+                          
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
                           alert('JSON')
@@ -365,7 +371,8 @@ export default {
                           this.corretto = true
                         }else if(this.radio == 'XML'){
                           alert('XML')
-                          var testo = json2xml(response.data, "   ")
+                          var testo = this.json2xml(response.data, "")
+                            testo="<data>"+testo+"</data>"
                           const url = window.URL.createObjectURL(new Blob([testo]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -390,7 +397,6 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
-                          responseType: 'blob', // important
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
                           alert('JSON')
@@ -405,7 +411,8 @@ export default {
                           this.corretto = true
                         }else if(this.radio == 'XML'){
                           alert('XML')
-                          var testo = json2xml(response.data, "   ")
+                          var testo = this.json2xml(response.data, "")
+                            testo="<data>"+testo+"</data>"
                           const url = window.URL.createObjectURL(new Blob([testo]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -430,7 +437,6 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
-                          responseType: 'blob', // important
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
                           alert('JSON')
@@ -445,7 +451,8 @@ export default {
                           this.corretto = true
                         }else if(this.radio == 'XML'){
                           alert('XML')
-                          var testo = json2xml(response.data, "   ")
+                          var testo = this.json2xml(response.data, "")
+                            testo="<data>"+testo+"</data>"
                           const url = window.URL.createObjectURL(new Blob([testo]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -470,7 +477,6 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
-                          responseType: 'blob', // important
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
                           alert('JSON')
@@ -485,7 +491,8 @@ export default {
                           this.corretto = true
                         }else if(this.radio == 'XML'){
                           alert('XML')
-                          var testo = json2xml(response.data, "   ")
+                          var testo = this.json2xml(response.data, "")
+                            testo="<data>"+testo+"</data>"
                           const url = window.URL.createObjectURL(new Blob([testo]));
                           const link = document.createElement('a');
                           link.href = url;
