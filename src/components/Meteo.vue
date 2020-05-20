@@ -203,7 +203,7 @@
   </div>
 </div>
 <!-- TELEFONO -->
-<div class="container mt-3 d-block d-sm-none">
+<div class="container mt-3 d-xl-none">
   <div class="col-12 col-sm-4 col-md-6 col-lg-4" style="text-align:center;">
   <div class="row" style="text-align:left;">
     
