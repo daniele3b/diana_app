@@ -98,7 +98,7 @@
               <br>
               
               <hr class="my-4">
-              <router-link to="/" >Torna alla pagina di login</router-link>
+              <router-link to="/login" >Torna alla pagina di login</router-link>
               
 
             </form>

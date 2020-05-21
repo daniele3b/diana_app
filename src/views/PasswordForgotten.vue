@@ -23,7 +23,7 @@
               <div v-if="errorePost!=null" :class="coloreAlert " role="alert">
                   {{text}}
             </div>
-              <router-link to="/">Torna alla schermata di Login</router-link>
+              <router-link to="/login">Torna alla schermata di Login</router-link>
 
             </form>
           </div>
