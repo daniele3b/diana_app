@@ -86,13 +86,13 @@
                 
               </div>
 
-              <div v-if="allerta" class="alert alert-danger" role="alert">
+              <div v-if="allerta" class="alert alert-danger mt-1" role="alert">
                 Non hai inserito tutto!
               </div>
               <hr class="my-4">
 
               <button  @click="checkForm();regPost();" class="btn btn-lg btn-success btn-block text-uppercase"  type="button">Inserisci Operatore</button>
-              <label v-if="corretto==true" class="alert alert-success">Inserimento operatore avvenuto con successo!</label>
+              <label v-if="corretto==true" class="alert alert-success mt-1">Inserimento operatore avvenuto con successo!</label>
               
               
 
