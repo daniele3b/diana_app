@@ -122,11 +122,6 @@ Vue.use(VueRouter)
     component:NewOperatore
   },
   {
-    path:'/home',
-    name:'Home',
-    component:Home
-  },
-  {
     path:'/esportadati',
     name:'EsportaDati',
     component:EsportaDati
