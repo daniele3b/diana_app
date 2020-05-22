@@ -438,6 +438,7 @@ export default {
     mounted: 
       function getReport(){ 
 
+        //se sono cittadino faccio get delle mie segnalazioni
         if(localStorage.getItem('type')=='cittadino')
           this.citt=true
 
@@ -468,6 +469,7 @@ export default {
             
            }
 
+            //sistemo i dati per la visualizzazione
            for(i=0;i<this.reports.length;i++)
            {
              var res = this.reports[i].date.split("T");
@@ -475,17 +477,16 @@ export default {
              this.reports[i].status=this.reports[i].status.toUpperCase()
              this.reports[i].category=this.reports[i].category.toUpperCase()
            }
-
-           console.log(this.reports)
+           //console.log(this.reports)
 
           })
             .catch((error) => {
               if(error.status==404)
               console.log('NO data')
            
-          })}else
+          })}else //se sono un operatore faccio get di tutte le segnalazioni giornaliere
           {
-              axios({
+            axios({
             method: 'get',
             url: 'http://localhost:8081/report/',
             headers: {
@@ -497,9 +498,8 @@ export default {
            for(i=0;i<response.data.length;i++)
            {
              this.reports.push(response.data[i])
-            
            }
-
+          //pulisco dati
            for(i=0;i<this.reports.length;i++)
            {
              var res = this.reports[i].date.split("T");
@@ -508,7 +508,7 @@ export default {
              this.reports[i].category=this.reports[i].category.toUpperCase()
            }
 
-           console.log(this.reports)
+           //console.log(this.reports)
 
           })
             .catch((error) => {
@@ -522,11 +522,13 @@ export default {
       methods: {
         zoom: function(event)
         {
+          //switch schermata
           this.zoomed=true;
+
           var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
 
           let obj=this.reports[ind]
-          console.log(obj)
+          //console.log(obj)
 
           this.address=obj.address
           this.date=obj.date
@@ -534,7 +536,7 @@ export default {
           this.description=obj.description
           this.CF=obj.CF
           this.status=obj.status
-          console.log('zoom'+event.target.id)
+          //console.log('zoom'+event.target.id)
         },
         
         edit: function(event)
@@ -542,37 +544,39 @@ export default {
           
           var ind = this.reports.findIndex(i => i.id_number ==event.target.id);
         
-        this.toBeDestroy=event.target.id
-        //provo a settare il token
-        axios({
-            method: 'post',
-            url: 'http://localhost:8081/token/setToken/report/'+this.reports[ind].id_number,
-            headers: {
-              "x-diana-auth-token": localStorage.token
-            }
-          }).then(() => {
+          this.toBeDestroy=event.target.id
 
-              //entro nella schermata edit
-                this.obj2edit=this.reports[ind]
+          //provo a settare il token
+          axios({
+              method: 'post',
+              url: 'http://localhost:8081/token/setToken/report/'+this.reports[ind].id_number,
+              headers: {
+                "x-diana-auth-token": localStorage.token
+              }
+            }).then(() => {
 
-                this.address=this.obj2edit.address
-                this.date=this.obj2edit.date
-                this.category=this.obj2edit.category
-                this.description=this.obj2edit.description
-                this.CF=this.obj2edit.CF
-                this.status=this.obj2edit.status
-                this.editing=true;
+                //entro nella schermata edit
+                  this.obj2edit=this.reports[ind]
 
-          })
-            .catch(() => {
-            //non entro, e aggiorno i dati
-             alert('Report gestito da un altro operatore')
-             this.updateData()
-          })
+                  this.address=this.obj2edit.address
+                  this.date=this.obj2edit.date
+                  this.category=this.obj2edit.category
+                  this.description=this.obj2edit.description
+                  this.CF=this.obj2edit.CF
+                  this.status=this.obj2edit.status
+                  this.editing=true;
+
+            })
+              .catch(() => {
+              //non entro, e aggiorno i dati
+              alert('Report gestito da un altro operatore')
+              this.updateData()
+            })
 
          
 
         },
+        //serve per marcare le segnalazioni bloccate
         cambiaClasse:function(rep)
         {
           if(rep.token!='')
@@ -580,8 +584,7 @@ export default {
           else
             return ""
         },
-
-
+        //rimuovo il token
         rimuoviToken:function(id){
           axios({
                     method: 'delete',
@@ -598,7 +601,7 @@ export default {
                       
 
         },
-        //tanto per pushare
+        
         editConfermato: function()
         {
 
@@ -782,11 +785,8 @@ export default {
 
           })
           }
-
-          
+   
           this.loading=false
-          
-        
 
         },
 
