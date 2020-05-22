@@ -47,18 +47,12 @@
       <router-link to="/login" class="link"> Accedi </router-link> | <router-link to="/registration" class="link"> Registrati </router-link>
     </div>
 
-
-  
- 
-
-  
-   
   <!-- Collapsible content -->
 
 </nav>
 
 
-    <!-- PARTE CHE DEVE VARIARE-->
+    <!-- SINGLE PAGE-->
     <div class="container-fluid  ">
        <transition
         name="fade"
@@ -92,16 +86,12 @@ export default {
     this.checkAccess()
   },
 mounted(){
-
- 
-  this.$store.commit('setStatoMenu',"")
+    this.$store.commit('setStatoMenu',"")
     this.$store.commit('setMenu',false)
-    
 },
   data () {
     return {
       logged : false,
-     
     }
   },
   computed : {
