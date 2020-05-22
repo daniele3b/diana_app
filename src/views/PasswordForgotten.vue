@@ -14,7 +14,7 @@
                 <input type="text" id="inputEmail" class="form-control" placeholder="Email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"  name="email" v-model="Email" required autofocus>
               </div>
               <div class="form-label-group">
-                    <input type="text" id="inputCF" class="form-control"  pattern="^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$" placeholder="Codice fiscale" name="CF" v-model="CF" required>
+                    <input type="text" id="inputCF" class="form-control"  placeholder="Codice fiscale" name="CF" v-model="CF" required>
               </div>
               <button v-if="ready ==true"  @click="postPost" class="btn btn-lg btn-success btn-block text-uppercase mt-1" type="button"  id="sub" >RECUPERA</button>
               <hr class="my-4">
