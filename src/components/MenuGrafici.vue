@@ -1,52 +1,39 @@
 <template>
     <div class="container">
-
-      
         <div class="card card-signin my-5 border-success mb-3">
-    
           <div class="card-body "  >
-           <router-link to='/avanzato'><img src="../assets/back.png" style="height:20px;float:left;" @click="back"></router-link> <h5 class="card-title">Scegli i dati da graficare</h5>
+            <router-link to='/avanzato'><img src="../assets/back.png" style="height:20px;float:left;" @click="back"></router-link> <h5 class="card-title">Scegli i dati da graficare</h5>     
+            <div class="row ">
+              <!-- selezione stazione-->
+              <div class="col align-self-start">
+                <select v-model=stazione style="text-align:left;" > 
+                  <option value="" >STAZIONE</option>
+                  <option :value=stat.uid v-for="stat in stations" :key=stat.uid>{{stat.name}} </option>
+                </select>
+              </div>
+            </div>
             
-             
-              <div class="row ">
- 
-                     <div class="col align-self-start">
-                      <select v-model=stazione style="text-align:left;" > 
-                                    <option value="" >STAZIONE</option>
-                                    <option :value=stat.uid v-for="stat in stations" :key=stat.uid>{{stat.name}} </option>
+            <div class="row mt-2">
+              <!-- selezione agente chimico-->
+              <div class="col align-self-start">
+                <select v-model=agente style="text-align:left;"> 
+                  <option value="" >AGENTE CHIMICO</option>
+                  <option :value=a v-for="a in agents" :key=a>{{a}} </option>
+                </select>
+              </div>
+            </div>
 
-                        </select>
-                        </div>
-                </div>
-                   <div class="row mt-2">
-                    <div class="col align-self-start">
-                      <select v-model=agente style="text-align:left;"> 
-                                    <option value="" >AGENTE CHIMICO</option>
-                                    <option :value=a v-for="a in agents" :key=a>{{a}} </option>
-                        </select>
-                        </div>
-                   
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col align-self-start">
-                           <button type="button" @click="settaStore()" class="bg-success text-white"> GRAFICA </button>
-                        </div>
-                    </div>
+            <div class="row mt-2">
+              <!-- button per settare stato dello store-->
+              <div class="col align-self-start">
+                <button type="button" @click="settaStore()" class="bg-success text-white"> GRAFICA </button>
+              </div>
+            </div>
                     
-                </div>
+          </div>
                 
-             
-                    
-                     
-                
-                </div>
-           
-            
-        
-       
+        </div>       
       </div>
-    
-
 </template>
 
 
@@ -106,8 +93,8 @@ export default {
                             }
 
                           }
-                        console.log(this.stations)
-                        console.log(this.agents)
+                        //console.log(this.stations)
+                        //console.log(this.agents)
 
                       }).catch((error)=>{
                         console.log(error)
