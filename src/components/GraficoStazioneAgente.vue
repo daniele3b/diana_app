@@ -1,27 +1,28 @@
 <template>
 
- <div class="container">
-      <div class="row">
-       <div class="col-lg-12 col-md-7 col-lg-5 mx-auto">
-          <div class="card card-signin my-5  border-success">
-            <div class="card-body">
- <h6><b>{{this.$store.getters.getNomeStazione}}</b></h6>
-              <hr>
-  <div>
-  <canvas
-      ref="canvas"
-      id="canvas"
-      class="bg"
-      width="400"
-      height="400">
-      </canvas>
-    </div>
-    </div>
-          </div>
-       </div>
-   
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5  border-success">
+        <div class="card-body">
+          <!-- nome stazione-->
+          <h6><b>{{this.$store.getters.getNomeStazione}}</b></h6>
+          <hr>
+          <!-- canvas per il grafico-->
+            <div>
+              <canvas
+                ref="canvas"
+                id="canvas"
+                class="bg"
+                width="400"
+                height="400">
+              </canvas>
+            </div>
+        </div>
       </div>
-      </div>
+    </div>
+  </div>
+</div>
     
 </template>
 
@@ -37,28 +38,27 @@ export default {
         dati_stazione : [],
         stat:'',
         agent:'',
-      chartdata: {
-      labels: [],
-      datasets: [
-        {
-          label: 'AQI',
-          data: [1,2,3,4,5,6,7],
-          hidden: false,
-          backgroundColor: "rgba(78, 240, 14, 0.2)",
-          borderColor: "rgba(79, 207, 29, 1)",
-          borderWidth: 1
+        chartdata: {
+          labels: [],
+          datasets: [
+          {
+            label: 'AQI',
+            data: [1,2,3,4,5,6,7],
+            hidden: false,
+            backgroundColor: "rgba(78, 240, 14, 0.2)",
+            borderColor: "rgba(79, 207, 29, 1)",
+            borderWidth: 1
+          }
+          ]
+         },
+        dati:[],
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
         }
-      ]
-    },
-    dati:[],
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-       
-    }
       }
     },
-
+//uso i computed per verificare aggiungere la dinamicità sulle var dello store
 computed: {
     checkStazione () {
     return this.$store.getters.getStazione
@@ -67,7 +67,7 @@ computed: {
     return this.$store.getters.getAgente
   }
 },
-
+//check per controllare se sono variati => render del nuovo grafico
 watch:{
     checkStazione(value) {
        this.stat=value
@@ -80,14 +80,13 @@ watch:{
     }
 },
 
-
 beforeCreate(){
 
         this.stat=this.$store.getters.getStazione
         this.agent=this.$store.getters.getAgente
         
 
-
+        //mi determino le date dei 7 giorni precedenti
         var setteGiorni = []
         var i = 0
         for(i=0; i<=6;i++){
@@ -101,26 +100,21 @@ beforeCreate(){
         }
         setteGiorni[6] = 'Oggi'
         
-  
 
-
+        //setto i dati per la chiamata rest
         let data=new Date()
-
-
-
-
-         month=data.getMonth()+1
-         day=data.getDate()
+        month=data.getMonth()+1
+        day=data.getDate()
         let year=data.getFullYear()
 
-      let setteGiorniFa = new Date()
-      setteGiorniFa.setDate(data.getDate() - 7) 
+        let setteGiorniFa = new Date()
+        setteGiorniFa.setDate(data.getDate() - 7) 
     
-      let giorno_inizio =  setteGiorniFa.getDate()
-      let mese_inizio = setteGiorniFa.getMonth() + 1
-      let anno_inizio = setteGiorniFa.getFullYear()
+        let giorno_inizio =  setteGiorniFa.getDate()
+        let mese_inizio = setteGiorniFa.getMonth() + 1
+        let anno_inizio = setteGiorniFa.getFullYear()
       
-      giorno_inizio+=1
+        giorno_inizio+=1
         if(month<10)
           month='0'+month
         if(day<10)
@@ -131,7 +125,7 @@ beforeCreate(){
         if(mese_inizio < 10)
           mese_inizio = '0' + mese_inizio
 
-      console.log(giorno_inizio+mese_inizio+anno_inizio)
+      //console.log(giorno_inizio+mese_inizio+anno_inizio)
       axios({
         method: 'get',
         url: 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+year+'-'+month+'-'+day+'/type/'+this.$store.getters.getAgente+'/'+this.$store.getters.getStazione,
@@ -167,14 +161,15 @@ beforeCreate(){
 
         }
          
-    
+      //setto i dati dei grafici
       this.chartdata.datasets[0].label=this.$store.getters.getAgente
-       this.chartdata.datasets[0].data=this.dati
-       this.chartdata.labels=setteGiorni
+      this.chartdata.datasets[0].data=this.dati
+      this.chartdata.labels=setteGiorni
    
-        console.log(this.chartdata.labels)
-        console.log(this.chartdata.datasets[0].data)
-         this.renderChart(this.chartdata, this.options)
+      //console.log(this.chartdata.labels)
+      //console.log(this.chartdata.datasets[0].data)
+      
+      this.renderChart(this.chartdata, this.options)
       
         })
 
@@ -191,11 +186,10 @@ beforeCreate(){
    
     methods:
     {
+      //metodo utile per essere sensibile al cambio dello stato dello store
       updateData:function()
       {
-
-
-        
+        //determino giorni
         var setteGiorni = []
         var i = 0
         for(i=0; i<=6;i++){
@@ -209,6 +203,7 @@ beforeCreate(){
         }
         setteGiorni[6] = 'Oggi'
 
+        //setto dati
         this.dati=[]
         this.dati_stazione=[]
         this.stat=this.$store.getters.getStazione
@@ -216,16 +211,16 @@ beforeCreate(){
         
         let data=new Date()
 
-         month=data.getMonth()+1
-         day=data.getDate()
+        month=data.getMonth()+1
+        day=data.getDate()
         let year=data.getFullYear()
 
         let setteGiorniFa = new Date()
-      setteGiorniFa.setDate(data.getDate() - 7) 
+        setteGiorniFa.setDate(data.getDate() - 7) 
     
-      let giorno_inizio =  setteGiorniFa.getDate()
-      let mese_inizio = setteGiorniFa.getMonth() + 1
-      let anno_inizio = setteGiorniFa.getFullYear()
+        let giorno_inizio =  setteGiorniFa.getDate()
+        let mese_inizio = setteGiorniFa.getMonth() + 1
+        let anno_inizio = setteGiorniFa.getFullYear()
         
         if(month<10)
           month='0'+month
@@ -233,7 +228,7 @@ beforeCreate(){
           day='0'+day
 
             
-      giorno_inizio+=1
+        giorno_inizio+=1
 
         if(giorno_inizio < 10)
           giorno_inizio = '0' + giorno_inizio
@@ -275,18 +270,18 @@ beforeCreate(){
 
         }
 
-         this.chartdata.datasets[0].label=this.$store.getters.getAgente
-       this.chartdata.datasets[0].data=this.dati
-       this.chartdata.labels=setteGiorni
+        this.chartdata.datasets[0].label=this.$store.getters.getAgente
+        this.chartdata.datasets[0].data=this.dati
+        this.chartdata.labels=setteGiorni
    
-        console.log(this.chartdata.labels)
-        console.log(this.chartdata.datasets[0].data)
-         this.renderChart(this.chartdata, this.options)
+        //console.log(this.chartdata.labels)
+        //console.log(this.chartdata.datasets[0].data)
+        this.renderChart(this.chartdata, this.options)
         })
 
         .catch(() => {
           this.dati_stazione=[]
-           alert('Nessun dato disponibile!')
+          alert('Nessun dato disponibile!')
         })
       }
 
