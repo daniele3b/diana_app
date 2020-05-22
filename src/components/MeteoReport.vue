@@ -2,24 +2,22 @@
  <div>
     <div class="row">
      <div class="col p-0">
-            <Meteo></Meteo>
+        <Meteo></Meteo>
       </div>
       <div class="col ml-4 ">
         <UV>  </UV>
-        </div>
-        
+      </div>
     </div>
     <div class="row mb-1">
       <div class="col p-0">
             <Report></Report>
       </div>
-    
-  </div>
+    </div>
 </div>
 </template>
 
 <script>
-// @ is an alias to /src
+
 import Meteo from './Meteo.vue'
 
 import Report from './Report.vue'
