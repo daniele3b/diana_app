@@ -177,9 +177,16 @@ export default {
           this.corretto = false
           this.errore = false
           this.loading = true
+          var tipo_risp=''
+
+            if(this.radio=='JSON')
+                tipo_risp='blob'
+                else
+                tipo_risp='json'
           //DOWNLOAD SENZA FILTRI
           if(this.dataInizioOk==false && this.dataFineOk==false &&
               this.stazioneOk==false && this.tipoOk==false){ 
+              
                   var url = 'http://localhost:8081/chemical_agents/history'
                   axios({
                           url: url,
@@ -187,6 +194,7 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
+                           responseType: tipo_risp, // importan
                       }).then((response) => { 
                           if(this.radio == 'JSON'){
                             alert('JSON')
@@ -231,6 +239,7 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
+                           responseType: tipo_risp,
                           
                       }).then((response) => { 
                           if(this.radio == 'JSON'){
@@ -273,6 +282,7 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
+                           responseType: tipo_risp,
                          
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
@@ -315,6 +325,7 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
+                           responseType: tipo_risp,
                          
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
@@ -356,6 +367,7 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
+                           responseType: tipo_risp,
                           
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
@@ -397,6 +409,7 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
+                           responseType: tipo_risp,
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
                           alert('JSON')
@@ -437,6 +450,7 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
+                           responseType: tipo_risp,
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
                           alert('JSON')
@@ -477,6 +491,7 @@ export default {
                           headers: {
                             "x-diana-auth-token": localStorage.token
                           },
+                           responseType: tipo_risp,
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
                           alert('JSON')
