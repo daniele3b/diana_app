@@ -14,7 +14,6 @@
           <th>Dett.</th>
           <th>Edit</th>
           <th>Delete</th>
-        
         </thead>
       
       <tbody >
@@ -24,57 +23,51 @@
                 <td>{{rep.date}}</td>
                 <td>{{rep.status}}</td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Detail"><button :id="rep.id_number" class="btn btn-success btn-xs" @click="zoom" data-title="Detail" data-toggle="modal" data-target="#delete" style="height:10px;width:20px;"><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                 <td><p data-placement="top" data-toggle="tooltip"  title="Edit"><button :id="rep.id_number" class="btn btn-primary btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" @click="edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                <td><p data-placement="top" data-toggle="tooltip"  title="Edit"><button :id="rep.id_number" class="btn btn-primary btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" @click="edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
             </tr>
       </tbody>
     </table>
     </div>
+    </div>
   </div>
-
-
-  </div>
- 
-
 
       <!-- schermata di zoom-->
            <div v-else-if="adding==false &&zoomed==true&&filter==false" class="card-body" style="width:100%;height:520px;" >
             <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>DETTAGLIO SEGNALAZIONE</b></h5>
-               <hr class="my-4">
+            <hr class="my-4">
             
-          <div class="row text-left">
-              <div class="col">
-                CF: {{this.CF}}
-                <div class="row mt-1">
-                  <div class="col">
-                   STATO: {{this.status}}
+              <div class="row text-left">
+                <div class="col">
+                  CF: {{this.CF}}
+                  <div class="row mt-1">
+                    <div class="col">
+                      STATO: {{this.status}}
+                    </div>
                   </div>
-                </div>
-                <div class="row  mt-1">
-                  <div class="col">
-                CATEGORIA: {{this.category}}
+                  <div class="row  mt-1">
+                    <div class="col">
+                      CATEGORIA: {{this.category}}
+                    </div>
                   </div>
-                </div>
-                <div class="row mt-1">
-                  <div class="col">
-                   LUOGO: {{this.address}}
+                  <div class="row mt-1">
+                    <div class="col">
+                      LUOGO: {{this.address}}
+                    </div>
                   </div>
-                </div>
-                <div class="row mt-1">
-                  <div class="col">
-                   DATA: {{this.date}}
+                  <div class="row mt-1">
+                    <div class="col">
+                      DATA: {{this.date}}
+                    </div>
                   </div>
-                </div>
-                <div class="row mt-1">
-                  <div class="col">
-                   DESCRIZIONE:<br> {{this.description}}
+                  <div class="row mt-1">
+                    <div class="col">
+                      DESCRIZIONE:<br> {{this.description}}
+                    </div>
                   </div>
+                    
                 </div>
-                 
               </div>
-           
-            
-          </div>
           </div>
 
 <!-- schermata edit-->
@@ -87,42 +80,42 @@
                 CF: {{this.CF}}
                 <div class="row ">
                   <div class="col">
-                CATEGORIA: {{this.category}}
+                    CATEGORIA: {{this.category}}
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
-                   LUOGO: {{this.address}}
+                    LUOGO: {{this.address}}
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
-                   DATA: {{this.date}}
+                    DATA: {{this.date}}
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
-                   DESCRIZIONE:<br> {{this.description}}
+                    DESCRIZIONE:<br> {{this.description}}
                   </div>
                 </div>
               </div>
            
               <div class="col">
                 <div class="row">
-                 STATO: {{this.status}}
+                  STATO: {{this.status}}
                   <select type="option" id="categoria" class="form-control" v-model="status" required>
-                  <option disabled value="" >{{this.status}}</option>
-                  <option value="in attesa">in attesa</option>
-                  <option value="presa in carico">presa in carico</option>
-                  <option value="risolto">risolto</option>
-                </select>
+                    <option disabled value="" >{{this.status}}</option>
+                    <option value="in attesa">in attesa</option>
+                    <option value="presa in carico">presa in carico</option>
+                    <option value="risolto">risolto</option>
+                  </select>
                 </div>
                 <div class="row">
                   <button  v-if="this.status!=''" type="button"   class="btn btn-xs btn-success mt-1" @click="editConfermato">Salva</button>   
                 </div>
               </div>
-              </div>
-              </div>
+            </div>
+            </div>
               
               <!-- schermata filter-->
 
@@ -132,78 +125,50 @@
             <center>
             <div class="card-body" >
               <div id="box" style="width:300px;">
-             
-            <div class="row mt-4" >
-            
-                <div class="col">
-              <input type="text" id="address" class="form-control " minlength="16" maxlength="16" v-model="CF2filter" placeholder=" CF"  required autofocus>
-        
+                <div class="row mt-4" >           
+                  <div class="col">
+                    <input type="text" id="address" class="form-control " minlength="16" maxlength="16" v-model="CF2filter" placeholder=" CF"  required autofocus>
                   </div>
-                 
-                </div>
-                 <div class="row mt-3">
-                
-                <div class="col">
-                  <select type="option" id="categoria" class="form-control" v-model="cat2filter" required>
-                  <option disabled value="" >CATEGORIA</option>
-                  <option value="incendio">incendio</option>
-                  <option value="rifiuti">rifiuti</option>
-                  <option value="urbanistica">urbanistica</option>
-                  <option value="idrogeologia">idrogeologia</option>
-                  <option value="altro">altro</option>
-                 
-                </select>
-                </div>
-                
                 </div>
                 <div class="row mt-3">
-                 
-                <div class="col">
-                 <select type="option" id="categoria" class="form-control" v-model="status2filter" required>
-                  <option disabled value="" >STATO</option>
-                  <option value="in attesa">in attesa</option>
-                  <option value="presa in carico">presa in carico</option>
-                  <option value="risolto">risolto</option>
-                </select>
-                  <div class="row mt-3">
-                <div class="col">
-                  Data di inizio: <input type="date" name="mydatetime" v-model="data_inizio">
+                  <div class="col">
+                    <select type="option" id="categoria" class="form-control" v-model="cat2filter" required>
+                      <option disabled value="" >CATEGORIA</option>
+                      <option value="incendio">incendio</option>
+                      <option value="rifiuti">rifiuti</option>
+                      <option value="urbanistica">urbanistica</option>
+                      <option value="idrogeologia">idrogeologia</option>
+                      <option value="altro">altro</option>
+                    </select>
+                  </div>
                 </div>
-                <div class="col">
-                    Data di fine: <input type="date" name="mydatetime" v-model="data_fine">
-                 </div>
-                </div>
-                </div>
+                <div class="row mt-3">
+                  <div class="col">
+                    <select type="option" id="categoria" class="form-control" v-model="status2filter" required>
+                      <option disabled value="" >STATO</option>
+                      <option value="in attesa">in attesa</option>
+                      <option value="presa in carico">presa in carico</option>
+                      <option value="risolto">risolto</option>
+                    </select>
+                    <div class="row mt-3">
+                      <div class="col">
+                        Data di inizio: <input type="date" name="mydatetime" v-model="data_inizio">
+                      </div>
+                      <div class="col">
+                        Data di fine: <input type="date" name="mydatetime" v-model="data_fine">
+                      </div>
+                      </div>
+                  </div>
                 </div>
            </div>
         </div>
          </center>
       
                    <center>    <button   type="button"   class="btn btn-xs btn-success  mt-3 p-2" @click="filterConfermato">Applica</button> </center>
-              
-                
-                
-               
          
-           
-            </div>
+        </div>
                 
-                   
-               
-             
-          
-              
-              
-                  
-                  
-             
-              
-
-      
- 
-             
-          
- 
+                                
 </div>
 
 </template>
