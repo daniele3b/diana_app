@@ -1,12 +1,14 @@
 <template>
  <div class="card  mt-1"  onload="getReport();" >
   <div class="card-header">Segnalazioni <router-link v-if="this.citt==false" to="/report_storico"><img src="../assets/storico.png" class="d-none d-sm-block" style="float:right;" height="20px;"></router-link></div>
-  <!-- schermata di visualizzazione-->
+  <!-- LAYOUT PC-->
+  <!-- schermata di visualizzazione in caso di operatore-->
   <div class=" d-none d-sm-block">
   <div v-if="adding==false&&zoomed==false&&editing==false" class="card-body ">
     <div v-if="this.citt==false" class="col-md-12" >
     <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
     <table id="mytable" class="table  "  >
+        <!-- intestazione tabella-->
         <thead>
           <th>CF</th>
           <th>Categoria</th>
@@ -15,9 +17,8 @@
           <th>Dett.</th>
           <th>Edit</th>
           <th>Delete</th>
-        
         </thead>
-      
+      <!-- body tabella-->
       <tbody >
             <tr :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
@@ -29,13 +30,16 @@
                 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
             </tr>
       </tbody>
+
     </table>
     </div>
   </div>
 
+<!-- schermata di visualizzazione in caso di cittadino-->
  <div v-else class="col-md-12" >
     <div class="table-responsive ">
     <table id="mytable" class="table  "  >
+      <!-- intestazione tabella-->
         <thead>
           <th>CF</th>
           <th>Categoria</th>
@@ -43,9 +47,8 @@
           <th>Stato</th>
           <th>Dett.</th>
           <th>Delete</th>
-        
         </thead>
-      
+      <!-- body tabella-->
       <tbody >
             <tr  :class="cambiaClasse(rep)" v-for="rep in reports" :key="rep._id">
                 <td>{{rep.CF}}</td>
@@ -56,143 +59,139 @@
                 <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button :id="rep.id_number" class="btn btn-danger btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" @click="del"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
             </tr>
       </tbody>
+
     </table>
     </div>
-    </div>
+  </div>
 
-    <button type="button" class="btn btn-success mt-1 " id="aggiungi" @click="add"> Aggiungi </button>
+  <button type="button" class="btn btn-success mt-1 " id="aggiungi" @click="add"> Aggiungi </button>
   </div>
  
 
   <!-- schermata di add --->
   <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width:100%;height:400px;" >
             <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>AGGIUNGI SEGNALAZIONE</b></h5>
-               <hr class="my-4">
-            <form class="form-signin">
-              
+            <hr class="my-4">
+            <!-- form inserimento-->
+            <form class="form-signin">  
                 <input type="text" id="address" class="form-control mb-4" v-model="address" placeholder="Inserici il luogo della segnalazione"  required autofocus>
              
-
-              <div class="form-label-group">
-                <select type="option" id="categoria" class="form-control" v-model="category" required>
-                   <option value="" disabled selected>CATEGORIA</option>
-                  <option value="rifiuti">rifiuti</option>
-                  <option value="incendio">incendio</option>
-                  <option value="urbanistica">urbanistica</option>
-                  <option value="idrogeologia">idrogeologia</option>
-                  <option value="altro">altro</option></select>
-              </div>
-
+                <div class="form-label-group">
+                  <select type="option" id="categoria" class="form-control" v-model="category" required>
+                    <option value="" disabled selected>CATEGORIA</option>
+                    <option value="rifiuti">rifiuti</option>
+                    <option value="incendio">incendio</option>
+                    <option value="urbanistica">urbanistica</option>
+                    <option value="idrogeologia">idrogeologia</option>
+                    <option value="altro">altro</option>
+                  </select>
+                </div>
 
                 <div class="form-label-group mt-4">
-                <textarea id="categoria" class="form-control" v-model="description"  maxlength="200" rows="3" cols="50" placeholder="Descrizione dell'evento (max 200 cartteri)" required/>
-            
-              </div>
+                  <textarea id="categoria" class="form-control" v-model="description"  maxlength="200" rows="3" cols="50" placeholder="Descrizione dell'evento (max 200 cartteri)" required/>
+                </div>
 
             <hr class="my-4">
             <center>  <button  v-if="this.addresscheck&&this.descriptioncheck&&this.categorycheck" type="button" style="width:100px"  class="btn btn-lg btn-success btn-block text-uppercase mt-3" @click="addElement">Invia</button>    </center>
-            </form>   
+            </form> 
+            <!-- fine form-->  
            </div>
 
       <!-- schermata di zoom-->
            <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width:100%;height:400px;" >
-            <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>DETTAGLIO SEGNALAZIONE</b></h5>
+                <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>DETTAGLIO SEGNALAZIONE</b></h5>
                <hr class="my-4">
-            
+          <!-- info-->
           <div class="row text-left">
               <div class="col">
-                CF: {{this.CF}}
-                <div class="row mt-1">
-                  <div class="col">
-                   STATO: {{this.status}}
-                  </div>
-                </div>
-                <div class="row  mt-1">
-                  <div class="col">
-                CATEGORIA: {{this.category}}
-                  </div>
-                </div>
-                <div class="row mt-1">
-                  <div class="col">
-                   LUOGO: {{this.address}}
-                  </div>
-                </div>
-                <div class="row mt-1">
-                  <div class="col">
-                   DATA: {{this.date}}
-                  </div>
-                </div>
-                <div class="row mt-1">
-                  <div class="col">
-                   DESCRIZIONE:<br> {{this.description}}
-                  </div>
-                </div>
-                 
+                    CF: {{this.CF}}
+                    <div class="row mt-1">
+                      <div class="col">
+                        STATO: {{this.status}}
+                      </div>
+                    </div>
+                    <div class="row  mt-1">
+                      <div class="col">
+                        CATEGORIA: {{this.category}}
+                      </div>
+                    </div>
+                    <div class="row mt-1">
+                      <div class="col">
+                        LUOGO: {{this.address}}
+                      </div>
+                    </div>
+                    <div class="row mt-1">
+                      <div class="col">
+                        DATA: {{this.date}}
+                      </div>
+                    </div>
+                    <div class="row mt-1">
+                      <div class="col">
+                        DESCRIZIONE:<br> {{this.description}}
+                      </div>
+                    </div> 
               </div>
-           
-            
           </div>
+          <!-- fine info-->
           </div>
 
-<!-- schermata edit-->
+      <!-- schermata edit-->
            <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width:100%;height:400px;" >
-           
             <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;"  :id="obj2edit.id_number" @click="back2" /><b>EDITING STATO</b></h5>
             <hr class="my-4">
+            <!-- info-->
             <div class="row text-left">
               <div class="col">
-                CF: {{this.CF}}
-                <div class="row ">
-                  <div class="col">
-                CATEGORIA: {{this.category}}
+                  CF: {{this.CF}}
+                  <div class="row ">
+                    <div class="col">
+                      CATEGORIA: {{this.category}}
+                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                   LUOGO: {{this.address}}
+                  <div class="row">
+                    <div class="col">
+                      LUOGO: {{this.address}}
+                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                   DATA: {{this.date}}
+                  <div class="row">
+                    <div class="col">
+                      DATA: {{this.date}}
+                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                   DESCRIZIONE:<br> {{this.description}}
+                  <div class="row">
+                    <div class="col">
+                      DESCRIZIONE:<br> {{this.description}}
+                    </div>
                   </div>
-                </div>
               </div>
            
               <div class="col" >
-                <div class="row" >
-                 STATO: {{this.status}}
-                  <select type="option" id="categoria" class="form-control" v-model="status" required>
-                  <option disabled value="" >{{this.status}}</option>
-                  <option value="in attesa">in attesa</option>
-                  <option value="presa in carico">presa in carico</option>
-                  <option value="risolto">risolto</option>
-                </select>
-                </div>
+                  <div class="row" >
+                    STATO: {{this.status}}
+                    <select type="option" id="categoria" class="form-control" v-model="status" required>
+                    <option disabled value="" >{{this.status}}</option>
+                    <option value="in attesa">in attesa</option>
+                    <option value="presa in carico">presa in carico</option>
+                    <option value="risolto">risolto</option>
+                    </select>
+                  </div>
                 <div class="row">
                   <button  v-if="this.status!=''" type="button"   class="btn btn-xs btn-success mt-1" @click="editConfermato">Salva</button>   
                 </div>
               </div>
               </div>
-                 
-
+              <!-- fine info-->
+                
          </div>
          
- 
               <div v-if="loading" class="card-body"><b>Caricamento in corso...</b></div>
-
            </div>
 
 <!-- LAYOUT TELEFONO -->
 
 
   <div class="d-block d-sm-none ">
-  
+  <!-- schermata visualizzazione se operatore-->
    <div v-if="adding==false&&zoomed==false&&editing==false" class="card-body ">
     <div v-if="this.citt==false" class="col-md-12" >
     <div class="table-responsive ">
@@ -205,7 +204,6 @@
           <th>Dett.</th>
           <th>Edit</th>
           <th>Delete</th>
-        
         </thead>
       
       <tbody >
@@ -221,8 +219,9 @@
       </tbody>
     </table>
     </div>
-  </div>
+    </div>
 
+<!-- schermata visualizzazione se cittadino-->
  <div v-else class="col-md-12" >
     <div class="table-responsive ">
     <table id="mytable" class="table  "  >
@@ -233,7 +232,6 @@
           <th>Stato</th>
           <th>Dett.</th>
           <th>Delete</th>
-        
         </thead>
       
       <tbody >
@@ -257,131 +255,123 @@
   <!-- schermata di add --->
   <div v-else-if="adding==true &&zoomed==false&&editing==false" class="card-body" style="width: 420px; " >
             <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>AGGIUNGI SEGNALAZIONE</b></h5>
-               <hr class="my-4">
-            <form class="form-signin">
-              
-                <input type="text" id="address" class="form-control mb-4" v-model="address" placeholder="Inserici il luogo della segnalazione"  required autofocus>
+            <hr class="my-4">
+            <!-- inizio form-->
+            <form class="form-signin">  
+              <input type="text" id="address" class="form-control mb-4" v-model="address" placeholder="Inserici il luogo della segnalazione"  required autofocus>
              
-
               <div class="form-label-group">
                 <select type="option" id="categoria" class="form-control" v-model="category" required>
-                   <option value="" disabled selected>CATEGORIA</option>
+                  <option value="" disabled selected>CATEGORIA</option>
                   <option value="rifiuti">rifiuti</option>
                   <option value="incendio">incendio</option>
                   <option value="urbanistica">urbanistica</option>
                   <option value="idrogeologia">idrogeologia</option>
-                  <option value="altro">altro</option></select>
+                  <option value="altro">altro</option>
+                </select>
               </div>
 
-
-                <div class="form-label-group mt-4">
+              <div class="form-label-group mt-4">
                 <textarea id="categoria" class="form-control" v-model="description"  maxlength="200" rows="3" cols="50" placeholder="Descrizione dell'evento (max 200 cartteri)" required/>
-            
               </div>
 
             <hr class="my-4">
             <center>  <button  v-if="this.addresscheck&&this.descriptioncheck&&this.categorycheck" type="button" style="width:100px"  class="btn btn-lg btn-success btn-block text-uppercase mt-3" @click="addElement">Invia</button>    </center>
             </form>   
+            <!-- fine form-->
            </div>
 
       <!-- schermata di zoom-->
-           <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width: 420px; " >
+        <div v-else-if="adding==false &&zoomed==true" class="card-body" style="width: 420px; " >
             <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back" /><b>DETTAGLIO SEGNALAZIONE</b></h5>
-               <hr class="my-4">
+            <hr class="my-4">
             
           <div class="row text-left">
               <div class="col">
-                CF: {{this.CF}}
-                <div class="row mt-1">
-                  <div class="col">
-                   STATO: {{this.status}}
+                  CF: {{this.CF}}
+                  <div class="row mt-1">
+                    <div class="col">
+                      STATO: {{this.status}}
+                    </div>
                   </div>
-                </div>
-                <div class="row  mt-1">
-                  <div class="col">
-                CATEGORIA: {{this.category}}
+                  <div class="row  mt-1">
+                    <div class="col">
+                      CATEGORIA: {{this.category}}
+                    </div>
                   </div>
-                </div>
-                <div class="row mt-1">
-                  <div class="col">
-                   LUOGO: {{this.address}}
+                  <div class="row mt-1">
+                    <div class="col">
+                      LUOGO: {{this.address}}
+                    </div>
                   </div>
-                </div>
-                <div class="row mt-1">
-                  <div class="col">
-                   DATA: {{this.date}}
+                  <div class="row mt-1">
+                    <div class="col">
+                      DATA: {{this.date}}
+                    </div>
                   </div>
-                </div>
-                <div class="row mt-1">
-                  <div class="col">
-                   DESCRIZIONE:<br> {{this.description}}
+                  <div class="row mt-1">
+                    <div class="col">
+                      DESCRIZIONE:<br> {{this.description}}
+                    </div>
                   </div>
-                </div>
-                 
-              </div>
-           
-            
+              </div> 
           </div>
-          </div>
+        </div>
 
 <!-- schermata edit-->
            <div v-else-if="adding==false &&zoomed==false&&editing==true" class="card-body" style="width: 420px; " >
             <h5 class="card-title text-center"><img src="../assets/back.png" style="float:left;cursor:pointer;" height="20px;" @click="back2" :id="obj2edit.id_number" /><b>EDITING STATO</b></h5>
             <hr class="my-4">
+
+            <!--info-->
             <div class="row text-left">
               <div class="col">
                 CF: {{this.CF}}
                 <div class="row ">
                   <div class="col">
-                CATEGORIA: {{this.category}}
+                    CATEGORIA: {{this.category}}
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
-                   LUOGO: {{this.address}}
+                    LUOGO: {{this.address}}
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
-                   DATA: {{this.date}}
+                    DATA: {{this.date}}
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
-                   DESCRIZIONE:<br> {{this.description}}
+                    DESCRIZIONE:<br> {{this.description}}
                   </div>
                 </div>
               </div>
            
               <div class="col">
                 <div class="row">
-                 STATO: {{this.status}}
+                  STATO: {{this.status}}
                   <select type="option" id="categoria" class="form-control" v-model="status" required>
                   <option disabled value="" >{{this.status}}</option>
                   <option value="in attesa">in attesa</option>
                   <option value="presa in carico">presa in carico</option>
                   <option value="risolto">risolto</option>
-                </select>
+                  </select>
                 </div>
                 <div class="row">
                   <button  v-if="this.status!=''" type="button"   class="btn btn-xs btn-success mt-1" @click="editConfermato">Salva</button>   
                 </div>
               </div>
-              </div>
-                 
-
+            </div>
+            <!-- fine info-->
          </div>
         <div v-if="loading" class="card-body"><b>Caricamento in corso...</b></div>
-
-
-
-             
-          
-  
+              
 </div>
-
+<!-- fine layout telefono-->
 </div>
-
+<!-- fine container/card-->
 </template>
 
 
