@@ -8,7 +8,7 @@
            <h5 class="card-title text-center"><b>Registrazione nuovo operatore </b></h5>
            
             <hr class="my-4">
-            <form class="form-signin" onsubmit="return checkForm();">
+            <form class="form-signin" >
 
             <h6 class="card-subtitle mb-2 text-muted text-left">Credenziali:</h6>
 
@@ -91,7 +91,7 @@
               </div>
               <hr class="my-4">
 
-              <button  @click="regPost" class="btn btn-lg btn-success btn-block text-uppercase"  type="submit">Inserisci Operatore</button>
+              <button  @click="checkForm();regPost();" class="btn btn-lg btn-success btn-block text-uppercase"  type="button">Inserisci Operatore</button>
               <label v-if="corretto==true" class="alert alert-success">Inserimento operatore avvenuto con successo!</label>
               
               
