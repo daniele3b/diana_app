@@ -2,10 +2,14 @@
     <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+
+        <!--  CARD  -->
         <div class="card card-signin my-5 border-success mb-3">
           <div class="card-body">
             <h5 class="card-title text-center"><b>Accedi</b></h5>
             <hr class="my-4">
+
+            <!--  FORM  -->
             <form class="form-signin" @keyup.enter="accedi()">
               <div class="form-label-group">
                 <input type="text" id="inputEmailOrPhone" class="form-control" v-model="emailOrPhone" placeholder="Inserici l'indirizzo email o il telefono" required >
@@ -27,8 +31,12 @@
               <router-link to="/registration">Registrati</router-link>
               
             </form>
+            <!--  FINE FORM  -->
+
           </div>
         </div>
+        <!--  FINE CARD  -->
+
       </div>
     </div>
   </div>
@@ -38,7 +46,7 @@
 <script>
 
 import axios from 'axios'
-import {mapMutations, mapGetters} from 'vuex'
+import {mapMutations} from 'vuex'
 
 export default {
     name: 'Login',
@@ -58,12 +66,13 @@ export default {
     },
 
     beforeCreate(){
+      // Se ho già effettuato l'accesso, vado direttamente alla dashboard
       if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
         localStorage.getItem('password') != undefined && localStorage.getItem('token') != undefined &&
         localStorage.getItem('type') != undefined){
         
         this.$store.commit('setLogged', true)
-        this.$router.push('/dashboard') // /dashboard
+        this.$router.push('/dashboard')
       }
     },
 
@@ -110,45 +119,25 @@ export default {
 
       emailOrPhone : function(){
         const tmp = this.emailOrPhone
-        //const len = tmp.length
         const regex = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
         const res = regex.test(tmp)
 
+        //Se il test va a buon fine vuol dire che ho un'email valida
         if(res){
           this.emailOk = true
           this.phoneOk = false
         }
-/*
-        if(tmp[0] == '@' || tmp[len-1] == '@' || tmp[0] == '.' || tmp[len-1] == '.'){
-          this.emailOk = false
-          this.phoneOk = false  
-        }
-
-        else if(!this.validaEmail()){
-          this.emailOk = false
-          this.phoneOk = false
-        }
-
-        else if(this.cercaElem('@') > 1){
-          this.emailOk = false
-          this.phoneOk = false
-        }
         
-        else if(this.cercaElem('@') == 1 && this.cercaElem('.') == 0){
-          this.emailOk = false
-          this.phoneOk = false
-        }
-
-        else if(this.cercaElem('@') == 1 && this.cercaElem('.') > 0){
-          this.emailOk = true
-          this.phoneOk = false
-        }
-*/
+        //Altrimenti, controllo se ho un telefono valido
         else if(!res){
+
+          //Se il campo testo è lungo 10 ed è un numero vuol dire che ho un telefono valido
           if(this.emailOrPhone.length == 10 && !isNaN(parseInt(this.emailOrPhone))){
             this.emailOk = false
             this.phoneOk = true
           }
+
+          //Altrimenti non ho nè un telefono valido nè un'email valida
           else{
             this.emailOk = false
             this.phoneOk = false
@@ -156,14 +145,6 @@ export default {
         }
         
       }
-    },
-
-    computed : {
-      ...mapGetters([
-        'getToken',
-        'getType',
-        'getLogged'
-      ])
     },
 
     methods : {
@@ -174,31 +155,6 @@ export default {
         'setType'
       ]),
 
-      cercaElem(elem){
-        let i
-        const emailOrPhone = this.emailOrPhone
-        const dim = emailOrPhone.length
-        let counter = 0
-        for(i=0;i<dim;i++){
-          if(emailOrPhone[i] == elem) counter++
-        }
-        return counter
-      },
-
-      validaEmail(){
-        const emailOrPhone = this.emailOrPhone
-        const dim = emailOrPhone.length
-        let i
-        for(i=0;i<dim;i++){
-          if(i == 0 || i == dim - 1) continue
-          else{
-            if((emailOrPhone[i]=='@' && emailOrPhone[i+1]=='.') || (emailOrPhone[i]=='.' && emailOrPhone[i+1]=='@'))
-              return false
-          }
-        }
-        return true
-      },
-
       memorizzaCredenziali(response){
         localStorage.email = this.emailOrPhone,
         localStorage.password = this.password,
@@ -208,7 +164,7 @@ export default {
     
       async accedi() {
         
-        // Controllo per vedere l'endpoint -> /auth/email o /auth/phone
+        // Accesso con email e password
         if(this.readyEmail){
 
           axios({
@@ -239,6 +195,7 @@ export default {
             })
         }
 
+        // Accesso con telefono e password
         else if(this.readyPhone){
           axios({
             method: 'post',
