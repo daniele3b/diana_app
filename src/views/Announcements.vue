@@ -73,7 +73,7 @@
                         <!--  CF  -->
                         <div class="row">
                             <div class="col mt-1">
-                                <h6>CF</h6>
+                                <h6><b>CF</b></h6>
                             </div>
                             
                             <div class="col">
@@ -88,7 +88,7 @@
                         <!--  Data inizio  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Data inizio</h6>
+                                <h6><b>Data inizio</b></h6>
                             </div>
 
                             <div class = "col">
@@ -103,7 +103,7 @@
                         <!--  Data fine  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Data fine</h6>
+                                <h6><b>Data fine</b></h6>
                             </div>
 
                             <div class = "col">
@@ -118,7 +118,7 @@
                         <!--  Zone  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Zone</h6>
+                                <h6><b>Zone</b></h6>
                             </div>
 
                             <div class = "col">
@@ -154,7 +154,7 @@
                         <!--  Descrizione  -->
                         <div class="row mt-2">
                             <div class = "col mt-1">
-                                <h6>Descrizione</h6>
+                                <h6><b>Descrizione</b></h6>
                             </div>
 
                             <div class = "col">
@@ -196,7 +196,7 @@
                         <!--  CF  -->
                         <div class="row">
                             <div class="col mt-1">
-                                <h6>CF</h6>
+                                <h6><b>CF</b></h6>
                             </div>
                             
                             <div class="col">
@@ -207,7 +207,7 @@
                         <!--  Data inizio  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Data inizio</h6>
+                                <h6><b>Data inizio</b></h6>
                             </div>
 
                             <div class = "col">
@@ -218,7 +218,7 @@
                         <!--  Data fine  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Data fine</h6>
+                                <h6><b>Data fine</b></h6>
                             </div>
 
                             <div class = "col">
@@ -229,7 +229,7 @@
                         <!--  Zone  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Zone</h6>
+                                <h6><b>Zone</b></h6>
                             </div>
 
                             <div class = "col">
@@ -270,7 +270,7 @@
                         <!--  Descrizione  -->
                         <div class="row mt-1">
                             <div class = "col mt-1">
-                                <h6>Descrizione</h6>
+                                <h6><b>Descrizione</b></h6>
                             </div>
 
                             <div class = "col">
@@ -419,7 +419,7 @@
                         <!--  CF  -->
                         <div class="row">
                             <div class="col mt-1">
-                                <h6>CF</h6>
+                                <h6><b>CF</b></h6>
                             </div>
                             
                             <div class="col">
@@ -434,7 +434,7 @@
                         <!--  Data inizio  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Data inizio</h6>
+                                <h6><b>Data inizio</b></h6>
                             </div>
 
                             <div class = "col">
@@ -449,7 +449,7 @@
                         <!--  Data fine  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Data fine</h6>
+                                <h6><b>Data fine</b></h6>
                             </div>
 
                             <div class = "col">
@@ -464,7 +464,7 @@
                         <!--  Zone  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Zone</h6>
+                                <h6><b>Zone</b></h6>
                             </div>
 
                             <div class = "col">
@@ -500,7 +500,7 @@
                         <!--  Descrizione  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Descrizione</h6>
+                                <h6><b>Descrizione</b></h6>
                             </div>
 
                             <div class = "col">
@@ -542,7 +542,7 @@
                         <!--  CF  -->
                         <div class="row">
                             <div class="col">
-                                <h6>CF</h6>
+                                <h6><b>CF</b></h6>
                             </div>
                             
                             <div class="col">
@@ -553,7 +553,7 @@
                         <!--  Data inizio  -->                        
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Data inizio</h6>
+                                <h6><b>Data inizio</b></h6>
                             </div>
 
                             <div class = "col">
@@ -565,7 +565,7 @@
                         <!--  Data fine  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Data fine</h6>
+                                <h6><b>Data fine</b></h6>
                             </div>
 
                             <div class = "col">
@@ -577,7 +577,7 @@
                         <!--  Zone  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Zone</h6>
+                                <h6><b>Zone</b></h6>
                             </div>
 
                             <div class = "col">
@@ -620,7 +620,7 @@
                         <!--  Descrizione  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Descrizione</h6>
+                                <h6><b>Descrizione</b></h6>
                             </div>
 
                             <div class = "col">
@@ -673,7 +673,7 @@
                         <!--  CF  -->
                         <div v-if="tipoUtente != 'cittadino'" class="row">
                             <div class="col mt-1">
-                                <h6>CF</h6>
+                                <h6><b>CF</b></h6>
                             </div>
                             
                             <div class="col">
@@ -688,7 +688,7 @@
                         <!--  Data inizio  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Data inizio</h6>
+                                <h6><b>Data inizio</b></h6>
                             </div>
 
                             <div class = "col">
@@ -703,7 +703,7 @@
                         <!--  Data fine  -->
                         <div class="row mt-1">
                             <div class = "col mt-1">
-                                <h6>Data fine</h6>
+                                <h6><b>Data fine</b></h6>
                             </div>
 
                             <div class = "col">
@@ -718,7 +718,7 @@
                         <!--  Zone  -->
                         <div class="row mt-1">
                             <div class = "col mt-1">
-                                <h6>Zone</h6>
+                                <h6><b>Zone</b></h6>
                             </div>
 
                             <div class = "col">
@@ -772,7 +772,7 @@
                         <!--  CF  -->
                         <div v-if="tipoUtente != 'cittadino'" class="row">
                             <div class="col mt-1">
-                                <h6>CF</h6>
+                                <h6><b>CF</b></h6>
                             </div>
                             
                             <div class="col">
@@ -783,7 +783,7 @@
                         <!--  Data inizio  -->
                         <div class="row">
                             <div class = "col mt-1">
-                                <h6>Data inizio</h6>
+                                <h6><b>Data inizio</b></h6>
                             </div>
 
                             <div class = "col">
@@ -794,7 +794,7 @@
                         <!--  Data fine  -->
                         <div class="row mt-1">
                             <div class = "col mt-1">
-                                <h6>Data fine</h6>
+                                <h6><b>Data fine</b></h6>
                             </div>
 
                             <div class = "col">
@@ -805,7 +805,7 @@
                         <!--  Zone  -->
                         <div class="row mt-1">
                             <div class = "col mt-1">
-                                <h6>Zone</h6>
+                                <h6><b>Zone</b></h6>
                             </div>
 
                             <div class = "col">
