@@ -535,6 +535,9 @@ export default {
         // DEL SENSORE PIU' VICINO A QUELL'INDIRIZZO
       
         if(!this.zonaTrue && this.indirizzoTrue){
+
+          this.raggio = undefined  // Resetto il raggio nell'eventualità che sia stato settato precedentemente
+
           // CENTRO LA MAPPA SULLE COORDINATE DELL'INDIRIZZO INSERITO, E APPLICO UNO ZOOM DI 14 RISPETTO AL 9 DI DEFAULT
           this.latMap = this.coordinateIndirizzoZona[0].lat
           this.lngMap = this.coordinateIndirizzoZona[0].lng
