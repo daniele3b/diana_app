@@ -8,10 +8,13 @@
         <!-- PRIMA COLONNA PRIMA RIGA  --->
 
         <div class="col">
+            
+            <!--  Freccia indietro  -->
             <div class="row mt-3">
                 <router-link to="/avanzato"><img src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;"></router-link>
             </div>
             
+            <!--  Switch  -->
             <div v-if="inviato" class="row" style="margin-left:20px;">
                 <b style="margin-top:10px; margin-left:4px">Indirizzo</b>
                 <label class="switch">
@@ -27,10 +30,12 @@
 
         <div class="col">
             
+            <!--  Indirizzo o zona da inserire  -->
             <div v-if="inviato" class = "row mt-5">
                 <input @keyup.enter="invia()" type="text" class="inserimento" v-model="indirizzoZona" :placeholder="placeholderIndirizzoZona" style="width:250px">
             </div>
             
+            <!--  Raggio da inserire  -->
             <div v-if="(!indirizzoTrue && zonaTrue) && (inviato)" class="row mt-2">
                 <input @keyup.enter="invia()" type="number" class="inserimento" v-model="raggio" min="1" placeholder="Inserisci il raggio(in km)" style="width:250px">
             </div>
@@ -43,6 +48,7 @@
                 {{messaggioErrore}}
             </div>
             
+            <!--  Lente  -->
             <div v-if="inviato" class="row">
                 <img @click="invia()" src="../assets/cerca.png" :class="classeLente" style="width:30px; heigth:30px; margin-left:110px">
             </div>
@@ -146,6 +152,7 @@
                       @click="showInfoDetails"
                   />
 
+                  <!--  Cerchio (Il raggio deve essere in metri => raggio in km * 1000)  -->
                   <GmapCircle
                       :center="{lat:centroCerchio.lat, lng:centroCerchio.lng}"
                       :radius="raggio * 1000"
@@ -242,7 +249,7 @@
                                               </table>
                                           </div>
 
-                                          <!--  DATI SENSORE CLICCATO SE L'OPERATORE CLICCA SUL MARKER -->
+                                          <!--  DATI AGENTI CHIMICI DEL SENSORE CLICCATO SE L'OPERATORE CLICCA SUL MARKER -->
                                           
                                           <div v-if="markerClicked && showSensorsWithinRadius" class="table-responsive" id="mytable">
 
@@ -302,7 +309,7 @@
 
                                           <div v-if="showNearestSensor" class="table-responsive" id="mytable">
 
-                                              <!--  DATI SENSORE PIU' VICINO  -->
+                                              <!--  DATI AGENTI CHIMICI DEL SENSORE PIU' VICINO  -->
 
                                               <table class="table" >
               
@@ -396,28 +403,26 @@ export default {
   watch : {
     indirizzoTrue : function(){
       if(this.indirizzoTrue && !this.zonaTrue){
-        this.inserimento = "Clicca per inserire una zona e un raggio"
         this.placeholderIndirizzoZona = "Inserisci l' indirizzo"
       } 
       else if(!this.indirizzoTrue && this.zonaTrue){
-        this.inserimento = "Clicca per inserire un indirizzo"
         this.placeholderIndirizzoZona = "Inserisci la zona"
       } 
     },
 
     zonaTrue : function(){
       if(this.indirizzoTrue && !this.zonaTrue){
-        this.inserimento = "Clicca per inserire una zona e un raggio"
         this.placeholderIndirizzoZona = "Inserisci l' indirizzo"
       } 
       else if(!this.indirizzoTrue && this.zonaTrue){
-        this.inserimento = "Clicca per inserire un indirizzo"
         this.placeholderIndirizzoZona = "Inserisci la zona"
       } 
     }
   },
   
   methods : {
+
+    // L'indirizzo (o la zona) non deve contenere numeri
     indirizzoZonaValidi(){
       if(this.indirizzoZona == "") return false 
       
@@ -495,7 +500,7 @@ export default {
       }
 
       // Per dare l'effetto del rilascio della lente
-        setTimeout(() => {this.classeLente = "search mt-1"}, 200)
+      setTimeout(() => {this.classeLente = "search mt-1"}, 200)
 
       this.coordinateIndirizzoZona = []
 
@@ -527,9 +532,10 @@ export default {
         })
 
         // SE L'OPERATORE INSERISCE UN INDIRIZZO GLI VERRANNO MOSTRATE LE INFO E I DATI 
-      // DEL SENSORE PIU' VICINO A QUELL'INDIRIZZO
+        // DEL SENSORE PIU' VICINO A QUELL'INDIRIZZO
       
         if(!this.zonaTrue && this.indirizzoTrue){
+          // CENTRO LA MAPPA SULLE COORDINATE DELL'INDIRIZZO INSERITO, E APPLICO UNO ZOOM DI 14 RISPETTO AL 9 DI DEFAULT
           this.latMap = this.coordinateIndirizzoZona[0].lat
           this.lngMap = this.coordinateIndirizzoZona[0].lng
           this.zoomMap = 14
@@ -582,6 +588,7 @@ export default {
         // SE L'OPERATORE INSERISCE UNA ZONA E UN CERTO RAGGIO GLI VERRANNO MOSTRATI I SENSORI
         // ALL'INTERNO DI TALE RAGGIO A PARTIRE DA QUELLA ZONA
         else if(this.zonaTrue && !this.indirizzoTrue){
+          // CENTRO LA MAPPA SULLE COORDINATE DI ROMA, E SETTO LO ZOOM AL 9 DI DEFAULT 
           this.latMap = 41.9109
           this.lngMap = 12.6818
           this.zoomMap = 9
@@ -613,14 +620,17 @@ export default {
       .catch((error) => {
         this.inviato = false
         console.log(error)
-        alert("L'indirizzo inserito non esiste!")
+
+        if(this.indirizzoTrue && !this.zonaTrue) alert("L'indirizzo inserito non esiste!")
+        else if(!this.indirizzoTrue && this.zonaTrue) alert("La zona inserita non esiste!")
       })
 
     },
 
     showInfoDetails : async function(event){
 
-        // SE L'OPERATORE HA INSERITO UNA ZONA E UN RAGGIO, VORRA' SAPER LE INFORMAZIONI E I DATI DI CIASCUN SENSORE QUANDO CLICCA SUL MARKER
+        // SE L'OPERATORE HA INSERITO UNA ZONA E UN RAGGIO, VORRA' SAPER LE INFORMAZIONI E I DATI DI CIASCUN SENSORE 
+        // QUANDO CLICCA SUL MARKER
         if(this.showSensorsWithinRadius){
           this.markerClicked = true
 
@@ -633,6 +643,7 @@ export default {
           let i
           let sensoreCliccato 
 
+          // RECUPERO IL SENSORE CLICCATO CON EVENT
           for(i=0;i<dim;i++){
             if(sensors[i].coordinates.lat == lat && sensors[i].coordinates.lon == lng){
 
@@ -641,7 +652,7 @@ export default {
               break
             }
           }
-
+          // RECUPERO I DATI DEGLI AGENTI CHIMICI DI TALE SENSORE
           const sensorsInfo = await this.receiveData(sensoreCliccato)
         
           if(sensorsInfo.length == 0){
@@ -649,6 +660,7 @@ export default {
             return
           }
 
+          // PER GONI AGENTE CONTROLLO SE IL VALORE E' SUPERIORE O INFERIORE ALLA MEDIA
           const size = sensorsInfo.length
           for(i=0;i<size;i++){
             if(sensorsInfo[i].value > sensorsInfo[i].avg){
@@ -661,7 +673,7 @@ export default {
 
           this.currentSensorsInfo = sensorsInfo
 
-          // Centro la mappa sul sensore appena cliccato e applico un leggero zoom
+          // CENTRO LA MAPPA SUL SENSORE CLICCATO E APPLICO UN LEGGERO ZOOM DI 9.5 RISPETTO AL 9 DI DEAFULT
           this.latMap = lat
           this.lngMap = lng
           this.zoomMap = 9.5
