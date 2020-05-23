@@ -660,7 +660,7 @@ export default {
             return
           }
 
-          // PER GONI AGENTE CONTROLLO SE IL VALORE E' SUPERIORE O INFERIORE ALLA MEDIA
+          // PER OGNI AGENTE CONTROLLO SE IL VALORE E' SUPERIORE O INFERIORE ALLA MEDIA
           const size = sensorsInfo.length
           for(i=0;i<size;i++){
             if(sensorsInfo[i].value > sensorsInfo[i].avg){
