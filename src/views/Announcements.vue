@@ -1107,6 +1107,7 @@ export default {
           }
         })
         .then((response) => {
+          this.aggiornaSchermataAnnunci()
           console.log("Eliminato: "+response.data)
         })
         .catch((error) => {
