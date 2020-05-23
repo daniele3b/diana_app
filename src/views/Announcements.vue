@@ -12,6 +12,8 @@
                 
                 <div class="table-responsive table-borderless" style="height:350px">
                     <table class="table">
+                        
+                        <!--  INTESTAZIONE TABELLA  -->
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col"><router-link to="/avanzato"><img data-title = "Torna alle avanzate" src="../assets/back.png" class="back" style="width:20px; margin-left:16px;"></router-link></th>
@@ -24,16 +26,18 @@
                                 <th scope="col"><img @click="cliccatoSuFiltra=true" src="../assets/filter.png" data-title = "Vai ai filtri" class="filter" style="width:25px"></th>
                             </tr>
                         </thead>
+
+                        <!--  CORPO TABELLA  -->
                         <tbody>
                             <tr :class="cambiaClasse(annuncio)" v-for="annuncio in annunci" :key="annuncio._id">
-                                <td><!--  PADDING PER IMG BACK  --></td>
+                                <td><!--  Padding per img back  --></td>
                                 <td>{{annuncio.CF}}</td>
                                 <td>{{annuncio.start}}</td>
                                 <td>{{annuncio.end}}</td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Detail"><button :id="annuncio._id" @click="visualizzaDettagli" class = "btn btn-success btn-xs" data-title = "Detail" data-toggle = "modal" data-target = "#detail" style = "height:10px;width:20px;"><span class="glyphicon glyphicon-trash"></span></button></p></td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Edit"><button v-if="tipoUtente != 'cittadino'" :id="annuncio._id" @click="settaCampiPerAggiornamentoAnnuncio" class = "btn btn-primary btn-xs" data-title = "Edit" data-toggle = "modal" data-target = "#edit" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Delete"><button v-if="tipoUtente != 'cittadino'" :id="annuncio._id" @click="cancellaAnnuncio" class = "btn btn-danger btn-xs" data-title = "Delete" data-toggle = "modal" data-target = "#delete"><span class="glyphicon glyphicon-pencil" ></span></button></p></td>
-                                <td><!--  PADDING PER IMG FILTER  --></td>
+                                <td><!--  Padding per img filter  --></td>
                             </tr>
                             
                         </tbody>
@@ -51,6 +55,7 @@
          <!-- SCHERMATA DI INSERIMENTO NUOVO ANNUNCIO  -->
 
         <div v-if="adding">
+            <!--  Img Back  -->
             <div class="row mt-1 ml-1">
                 <img @click="tornaAllaSchermataPrecedenteDaFiltri" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
             </div>
@@ -65,6 +70,7 @@
                     
                     <form @keyup.enter="pubblicaAnnuncio()">
                         
+                        <!--  CF  -->
                         <div class="row">
                             <div class="col mt-1">
                                 <h6>CF</h6>
@@ -75,10 +81,11 @@
                             </div>
 
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding per bottoni + e -  -->
                             </div>
                         </div>
                         
+                        <!--  Data inizio  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Data inizio</h6>
@@ -89,10 +96,11 @@
                             </div>
 
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding per bottoni + e -  -->
                             </div>
                         </div>
 
+                        <!--  Data fine  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Data fine</h6>
@@ -103,10 +111,11 @@
                             </div>
 
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding per bottoni + e -  -->
                             </div>
                         </div>
-
+                        
+                        <!--  Zone  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Zone</h6>
@@ -115,14 +124,16 @@
                             <div class = "col">
                                 <input class="form-control border-success mt-1" v-model="newZona" placeholder="Aggiungi(+) / Rimuovi(-)" type="text" style="width:200px;">
                             </div>
-
+                            
+                            <!--  Bottoni inserimento(+) e rimozione(-) zone  -->
                             <div class="col">
                                 <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px"><b>+</b></button>
                                 <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
                             </div>
 
                         </div>
-
+                        
+                        <!--  Zone inserite  -->
                         <div v-if="mostraZoneInserite">
                             <div v-for="(zona, index) in zone" :key="index">
                                 <div class="row mt-2">
@@ -139,7 +150,8 @@
                                
                             </div>
                         </div>
-
+                        
+                        <!--  Descrizione  -->
                         <div class="row mt-2">
                             <div class = "col mt-1">
                                 <h6>Descrizione</h6>
@@ -150,7 +162,7 @@
                             </div>
 
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding per bottoni + e -  -->
                             </div>
                         </div>
 
@@ -161,7 +173,8 @@
                         <div v-else-if="cliccatoSuPubblica && error==''" class="alert alert-success mt-1" role="alert">
                             {{messaggioConferma}}
                         </div>
-
+                        
+                        <!--  Bottone di pubblicazione annuncio  -->
                         <button @click="pubblicaAnnuncio()" type="button" class="btn btn-success mt-1">Pubblica annuncio</button>
 
                     </form>
@@ -180,6 +193,7 @@
                     
                     <form @keyup.enter="pubblicaAnnuncio()">
                         
+                        <!--  CF  -->
                         <div class="row">
                             <div class="col mt-1">
                                 <h6>CF</h6>
@@ -190,6 +204,7 @@
                             </div>
                         </div>
                         
+                        <!--  Data inizio  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Data inizio</h6>
@@ -199,7 +214,8 @@
                                 <input class="form-control border-success mt-1" v-model="data_inizio" type="date" style="width:200px">
                             </div>
                         </div>
-
+                        
+                        <!--  Data fine  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Data fine</h6>
@@ -210,6 +226,7 @@
                             </div>
                         </div>
 
+                        <!--  Zone  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Zone</h6>
@@ -220,9 +237,10 @@
                             </div>
                         </div>
 
+                        <!--  Bottoni inserimento(+) e rimozione(-) zone  -->
                         <div class="row mt-1">
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding  -->
                             </div>
 
                             <div class="col">
@@ -230,7 +248,8 @@
                                 <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
                             </div>
                         </div>
-
+                        
+                        <!--  Zone inserite  -->
                         <div v-if="mostraZoneInserite">
                             <div v-for="(zona, index) in zone" :key="index">
                                 <div class="row mt-2">
@@ -248,6 +267,7 @@
                             </div>
                         </div>
 
+                        <!--  Descrizione  -->
                         <div class="row mt-1">
                             <div class = "col mt-1">
                                 <h6>Descrizione</h6>
@@ -266,6 +286,7 @@
                             {{messaggioConferma}}
                         </div>
 
+                        <!--  Bottone di pubblicazione annuncio  -->
                         <button @click="pubblicaAnnuncio()" type="button" class="btn btn-success mt-1">Pubblica annuncio</button>
 
                     </form>
@@ -282,7 +303,8 @@
         <!--  SCHERMATA DI VISUALIZZAZIONE DETTAGLI DELL'ANNUNCIO  -->
 
         <div v-if="visualizzandoDettagli">
-
+            
+            <!--  Img Back  -->
             <div class="row mt-1 ml-1">
                 <img @click="aggiornaSchermataAnnunci(); visualizzandoDettagli=false" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
             </div>
@@ -292,7 +314,8 @@
                     <div class="card-body">
                     
                         <h5 class="card-title text-center"><b>DETTAGLI ANNUNCIO</b></h5>
-                    
+
+                        <!--  CF  -->
                         <div class="row">
                             <div class="col">
                                 <p><b>CF</b></p>
@@ -303,6 +326,7 @@
                             </div>
                         </div>
 
+                        <!--  Data inizio  -->
                         <div class="row">
 
                             <div class ="col">
@@ -315,6 +339,7 @@
 
                         </div>
 
+                        <!--  Data fine  -->
                         <div class="row">
 
                             <div class ="col">
@@ -327,6 +352,7 @@
 
                         </div>
 
+                        <!--  Unica zona  -->
                         <div v-if="annuncioDaVisualizzare.zone.length == 1" class="row">
                             
                             <div class="col">
@@ -338,7 +364,8 @@
                             </div>
 
                         </div>
-
+                        
+                        <!--  Più zone  -->
                         <div v-else class="row" v-for="(zona, index) in annuncioDaVisualizzare.zone" :key="index">
                             <div class="col">
                                 <p><b>Zona {{index+1}}</b></p>
@@ -350,6 +377,7 @@
                             
                         </div>
 
+                        <!--  Descrizione  -->
                         <div class="row">
                             <div class="col">
                                 <p><b>Descrizione</b></p>
@@ -373,6 +401,7 @@
         <!--  SCHERMATA DI MODIFICA DELL'ANNUNCIO  -->
 
         <div v-if="updating">
+            <!--  Img back  -->
             <div class="row mt-1 ml-1">
                 <img @click="tornaAllaSchermataPrecedenteDaModifica()" src="../assets/back.png" :id="idBack" class="back mt-1" style="width:20px; margin-left:16px;">
             </div>
@@ -387,6 +416,7 @@
                     
                     <form @keyup.enter="aggiornaAnnuncio">
                         
+                        <!--  CF  -->
                         <div class="row">
                             <div class="col mt-1">
                                 <h6>CF</h6>
@@ -397,10 +427,11 @@
                             </div>
 
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding per bottoni + e -  -->
                             </div>
                         </div>
                         
+                        <!--  Data inizio  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Data inizio</h6>
@@ -411,10 +442,11 @@
                             </div>
 
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding per bottoni + e -  -->
                             </div>
                         </div>
 
+                        <!--  Data fine  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Data fine</h6>
@@ -425,10 +457,11 @@
                             </div>
 
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding per bottoni + e -  -->
                             </div>
                         </div>
 
+                        <!--  Zone  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Zone</h6>
@@ -437,7 +470,8 @@
                             <div class = "col">
                                 <input class="form-control border-success mt-1" v-model="newZona" placeholder="Aggiungi(+) / Rimuovi(-)" type="text" style="width:200px;">
                             </div>
-
+                            
+                            <!--  Bottoni inserimento(+) e rimozione(-) zone  -->
                             <div class="col">
                                 <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px"><b>+</b></button>
                                 <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
@@ -445,6 +479,7 @@
 
                         </div>
 
+                        <!--  Zone inserite  -->
                         <div v-if="mostraZoneInserite">
                             <div v-for="(zona, index) in zone" :key="index">
                                 <div class="row mt-2">
@@ -462,6 +497,7 @@
                             </div>
                         </div>
 
+                        <!--  Descrizione  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Descrizione</h6>
@@ -472,7 +508,7 @@
                             </div>
 
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding per bottoni + e -  -->
                             </div>
                         </div>
 
@@ -484,6 +520,7 @@
                             {{messaggioConferma}}
                         </div>
 
+                        <!--  Bottone di aggiornamento annuncio  -->
                         <button @click="aggiornaAnnuncio()" type="button" class="btn btn-success mt-1">Aggiorna annuncio</button>
 
                     </form>
@@ -502,6 +539,7 @@
                     
                     <form @keyup.enter="aggiornaAnnuncio">
                         
+                        <!--  CF  -->
                         <div class="row">
                             <div class="col">
                                 <h6>CF</h6>
@@ -512,7 +550,7 @@
                             </div>
                         </div>
 
-                        
+                        <!--  Data inizio  -->                        
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Data inizio</h6>
@@ -524,6 +562,7 @@
 
                         </div>
 
+                        <!--  Data fine  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Data fine</h6>
@@ -533,8 +572,9 @@
                                 <input class="form-control border-success mt-1" v-model="data_fine" type="date" style="width:200px">
                             </div>
 
-                        </div>
+                        </div>  
 
+                        <!--  Zone  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Zone</h6>
@@ -546,9 +586,10 @@
 
                         </div>
 
+                        <!--  Bottoni inserimento(+) e rimozione(-) zone  -->
                         <div class="row mt-1">
                              <div class="col">
-                                 <!--  PADDING  -->
+                                 <!--  Padding  -->
                              </div>
                              
                              <div class="col">
@@ -558,6 +599,7 @@
 
                         </div>
 
+                        <!--  Zone inserite  -->
                         <div v-if="mostraZoneInserite">
                             <div v-for="(zona, index) in zone" :key="index">
                                 <div class="row mt-2">
@@ -575,6 +617,7 @@
                             </div>
                         </div>
 
+                        <!--  Descrizione  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Descrizione</h6>
@@ -594,6 +637,7 @@
                             {{messaggioConferma}}
                         </div>
 
+                        <!--  Bottone di aggiornamento annuncio  -->
                         <button @click="aggiornaAnnuncio()" type="button" class="btn btn-success mt-1">Aggiorna annuncio</button>
 
                     </form>
@@ -611,6 +655,7 @@
 
         <div v-if="cliccatoSuFiltra">
             
+            <!--  Img back  -->
             <div class="row mt-1 ml-1">
                 <img @click="tornaAllaSchermataPrecedenteDaFiltri()" src="../assets/back.png" class="back mt-1" style="width:20px; margin-left:16px;">
             </div>
@@ -625,6 +670,7 @@
                     
                     <form @keyup.enter="filtraAnnunci()">
                         
+                        <!--  CF  -->
                         <div v-if="tipoUtente != 'cittadino'" class="row">
                             <div class="col mt-1">
                                 <h6>CF</h6>
@@ -635,10 +681,11 @@
                             </div>
 
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding per bottoni + e -  -->
                             </div>
                         </div>
                         
+                        <!--  Data inizio  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Data inizio</h6>
@@ -649,10 +696,11 @@
                             </div>
 
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding per bottoni + e -  -->
                             </div>
                         </div>
 
+                        <!--  Data fine  -->
                         <div class="row mt-1">
                             <div class = "col mt-1">
                                 <h6>Data fine</h6>
@@ -663,10 +711,11 @@
                             </div>
 
                             <div class="col">
-                                <!--  PADDING  -->
+                                <!--  Padding per bottoni + e -  -->
                             </div>
                         </div>
 
+                        <!--  Zone  -->
                         <div class="row mt-1">
                             <div class = "col mt-1">
                                 <h6>Zone</h6>
@@ -676,6 +725,7 @@
                                 <input class="form-control border-success mt-1" v-model="newZona" placeholder="Aggiungi(+) / Rimuovi(-)" type="text" style="width:200px;">
                             </div>
 
+                            <!--  Bottoni aggiunta(+) e rimozione(-) zone  -->
                             <div class="col">
                                 <button @click="aggiungiZona()" class="btn border-success" type="button" style="width:35px; height:35px"><b>+</b></button>
                                 <button @click="mostraZoneInserite=!mostraZoneInserite" class="btn border-danger ml-1" type="button" style="width:35px; height:35px"><b>-</b></button>
@@ -683,6 +733,7 @@
 
                         </div>
 
+                        <!--  Zone inserite  -->
                         <div v-if="mostraZoneInserite">
                             <div v-for="(zona, index) in zone" :key="index">
                                 <div class="row mt-2">
@@ -700,6 +751,7 @@
                             </div>
                         </div>
                         
+                        <!--  Bottone di filtraggio annunci  -->
                         <button @click="filtraAnnunci()" type="button" class="btn btn-success mt-1">Filtra annunci</button>
 
                     </form>
@@ -717,6 +769,7 @@
                     
                     <form @keyup.enter="filtraAnnunci()">
                         
+                        <!--  CF  -->
                         <div v-if="tipoUtente != 'cittadino'" class="row">
                             <div class="col mt-1">
                                 <h6>CF</h6>
@@ -727,6 +780,7 @@
                             </div>
                         </div>
                         
+                        <!--  Data inizio  -->
                         <div class="row">
                             <div class = "col mt-1">
                                 <h6>Data inizio</h6>
@@ -737,6 +791,7 @@
                             </div>
                         </div>
 
+                        <!--  Data fine  -->
                         <div class="row mt-1">
                             <div class = "col mt-1">
                                 <h6>Data fine</h6>
@@ -747,6 +802,7 @@
                             </div>
                         </div>
 
+                        <!--  Zone  -->
                         <div class="row mt-1">
                             <div class = "col mt-1">
                                 <h6>Zone</h6>
@@ -757,9 +813,10 @@
                             </div>
                         </div>
 
+                        <!--  Bottoni inserimento(+) e rimozione(-) zone  -->
                         <div class="row mt-1">
                             <div class = "col">
-                                <!--  PADDING  -->
+                                <!--  Padding  -->
                             </div>
 
                             <div class="col">
@@ -768,6 +825,7 @@
                             </div>
                         </div>
 
+                        <!--  Zone inserite  -->
                         <div v-if="mostraZoneInserite">
                             <div v-for="(zona, index) in zone" :key="index">
                                 <div class="row mt-2">
@@ -785,6 +843,7 @@
                             </div>
                         </div>
                         
+                        <!--  Bottone filtraggio annunci  -->
                         <button @click="filtraAnnunci()" type="button" class="btn btn-success mt-1">Filtra annunci</button>
 
                     </form>
@@ -809,6 +868,7 @@
                 
                 <div class="table-responsive table-borderless" style="height:350px">
                     <table class="table">
+                        <!--  Intestazione tabella  -->
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">CF</th>
@@ -818,13 +878,15 @@
                                 <th scope="col"><img @click="rimuoviFiltri()" src="../assets/nofilter.png" data-title = "Vai ai filtri" class="filter" style="width:25px"></th>
                             </tr>
                         </thead>
+
+                        <!--  Corpo tabella  -->
                         <tbody>
                             <tr v-for="annuncio in annunciFiltrati" :key="annuncio._id">
                                 <td>{{annuncio.CF}}</td>
                                 <td>{{annuncio.start}}</td>
                                 <td>{{annuncio.end}}</td>
                                 <td><p data-placement = "top" data-toggle = "tooltip" title = "Detail"><button :id="annuncio._id" @click="visualizzaDettagli" class = "btn btn-success btn-xs" data-title = "Detail" data-toggle = "modal" data-target = "#detail" style = "height:10px;width:20px;"><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                                <td><!--  PADDING PER IMG NO FILTER  --></td>
+                                <td><!--  Padding per img no filter  --></td>
                             </tr>
                             
                         </tbody>
@@ -875,13 +937,16 @@ export default {
   },
 
   created(){
+    // Salvo il tipo di utente per il tipo di visualizzazione
     this.tipoUtente = localStorage.type
 
+    // Aggiorno la schermata annunci
     this.aggiornaSchermataAnnunci()
   },
 
   methods : {
-
+    
+    // Permette di ottenere tutti gli annunci pubblicati finora
     aggiornaSchermataAnnunci(){
       this.annunci = []
 
@@ -921,6 +986,7 @@ export default {
       })
     },
     
+    // Validazione CF
     controllaCF(){
 
       var regex = /^[A-Z]{6}[0-9]{2}[A-Z]{1}[0-9]{2}[A-Z]{1}[0-9]{3}[A-Z]{1}$/
@@ -935,6 +1001,7 @@ export default {
       return true
     },
 
+    // Validazione data inizio e fine
     controllaDate(){
 
       if(this.data_inizio.length < 10){
@@ -958,6 +1025,7 @@ export default {
       return true
     },
 
+    // Validazione descrizione
     controllaDescrizione(){
       if(this.descrizione == ""){
         this.error = "Descrizione"
@@ -968,23 +1036,27 @@ export default {
       return true
     },
     
+    // Validazione complessiva campi
     campiOK(){
         return this.controllaCF() && this.controllaDate() && this.controllaDescrizione()
     },
     
+    // Pubblicazione annuncio
     pubblicaAnnuncio(){
       this.cliccatoSuPubblica = true
       
+      // Validazione campi
       if(!this.campiOK()){
         setTimeout(() => {this.cliccatoSuPubblica = false; this.error=""}, 2000)
         return
       }
 
+      // Conferma di pubblicazione
       if(!confirm("Confermi la pubblicazione dell'annuncio? Ogni cittadino riceverà un'email.")){
         this.cliccatoSuPubblica = false
         return
       }
-         
+       
       
       this.error = ""
       
@@ -1028,14 +1100,17 @@ export default {
       setTimeout(() => {this.cliccatoSuPubblica = false}, 2000)
     },
 
+    // Visualizzazione dettagli annuncio
     visualizzaDettagli(event){
       this.visualizzandoDettagli = true
       
+      // Prendo l'id dell'annuncio tramite event
       const id_annuncio = event.target.id
       const annunci = this.annunci
       let i
       const dim = annunci.length
       
+      // Cerco l'annuncio con tale id
       for(i=0;i<dim;i++){
         if(annunci[i]._id == id_annuncio){
           this.annuncioDaVisualizzare = annunci[i]
@@ -1059,46 +1134,47 @@ export default {
 
       // SE RIESCO POSSO ELIMINARE L'ANNUNCIO
       .then(() => {
+
+        // SE NON CONFERMO DI ELIMINARE L'ANNUNCIO
         if(!confirm("Sei sicuro di voler rimuovere l'annuncio?")){
       
-          // PROVO A resettare IL TOKEN
+          // PROVO A RESETTARE IL TOKEN
           axios({
-          method: 'delete',
-          url: 'http://localhost:8081/token/deleteToken/announcement/'+id_annuncio,
-          headers: {
-            "x-diana-auth-token": localStorage.token
-          }
-        })
+            method: 'delete',
+            url: 'http://localhost:8081/token/deleteToken/announcement/'+id_annuncio,
+            headers: {
+              "x-diana-auth-token": localStorage.token
+            }
+          })
 
-        // SE RIESCO TORNO INDIETRO
-        .then(() => {
-          this.aggiornaSchermataAnnunci()
+          // SE RIESCO TORNO INDIETRO
+          .then(() => {
+            this.aggiornaSchermataAnnunci()
 
-          this.adding = false
-          this.updating = false
-          this.cliccatoSuFiltra = false
-          this.mostraZoneInserite = false
+            this.adding = false
+            this.updating = false
+            this.cliccatoSuFiltra = false
+            this.mostraZoneInserite = false
       
-          this.data_inizio = ""
-          this.data_fine = ""
-          this.descrizione = ""
-          this.zone = []
-          this.CF = ""
+            this.data_inizio = ""
+            this.data_fine = ""
+            this.descrizione = ""
+            this.zone = []
+            this.CF = ""
         
-          this.idBack = ""
-        })
+            this.idBack = ""
+          })
 
-        // SE NON RIESCO LA SESSIONE E' SCADUTA E TORNO INDIETRO
-        .catch(() => {
+          // SE NON RIESCO LA SESSIONE E' SCADUTA E TORNO INDIETRO
+          .catch(() => {
             console.log('NESSUN TOKEN RIMUOVERE')
           
-        })
+          })
 
-        return
-        } 
+          return
+        }
 
-        
-
+        // ELIMINO L'ANNUNCIO
         axios({
           method: 'delete',
           url: 'http://localhost:8081/announcements/'+id_annuncio,
@@ -1139,11 +1215,13 @@ export default {
       
     },
 
+    // Aggiunta di una zona
     aggiungiZona(){
       if(this.newZona != "") this.zone.push(this.newZona)
       this.newZona = ""
     },
 
+    // Rimozione di una zona
     rimuoviZona(event){
       const i = event.target.id
       this.zone.splice(i, 1)
@@ -1151,7 +1229,7 @@ export default {
 
     settaCampiPerAggiornamentoAnnuncio(event){
       
-      
+      // Prendo l'id dell'annuncio che voglio modificare tramite event
       const id_annuncio = event.target.id
       this.idBack = id_annuncio
       
@@ -1170,7 +1248,8 @@ export default {
         const annunci = this.annunci
         let i
         const dim = annunci.length
-      
+
+        // Cerco l'annuncio con l'id trovato
         for(i=0;i<dim;i++){
           if(annunci[i]._id == id_annuncio){
             this.annuncioDaModificare = annunci[i]
@@ -1178,6 +1257,7 @@ export default {
           }
         }
 
+        // Setto i campi di tale annuncio per la visualizzazione nella schermata di modifica
         this.CF = this.annuncioDaModificare.CF
         this.data_inizio = this.annuncioDaModificare.start
         this.data_fine = this.annuncioDaModificare.end
@@ -1194,14 +1274,17 @@ export default {
 
     },
 
+    // Aggiornamento annuncio
     aggiornaAnnuncio(){
       this.cliccatoSuAggiorna = true
 
+      // Validazione campi
       if(!this.campiOK()){
         setTimeout(() => {this.cliccatoSuAggiorna = false}, 2000)
         return
       }
 
+      // Conferma modifica annuncio
       if(!confirm("Sei sicuro di voler modificare l' annuncio?")){
         this.cliccatoSuAggiorna = false
         return
@@ -1209,6 +1292,7 @@ export default {
 
       this.error = "nessun errore"   // MESSAGGIO CONFERMA
       
+      // AGGIORNAMENTO DELL'ANNUNCIO
       axios({
         method: 'put',
         url: 'http://localhost:8081/announcements/'+this.annuncioDaModificare._id,
@@ -1245,12 +1329,7 @@ export default {
             }
           }
 
-          /*this.data_inizio = ""
-          this.data_fine = ""
-          this.descrizione = ""
-          this.zone = []
-          this.CF = ""*/
-
+          // REFRESH DEL TOKEN
           axios({
             method: 'put',
             url: 'http://localhost:8081/token/refreshToken/announcement/'+this.annuncioDaModificare._id,
@@ -1301,6 +1380,7 @@ export default {
       setTimeout(() => {this.cliccatoSuAggiorna = false}, 2000)
     },
 
+    // Filtri per gli annunci
     filtraAnnunci(){
       this.cliccatoSuFiltra = false
       
@@ -1501,7 +1581,8 @@ export default {
       }
 
     },
-
+    
+    // Funzione di appoggio per i filtri per zona
     appoggioFiltri(annuncio){
       const zone = annuncio.zone
       let j
@@ -1520,7 +1601,8 @@ export default {
         }
       }
     },
-
+    
+    // Rimozione filtri
     rimuoviFiltri(){
       this.cliccatoSuFiltra = false
       this.filtering = false
@@ -1533,10 +1615,11 @@ export default {
       this.CF = ""
     },
 
+    // Click su img back da modifica
     tornaAllaSchermataPrecedenteDaModifica(){
       const id_annuncio = this.idBack
       
-      // PROVO A resettare IL TOKEN
+      // PROVO A RESETTARE IL TOKEN
       axios({
         method: 'delete',
         url: 'http://localhost:8081/token/deleteToken/announcement/'+id_annuncio,
@@ -1584,6 +1667,7 @@ export default {
       })
     },
 
+    // Click su img back da filtri
     tornaAllaSchermataPrecedenteDaFiltri(){
       
       this.aggiornaSchermataAnnunci()
@@ -1600,6 +1684,7 @@ export default {
       this.CF = ""
     },
 
+    // Setta la classe a seconda del token
     cambiaClasse:function(annuncio)
         {
           if(annuncio.token!='')
