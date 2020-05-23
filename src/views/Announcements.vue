@@ -1685,13 +1685,12 @@ export default {
     },
 
     // Setta la classe a seconda del token
-    cambiaClasse:function(annuncio)
-        {
-          if(annuncio.token!='')
-            return "bg-secondary"
-          else
-            return ""
-        }
+    cambiaClasse:function(annuncio){
+      if(annuncio.token!='')
+        return "bg-secondary"
+      else
+        return ""
+    }
   },
 }
 </script>
