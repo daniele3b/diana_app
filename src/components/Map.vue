@@ -1,12 +1,13 @@
 <template>
   <div class="card">
+
+    <!--  SOLO OPERATORI E ADMIN HANNO ACCESSO AL TRAFFICO AEREO  -->
     <span v-if="userType!='cittadino'"> <img @click="planeClicked" src="../assets/aereoNero.png"  :class="imgClass" style="width:30px; float:right;"></span>
 
     <div class="card-body">
     
       <div class = "card-img-top">
         <!--  MAPPA  -->
-      
           
           <center>
             
@@ -17,6 +18,8 @@
               map-type-id="terrain"
               style="width: 420px; height: 320px"
             >
+
+              <!--  MARKER SENSORI  -->
               <GmapMarker
                 :key = index
                 v-for="(sensor, index) in sensors"
@@ -28,9 +31,10 @@
                 @click="showInfoDetails"
               />
 
+              <!--  MARKER AEREI  -->
               <GmapMarker
-                :key = index
-                v-for="(plane, index) in planes"
+                :key = plane.icao
+                v-for="plane in planes"
                 :id = "plane.lat+';'+plane.lng"
                 :position="google && new google.maps.LatLng(plane.lat, plane.lng)"
                 :clickable="false"
@@ -47,8 +51,6 @@
         <!--  INFO SENSORE  -->
         
         <div v-if="markerClicked" class="row mt-4" id="infoSensori">
-
-        
 
           <table class="table" id="tabella-info-sensori">
               
@@ -76,7 +78,8 @@
         </div>
         
         <center>
-
+          
+          <!--  INFO AGENTI CHIMICI DEL SENSORE CLICCATO  -->
           <div v-if="markerClicked" class="table-responsive" id="mytable">
  
             
@@ -215,6 +218,8 @@ export default {
     },
     
     methods : {
+
+      // QUANDO CLICCO SUL SENSORE DOVRO' MOSTRARE I DATI DEGLI AGENTI CHIMICI RELATIVI A QUEL SENSORE
       showInfoDetails : async function(event){
         this.markerClicked = true
         this.currentSensorsInfo = []
@@ -226,9 +231,9 @@ export default {
         const sensors = this.sensors
         const dim = sensors.length
         let i
-        let sensoreCliccato 
+        let sensoreCliccato
 
-        //C'E' UNA FUNZIONE FATTA APPOSTANON ITERARE A CASO (FILTER) oppure findIndex
+        // RECUPERO IL SENSORE CHE HO CLICCATO TRAMITE EVENT, IL QUALE MI FORNIRA' LATITUDINE E LONGITUDINE DEL SENSORE
         for(i=0;i<dim;i++){
           if(sensors[i].lat == lat && sensors[i].lng == lng){
             sensoreCliccato = sensors[i]
@@ -237,6 +242,7 @@ export default {
           }
         }
 
+        // RECUPERO I DATI DEGLI AGENTI CHIMICI RELATIVI A TALE SENSORE
         const sensorsInfo = await this.receiveData(sensoreCliccato)
         
         if(sensorsInfo.length == 0){
@@ -244,6 +250,7 @@ export default {
           return
         }
 
+        // VERIFICO SE I VALORI DI CIASCUN AGENTE SONO SUPERIORI O INFERIORI ALLA MEDIA
         const size = sensorsInfo.length
         for(i=0;i<size;i++){
           if(sensorsInfo[i].value > sensorsInfo[i].avg){
@@ -256,6 +263,8 @@ export default {
 
         this.currentSensorsInfo = sensorsInfo
         
+        // SETTO LATITUDINE E LONGITUDINE DELLA MAPPA AI VALORI DEL SENSORE CLICCATO IN MODO DA CENTRARLO,
+        // E APPLICO UN LEGGERO ZOOM RISPETTO AL 9 DI DEFAULT
         this.latMap = lat
         this.lngMap = lng
         this.zoomMap = 9.5
