@@ -123,9 +123,9 @@
 <!-- SEZIONE TEAM PC-->
 <div class="container pb-5 mt-5" >
   <div class="row mt-5 d-none d-sm-block">
-    <div class="col-12 w-75">
+    
       <h3><b>IL TEAM</b></h3>
-    </div>
+    
   <div class="row mt-3">
     <div class="col">
       <div class="card"  >
