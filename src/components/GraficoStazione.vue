@@ -8,6 +8,7 @@
                 <hr class="my-4">
                 
                 <div>
+                  <!--  CANVAS  -->
                     <canvas
                         ref="canvas"
                         id="canvas"
@@ -40,6 +41,8 @@ export default {
 
         chartdata: {
           labels: [],
+
+          // Il datasets rappresenta il numero di grafici che vogliamo rappresentare
           datasets: [
             {
               label: 'SO2',
@@ -180,7 +183,7 @@ export default {
             // Differenza in giorni
             var diff = Math.ceil(diffTempo / (1000 * 3600 * 24));
           
-            // Devo controllare che la differenza tra le due date sia < 7  :):)
+            // Devo controllare che la differenza tra le due date sia < 7
             if(diff < 7){
               const obj = {
                 reg_date : dati_stazione[i].reg_date,
@@ -194,7 +197,7 @@ export default {
           }
         
         
-        // SALVO IN LABELS GLI ULTIMI 7 GIORNI (OGGI INCLUSO) PER POTERLI PIAZZARE SULL?ASSE DELLE ASCISSE DEL GRAFICO
+        // SALVO IN LABELS GLI ULTIMI 7 GIORNI (OGGI INCLUSO) PER POTERLI PIAZZARE SULL'ASSE DELLE ASCISSE DEL GRAFICO
         let giorni = []
       
         for(i=0;i<=6;i++){
@@ -221,12 +224,12 @@ export default {
         }
 
         // ASSEGNO CIASCUN ARRAY ALL'ARRAY DATA DELL'OGGETTO CORRISPONDENTE NEL DATASETS
-        this.chartdata.datasets[0].data = dati[0]
-        this.chartdata.datasets[1].data = dati[1]
-        this.chartdata.datasets[2].data = dati[2]
-        this.chartdata.datasets[3].data = dati[3]
+        this.chartdata.datasets[0].data = dati[0]  // SO2
+        this.chartdata.datasets[1].data = dati[1]  // PM10
+        this.chartdata.datasets[2].data = dati[2]  // O3
+        this.chartdata.datasets[3].data = dati[3]  // PM25
 
-        this.renderChart(this.chartdata, this.options)
+        this.renderChart(this.chartdata, this.options) // Renderizzo il chart
       })
 
       .catch(() => {})
