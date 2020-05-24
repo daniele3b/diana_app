@@ -143,7 +143,8 @@ Vue.use(VueRouter)
     name: 'AnalisiDati',
     beforeEnter:protect,
     component:AnalisiDati
-  }
+  },
+  { path: '*', redirect: '/notFound' },  
 ]
 
 const router = new VueRouter({
