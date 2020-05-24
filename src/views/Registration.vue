@@ -380,7 +380,7 @@ export default {
               this.sexClass = 'select-control-mario-errore'
           }
           //CON TELEFONO
-          if(tuttoInserito == true && this.phone!=''){ alert("Controlli superati con telefono")
+          if(tuttoInserito == true && this.phone!=''){
             this.allerta = false
             axios({
             method: 'post',
@@ -396,8 +396,8 @@ export default {
                 phone: this.phone
             }
             }).then(() => {
-                alert("\nRegistrazione avvenuta con successo!");
-                window.location.replace('Login.vue');
+                alert('Registrazione avvenuta con successo!')
+                this.$router.push('/login')
                 
             }, (error) => {
                 alert("Errore richiesta:\n"+error)
@@ -405,7 +405,7 @@ export default {
           }
           
           //SENZA TELEFONO
-          else if(tuttoInserito == true){alert("Controlli superati senza telefono")
+          else if(tuttoInserito == true){
             this.allerta = false
             axios({
             method: 'post',
@@ -420,8 +420,8 @@ export default {
                 password: this.password
             }
             }).then(() => {
-                alert("\nRegistrazione avvenuta con successo!");
-                window.location.replace('Login.vue');
+                alert('Registrazione avvenuta con successo!')
+                this.$router.push('/login')
                 
             }, (error) => {
                 alert("Errore richiesta:\n"+error)

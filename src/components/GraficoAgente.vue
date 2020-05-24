@@ -220,7 +220,7 @@ export default {
 
             })
             .catch(() => {
-              alert(url)
+              alert('Errore interno')
             })
         }
     },
@@ -328,7 +328,7 @@ export default {
 
         })
         .catch(() => {
-          alert(url)
+          alert('Errore interno')
         })
 
         
