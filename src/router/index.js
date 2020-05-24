@@ -14,6 +14,7 @@ import Home from '../views/Home.vue'
 import EsportaDati from '../views/EsportaDati.vue'
 import Announcements from '../views/Announcements.vue'
 import AnalisiDati from '../views/AnalisiDati.vue'
+import Component_404 from '../views/404.vue'
 
 const protect = (to, from, next) => {
   if((localStorage.getItem('email') != undefined || localStorage.getItem('phone') != undefined) &&
@@ -49,6 +50,11 @@ const protectSup = (to, from, next) => {
 Vue.use(VueRouter)
 
   const routes = [
+    {
+      path: '/notFound',
+      name: 'NotFound',
+      component: Component_404
+    },
     {
         path:'/',
         name:'Home',
