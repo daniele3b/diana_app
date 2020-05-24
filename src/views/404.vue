@@ -1,6 +1,6 @@
 <template>
  
- <div class="container">
+<div class="container">
     <div class="row">
         <div class="col">
             404 NOT FOUND
@@ -11,6 +11,7 @@
              PER DIANA!
         </div>
     </div>
+</div>
 </template>
 
 <script>
