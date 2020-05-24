@@ -99,26 +99,7 @@ watch:{
         },
         password3: function(){
         if(this.password3=='')this.ok=false
-          var numero = false;
-          var lMaiusc = false;
-          var lMinusc = false;
-          var i = 0
-          for(i=0;i<this.password3.length;i++){
-            var character = this.password3.charAt(i);
-            if (!isNaN(character * 1)){
-                numero=true
-            }else{
-              if (character == character.toUpperCase()) {
-                lMaiusc = true
-              }
-              if (character == character.toLowerCase()){
-                lMinusc = true
-              }
-            }
-          }
-          if(this.password3.length>=8 && numero==true && lMaiusc==true && lMinusc==true)  
-                { this.password3Ver = true; this.password3Class = "form-control-mario-ver";this.p3=true}
-          else{ this.password3Ver = false; this.password3Class = "form-control-mario-errore";this.p3=false}
+         
         },
         password2: function(){
              if(this.password2=='')this.ok=false
