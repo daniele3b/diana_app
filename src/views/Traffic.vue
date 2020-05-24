@@ -18,7 +18,7 @@
             <div v-if="inviato" class="row" style="margin-left:20px;">
                 <b style="margin-top:10px; margin-left:4px">Indirizzo</b>
                 <label class="switch">
-                    <input type="checkbox">
+                    <input type="checkbox" :checked="checked">
                     <span @click="indirizzoTrue=!indirizzoTrue; zonaTrue=!zonaTrue" class="slider round"></span>
                 </label>
                 <b style="margin-top:10px; margin-left:8px">Area</b>
@@ -83,7 +83,7 @@
         <div v-if="!inviato">
           <b>Indirizzo</b>
             <label class="switch">
-                <input type="checkbox">
+                <input type="checkbox" :checked="checked">
                     <span @click="indirizzoTrue=!indirizzoTrue; zonaTrue=!zonaTrue" class="slider round"></span>
             </label>
             <b style="margin-left:5px">Zona</b>
@@ -396,7 +396,8 @@ export default {
       latMap : 41.9109,
       lngMap : 12.6818,
       zoomMap : 9,
-      centroCerchio : {}
+      centroCerchio : {},
+      checked : false
     }
   },
 
@@ -535,6 +536,8 @@ export default {
         // DEL SENSORE PIU' VICINO A QUELL'INDIRIZZO
       
         if(!this.zonaTrue && this.indirizzoTrue){
+          
+          this.checked = false // GESTIONE DELLO SWITCH
 
           this.raggio = undefined  // Resetto il raggio nell'eventualità che sia stato settato precedentemente
 
@@ -591,6 +594,9 @@ export default {
         // SE L'OPERATORE INSERISCE UNA ZONA E UN CERTO RAGGIO GLI VERRANNO MOSTRATI I SENSORI
         // ALL'INTERNO DI TALE RAGGIO A PARTIRE DA QUELLA ZONA
         else if(this.zonaTrue && !this.indirizzoTrue){
+
+          this.checked = true // GESTIONE DELLO SWITCH
+
           // CENTRO LA MAPPA SULLE COORDINATE DI ROMA, E SETTO LO ZOOM AL 9 DI DEFAULT 
           this.latMap = 41.9109
           this.lngMap = 12.6818
@@ -621,11 +627,24 @@ export default {
         
         })
       .catch((error) => {
-        this.inviato = false
+        this.inviato = false  // TORNO ALLA SCHERMATA DI VISUALIZZAZIONE INIZIALE
         console.log(error)
 
-        if(this.indirizzoTrue && !this.zonaTrue) alert("L'indirizzo inserito non esiste!")
-        else if(!this.indirizzoTrue && this.zonaTrue) alert("La zona inserita non esiste!")
+        if(this.indirizzoTrue && !this.zonaTrue){
+          this.checked = false // GESTIONE DELLO SWITCH
+          
+          this.indirizzoZona = "" // Resetto il campo indirizzo
+          
+          alert("L'indirizzo inserito non esiste!")
+        }
+        else if(!this.indirizzoTrue && this.zonaTrue){
+          this.checked = true // GESTIONE DELLO SWITCH
+          
+          this.indirizzoZona = "" // Resetto il campo indirizzo
+          this.raggio = undefined // Resetto il campo raggio
+          
+          alert("La zona inserita non esiste!")
+        }
       })
 
     },
