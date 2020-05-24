@@ -3,7 +3,7 @@
 <!-- PC -->
 <div class="container d-none d-xl-block">
   <div class="row" style="text-align:left;">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4" style="text-align:center;">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4" style="text-align:center;padding:0;">
       <div class="card" onload="getReport();" >
         <!-- TABBED PANE BAR-->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
