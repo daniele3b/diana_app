@@ -33,7 +33,7 @@
               </div>
             </form>
             <hr class="my-4">            
-              <button v-if="this.p&&this.p2&&this.p3" @click="cambia" class="btn btn-lg btn-success btn-block text-uppercase" >Cambia</button>
+              <button v-if="this.p&&this.p2" @click="cambia" class="btn btn-lg btn-success btn-block text-uppercase" >Cambia</button>
                 <label v-if="passwordVer==false" class="badge badge-danger">Deve contenere almeno 8 caratteri,una <br>lettera maiuscola, una minuscola ed un numero</label>
                  <label v-if="password3Ver==false" class="badge badge-danger">Deve contenere almeno 8 caratteri,una <br>lettera maiuscola, una minuscola ed un numero</label>
                <label v-if="password2Ver==false" class="badge badge-danger">Le due password non coincidono</label>
@@ -96,10 +96,6 @@ watch:{
           if(this.password.length>=8 && numero==true && lMaiusc==true && lMinusc==true)  
                 { this.passwordVer = true; this.passwordClass = "form-control-mario-ver";this.p=true}
           else{ this.passwordVer = false; this.passwordClass = "form-control-mario-errore";this.p=false}
-        },
-        password3: function(){
-        if(this.password3=='')this.ok=false
-         
         },
         password2: function(){
              if(this.password2=='')this.ok=false
