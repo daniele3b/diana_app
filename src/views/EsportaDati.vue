@@ -197,7 +197,6 @@ export default {
                            responseType: tipo_risp, // importan
                       }).then((response) => { 
                           if(this.radio == 'JSON'){
-                            alert('JSON')
                             console.log(response)
                             const url = window.URL.createObjectURL(new Blob([response.data]));
                             const link = document.createElement('a');
@@ -209,7 +208,6 @@ export default {
                             this.loading = false
                             this.corretto = true
                           }else if(this.radio == 'XML'){
-                            alert('XML')
                           
                             var testo = this.json2xml(response.data, "")
                            testo="<data>"+testo+"</data>"
@@ -243,7 +241,6 @@ export default {
                           
                       }).then((response) => { 
                           if(this.radio == 'JSON'){
-                            alert('JSON')
                             console.log(response)
                             const url = window.URL.createObjectURL(new Blob([response.data]));
                             const link = document.createElement('a');
@@ -254,8 +251,7 @@ export default {
                             link.click();
                             this.loading = false
                             this.corretto = true
-                          }else if(this.radio == 'XML'){
-                            alert('XML TIPO')                            
+                          }else if(this.radio == 'XML'){                     
                             var testo = this.json2xml(response.data, "")
                            testo="<data>"+testo+"</data>"
                             const url = window.URL.createObjectURL(new Blob([testo]));
@@ -286,7 +282,6 @@ export default {
                          
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
-                            alert('JSON')
                             const url = window.URL.createObjectURL(new Blob([response.data]));
                             const link = document.createElement('a');
                             link.href = url;
@@ -297,7 +292,6 @@ export default {
                             this.loading = false
                             this.corretto = true
                         }else if(this.radio == 'XML'){
-                          alert('XML')
           
                           var testo = this.json2xml(response.data, "")
                             testo="<data>"+testo+"</data>"
@@ -329,7 +323,6 @@ export default {
                          
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
-                            alert('JSON')
                             const url = window.URL.createObjectURL(new Blob([response.data]));
                             const link = document.createElement('a');
                             link.href = url;
@@ -340,7 +333,6 @@ export default {
                             this.loading = false
                             this.corretto = true
                         }else if(this.radio == 'XML'){
-                          alert('XML')
                           var testo = this.json2xml(response.data, "")
                             testo="<data>"+testo+"</data>"
                           const url = window.URL.createObjectURL(new Blob([testo]));
@@ -371,7 +363,6 @@ export default {
                           
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
-                          alert('JSON')
                           const url = window.URL.createObjectURL(new Blob([response.data]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -382,7 +373,6 @@ export default {
                           this.loading = false
                           this.corretto = true
                         }else if(this.radio == 'XML'){
-                          alert('XML')
                           var testo = this.json2xml(response.data, "")
                             testo="<data>"+testo+"</data>"
                           const url = window.URL.createObjectURL(new Blob([testo]));
@@ -412,7 +402,6 @@ export default {
                            responseType: tipo_risp,
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
-                          alert('JSON')
                           const url = window.URL.createObjectURL(new Blob([response.data]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -423,7 +412,6 @@ export default {
                           this.loading = false
                           this.corretto = true
                         }else if(this.radio == 'XML'){
-                          alert('XML')
                           var testo = this.json2xml(response.data, "")
                             testo="<data>"+testo+"</data>"
                           const url = window.URL.createObjectURL(new Blob([testo]));
@@ -453,7 +441,6 @@ export default {
                            responseType: tipo_risp,
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
-                          alert('JSON')
                           const url = window.URL.createObjectURL(new Blob([response.data]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -464,7 +451,6 @@ export default {
                           this.loading = false
                           this.corretto = true
                         }else if(this.radio == 'XML'){
-                          alert('XML')
                           var testo = this.json2xml(response.data, "")
                             testo="<data>"+testo+"</data>"
                           const url = window.URL.createObjectURL(new Blob([testo]));
@@ -494,7 +480,6 @@ export default {
                            responseType: tipo_risp,
                       }).then((response) => { 
                         if(this.radio == 'JSON'){
-                          alert('JSON')
                           const url = window.URL.createObjectURL(new Blob([response.data]));
                           const link = document.createElement('a');
                           link.href = url;
@@ -505,7 +490,6 @@ export default {
                           this.loading = false
                           this.corretto = true
                         }else if(this.radio == 'XML'){
-                          alert('XML')
                           var testo = this.json2xml(response.data, "")
                             testo="<data>"+testo+"</data>"
                           const url = window.URL.createObjectURL(new Blob([testo]));
