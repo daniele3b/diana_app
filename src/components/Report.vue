@@ -37,7 +37,7 @@
 
 <!-- schermata di visualizzazione in caso di cittadino-->
  <div v-else class="col-md-12" >
-    <div class="table-responsive ">
+    <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
     <table id="mytable" class="table  "  >
       <!-- intestazione tabella-->
         <thead>
