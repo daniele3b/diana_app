@@ -159,7 +159,21 @@
         </div>
       </div>
     </div>
+   
   </div>
+  <div v-if="rc==true" class="row mt-3">
+
+      <div class="col-4">
+          <div class="card" >    
+        <img class="card-img-top" src="../assets/luca.jpeg" alt="Card image cap"  >
+        <h5 class="card-title">Luca Andolfi</h5>
+        <div class="card-body pt-1">
+          <p class="card-text"><b>Frontend & Backend Developer </b></p>
+          <p class="card-text">E' l'artista del gruppo, il Giotto ed il Picasso messi insieme... è fonte di buone speranze per tutto il team senza di lui sarebbe il nulla totale </p>
+        </div>
+      </div>
+      </div>
+    </div>
 </div>
 
 <!-- view telefono-->
@@ -191,6 +205,12 @@
           <p>E' il supereroe del team, si sacrifica per tutti neanche fosse Mario della saga omonima. Unica pecca che lo ha marchiato? La zona rossa </p>
         </span>
       </div>
+      <div v-if="rc==true" class="carousel-item">
+        <img src="../assets/luca.jpeg" class="d-block w-100" align=left alt="...">
+        <span class="carousel-caption ml-5 " >
+          <p>E' l'artista del gruppo, il Giotto ed il Picasso messi insieme... è fonte di buone speranze per tutto il team senza di lui sarebbe il nulla totale</p>
+        </span>
+      </div>
       </div>
     <a class="carousel-control-prev" href="#carouselExampleCaptions2" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -218,8 +238,27 @@
 
 
 export default {
-  name: 'Home'
+  name: 'Home',
+  data(){
+    return {
+      rc:false
+
+    }
+  },
+beforeMount()
+{
+  
+  if(process.env.VUE_APP_RC=='LUCA')
+      this.rc=true
+  else 
+      this.rc=false
+
+  console.log(this.rc)
 }
+  
+}
+
+
 </script>
 
 
