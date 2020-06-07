@@ -142,6 +142,8 @@ beforeCreate(){
 
 
         let app=response.data
+
+        console.log(response.data)
         let i=0
         for(i=0;i<app.length;i++)
         {
@@ -153,10 +155,11 @@ beforeCreate(){
           for(j=0;j<this.dati_stazione.length;j++)
            {
 
-              if(this.dati_stazione[j].reg_date==app[i].reg_date){
+              if(this.dati_stazione[j].reg_date==app[i].reg_date)
+              {
                 t=false
                 break
-            }
+              }
            }
 
         if(t==true){
@@ -216,9 +219,11 @@ beforeCreate(){
         let giorno_inizio =  setteGiorniFa.getDate()
         let mese_inizio = setteGiorniFa.getMonth() + 1
         let anno_inizio = setteGiorniFa.getFullYear()
-        
-        if(giorno_inizio==31)
+
+        if(giorno_inizio==31){
             giorno_inizio=1
+            mese_inizio+=1
+        }
         
         
         if(mese < 10)
@@ -231,8 +236,6 @@ beforeCreate(){
         if(mese_inizio < 10)
           mese_inizio = '0' + mese_inizio
 
-          
-        //determino giorni
         var setteGiorni = []
         var i = 0
         for(i=0; i<=6;i++){
