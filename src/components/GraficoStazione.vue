@@ -128,6 +128,9 @@ export default {
         let giorno_inizio =  setteGiorniFa.getDate()
         let mese_inizio = setteGiorniFa.getMonth() + 1
         let anno_inizio = setteGiorniFa.getFullYear()
+
+        if(giorno_inizio==31)
+          giorno_inizio=1
         
         if(mese < 10)
           mese = '0' + mese
@@ -138,6 +141,7 @@ export default {
           giorno_inizio = '0' + giorno_inizio
         if(mese_inizio < 10)
           mese_inizio = '0' + mese_inizio
+
 
         const url = 'http://localhost:8081/chemical_agents/filter/date/'+this.$store.getters.getStazione+'/'+anno_inizio+
         '-'+mese_inizio+'-'+giorno_inizio+'/'+anno+'-'+mese+'-'+giorno

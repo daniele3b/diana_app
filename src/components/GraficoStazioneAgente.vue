@@ -85,7 +85,34 @@ beforeCreate(){
         this.stat=this.$store.getters.getStazione
         this.agent=this.$store.getters.getAgente
         
+        const oggi = new Date()
+      
+        let setteGiorniFa = new Date()
+        setteGiorniFa.setDate(oggi.getDate() - 7)
 
+        let giorno = oggi.getDate()
+        let mese = oggi.getMonth() + 1
+        let anno = oggi.getFullYear()
+
+        let giorno_inizio =  setteGiorniFa.getDate()
+        let mese_inizio = setteGiorniFa.getMonth() + 1
+        let anno_inizio = setteGiorniFa.getFullYear()
+
+        if(giorno_inizio==31)
+            giorno_inizio=1
+        
+        if(mese < 10)
+          mese = '0' + mese
+        if(giorno < 10)
+          giorno = '0' + giorno
+      
+        if(giorno_inizio < 10)
+          giorno_inizio = '0' + giorno_inizio
+        if(mese_inizio < 10)
+          mese_inizio = '0' + mese_inizio
+
+
+        
         //mi determino le date dei 7 giorni precedenti
         var setteGiorni = []
         var i = 0
@@ -99,36 +126,15 @@ beforeCreate(){
           setteGiorni[6-i] = day+'/'+month
         }
         setteGiorni[6] = 'Oggi'
+
+        
         
 
-        //setto i dati per la chiamata rest
-        let data=new Date()
-        month=data.getMonth()+1
-        day=data.getDate()
-        let year=data.getFullYear()
-
-        let setteGiorniFa = new Date()
-        setteGiorniFa.setDate(data.getDate() - 7) 
-    
-        let giorno_inizio =  setteGiorniFa.getDate()
-        let mese_inizio = setteGiorniFa.getMonth() + 1
-        let anno_inizio = setteGiorniFa.getFullYear()
-      
-        giorno_inizio+=1
-        if(month<10)
-          month='0'+month
-        if(day<10)
-          day='0'+day
-
-        if(giorno_inizio < 10)
-          giorno_inizio = '0' + giorno_inizio
-        if(mese_inizio < 10)
-          mese_inizio = '0' + mese_inizio
 
       //console.log(giorno_inizio+mese_inizio+anno_inizio)
       axios({
         method: 'get',
-        url: 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+year+'-'+month+'-'+day+'/type/'+this.$store.getters.getAgente+'/'+this.$store.getters.getStazione,
+        url: 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+anno+'-'+mese+'-'+giorno+'/type/'+this.$store.getters.getAgente+'/'+this.$store.getters.getStazione,
         headers: {
           "x-diana-auth-token": localStorage.token
         }})
@@ -189,6 +195,43 @@ beforeCreate(){
       //metodo utile per essere sensibile al cambio dello stato dello store
       updateData:function()
       {
+        //setto dati
+        this.dati=[]
+        this.dati_stazione=[]
+        this.stat=this.$store.getters.getStazione
+        this.agent=this.$store.getters.getAgente
+        
+     
+
+
+        const oggi = new Date()
+      
+        let setteGiorniFa = new Date()
+        setteGiorniFa.setDate(oggi.getDate() - 7)
+
+        let giorno = oggi.getDate()
+        let mese = oggi.getMonth() + 1
+        let anno = oggi.getFullYear()
+
+        let giorno_inizio =  setteGiorniFa.getDate()
+        let mese_inizio = setteGiorniFa.getMonth() + 1
+        let anno_inizio = setteGiorniFa.getFullYear()
+        
+        if(giorno_inizio==31)
+            giorno_inizio=1
+        
+        
+        if(mese < 10)
+          mese = '0' + mese
+        if(giorno < 10)
+          giorno = '0' + giorno
+      
+        if(giorno_inizio < 10)
+          giorno_inizio = '0' + giorno_inizio
+        if(mese_inizio < 10)
+          mese_inizio = '0' + mese_inizio
+
+          
         //determino giorni
         var setteGiorni = []
         var i = 0
@@ -203,42 +246,13 @@ beforeCreate(){
         }
         setteGiorni[6] = 'Oggi'
 
-        //setto dati
-        this.dati=[]
-        this.dati_stazione=[]
-        this.stat=this.$store.getters.getStazione
-        this.agent=this.$store.getters.getAgente
-        
-        let data=new Date()
 
-        month=data.getMonth()+1
-        day=data.getDate()
-        let year=data.getFullYear()
-
-        let setteGiorniFa = new Date()
-        setteGiorniFa.setDate(data.getDate() - 7) 
-    
-        let giorno_inizio =  setteGiorniFa.getDate()
-        let mese_inizio = setteGiorniFa.getMonth() + 1
-        let anno_inizio = setteGiorniFa.getFullYear()
-        
-        if(month<10)
-          month='0'+month
-        if(day<10)
-          day='0'+day
-
-            
-        giorno_inizio+=1
-
-        if(giorno_inizio < 10)
-          giorno_inizio = '0' + giorno_inizio
-        if(mese_inizio < 10)
-          mese_inizio = '0' + mese_inizio
+  
 
 
       axios({
         method: 'get',
-        url: 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+year+'-'+month+'-'+day+'/type/'+this.agent+'/'+this.stat,
+        url: 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+anno+'-'+mese+'-'+giorno+'/type/'+this.agent+'/'+this.stat,
         headers: {
           "x-diana-auth-token": localStorage.token
         }})
