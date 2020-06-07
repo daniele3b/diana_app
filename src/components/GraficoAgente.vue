@@ -141,26 +141,40 @@ export default {
             this.agente=value
             this.dati_stazione=[]
             this.datiValue= [[],[],[],[],[],[],[],[],[],[],[]];
-            
-            let data=new Date()
+         
+         
+                 
+        const oggi = new Date()
+      
+        let setteGiorniFa = new Date()
+        setteGiorniFa.setDate(oggi.getDate() - 7)
 
-            let fmonth=data.getMonth()+1
-            let fday=data.getDate()
-            let fyear=data.getFullYear()
-            
-            let setteGiorniFa = new Date()
-            setteGiorniFa.setDate(data.getDate() - 7) 
+        let giorno = oggi.getDate()
+        let mese = oggi.getMonth() + 1
+        let anno = oggi.getFullYear()
+
+        let giorno_inizio =  setteGiorniFa.getDate()
+        let mese_inizio = setteGiorniFa.getMonth() + 1
+        let anno_inizio = setteGiorniFa.getFullYear()
+
+        if(giorno_inizio==31){
+            giorno_inizio=1
+             mese_inizio+=1
+        }
         
-            let giorno_inizio =  setteGiorniFa.getDate()
-            let mese_inizio = setteGiorniFa.getMonth() + 1
-            let anno_inizio = setteGiorniFa.getFullYear()
-            giorno_inizio+=1
-            if(fmonth<10)fmonth='0'+fmonth
-            if(fday<10)fday='0'+fday
-            if(giorno_inizio < 10)giorno_inizio = '0' + giorno_inizio
-            if(mese_inizio < 10)mese_inizio = '0' + mese_inizio
+        if(mese < 10)
+          mese = '0' + mese
+        if(giorno < 10)
+          giorno = '0' + giorno
+      
+        if(giorno_inizio < 10)
+          giorno_inizio = '0' + giorno_inizio
+        if(mese_inizio < 10)
+          mese_inizio = '0' + mese_inizio
 
-            var url = 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+fyear+'-'+fmonth+'-'+fday+'/type/'+this.agente
+
+
+            var url = 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+anno+'-'+mese+'-'+giorno+'/type/'+this.agente
             
             axios({
               method: 'get',
@@ -227,6 +241,36 @@ export default {
     
     mounted()
     {   //GIORNI LABEL
+
+
+        const oggi = new Date()
+      
+        let setteGiorniFa = new Date()
+        setteGiorniFa.setDate(oggi.getDate() - 7)
+
+        let giorno = oggi.getDate()
+        let mese = oggi.getMonth() + 1
+        let anno = oggi.getFullYear()
+
+        let giorno_inizio =  setteGiorniFa.getDate()
+        let mese_inizio = setteGiorniFa.getMonth() + 1
+        let anno_inizio = setteGiorniFa.getFullYear()
+
+        if(giorno_inizio==31){
+            giorno_inizio=1
+             mese_inizio+=1
+        }
+        
+        if(mese < 10)
+          mese = '0' + mese
+        if(giorno < 10)
+          giorno = '0' + giorno
+      
+        if(giorno_inizio < 10)
+          giorno_inizio = '0' + giorno_inizio
+        if(mese_inizio < 10)
+          mese_inizio = '0' + mese_inizio
+
         var setteGiorni = []
         var i = 0
         for(i=0; i<=6;i++){
@@ -246,26 +290,10 @@ export default {
 
         //GETDATA
         this.dati_stazione=[]
+      
         
-        let data=new Date()
 
-        let fmonth=data.getMonth()+1
-        let fday=data.getDate()
-        let fyear=data.getFullYear()
-
-        let setteGiorniFa = new Date()
-        setteGiorniFa.setDate(data.getDate() - 7) 
-    
-        let giorno_inizio =  setteGiorniFa.getDate()
-        let mese_inizio = setteGiorniFa.getMonth() + 1
-        let anno_inizio = setteGiorniFa.getFullYear()
-        giorno_inizio+=1
-        if(fmonth<10)fmonth='0'+fmonth
-        if(fday<10)fday='0'+fday
-        if(giorno_inizio < 10)giorno_inizio = '0' + giorno_inizio
-        if(mese_inizio < 10)mese_inizio = '0' + mese_inizio
-
-        var url = 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+fyear+'-'+fmonth+'-'+fday+'/type/'+this.agente
+        var url = 'http://localhost:8081/chemical_agents/filter/date/'+anno_inizio+'-'+mese_inizio+'-'+giorno_inizio+'/'+anno+'-'+mese+'-'+giorno+'/type/'+this.agente
 
         axios({
           method: 'get',
