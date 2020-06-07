@@ -98,8 +98,10 @@ beforeCreate(){
         let mese_inizio = setteGiorniFa.getMonth() + 1
         let anno_inizio = setteGiorniFa.getFullYear()
 
-        if(giorno_inizio==31)
+        if(giorno_inizio==31){
             giorno_inizio=1
+             mese_inizio+=1
+        }
         
         if(mese < 10)
           mese = '0' + mese
