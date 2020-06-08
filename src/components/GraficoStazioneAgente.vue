@@ -88,7 +88,7 @@ beforeCreate(){
         const oggi = new Date()
       
         let setteGiorniFa = new Date()
-        setteGiorniFa.setDate(oggi.getDate() - 7)
+        setteGiorniFa.setDate(oggi.getDate() - 6)
 
         let giorno = oggi.getDate()
         let mese = oggi.getMonth() + 1
@@ -212,7 +212,7 @@ beforeCreate(){
         const oggi = new Date()
       
         let setteGiorniFa = new Date()
-        setteGiorniFa.setDate(oggi.getDate() - 7)
+        setteGiorniFa.setDate(oggi.getDate() - 6)
 
         let giorno = oggi.getDate()
         let mese = oggi.getMonth() + 1
